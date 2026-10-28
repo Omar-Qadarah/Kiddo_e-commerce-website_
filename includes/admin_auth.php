@@ -1,5 +1,4 @@
 <?php
-// init.php must be loaded first. Check the current role in the database.
 $adminUserId = $_SESSION['user_id'] ?? ($_SESSION['user']['id'] ?? null);
 if (!is_scalar($adminUserId) || !ctype_digit((string) $adminUserId)) {
     http_response_code(403);
