@@ -8,7 +8,7 @@ define('DB_PASS', '');
 
 
 define('APP_NAME', 'Kiddo');
-define('APP_ENV', 'development');
+//define('APP_ENV', 'development');
 
 
 define('BASE_URL', '/kiddo');
