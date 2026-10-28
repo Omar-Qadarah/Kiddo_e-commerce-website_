@@ -19,7 +19,6 @@ $ends_at = (string) ($discountData['ends_at'] ?? '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     checkCsrf();
-    // Read scalar text values only. Keep them in the form if validation fails.
     $title = $_POST['title'] ?? '';
     if (!is_string($title)) {
         $errors[] = 'Invalid title value.';

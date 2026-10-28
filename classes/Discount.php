@@ -103,7 +103,6 @@ class Discount
         return $statement->execute([$is_active, $id]);
     }
 
-    // Used by both the add and edit pages. Returns all validation errors.
     public function validate($title, $percentage, $product_id, $category_id, $starts_at, $ends_at)
     {
         $errors = [];

@@ -1,5 +1,4 @@
 <?php
-// A session token makes sure a submitted form belongs to this session.
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
