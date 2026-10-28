@@ -1,23 +1,15 @@
 <?php
 
-class Database {
-    public $connection;
-    
-    private $dbhost = 'localhost';
-    private $dbname = 'kiddo';
-    private $dbuser = 'root';
-    private $dbpass = '';
-    
-    public function __construct() {
-        try {
-            $dsn = "mysql:host=" . $this->dbhost . ";dbname=" . $this->dbname . ";charset=utf8mb4";
-            $this->connection = new PDO($dsn, $this->dbuser, $this->dbpass);
-            
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-        } catch (PDOException $e) {
-            echo "Connection Error: " . $e->getMessage() . "<br/>";
-            die();
-        }
-    }
-}
+
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'kiddos');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+
+define('APP_NAME', 'Kiddo');
+define('APP_ENV', 'development');
+
+define('BASE_URL', '/php-project/Kiddo_e-commerce-website');
+
+
+date_default_timezone_set('Asia/Amman');
