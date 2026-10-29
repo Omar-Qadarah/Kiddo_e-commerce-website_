@@ -60,7 +60,10 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <div class="product-page">
 
     <div class="admin-page-header">
-        <h2>Add New Product</h2>
+        <div>
+<h1>Add New Product</h1>
+<p>Add a new toy to your store catalog.</p>
+</div>
         <a class="btn btn-light" href="products.php">← Back to Products</a>
     </div>
 

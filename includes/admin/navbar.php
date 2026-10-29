@@ -2,7 +2,6 @@
 <header class="admin-navbar">
     <div class="navbar-page-info">
         <span class="navbar-eyebrow">KIDDO'S ADMINISTRATION</span>
-        <h1><?= htmlspecialchars($pageTitle ?? 'Dashboard') ?></h1>
     </div>
 
     <div class="navbar-user">

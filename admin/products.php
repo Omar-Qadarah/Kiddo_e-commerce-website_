@@ -17,7 +17,10 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <div class="product-page">
 
     <div class="admin-page-header">
-        <h2>Products</h2>
+        <div>
+<h1>Products</h1>
+<p>Manage your toys, prices, stock and product visibility.</p>
+</div>
 
         <a class="btn btn-primary d-inline-flex align-items-center gap-2" href="add_product.php">
             <i class="bi bi-plus-lg" aria-hidden="true"></i>
