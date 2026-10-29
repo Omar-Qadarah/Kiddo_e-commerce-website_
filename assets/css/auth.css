@@ -1,0 +1,15 @@
+/* Authentication pages reuse the existing navbar, footer and buttons. */
+.auth-section { padding-top: 48px; padding-bottom: 48px; }
+.auth-card { max-width: 520px; margin: auto; padding: 32px; background: white;
+    border: 1px solid #ece8f8; border-radius: 20px; box-shadow: 0 12px 30px #4b2fc414; }
+.auth-card h1 { margin-bottom: 12px; }
+.auth-card label { display: block; font-weight: 700; margin: 16px 0 6px; }
+.auth-card input { box-sizing: border-box; width: 100%; padding: 12px;
+    border: 1px solid #ccc; border-radius: 10px; font: inherit; }
+.auth-card input:focus { outline: 2px solid #7b5cf5; outline-offset: 2px; }
+.auth-card button { margin: 20px 0; width: 100%; }
+.auth-card a { color: #6243e6; text-decoration: underline; }
+.auth-errors { background: #fff0f3; color: #9b2441; border-radius: 10px; padding: 16px 32px; }
+.auth-success { background: #eaf8ee; color: #225c35; padding: 12px; border-radius: 10px; }
+.auth-hint { font-size: .85rem; margin-top: 8px; }
+@media (max-width: 576px) { .auth-card { padding: 20px; } }
