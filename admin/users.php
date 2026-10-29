@@ -72,7 +72,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     background: var(--admin-surface); padding: 24px;
     border-radius: var(--admin-radius); box-shadow: var(--admin-shadow);
 }
-.users-page .modal-header { margin-bottom: 20px; }
+.users-page .modal-header { margin-bottom: 20px; display : flex; justify-content: space-between; }
 </style>
 <div class="users-page">
 <?php if ($errorMsg !== null): ?>
@@ -104,7 +104,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
             <tbody id="usersTableBody">
                 <?php if (empty($users)): ?>
                     <tr>
-                        <td colspan="7" style="padding: 24px; color: #8c89a0;">No active users found.</td>
+                        <td colspan="7" style="padding: 24px; color: #8c89a0;text-align:center;">No active users found.</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($users as $user): ?>
