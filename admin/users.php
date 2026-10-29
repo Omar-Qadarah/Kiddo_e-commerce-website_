@@ -80,7 +80,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endif; ?>
 
 
-    <div class="admin-page-header">
+    <div class="admin-page-header admin-table-toolbar">
         <form class="d-flex gap-2 flex-wrap flex-grow-1" method="GET" action="users.php">
             <input type="text" name="search" class="form-control w-auto flex-grow-1" placeholder="Search name, email or phone" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
             <button type="submit" class="btn btn-outline-primary">Search</button>
@@ -89,7 +89,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     </div>
 
     <div class="admin-card">
-        <div class="table-responsive"><table class="table admin-table align-middle">
+        <div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-users">
             <thead>
                 <tr>
                     <th>NAME</th>
@@ -119,15 +119,15 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             </td>
                             <td><?= (int)($user['orders_count'] ?? 0) ?></td>
                             <td><?= date('d M Y', strtotime($user['created_at'])) ?></td>
-                            <td class="text-nowrap">
-                                <button class="btn btn-sm btn-warning me-2" onclick="openEditModal(
+                            <td class="text-nowrap"><div class="admin-actions">
+                                <button class="btn admin-action-btn admin-action-edit" onclick="openEditModal(
                                     <?= $user['id'] ?>, 
                                     '<?= htmlspecialchars(addslashes($user['first_name'])) ?>', 
                                     '<?= htmlspecialchars(addslashes($user['last_name'])) ?>', 
                                     '<?= htmlspecialchars(addslashes($user['phone'] ?? '')) ?>', 
                                     '<?= htmlspecialchars($user['role']) ?>'
-                                )">Edit</button>
-                                <button class="btn btn-sm btn-outline-danger" onclick="confirmSoftDelete(<?= $user['id'] ?>)">Delete</button>
+                                )" title="Edit user" aria-label="Edit user"><i class="bi bi-pencil" aria-hidden="true"></i></button>
+                                <button class="btn admin-action-btn admin-action-delete" onclick="confirmSoftDelete(<?= $user['id'] ?>)" title="Delete user" aria-label="Delete user"><i class="bi bi-trash" aria-hidden="true"></i></button></div>
                             </td>
                         </tr>
                     <?php endforeach; ?>

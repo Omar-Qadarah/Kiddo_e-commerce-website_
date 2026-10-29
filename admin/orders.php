@@ -76,7 +76,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-card">
     <div class="table-responsive">
-        <table class="table admin-table">
+        <table class="table admin-table admin-table-consistent admin-table-orders">
             <thead>
                 <tr>
                     <th>Order #</th>
@@ -111,10 +111,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             </td>
                             <td>
                                 <a href="<?= BASE_URL ?>/admin/order_details.php?id=<?= (int) $order['id'] ?>"
-                                   class="btn btn-sm btn-primary">
-                                    <i class="bi bi-eye"></i>
-                                    View
-                                </a>
+                                   class="btn admin-action-btn admin-action-toggle" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

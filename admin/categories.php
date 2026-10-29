@@ -66,7 +66,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <div class="admin-card">
 
     <div class="table-responsive">
-        <table class="table admin-table">
+        <table class="table admin-table admin-table-consistent admin-table-categories">
 
             <thead>
                 <tr>
@@ -122,28 +122,22 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             </td>
 
                             <td>
-                                <div class="d-flex gap-2">
+                                <div class="admin-actions">
 
                                     <!-- Edit button opens the modal -->
                                     <button
                                         type="button"
-                                        class="btn btn-sm btn-warning"
+                                        class="btn admin-action-btn admin-action-edit"
                                         data-bs-toggle="modal"
                                         data-bs-target="#editCategoryModal<?= (int) $category['id'] ?>"
-                                    >
-                                        <i class="bi bi-pencil"></i>
-                                        Edit
-                                    </button>
+                                     title="Edit category" aria-label="Edit category"><i class="bi bi-pencil" aria-hidden="true"></i></button>
 
                                     <button
                                         type="button"
-                                        class="btn btn-sm btn-danger"
+                                        class="btn admin-action-btn admin-action-delete"
                                         data-bs-toggle="modal"
                                         data-bs-target="#deleteCategoryModal<?= (int) $category['id'] ?>"
-                                    >
-                                        <i class="bi bi-trash"></i>
-                                        Delete
-                                    </button>
+                                     title="Delete category" aria-label="Delete category"><i class="bi bi-trash" aria-hidden="true"></i></button>
 
                                 </div>
                             </td>
