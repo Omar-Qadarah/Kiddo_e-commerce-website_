@@ -147,4 +147,33 @@ class AgeGroup
 
         return $stmt->rowCount() > 0;
     }
+
+    // Age groups for the home page "Shop by age" cards, with how many
+    // visible toys fit each group (the toy's age range overlaps the group's).
+    public function getAllWithToyCount(): array
+    {
+        $sql = "SELECT
+                    g.id,
+                    g.name,
+                    g.slug,
+                    g.description,
+                    g.min_age,
+                    g.max_age,
+                    g.image,
+                    g.sort_order,
+                    COUNT(p.id) AS toy_count
+                FROM age_groups g
+                LEFT JOIN products p
+                    ON p.is_active = 1
+                   AND p.min_age <= g.max_age
+                   AND p.max_age >= g.min_age
+                GROUP BY g.id, g.name, g.slug, g.description, g.min_age,
+                         g.max_age, g.image, g.sort_order
+                ORDER BY g.sort_order ASC, g.min_age ASC, g.id ASC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 }

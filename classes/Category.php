@@ -134,5 +134,20 @@ class Category
         return $deleteStmt->rowCount() > 0;
     }
 
+    // Categories for the Toys page sidebar, with how many visible toys each has.
+    public function getAllWithToyCount(): array
+    {
+        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon,
+                       COUNT(p.id) AS toy_count
+                FROM categories c
+                LEFT JOIN products p
+                    ON p.category_id = c.id AND p.is_active = 1
+                GROUP BY c.id, c.name, c.slug, c.description, c.icon
+                ORDER BY c.name ASC";
 
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
+}
