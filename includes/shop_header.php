@@ -46,6 +46,7 @@ function shopAsset(string $folder, string $file): string
 
     <link href="<?= shopAsset('css', 'style.css') ?>" rel="stylesheet">
     <link href="<?= shopAsset('css', 'storefront.css') ?>" rel="stylesheet">
+    <link href="<?= shopAsset('css', 'assistant.css') ?>" rel="stylesheet">
 <?php foreach ($pageStyles as $style): ?>
     <link href="<?= htmlspecialchars(shopAsset('css', $style)) ?>" rel="stylesheet">
 <?php endforeach; ?>

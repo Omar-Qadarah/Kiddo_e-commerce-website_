@@ -89,7 +89,7 @@ if (empty($_SESSION['shopping_assistant_csrf'])) {
         <span class="shopping-chat__launcher-label">Ask Kiddo</span>
     </button>
 </div>
-<script src="<?= BASE_URL ?>/assets/js/shopping-assistant.js?v=1" defer></script>
+<script src="<?= BASE_URL ?>/assets/js/shopping-assistant.js?v=<?= filemtime(__DIR__ . '/../assets/js/shopping-assistant.js') ?>" defer></script>
 
 </body>
 </html>
