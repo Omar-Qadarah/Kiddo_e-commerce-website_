@@ -700,7 +700,7 @@
 .dashboard-chart-column small { display: block; font-size: 11px; color: var(--admin-muted); }
 .dashboard-empty-note { margin: 16px 0 0; background: var(--admin-primary-50); color: var(--admin-muted); padding: 12px; border-radius: 12px; font-size: 12px; }
 .dashboard-quick-symbol { display: grid; place-items: center; background: #fff6dc; color: #9a6b00; width: 34px; height: 34px; border-radius: 11px; }
-.dashboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.dashboard-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .dashboard-action { min-width: 0; display: grid; grid-template-columns: 24px minmax(0, 1fr); align-content: start; column-gap: 8px; row-gap: 4px; padding: 12px; background: var(--admin-primary-50); border: 1px solid var(--admin-primary-100); border-radius: 12px; text-decoration: none; color: var(--admin-heading); transition: background .15s, border-color .15s; }
 .dashboard-action > i { color: var(--admin-primary); font-size: 20px; margin: 0; grid-row: span 2; }
 .dashboard-action strong { font-size: 14px; line-height: 1.3; margin: 0; }
@@ -774,4 +774,178 @@
     .admin-content { padding: 12px 16px 20px; }
     .admin-card { padding: 16px; }
     .sidebar-brand { min-height: 40px; }
+}
+
+/* Icon-only controls: scoped to existing admin table actions. */
+.admin-body .admin-actions { display: inline-flex; align-items: center; gap: 8px; vertical-align: middle; }
+.admin-body .admin-actions form { margin: 0; }
+.admin-body .admin-action-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    padding: 0; margin: 0; border: 1px solid transparent; border-radius: 10px;
+    line-height: 1; vertical-align: middle; text-decoration: none;
+    transition: background-color .15s ease, transform .15s ease;
+}
+.admin-body .admin-action-btn i { font-size: 16px; line-height: 1; }
+.admin-body .admin-action-edit { background: var(--admin-primary-50); color: var(--admin-primary); border-color: var(--admin-primary-100); }
+.admin-body .admin-action-edit:hover { background: var(--admin-primary-100); color: var(--admin-primary-dark); }
+.admin-body .admin-action-delete { background: #dc3545; color: #fff; }
+.admin-body .admin-action-delete:hover { background: #bb2d3b; color: #fff; }
+.admin-body .admin-action-toggle { background: var(--admin-primary-50); color: var(--admin-primary); border-color: var(--admin-primary-100); }
+.admin-body .admin-action-toggle:hover { background: var(--admin-primary-100); color: var(--admin-primary-dark); }
+.admin-body .admin-action-btn:hover { transform: translateY(-1px); }
+.admin-body .admin-action-btn:focus-visible { outline: 3px solid var(--admin-primary); outline-offset: 2px; }
+
+/* Shared table presentation; no page layout or form behavior overrides. */
+.admin-body .admin-table-consistent { margin-bottom: 0; table-layout: auto; }
+.admin-body .admin-table-consistent thead th {
+    height: 48px; padding: 12px 16px; vertical-align: middle;
+    background: var(--admin-surface-alt); color: var(--admin-muted);
+    border-bottom: 1px solid var(--admin-border);
+    font-size: 13px; font-weight: 600; line-height: 1.4; letter-spacing: .03em;
+}
+.admin-body .admin-table-consistent tbody td,
+.admin-body .admin-table-consistent tfoot td,
+.admin-body .admin-table-consistent tfoot th {
+    height: 64px; padding: 12px 16px; vertical-align: middle;
+    font-size: 14px; line-height: 1.4; border-color: var(--admin-border);
+    overflow-wrap: break-word;
+}
+.admin-body .admin-table-consistent tbody td { font-weight: 400; }
+.admin-body .admin-table-consistent tbody tr:hover > td { background-color: var(--admin-primary-50); }
+.admin-body .admin-table-consistent tbody tr:last-child > td { border-bottom: 0; }
+.admin-body .admin-table-consistent .small,
+.admin-body .admin-table-consistent small { font-size: 13px; }
+.admin-body .admin-table-consistent .badge {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 24px; padding: 4px 8px; border-radius: 8px;
+    font-size: 12px; font-weight: 600; line-height: 1.3; white-space: nowrap;
+}
+.admin-body .admin-table-consistent .admin-action-btn {
+    width: 40px; height: 40px; min-width: 40px; min-height: 40px;
+    padding: 0; border-radius: 10px;
+}
+.admin-body .admin-table-consistent .admin-action-btn i { font-size: 16px; }
+.admin-body .admin-table-consistent .admin-actions { gap: 8px; flex-wrap: nowrap; }
+.admin-body .admin-table-toolbar { gap: 12px; margin-bottom: 16px; align-items: center; }
+.admin-body .admin-table-toolbar .form-control,
+.admin-body .admin-table-toolbar .form-select,
+.admin-body .admin-table-toolbar .btn { min-height: 40px; }
+.admin-body .admin-table-toolbar form { align-items: center; gap: 8px; margin: 0; }
+/* Keep scrolling inside the existing table wrapper, including hidden action labels. */
+.admin-body .table-responsive:has(> .admin-table-consistent) { position: relative; max-width: 100%; }
+.admin-body .admin-card:has(> .table-responsive > .admin-table-consistent) {
+    padding: 16px; border-radius: var(--admin-radius);
+    border: 1px solid var(--admin-border); background: var(--admin-surface);
+    box-shadow: var(--admin-shadow);
+}
+.admin-body .admin-table-categories tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-categories tr > :nth-child(5):not([colspan]),
+.admin-body .admin-table-categories tr > :nth-child(6):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-categories tr > :nth-child(5):not([colspan]) { text-align: center; }
+.admin-body .admin-table-categories tr > :nth-child(4):not([colspan]) { min-width: 200px; max-width: 360px; white-space: normal; overflow-wrap: anywhere; }
+.admin-body .admin-table-age_groups tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(2):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(8):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-age_groups tr > :nth-child(2):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(7):not([colspan]) { text-align: center; }
+.admin-body .admin-table-age_groups tr > :nth-child(6):not([colspan]) { min-width: 200px; max-width: 360px; white-space: normal; overflow-wrap: anywhere; }
+.admin-body .admin-table-products tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(6):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(8):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-products tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(7):not([colspan]) { text-align: center; }
+.admin-body .admin-table-users tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(5):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(7):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-users tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(5):not([colspan]) { text-align: center; }
+.admin-body .admin-table-orders tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-orders tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-orders tr > :nth-child(6):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-orders tr > :nth-child(4):not([colspan]) { text-align: center; }
+.admin-body .admin-table-discounts tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(3):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(8):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(9):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-discounts tr > :nth-child(8):not([colspan]) { text-align: center; }
+.admin-body .admin-table-reviews tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(8):not([colspan]) { width: 1%; white-space: nowrap; }
+.admin-body .admin-table-reviews tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(7):not([colspan]) { text-align: center; }
+.admin-body .admin-table-reviews tr > :nth-child(5):not([colspan]) { min-width: 200px; max-width: 360px; white-space: normal; overflow-wrap: anywhere; }
+.admin-body .admin-table-categories tbody td:nth-child(5):not([colspan]) i { font-size: 18px; margin-right: 4px; vertical-align: middle; }
+
+/* Match heading/body alignment and keep thumbnails proportional to 64px rows. */
+.admin-body .admin-table-consistent thead th,
+.admin-body .admin-table-consistent tbody td { text-align: left; }
+.admin-body .admin-table-consistent tbody td img {
+    display: inline-block; width: 40px; height: 40px;
+    max-width: none; object-fit: cover; vertical-align: middle; border-radius: 8px;
+}
+.admin-body .admin-table-consistent tbody td:has(> img) { line-height: 1; }
+.admin-body .admin-table-categories tr > :nth-child(5):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(2):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-products tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(5):not([colspan]),
+.admin-body .admin-table-orders tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(8):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(4):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(7):not([colspan]) { text-align: center; }
+
+/* Only action columns: both the heading and its controls share the same center. */
+
+.admin-body .admin-table-consistent tr > :last-child:has(.admin-action-btn),
+.admin-body .admin-table-consistent:has(.admin-action-btn) thead th:last-child {
+    text-align: center; width: 1%; white-space: nowrap;
+}
+.admin-body .admin-table-consistent .admin-actions { justify-content: center; vertical-align: middle; }
+.admin-body .admin-table-products tr > :nth-child(5),
+.admin-body .admin-table-age_groups tr > :nth-child(5),
+.admin-body .admin-table-orders tr > :nth-child(3),
+.admin-body .admin-table-discounts tr > :nth-child(3) { white-space: nowrap; }
+/* Complete the same column rules across every existing admin table. */
+.admin-body .admin-table-categories tr > :first-child:not([colspan]),
+.admin-body .admin-table-age_groups tr > :first-child:not([colspan]),
+.admin-body .admin-table-discounts tr > :first-child:not([colspan]),
+.admin-body .admin-table-reviews tr > :first-child:not([colspan]) { text-align: left; width: 1%; white-space: nowrap; }
+.admin-body .admin-table-categories tr > :nth-child(2):not([colspan]),
+.admin-body .admin-table-categories tr > :nth-child(3):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(3):not([colspan]),
+.admin-body .admin-table-age_groups tr > :nth-child(4):not([colspan]) { min-width: 120px; }
+.admin-body .admin-table-users tr > :nth-child(3):not([colspan]),
+.admin-body .admin-table-users tr > :nth-child(6):not([colspan]),
+.admin-body .admin-table-orders tr > :nth-child(5):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(6):not([colspan]),
+.admin-body .admin-table-discounts tr > :nth-child(7):not([colspan]),
+.admin-body .admin-table-reviews tr > :nth-child(6):not([colspan]),
+.admin-body .admin-table-index tr > :nth-child(1):not([colspan]),
+.admin-body .admin-table-index tr > :nth-child(3):not([colspan]) { white-space: nowrap; }
+.admin-body .admin-table-index:has(.admin-action-btn) tr > :nth-child(5):not([colspan]) { text-align: center; width: 1%; white-space: nowrap; }
+.admin-body .admin-table-index:not(:has(.admin-action-btn)) tr > :nth-child(2):not([colspan]) { text-align: center; }
+.admin-body .admin-table-index:not(:has(.admin-action-btn)) tr > :nth-child(3):not([colspan]),
+.admin-body .admin-table-order_details tr > :nth-child(2):not([colspan]),
+.admin-body .admin-table-order_details tr > :nth-child(4):not([colspan]) { text-align: right; white-space: nowrap; }
+.admin-body .admin-table-order_details tr > :nth-child(3):not([colspan]) { text-align: center; width: 1%; white-space: nowrap; }
+.admin-body .admin-table-consistent tbody td[colspan] { height: 64px; padding: 16px !important; }
+/* Balance the dashboard row and distribute its three quick actions evenly. */
+.dashboard-quick { align-self: stretch; display: flex; flex-direction: column; margin-bottom: 0; }
+.dashboard-quick .dashboard-actions { flex: 1; grid-template-rows: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.dashboard-quick .dashboard-action { align-content: center; padding: 12px 16px; }
+
+.dashboard-summary > .admin-card,
+.dashboard-main-grid > .admin-card,
+.dashboard-lower-grid > .admin-card { margin-bottom: 0; }
+.dashboard-lower-grid { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+@media (max-width: 1200px) {
+    .dashboard-lower-grid { grid-template-columns: 1fr; }
+    .dashboard-quick .dashboard-actions { flex: initial; grid-template-rows: none; }
 }

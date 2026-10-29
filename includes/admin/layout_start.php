@@ -1,6 +1,9 @@
 
 <?php
 
+require_once __DIR__ . '/quick_actions.php';
+recordAdminPageVisit($pdo);
+
 $pageTitle = $pageTitle ?? 'Dashboard';
 $activePage = $activePage ?? 'dashboard';
 

@@ -61,7 +61,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </ul>
 <?php endif; ?>
 
-<div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle"><thead><tr>
+<div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-reviews"><thead><tr>
 <th>ID</th><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th>
 <th>Created</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>
 <?php foreach ($reviews as $row): ?><tr>
@@ -74,15 +74,15 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <td><?= htmlspecialchars((string) ($row['comment'] ?? ''), ENT_QUOTES, 'UTF-8') ?></td>
 <td><?= htmlspecialchars((string) $row['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
 <td><span class="badge <?= $row['is_visible'] ? 'bg-success' : 'bg-secondary' ?>"><?= $row['is_visible'] ? 'Visible' : 'Hidden' ?></span></td>
-<td><form method="post" class="d-flex flex-wrap gap-2">
+<td><form method="post" class="admin-actions">
 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) $_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
 <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
 <?php if ($row['is_visible']): ?>
-<button class="btn btn-sm btn-outline-primary" name="action" value="hide">Hide</button>
+<button class="btn admin-action-btn admin-action-toggle" name="action" value="hide" title="Hide review" aria-label="Hide review"><i class="bi bi-eye-slash" aria-hidden="true"></i></button>
 <?php elseif ($review->isValidRating($row['rating'])): ?>
-<button class="btn btn-sm btn-outline-primary" name="action" value="restore">Restore</button>
+<button class="btn admin-action-btn admin-action-toggle" name="action" value="restore" title="Restore review" aria-label="Restore review"><i class="bi bi-eye" aria-hidden="true"></i></button>
 <?php endif; ?>
-<button class="btn btn-sm btn-danger" name="action" value="delete" onclick="return confirm('Delete this review permanently?')">Delete</button>
+<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" onclick="return confirm('Delete this review permanently?')" title="Delete review" aria-label="Delete review"><i class="bi bi-trash" aria-hidden="true"></i></button>
 </form></td></tr><?php endforeach; ?>
 <?php if (empty($reviews)): ?><tr><td colspan="8">No reviews found.</td></tr><?php endif; ?>
 </tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

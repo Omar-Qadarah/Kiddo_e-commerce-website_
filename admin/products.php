@@ -29,7 +29,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     </div>
 
     <div class="admin-card">
-        <div class="table-responsive"><table class="table admin-table align-middle">
+        <div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-products">
             <thead>
                 <tr>
                     <th>Image</th>
@@ -83,19 +83,14 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                         </td>
 
                         <td>
-                            <div class="d-flex gap-2 flex-wrap align-items-center">
+                            <div class="admin-actions">
 
                                 <a
-                                    class="btn btn-sm btn-warning"
+                                    class="btn admin-action-btn admin-action-edit"
                                     href="edit_product.php?id=<?= (int)$item['id'] ?>"
                                     title="Edit product"
                                     aria-label="Edit product"
-                                >
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path d="M12 20h9"/>
-                                        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/>
-                                    </svg>
-                                </a>
+                                ><i class="bi bi-pencil" aria-hidden="true"></i></a>
 
                                 <form
                                     method="post"
@@ -110,17 +105,10 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
                                     <button
                                         type="submit"
-                                        class="btn btn-sm btn-danger"
+                                        class="btn admin-action-btn admin-action-delete"
                                         title="Delete product"
                                         aria-label="Delete product"
-                                    >
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                            <path d="M3 6h18"/>
-                                            <path d="M8 6V4h8v2"/>
-                                            <path d="m19 6-1 14H6L5 6"/>
-                                            <path d="M10 11v5M14 11v5"/>
-                                        </svg>
-                                    </button>
+                                    ><i class="bi bi-trash" aria-hidden="true"></i></button>
                                 </form>
 
                             </div>

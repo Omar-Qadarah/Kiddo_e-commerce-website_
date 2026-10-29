@@ -56,7 +56,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </ul>
 <?php endif; ?>
 
-<div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle"><thead><tr>
+<div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-discounts"><thead><tr>
 <th>ID</th><th>Title</th><th>Percentage</th><th>Product</th><th>Category</th>
 <th>Start</th><th>End</th><th>Status</th><th>Actions</th></tr></thead><tbody>
 <?php foreach ($discounts as $row): ?><tr>
@@ -68,13 +68,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <td><?= htmlspecialchars((string) ($row['starts_at'] ?? '-') , ENT_QUOTES, 'UTF-8') ?></td>
 <td><?= htmlspecialchars((string) ($row['ends_at'] ?? '-') , ENT_QUOTES, 'UTF-8') ?></td>
 <td><span class="badge <?= $row['is_active'] ? 'bg-success' : 'bg-secondary' ?>"><?= $row['is_active'] ? 'Active' : 'Inactive' ?></span></td>
-<td><a class="btn btn-sm btn-warning mb-2" href="edit_discount.php?id=<?= (int) $row['id'] ?>">Edit</a>
-<form method="post" class="d-flex flex-wrap gap-2">
+<td><div class="admin-actions"><a class="btn admin-action-btn admin-action-edit" href="edit_discount.php?id=<?= (int) $row['id'] ?>" title="Edit discount" aria-label="Edit discount"><i class="bi bi-pencil" aria-hidden="true"></i></a>
+<form method="post" class="admin-actions">
 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) $_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
 <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
-<button class="btn btn-sm btn-outline-primary" name="action" value="<?= $row['is_active'] ? 'deactivate' : 'activate' ?>">
-<?= $row['is_active'] ? 'Deactivate' : 'Activate' ?></button>
-<button class="btn btn-sm btn-danger" name="action" value="delete" onclick="return confirm('Delete this discount permanently?')">Delete</button>
-</form></td></tr><?php endforeach; ?>
+<button class="btn admin-action-btn admin-action-toggle" name="action" value="<?= $row['is_active'] ? 'deactivate' : 'activate' ?>" title="<?= $row['is_active'] ? 'Deactivate discount' : 'Activate discount' ?>" aria-label="<?= $row['is_active'] ? 'Deactivate discount' : 'Activate discount' ?>"><i class="bi bi-<?= $row['is_active'] ? 'eye-slash' : 'eye' ?>" aria-hidden="true"></i></button>
+<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" onclick="return confirm('Delete this discount permanently?')" title="Delete discount" aria-label="Delete discount"><i class="bi bi-trash" aria-hidden="true"></i></button>
+</form></div></td></tr><?php endforeach; ?>
 <?php if (empty($discounts)): ?><tr><td colspan="9">No discounts found.</td></tr><?php endif; ?>
 </tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>
