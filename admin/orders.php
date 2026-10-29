@@ -12,7 +12,18 @@ if (!is_string($status) || !in_array($status, Order::STATUSES, true)) {
     $status = '';
 }
 
-$orders = $orderModel->getAllOrders($status);
+// One query for everything; the filtered list and the counts both come from it
+$allOrders = $orderModel->getAllOrders();
+$orders = $status === '' ? $allOrders : $orderModel->getAllOrders($status);
+
+// How many orders are in each status, e.g. ['placed' => 3, 'delivered' => 1]
+$statusCounts = array_count_values(array_column($allOrders, 'status'));
+
+$statusIcons = [
+    'placed'    => 'bi-hourglass-split',
+    'shipped'   => 'bi-truck',
+    'delivered' => 'bi-check2-circle',
+];
 
 // Bootstrap badge colour for each status
 $badgeClasses = [
@@ -36,22 +47,22 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <?php unset($_SESSION['order_error']); ?>
 <?php endif; ?>
 
-<div class="admin-page-header">
-    <div>
-        <h2>Orders</h2>
-        <p>Track customer orders and update their status.</p>
-    </div>
-</div>
+<p class="admin-page-intro">Track customer orders and move them to the next status.</p>
 
-<div class="d-flex flex-wrap gap-2 mb-3">
+<!-- Summary cards double as the status filter -->
+<div class="status-cards">
     <a href="<?= BASE_URL ?>/admin/orders.php"
-       class="btn btn-sm <?= $status === '' ? 'btn-primary' : 'btn-outline-primary' ?>">
-        All
+       class="status-card <?= $status === '' ? 'active' : '' ?>">
+        <i class="bi bi-bag"></i>
+        <span>All</span>
+        <strong><?= count($allOrders) ?></strong>
     </a>
     <?php foreach (Order::STATUSES as $option): ?>
         <a href="<?= BASE_URL ?>/admin/orders.php?status=<?= urlencode($option) ?>"
-           class="btn btn-sm <?= $status === $option ? 'btn-primary' : 'btn-outline-primary' ?>">
-            <?= htmlspecialchars(ucfirst($option)) ?>
+           class="status-card status-<?= $option ?> <?= $status === $option ? 'active' : '' ?>">
+            <i class="bi <?= $statusIcons[$option] ?>"></i>
+            <span><?= htmlspecialchars(ucfirst($option)) ?></span>
+            <strong><?= $statusCounts[$option] ?? 0 ?></strong>
         </a>
     <?php endforeach; ?>
 </div>

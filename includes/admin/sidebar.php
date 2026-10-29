@@ -5,7 +5,6 @@
             <span class="brand-icon">K</span>
             <span>Kiddo's</span>
         </a>
-        <p>ADMIN PANEL</p>
     </div>
 
     <nav class="sidebar-nav">
@@ -62,10 +61,13 @@
         </a>
     </nav>
 
-    <div class="sidebar-bottom">
-        <a href="<?= BASE_URL ?>/index.php" class="sidebar-link">
-            <i class="bi bi-house"></i>
-            <span>View Website</span>
-        </a>
-    </div>
+    <?php require_once __DIR__ . '/../csrf.php'; ?>
+    <!-- logout.php only signs out on a POST with the session token -->
+    <form class="sidebar-bottom" action="<?= BASE_URL ?>/auth/logout.php" method="post">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+        <button type="submit" class="sidebar-link sidebar-logout">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </button>
+    </form>
 </aside>
