@@ -5,7 +5,6 @@
             <span class="brand-icon">K</span>
             <span>Kiddo's</span>
         </a>
-        <p>ADMIN PANEL</p>
     </div>
 
     <nav class="sidebar-nav">
