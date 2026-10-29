@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
     const widget = document.querySelector('.shopping-chat');
     if (!widget) return;
 
