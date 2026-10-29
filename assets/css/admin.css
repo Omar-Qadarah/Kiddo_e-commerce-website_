@@ -30,6 +30,7 @@
     --admin-radius-sm: 12px;
     --admin-shadow: 0 4px 14px rgba(75, 47, 196, 0.07);
     --admin-sidebar-width: 250px;
+    --admin-topbar-height: 68px;
 
     --admin-font-head: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
     --admin-font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -100,14 +101,17 @@
     display: flex;
     flex-direction: column;
     width: var(--admin-sidebar-width);
-    padding: 24px 16px;
+    padding: 0 14px 14px;
     overflow-y: auto;
     background: var(--admin-sidebar-bg);
     color: #FFFFFF;
 }
 
 .sidebar-brand {
-    padding: 0 10px 28px;
+    display: flex;
+    align-items: center;
+    height: var(--admin-topbar-height);
+    padding: 0 8px;
     border-bottom: 1px solid var(--admin-sidebar-line);
 }
 
@@ -137,23 +141,15 @@
     color: var(--admin-yellow);
 }
 
-.sidebar-brand>p {
-    margin: 10px 0 0 48px;
-    color: var(--admin-sidebar-muted);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-}
-
 .sidebar-nav {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-    padding-top: 24px;
+    gap: 2px;
+    padding-top: 2px;
 }
 
 .sidebar-label {
-    margin: 16px 10px 8px;
+    margin: 14px 10px 6px;
     color: var(--admin-sidebar-muted);
     font-size: 10px;
     font-weight: 800;
@@ -164,8 +160,8 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    min-height: 44px;
-    padding: 11px 13px;
+    min-height: 40px;
+    padding: 9px 13px;
     border-radius: var(--admin-radius-sm);
     color: var(--admin-sidebar-text);
     font-size: 14px;
@@ -194,8 +190,23 @@
 
 .sidebar-bottom {
     margin-top: auto;
-    padding-top: 24px;
+    padding-top: 14px;
     border-top: 1px solid var(--admin-sidebar-line);
+}
+
+/* The logout control is a <button>, so reset the browser's button look */
+.sidebar-logout {
+    width: 100%;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sidebar-logout:hover {
+    background: rgba(232, 69, 124, 0.16);
+    color: #FFFFFF;
 }
 
 /* Top navbar */
@@ -205,8 +216,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    min-height: 100px;
-    padding: 20px 32px;
+    min-height: var(--admin-topbar-height);
+    padding: 8px 28px;
     background: var(--admin-surface);
     border-bottom: 1px solid var(--admin-border);
 }
@@ -219,8 +230,8 @@
 }
 
 .navbar-page-info h1 {
-    margin: 6px 0 0;
-    font-size: 28px;
+    margin: 2px 0 0;
+    font-size: 26px;
     font-weight: 800;
 }
 
@@ -264,7 +275,90 @@
 .admin-content {
     flex: 1;
     width: 100%;
-    padding: 32px;
+    padding: 16px 28px 28px;
+}
+
+/* Short description under the page title in the top bar */
+.admin-page-intro {
+    margin: 0 0 14px;
+    color: var(--admin-muted);
+    font-size: 14px;
+}
+
+/* Summary cards that also act as filters (orders page) */
+.status-cards {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.status-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    align-items: center;
+    padding: 14px 16px;
+    border: 2px solid var(--admin-border);
+    border-radius: var(--admin-radius);
+    background: var(--admin-surface);
+    color: var(--admin-text);
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.15s;
+}
+
+.status-card:hover {
+    border-color: var(--admin-primary-200);
+    transform: translateY(-2px);
+    color: var(--admin-text);
+}
+
+.status-card.active {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 4px var(--admin-primary-100);
+}
+
+.status-card i {
+    grid-row: span 2;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: var(--admin-radius-sm);
+    background: var(--admin-primary-50);
+    color: var(--admin-primary);
+    font-size: 19px;
+}
+
+.status-card span {
+    color: var(--admin-muted);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-card strong {
+    font-family: var(--admin-font-head);
+    font-size: 24px;
+    line-height: 1.1;
+    color: var(--admin-heading);
+}
+
+.status-placed i {
+    background: var(--status-placed-bg);
+    color: var(--status-placed-text);
+}
+
+.status-shipped i {
+    background: var(--status-shipped-bg);
+    color: var(--status-shipped-text);
+}
+
+.status-delivered i {
+    background: var(--status-delivered-bg);
+    color: var(--status-delivered-text);
 }
 
 .admin-page-header {
@@ -273,7 +367,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
 }
 
 .admin-page-header h2 {
@@ -289,8 +383,8 @@
 }
 
 .admin-card {
-    margin-bottom: 24px;
-    padding: 24px;
+    margin-bottom: 20px;
+    padding: 20px;
     border: 1px solid var(--admin-border);
     border-radius: var(--admin-radius);
     background: var(--admin-surface);
@@ -471,26 +565,6 @@
     border-radius: var(--admin-radius);
 }
 
-/* Footer */
-
-.admin-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 20px 32px;
-    text-align: center;
-    border-top: 1px solid var(--admin-border);
-    background: var(--admin-surface);
-    color: var(--admin-muted);
-    font-size: 12px;
-}
-
-.admin-footer p {
-    margin: 0;
-}
-
 /* Responsive layout — no JavaScript needed */
 
 @media (max-width: 992px) {
@@ -510,6 +584,10 @@
 }
 
 @media (max-width: 768px) {
+    .status-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .admin-sidebar {
         position: static;
         width: 100%;
@@ -547,9 +625,6 @@
         padding: 18px;
     }
 
-    .admin-footer {
-        padding: 18px 20px;
-    }
 }
 
 @media (max-width: 480px) {
