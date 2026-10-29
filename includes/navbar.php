@@ -1,5 +1,9 @@
 <?php
+// Logout is a small POST form, so the navbar needs the session form token.
+require_once __DIR__ . '/csrf.php';
+
 $activePage = $activePage ?? '';
+// Logged in = auth/login.php put the user id in the session (and logout.php removes it).
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = $_SESSION['user_name'] ?? '';
 $cartCount  = (int) ($_SESSION['cart_count'] ?? 0);
@@ -23,10 +27,6 @@ if ($isLoggedIn) {
     $navLinks['orders'] = ['My Orders', '/orders/index.php'];
 }
 ?>
-<div class="announce">
-    🎂 Is it your child's birthday? Get <strong>10% off</strong> at checkout!
-</div>
-
 <!-- Keeps the mobile menu open/closed state. Toggled by the labels below, no JS. -->
 <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
 
@@ -39,6 +39,18 @@ if ($isLoggedIn) {
         <a class="brand" href="<?= BASE_URL ?>/index.php">
             <img src="<?= BASE_URL ?>/assets/images/kiddos-logo.png" alt="Kiddo's" width="183" height="44">
         </a>
+
+        <!-- Home / Toys sit in the same row as the logo, so they are centered with everything else -->
+        <nav class="header-nav" aria-label="Main">
+            <ul>
+                <?php foreach ($navLinks as $key => [$label, $path]): ?>
+                    <li>
+                        <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>"
+                           <?= $activePage === $key ? 'aria-current="page"' : '' ?>><?= $label ?></a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </nav>
 
         <form class="header-search" action="<?= BASE_URL ?>/products/search.php" method="get" role="search">
             <label class="sr-only" for="site-search">Search toys by name</label>
@@ -68,31 +80,20 @@ if ($isLoggedIn) {
             <?php if ($isLoggedIn): ?>
                 <a class="user-chip desktop-only" href="<?= BASE_URL ?>/auth/profile.php">
                     <span class="avatar"><?= htmlspecialchars($initials) ?></span>
-                    Hi, <?= htmlspecialchars($firstName) ?>!
+                    <span class="welcome">Welcome, <strong class="welcome-name"><?= htmlspecialchars($firstName) ?></strong>!</span>
                 </a>
-                <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
+                <!-- same POST + token that auth/logout.php already checks -->
+                <form class="desktop-only" action="<?= BASE_URL ?>/auth/logout.php" method="post">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                    <button class="btn btn-outline btn-sm" type="submit">Logout</button>
+                </form>
             <?php else: ?>
                 <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/login.php">Login</a>
-                <a class="btn btn-primary btn-sm desktop-only" href="<?= BASE_URL ?>/auth/register.php">Register</a>
+                <a class="btn btn-primary btn-sm desktop-only" href="<?= BASE_URL ?>/auth/register.php">Sign Up</a>
             <?php endif; ?>
         </div>
     </div>
 
-    <nav class="header-nav" aria-label="Main">
-        <ul class="container">
-            <?php foreach ($navLinks as $key => [$label, $path]): ?>
-                <li>
-                    <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>"><?= $label ?></a>
-                </li>
-            <?php endforeach; ?>
-            <li>
-                <a href="<?= BASE_URL ?>/ai/shopping_assistant.php" class="ai-pill <?= $activePage === 'ai' ? 'is-active' : '' ?>">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2 6.5L20.5 10 14 12l-2 6.5L10 12 3.5 10 10 8.5z"/></svg>
-                    AI Toy Finder <span class="new-tag">NEW</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
 </header>
 
 <!-- Mobile drawer -->
@@ -108,14 +109,17 @@ if ($isLoggedIn) {
         <div class="drawer-auth is-user">
             <span class="user-chip">
                 <span class="avatar"><?= htmlspecialchars($initials) ?></span>
-                Hi, <?= htmlspecialchars($firstName) ?>!
+                <span class="welcome">Welcome, <strong class="welcome-name"><?= htmlspecialchars($firstName) ?></strong>!</span>
             </span>
-            <a class="btn btn-outline" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
+            <form action="<?= BASE_URL ?>/auth/logout.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                <button class="btn btn-outline btn-block" type="submit">Logout</button>
+            </form>
         </div>
     <?php else: ?>
         <div class="drawer-auth">
             <a class="btn btn-outline" href="<?= BASE_URL ?>/auth/login.php">Login</a>
-            <a class="btn btn-primary" href="<?= BASE_URL ?>/auth/register.php">Register</a>
+            <a class="btn btn-primary" href="<?= BASE_URL ?>/auth/register.php">Sign Up</a>
         </div>
     <?php endif; ?>
 
@@ -125,8 +129,5 @@ if ($isLoggedIn) {
                 <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>"><?= $label ?> <span aria-hidden="true">›</span></a>
             </li>
         <?php endforeach; ?>
-        <li>
-            <a href="<?= BASE_URL ?>/ai/shopping_assistant.php" class="<?= $activePage === 'ai' ? 'is-active' : '' ?>">AI Toy Finder <span aria-hidden="true">›</span></a>
-        </li>
     </ul>
-</aside>
+</aside>

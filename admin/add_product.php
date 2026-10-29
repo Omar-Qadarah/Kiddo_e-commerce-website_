@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "price" => $price,
             "stock" => $stock,
             "category_id" => $category_id,
-            "gender" => "",
+            "gender" => "unisex",
             "min_age" => 0,
             "max_age" => 0,
             "image" => "",

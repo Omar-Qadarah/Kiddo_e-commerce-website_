@@ -1,13 +1,4 @@
-/* ==========================================================================
-   Kiddo's — shared styles
-   Everything that appears on every page lives here: tokens, base,
-   buttons, header/navbar, footer. Page-specific rules go in their own
-   files (home.css, product.css ...) so this one stays small.
-   ========================================================================== */
 
-/* ---------- Tokens ----------
-   Every color, font and size the layout uses is defined here.
-   Change a value once and it updates across the whole site. */
 :root {
     --primary: #7B5CF5;
     --primary-dark: #6243E6;
@@ -72,7 +63,6 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* pushes the footer down on short pages */
 main {
     flex: 1;
 }
@@ -129,7 +119,6 @@ ul {
     white-space: nowrap;
 }
 
-/* ---------- Buttons ---------- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -171,21 +160,6 @@ ul {
 .btn-sm { padding: .5rem 1.05rem; font-size: .9rem; }
 .btn-block { width: 100%; }
 
-/* ==========================================================================
-   Header
-   ========================================================================== */
-.announce {
-    padding: .55rem 1rem;
-    background: var(--primary);
-    color: var(--white);
-    font-size: .9rem;
-    font-weight: 700;
-    text-align: center;
-}
-
-.announce strong {
-    color: var(--yellow);
-}
 
 .site-header {
     position: sticky;
@@ -195,15 +169,19 @@ ul {
     box-shadow: 0 1px 0 var(--line);
 }
 
+
+.site-header .container {
+    width: min(1680px, 100% - 48px);
+}
+
 .header-main {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1.1rem;
     min-height: var(--header-h);
     padding: .9rem 0;
 }
 
-/* logo */
 .brand {
     display: inline-flex;
     align-items: center;
@@ -216,7 +194,6 @@ ul {
     height: 44px;
 }
 
-/* search */
 .header-search {
     position: relative;
     flex: 1;
@@ -260,7 +237,6 @@ ul {
     background: var(--primary-dark);
 }
 
-/* cart + account */
 .header-actions {
     display: flex;
     align-items: center;
@@ -317,6 +293,21 @@ a.user-chip:hover {
     color: var(--primary);
 }
 
+.welcome {
+    font-weight: 700;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.welcome-name {
+    font: 800 1.12rem/1 var(--font-head);
+    color: var(--primary-deep);
+}
+
+a.user-chip:hover .welcome-name {
+    color: var(--primary);
+}
+
 .avatar {
     display: grid;
     place-items: center;
@@ -329,26 +320,26 @@ a.user-chip:hover {
     font: 800 .95rem/1 var(--font-head);
 }
 
-/* main nav row */
+
 .header-nav {
-    border-top: 1px solid var(--line);
+    flex-shrink: 0;
+    margin: 0 1.1rem 0 .9rem; 
 }
 
 .header-nav ul {
     display: flex;
     align-items: center;
-    gap: .4rem;
+    gap: 1.6rem;
 }
 
 .header-nav a {
+    position: relative;
     display: inline-flex;
     align-items: center;
-    gap: .4rem;
-    padding: 1rem .9rem;
-    border-bottom: 3px solid transparent;
+    padding: .45rem 0;
     font-weight: 800;
     color: var(--ink);
-    transition: color .2s, border-color .2s;
+    transition: color .2s;
 }
 
 .header-nav a:hover,
@@ -356,38 +347,18 @@ a.user-chip:hover {
     color: var(--primary);
 }
 
-.header-nav a.is-active {
-    border-bottom-color: var(--primary);
+.header-nav a.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--primary);
 }
 
-/* AI finder is the store's signature feature, so it gets a pill instead of a plain link */
-.header-nav .ai-pill {
-    margin: .55rem .3rem;
-    padding: .45rem 1rem;
-    border: 2px solid var(--primary-200);
-    border-radius: 999px;
-    color: var(--primary);
-}
 
-.header-nav .ai-pill:hover,
-.header-nav .ai-pill.is-active {
-    border-color: var(--primary);
-    background: var(--primary-50);
-}
-
-.new-tag {
-    padding: .15rem .45rem;
-    border-radius: 6px;
-    background: var(--pink);
-    color: var(--white);
-    font-size: .66rem;
-    font-weight: 800;
-    letter-spacing: .04em;
-}
-
-/* ---------- Mobile menu ----------
-   No JavaScript: a hidden checkbox holds the open/closed state,
-   and the labels that point at it act as the open/close buttons. */
 .nav-toggle {
     position: absolute;
     opacity: 0;
@@ -503,9 +474,7 @@ a.user-chip:hover {
     color: var(--primary);
 }
 
-/* ==========================================================================
-   Footer
-   ========================================================================== */
+
 .site-footer {
     position: relative;
     margin-top: 5rem;
@@ -513,7 +482,6 @@ a.user-chip:hover {
     color: var(--footer-text);
 }
 
-/* the wavy edge on top of the footer, drawn with repeated circles */
 .site-footer::before {
     content: "";
     position: absolute;
@@ -607,20 +575,25 @@ a.user-chip:hover {
     font-size: .92rem;
 }
 
-/* ==========================================================================
-   Responsive
-   ========================================================================== */
+
 @media (max-width: 1100px) {
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media (max-width: 900px) {
-    .announce {
-        font-size: .8rem;
-    }
 
+@media (max-width: 1100px) and (min-width: 901px) {
+    .header-main { gap: .8rem; }
+    .header-nav { margin: 0 .3rem; }
+    .header-nav ul { gap: 1.1rem; }
+    .header-search { min-width: 220px; }
+    .header-divider,
+    .user-chip .avatar { display: none; }
+    .header-actions { gap: .5rem; }
+}
+
+@media (max-width: 900px) {
     .menu-btn {
         display: block;
     }
