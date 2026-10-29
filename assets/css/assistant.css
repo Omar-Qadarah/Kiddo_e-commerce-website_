@@ -1,0 +1,194 @@
+.shopping-chat {
+    --chat-ink: #263238;
+    --chat-green: #248b63;
+    --chat-green-dark: #176b4a;
+    --chat-soft: #f4faf6;
+    position: fixed;
+    right: max(22px, env(safe-area-inset-right));
+    bottom: max(22px, env(safe-area-inset-bottom));
+    z-index: 1000;
+    font-family: var(--font-body, "Nunito", sans-serif);
+}
+
+.shopping-chat__launcher {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    min-height: 60px;
+    padding: .55rem 1rem .55rem .65rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--chat-green);
+    color: #fff;
+    box-shadow: 0 8px 24px rgb(20 70 48 / 26%);
+    cursor: pointer;
+    font: 800 1rem/1 var(--font-head, "Baloo 2", sans-serif);
+    transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+
+.shopping-chat__launcher:hover {
+    background: var(--chat-green-dark);
+    box-shadow: 0 10px 28px rgb(20 70 48 / 32%);
+    transform: translateY(-2px);
+}
+
+.shopping-chat__launcher:focus-visible,
+.shopping-chat__close:focus-visible,
+.shopping-chat__form button:focus-visible,
+.shopping-chat__form input:focus-visible {
+    outline: 3px solid #f3bd3e;
+    outline-offset: 3px;
+}
+
+.shopping-chat__icon { width: 44px; height: 44px; flex: 0 0 44px; }
+.shopping-chat__launcher-label { padding-right: .15rem; }
+
+.shopping-chat__panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 14px);
+    display: flex;
+    flex-direction: column;
+    width: min(370px, calc(100vw - 32px));
+    height: min(510px, calc(100dvh - 115px));
+    min-height: 340px;
+    overflow: hidden;
+    border: 1px solid #e2ebe5;
+    border-radius: 20px;
+    background: #fff;
+    color: var(--chat-ink);
+    box-shadow: 0 18px 55px rgb(21 47 34 / 22%);
+}
+
+.shopping-chat__panel[hidden] { display: none; }
+
+.shopping-chat__header {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .9rem 1rem;
+    background: var(--chat-green);
+    color: #fff;
+}
+
+.shopping-chat__avatar {
+    display: grid;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    place-items: center;
+    border: 2px solid rgb(255 255 255 / 65%);
+    border-radius: 50%;
+    background: #fff;
+    color: var(--chat-green-dark);
+    font: 800 1.35rem/1 var(--font-head, "Baloo 2", sans-serif);
+}
+
+.shopping-chat__heading { display: grid; gap: .05rem; min-width: 0; }
+.shopping-chat__heading strong { font: 800 1.08rem/1.15 var(--font-head, "Baloo 2", sans-serif); }
+.shopping-chat__heading span { font-size: .76rem; opacity: .9; }
+
+.shopping-chat__close {
+    display: grid;
+    width: 36px;
+    height: 36px;
+    margin-left: auto;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    font: 400 1.7rem/1 sans-serif;
+}
+
+.shopping-chat__close:hover { background: rgb(255 255 255 / 16%); }
+
+.shopping-chat__messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: .65rem;
+    overflow-y: auto;
+    padding: 1rem;
+    background: linear-gradient(180deg, #fbfdfb, #fff);
+    scroll-behavior: smooth;
+}
+
+.shopping-chat__bubble {
+    max-width: 88%;
+    margin: 0;
+    padding: .7rem .85rem;
+    border-radius: 15px;
+    font-size: .94rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+}
+
+.shopping-chat__bubble--assistant {
+    align-self: flex-start;
+    border: 1px solid #e8efe9;
+    border-bottom-left-radius: 5px;
+    background: var(--chat-soft);
+}
+
+.shopping-chat__bubble--user {
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+    background: var(--chat-green);
+    color: #fff;
+}
+
+.shopping-chat__bubble--status { color: #65736b; font-style: italic; }
+
+.shopping-chat__form {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .7rem .8rem;
+    border-top: 1px solid #e9efeb;
+    background: #fff;
+}
+
+.shopping-chat__form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: .65rem .8rem;
+    border: 1px solid #dce6df;
+    border-radius: 12px;
+    color: var(--chat-ink);
+    font: 600 .95rem/1.3 var(--font-body, "Nunito", sans-serif);
+}
+
+.shopping-chat__form input::placeholder { color: #7b8980; }
+.shopping-chat__form button {
+    display: grid;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border: 0;
+    border-radius: 12px;
+    background: var(--chat-green);
+    color: #fff;
+    cursor: pointer;
+}
+
+.shopping-chat__form button:hover { background: var(--chat-green-dark); }
+.shopping-chat__form button:disabled { cursor: wait; opacity: .58; }
+.shopping-chat__form button svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+.shopping-chat__note { margin: 0; padding: 0 .9rem .6rem; color: #6e7c73; font-size: .72rem; text-align: center; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+@media (max-width: 480px) {
+    .shopping-chat { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); }
+    .shopping-chat__panel { position: fixed; right: 12px; bottom: 84px; width: calc(100vw - 24px); height: min(560px, calc(100dvh - 105px)); }
+    .shopping-chat__launcher { min-height: 56px; padding: .4rem .85rem .4rem .5rem; }
+    .shopping-chat__icon { width: 42px; height: 42px; flex-basis: 42px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shopping-chat__launcher, .shopping-chat__messages { transition: none; scroll-behavior: auto; }
+}
