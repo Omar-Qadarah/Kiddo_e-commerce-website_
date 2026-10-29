@@ -1,11 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/User.php';
 
-$database = new Database();
-$db = $database->connect(); 
+$db = $pdo; 
 
 $userObj = new User($db);
 
@@ -50,284 +48,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $users = $userObj->getUsersForAdmin($search);
+$pageTitle = 'Users';
+$activePage = 'users';
+require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Users</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
+<style>
+/* Keep the existing Users modal functions, scoped to this page only. */
+.users-page .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 1100;
+    padding: 20px; background: rgba(30, 24, 64, .4);
+    justify-content: center; align-items: center;
+}
+.users-page .modal-card {
+    width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto;
+    background: var(--admin-surface); padding: 24px;
+    border-radius: var(--admin-radius); box-shadow: var(--admin-shadow);
+}
+.users-page .modal-header { margin-bottom: 20px; }
+</style>
+<div class="users-page">
+<?php if ($errorMsg !== null): ?>
+<div class="alert alert-danger" role="alert"><?= htmlspecialchars($errorMsg, ENT_QUOTES, 'UTF-8') ?></div>
+<?php endif; ?>
 
-        body {
-            background-color: #f7f6fd;
-            padding: 40px;
-            color: #333;
-        }
 
-        .top-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-grow: 1; 
-            max-width: 900px;
-        }
-
-        .search-input {
-            flex-grow: 1;
-            padding: 12px 20px;
-            border-radius: 30px;
-            border: 1px solid #e2ddf7;
-            background: #fff;
-            font-size: 14px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #6c5ce7;
-        }
-
-        .btn-search {
-            padding: 10px 24px;
-            background-color: transparent;
-            color: #6c5ce7;
-            border: 1.5px solid #6c5ce7;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-search:hover {
-            background-color: #6c5ce7;
-            color: #fff;
-        }
-
-        .btn-add {
-            padding: 12px 28px;
-            background-color: #6c5ce7;
-            color: #fff;
-            border: none;
-            border-radius: 30px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
-            transition: background-color 0.2s;
-            white-space: nowrap;
-        }
-
-        .btn-add:hover {
-            background-color: #5844e3;
-        }
-
-        .card {
-            background: #ffffff;
-            border-radius: 24px;
-            padding: 28px 32px;
-            box-shadow: 0 4px 20px rgba(108, 92, 231, 0.05);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th {
-            font-size: 12px;
-            font-weight: 700;
-            color: #8c89a0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding-bottom: 20px;
-            text-align: center;
-        }
-
-        td {
-            padding: 12px 0;
-            font-size: 14px;
-            color: #4b4b60;
-            border-top: 1px solid #f6f5fc;
-            text-align: center;
-        }
-
-        .col-name {
-            font-weight: 700;
-            color: #2d3436;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 8px 4px;
-            width: 80px;
-            text-align: center;
-            max-width: 100%;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: capitalize;
-        }
-
-        .badge-admin { background-color: #fff1e5; color: #d35400; }
-        .badge-customer { background-color: #f1f0ff; color: #6c5ce7; }
-        .badge-active { background-color: #eafaf1; color: #2ecc71; }
-
-        .actions-cell {
-            text-align: center;
-            white-space: nowrap;
-        }
-
-        .btn-action-edit {
-            border: 1px solid #6c5ce7;
-            background: transparent;
-            color: #6c5ce7;
-            padding: 5px 16px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-right: 8px;
-        }
-
-        .btn-action-edit:hover {
-            background: #6c5ce7;
-            color: #fff;
-        }
-
-        .btn-action-delete {
-            border: 1px solid #f9d8d8;
-            background: transparent;
-            color: #e74c3c;
-            padding: 5px 16px;
-            border-radius: 15px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .btn-action-delete:hover {
-            background: #e74c3c;
-            color: #fff;
-        }
-
-        .table-footer {
-            margin-top: 24px;
-            font-size: 12px;
-            color: #8c89a0;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(2px);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            color: #2d3436;
-        }
-
-        .btn-close {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: #8c89a0;
-            cursor: pointer;
-        }
-
-        .form-group {
-            margin-bottom: 14px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
-            color: #636e72;
-            margin-bottom: 6px;
-            text-align: left;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #e2ddf7;
-            border-radius: 10px;
-            font-size: 14px;
-            outline: none;
-        }
-
-        .modal-actions {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-submit {
-            background: #6c5ce7;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="top-bar">
-        <form class="search-container" method="GET" action="users.php">
-            <input type="text" name="search" class="search-input" placeholder="Search name, email or phone" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <button type="submit" class="btn-search">Search</button>
+    <div class="admin-page-header">
+        <form class="d-flex gap-2 flex-wrap flex-grow-1" method="GET" action="users.php">
+            <input type="text" name="search" class="form-control w-auto flex-grow-1" placeholder="Search name, email or phone" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
         </form>
-        <button class="btn-add" onclick="openModal('addModal')">+ Add user</button>
+        <button class="btn btn-primary" onclick="openModal('addModal')">+ Add user</button>
     </div>
 
-    <div class="card">
-        <table>
+    <div class="admin-card">
+        <div class="table-responsive"><table class="table admin-table align-middle">
             <thead>
                 <tr>
                     <th>NAME</th>
@@ -347,70 +102,70 @@ $users = $userObj->getUsersForAdmin($search);
                 <?php else: ?>
                     <?php foreach ($users as $user): ?>
                         <tr id="user-row-<?= $user['id'] ?>">
-                            <td class="col-name"><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
+                            <td class="fw-bold"><?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name']) ?></td>
                             <td><?= htmlspecialchars($user['email']) ?></td>
                             <td><?= htmlspecialchars($user['phone'] ?? '-') ?></td>
                             <td>
-                                <span class="badge <?= $user['role'] === 'admin' ? 'badge-admin' : 'badge-customer' ?>">
+                                <span class="badge <?= $user['role'] === 'admin' ? 'bg-warning' : 'bg-secondary' ?>">
                                     <?= htmlspecialchars($user['role']) ?>
                                 </span>
                             </td>
                             <td><?= (int)($user['orders_count'] ?? 0) ?></td>
                             <td><?= date('d M Y', strtotime($user['created_at'])) ?></td>
-                            <td class="actions-cell">
-                                <button class="btn-action-edit" onclick="openEditModal(
+                            <td class="text-nowrap">
+                                <button class="btn btn-sm btn-warning me-2" onclick="openEditModal(
                                     <?= $user['id'] ?>, 
                                     '<?= htmlspecialchars(addslashes($user['first_name'])) ?>', 
                                     '<?= htmlspecialchars(addslashes($user['last_name'])) ?>', 
                                     '<?= htmlspecialchars(addslashes($user['phone'] ?? '')) ?>', 
                                     '<?= htmlspecialchars($user['role']) ?>'
                                 )">Edit</button>
-                                <button class="btn-action-delete" onclick="confirmSoftDelete(<?= $user['id'] ?>)">Delete</button>
+                                <button class="btn btn-sm btn-outline-danger" onclick="confirmSoftDelete(<?= $user['id'] ?>)">Delete</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
-        </table>
+        </table></div>
     </div>
 
     <div class="modal-overlay" id="addModal">
         <div class="modal-card">
             <div class="modal-header">
                 <h3>Add New User</h3>
-                <button class="btn-close" onclick="closeModal('addModal')">&times;</button>
+                <button class="btn btn-light" onclick="closeModal('addModal')">&times;</button>
             </div>
             <form action="users.php" method="POST">
                 <input type="hidden" name="action" value="create_user">
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="first_name" required>
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input class="form-control" type="text" name="first_name" required>
                 </div>
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" name="last_name" required>
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input class="form-control" type="text" name="last_name" required>
                 </div>
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" required>
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" type="email" name="email" required>
                 </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" required>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input class="form-control" type="password" name="password" required>
                 </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone">
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input class="form-control" type="text" name="phone">
                 </div>
-                <div class="form-group">
-                    <label>Role</label>
-                    <select name="role">
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" name="role">
                         <option value="customer">Customer</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
-                <div class="modal-actions">
-                    <button type="submit" class="btn-submit">Create User</button>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Create User</button>
                 </div>
             </form>
         </div>
@@ -420,32 +175,32 @@ $users = $userObj->getUsersForAdmin($search);
         <div class="modal-card">
             <div class="modal-header">
                 <h3>Edit User</h3>
-                <button class="btn-close" onclick="closeModal('editModal')">&times;</button>
+                <button class="btn btn-light" onclick="closeModal('editModal')">&times;</button>
             </div>
             <form action="users.php" method="POST">
                 <input type="hidden" name="action" value="edit_user">
                 <input type="hidden" name="id" id="edit-id">
-                <div class="form-group">
-                    <label>First Name</label>
-                    <input type="text" name="first_name" id="edit-first-name" required>
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input class="form-control" type="text" name="first_name" id="edit-first-name" required>
                 </div>
-                <div class="form-group">
-                    <label>Last Name</label>
-                    <input type="text" name="last_name" id="edit-last-name" required>
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input class="form-control" type="text" name="last_name" id="edit-last-name" required>
                 </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone" id="edit-phone">
+                <div class="mb-3">
+                    <label class="form-label">Phone</label>
+                    <input class="form-control" type="text" name="phone" id="edit-phone">
                 </div>
-                <div class="form-group">
-                    <label>Role</label>
-                    <select name="role" id="edit-role">
+                <div class="mb-3">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" name="role" id="edit-role">
                         <option value="customer">Customer</option>
                         <option value="admin">Admin</option>
                     </select>
                 </div>
-                <div class="modal-actions">
-                    <button type="submit" class="btn-submit">Save Changes</button>
+                <div class="d-flex justify-content-end gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
             </form>
         </div>
@@ -482,5 +237,6 @@ $users = $userObj->getUsersForAdmin($search);
             }
         }
     </script>
-</body>
-</html>
+
+</div>
+<?php require_once __DIR__ . "/../includes/admin/layout_end.php"; ?>
