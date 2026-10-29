@@ -75,40 +75,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 $products = $pdo->query('SELECT id, name FROM products ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
 $categories = $pdo->query('SELECT id, name FROM categories ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+$pageTitle = 'Edit Discount';
+$activePage = 'discounts';
+require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Edit Discount - Kiddo</title></head><body>
-<nav><a href="discounts.php">Discounts</a> | <a href="reviews.php">Reviews</a></nav>
-<h1>Edit Discount</h1>
+
 <?php if (!empty($errors)): ?>
-<ul role="alert">
+<ul class="alert alert-danger ps-5" role="alert">
 <?php foreach ($errors as $error): ?>
     <li><?= htmlspecialchars((string) $error, ENT_QUOTES, 'UTF-8') ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<form method="post">
+<form method="post" class="admin-card p-4">
 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) $_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
-<p><label for="title">Title</label> <input id="title" name="title" maxlength="100" required value="<?= htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8') ?>"></p>
-<p><label for="percentage">Percentage</label> <input type="number" id="percentage" name="percentage" min="0.01" max="100" step="0.01" required value="<?= htmlspecialchars((string) $percentage, ENT_QUOTES, 'UTF-8') ?>"></p>
+<p class="mb-3"><label class="form-label" for="title">Title</label> <input class="form-control" id="title" name="title" maxlength="100" required value="<?= htmlspecialchars((string) $title, ENT_QUOTES, 'UTF-8') ?>"></p>
+<p class="mb-3"><label class="form-label" for="percentage">Percentage</label> <input class="form-control" type="number" id="percentage" name="percentage" min="0.01" max="100" step="0.01" required value="<?= htmlspecialchars((string) $percentage, ENT_QUOTES, 'UTF-8') ?>"></p>
 <p>Choose one product OR one category.</p>
-<p><label for="product_id">Product</label> <select id="product_id" name="product_id">
+<p class="mb-3"><label class="form-label" for="product_id">Product</label> <select class="form-select" id="product_id" name="product_id">
 <option value="">No product</option>
 <?php foreach ($products as $item): ?>
 <option value="<?= (int) $item['id'] ?>" <?= $product_id === (string) $item['id'] ? 'selected' : '' ?>><?= htmlspecialchars((string) $item['name'], ENT_QUOTES, 'UTF-8') ?></option>
 <?php endforeach; ?>
 </select></p>
-<p><label for="category_id">Category</label> <select id="category_id" name="category_id">
+<p class="mb-3"><label class="form-label" for="category_id">Category</label> <select class="form-select" id="category_id" name="category_id">
 <option value="">No category</option>
 <?php foreach ($categories as $item): ?>
 <option value="<?= (int) $item['id'] ?>" <?= $category_id === (string) $item['id'] ? 'selected' : '' ?>><?= htmlspecialchars((string) $item['name'], ENT_QUOTES, 'UTF-8') ?></option>
 <?php endforeach; ?>
 </select></p>
-<p><label for="starts_at">Start date (optional)</label> <input type="date" id="starts_at" name="starts_at" value="<?= htmlspecialchars((string) $starts_at, ENT_QUOTES, 'UTF-8') ?>"></p>
-<p><label for="ends_at">End date (optional)</label> <input type="date" id="ends_at" name="ends_at" value="<?= htmlspecialchars((string) $ends_at, ENT_QUOTES, 'UTF-8') ?>"></p>
-<button type="submit">Save Discount</button>
+<p class="mb-3"><label class="form-label" for="starts_at">Start date (optional)</label> <input class="form-control" type="date" id="starts_at" name="starts_at" value="<?= htmlspecialchars((string) $starts_at, ENT_QUOTES, 'UTF-8') ?>"></p>
+<p class="mb-3"><label class="form-label" for="ends_at">End date (optional)</label> <input class="form-control" type="date" id="ends_at" name="ends_at" value="<?= htmlspecialchars((string) $ends_at, ENT_QUOTES, 'UTF-8') ?>"></p>
+<button class="btn btn-primary" type="submit">Save Discount</button>
 </form>
-<p><a href="discounts.php">Back to discounts</a></p>
-</body></html>
+<p><a class="btn btn-light mt-3" href="discounts.php">Back to discounts</a></p>
+<?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

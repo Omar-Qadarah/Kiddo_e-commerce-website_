@@ -122,4 +122,11 @@ class User{
     }
 
 
+    // Login needs the password hash, role and active status.
+    public function getUserByEmail($email)
+    {
+        $statement = $this->con->prepare('SELECT * FROM users WHERE email = ?');
+        $statement->execute([$email]);
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
 }
