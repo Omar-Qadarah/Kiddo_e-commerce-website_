@@ -21,6 +21,9 @@ $activePage = $activePage ?? '';
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 
         <link href="<?= BASE_URL ?>/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>" rel="stylesheet">
+<?php if (in_array($activePage, ['login', 'register', 'logout'], true)): ?>
+    <link href="<?= BASE_URL ?>/assets/css/auth.css" rel="stylesheet">
+<?php endif; ?>
 </head>
 <body>
 

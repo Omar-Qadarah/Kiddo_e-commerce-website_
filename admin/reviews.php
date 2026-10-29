@@ -41,22 +41,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 $reviews = $review->getAll();
+$pageTitle = 'Reviews';
+$activePage = 'reviews';
+require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reviews - Kiddo</title></head><body>
-<nav><a href="discounts.php">Discounts</a> | <a href="reviews.php">Reviews</a></nav>
-<h1>Reviews</h1>
+
 <?php if (!empty($errors)): ?>
-<ul role="alert">
+<ul class="alert alert-danger ps-5" role="alert">
 <?php foreach ($errors as $error): ?>
     <li><?= htmlspecialchars((string) $error, ENT_QUOTES, 'UTF-8') ?></li>
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
 <p>Ratings must be whole numbers from 1 to 5. Invalid ratings are flagged and cannot be restored.</p>
-<table border="1" cellpadding="8"><thead><tr>
+<div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle"><thead><tr>
 <th>ID</th><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th>
 <th>Created</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>
 <?php foreach ($reviews as $row): ?><tr>
@@ -66,18 +64,18 @@ $reviews = $review->getAll();
 <td><?php if ($review->isValidRating($row['rating'])): ?>
 <?= htmlspecialchars((string) $row['rating'], ENT_QUOTES, 'UTF-8') ?> / 5
 <?php else: ?>Invalid rating (<?= htmlspecialchars((string) $row['rating'], ENT_QUOTES, 'UTF-8') ?>)<?php endif; ?></td>
-<td><?= htmlspecialchars((string) $row['comment'] ?? '', ENT_QUOTES, 'UTF-8') ?></td>
+<td><?= htmlspecialchars((string) ($row['comment'] ?? ''), ENT_QUOTES, 'UTF-8') ?></td>
 <td><?= htmlspecialchars((string) $row['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
-<td><?= $row['is_visible'] ? 'Visible' : 'Hidden' ?></td>
-<td><form method="post">
+<td><span class="badge <?= $row['is_visible'] ? 'bg-success' : 'bg-secondary' ?>"><?= $row['is_visible'] ? 'Visible' : 'Hidden' ?></span></td>
+<td><form method="post" class="d-flex flex-wrap gap-2">
 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) $_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
 <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
 <?php if ($row['is_visible']): ?>
-<button name="action" value="hide">Hide</button>
+<button class="btn btn-sm btn-outline-primary" name="action" value="hide">Hide</button>
 <?php elseif ($review->isValidRating($row['rating'])): ?>
-<button name="action" value="restore">Restore</button>
+<button class="btn btn-sm btn-outline-primary" name="action" value="restore">Restore</button>
 <?php endif; ?>
-<button name="action" value="delete" onclick="return confirm('Delete this review permanently?')">Delete</button>
+<button class="btn btn-sm btn-danger" name="action" value="delete" onclick="return confirm('Delete this review permanently?')">Delete</button>
 </form></td></tr><?php endforeach; ?>
 <?php if (empty($reviews)): ?><tr><td colspan="8">No reviews found.</td></tr><?php endif; ?>
-</tbody></table></body></html>
+</tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

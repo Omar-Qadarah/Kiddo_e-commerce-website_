@@ -9,7 +9,6 @@ define('DB_PASS', '');
 define('APP_NAME', "Kiddo's");
 define('APP_ENV', 'development');
 
-define('BASE_URL', '/php-project/Kiddo_e-commerce-website');
-
+define('BASE_URL', '/php-project/Kiddo_e-commerce-website_');
 
 date_default_timezone_set('Asia/Amman');
