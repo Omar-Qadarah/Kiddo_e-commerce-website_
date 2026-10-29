@@ -52,6 +52,13 @@ $pageTitle = 'Users';
 $activePage = 'users';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
+<div class="admin-page-header">
+<div>
+<h1>Users</h1>
+<p>Manage customer accounts and view their order activity.</p>
+</div>
+</div>
+
 
 <style>
 /* Keep the existing Users modal functions, scoped to this page only. */

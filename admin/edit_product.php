@@ -108,7 +108,10 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <div class="product-page">
 
     <div class="admin-page-header">
-        <h2>Edit Product</h2>
+        <div>
+<h1>Edit Product</h1>
+<p>Update the product details, pricing and availability.</p>
+</div>
         <a class="btn btn-light" href="products.php">← Back to Products</a>
     </div>
 

@@ -74,6 +74,13 @@ $pageTitle = 'Add Discount';
 $activePage = 'discounts';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
+<div class="admin-page-header">
+<div>
+<h1>Add Discount</h1>
+<p>Create a discount for a product or category and set its dates.</p>
+</div>
+</div>
+
 
 <?php if (!empty($errors)): ?>
 <ul class="alert alert-danger ps-5" role="alert">

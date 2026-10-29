@@ -61,7 +61,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-page-header">
     <div>
-        <h2>Add Category</h2>
+        <h1>Add Category</h1>
         <p>Create a new product category.</p>
     </div>
 
