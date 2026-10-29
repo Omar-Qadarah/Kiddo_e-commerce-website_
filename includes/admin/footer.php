@@ -5,6 +5,4 @@
         <?= htmlspecialchars(APP_NAME) ?>.
         All rights reserved.
     </p>
-
-    <span>Made with care for little ones.</span>
 </footer>

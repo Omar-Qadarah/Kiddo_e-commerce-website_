@@ -1,0 +1,675 @@
+/* ==========================================================================
+   Kiddo's — shared styles
+   Everything that appears on every page lives here: tokens, base,
+   buttons, header/navbar, footer. Page-specific rules go in their own
+   files (home.css, product.css ...) so this one stays small.
+   ========================================================================== */
+
+/* ---------- Tokens ----------
+   Every color, font and size the layout uses is defined here.
+   Change a value once and it updates across the whole site. */
+:root {
+    --primary: #7B5CF5;
+    --primary-dark: #6243E6;
+    --primary-deep: #4B2FC4;
+    --primary-50: #F5F2FF;
+    --primary-100: #EAE4FF;
+    --primary-200: #D6CBFF;
+
+    --pink: #E8457C;
+    --pink-dark: #D6336B;
+    --pink-50: #FFEDF3;
+    --yellow: #FFC93D;
+    --green: #22B573;
+    --green-50: #E3F7EE;
+
+    --ink: #1E1840;
+    --text: #3A3560;
+    --muted: #716C8F;
+    --line: #ECE8F8;
+    --bg: #FBFAFF;
+    --white: #FFFFFF;
+    --footer-text: #EDE8FF;
+    --footer-line: rgba(255, 255, 255, .18);
+    --overlay: rgba(30, 24, 64, .45);
+
+    --radius-sm: 12px;
+    --radius: 18px;
+    --radius-lg: 26px;
+    --shadow-sm: 0 4px 14px rgba(75, 47, 196, .07);
+    --shadow: 0 14px 34px rgba(75, 47, 196, .10);
+    --shadow-primary: 0 8px 20px rgba(123, 92, 245, .3);
+    --shadow-pink: 0 8px 20px rgba(232, 69, 124, .3);
+
+    --font-head: "Baloo 2", "Arial Rounded MT Bold", system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --container: 1220px;
+    --header-h: 76px;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* pushes the footer down on short pages */
+main {
+    flex: 1;
+}
+
+img,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    margin: 0 0 .5em;
+    font-family: var(--font-head);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--ink);
+}
+
+h1 { font-size: clamp(2rem, 4.6vw, 3.4rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.25rem); }
+h3 { font-size: 1.2rem; }
+
+p {
+    margin: 0 0 1em;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.container {
+    width: min(var(--container), 100% - 32px);
+    margin-inline: auto;
+}
+
+:focus-visible {
+    outline: 3px solid var(--primary-200);
+    outline-offset: 2px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    padding: .75rem 1.5rem;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    font: 800 1rem/1 var(--font-body);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .2s, color .2s, border-color .2s, transform .15s;
+}
+
+.btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: var(--shadow-primary);
+}
+.btn-primary:hover { background: var(--primary-dark); }
+
+.btn-pink {
+    background: var(--pink);
+    color: var(--white);
+    box-shadow: var(--shadow-pink);
+}
+.btn-pink:hover { background: var(--pink-dark); }
+
+.btn-outline {
+    background: var(--white);
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.btn-outline:hover { background: var(--primary-50); }
+
+.btn-sm { padding: .5rem 1.05rem; font-size: .9rem; }
+.btn-block { width: 100%; }
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+.announce {
+    padding: .55rem 1rem;
+    background: var(--primary);
+    color: var(--white);
+    font-size: .9rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.announce strong {
+    color: var(--yellow);
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--white);
+    box-shadow: 0 1px 0 var(--line);
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    min-height: var(--header-h);
+    padding: .9rem 0;
+}
+
+/* logo */
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .6rem;
+    flex-shrink: 0;
+}
+
+.brand img {
+    width: auto;
+    height: 44px;
+}
+
+/* search */
+.header-search {
+    position: relative;
+    flex: 1;
+    max-width: 560px;
+}
+
+.header-search input {
+    width: 100%;
+    padding: .8rem 3.4rem .8rem 1.4rem;
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    background: var(--bg);
+    font: 600 1rem/1.3 var(--font-body);
+    color: var(--ink);
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.header-search input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px var(--primary-100);
+}
+
+.header-search button {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--white);
+    cursor: pointer;
+}
+
+.header-search button:hover {
+    background: var(--primary-dark);
+}
+
+/* cart + account */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    margin-left: auto;
+}
+
+.icon-link {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    color: var(--ink);
+    transition: background-color .2s, color .2s;
+}
+
+.icon-link:hover {
+    background: var(--primary-50);
+    color: var(--primary);
+}
+
+.badge-count {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+    border: 2px solid var(--white);
+    border-radius: 999px;
+    background: var(--pink);
+    color: var(--white);
+    font: 800 .72rem/17px var(--font-body);
+    text-align: center;
+}
+
+.header-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--line);
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+a.user-chip:hover {
+    color: var(--primary);
+}
+
+.avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--primary-100);
+    color: var(--primary-deep);
+    font: 800 .95rem/1 var(--font-head);
+}
+
+/* main nav row */
+.header-nav {
+    border-top: 1px solid var(--line);
+}
+
+.header-nav ul {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+.header-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    padding: 1rem .9rem;
+    border-bottom: 3px solid transparent;
+    font-weight: 800;
+    color: var(--ink);
+    transition: color .2s, border-color .2s;
+}
+
+.header-nav a:hover,
+.header-nav a.is-active {
+    color: var(--primary);
+}
+
+.header-nav a.is-active {
+    border-bottom-color: var(--primary);
+}
+
+/* AI finder is the store's signature feature, so it gets a pill instead of a plain link */
+.header-nav .ai-pill {
+    margin: .55rem .3rem;
+    padding: .45rem 1rem;
+    border: 2px solid var(--primary-200);
+    border-radius: 999px;
+    color: var(--primary);
+}
+
+.header-nav .ai-pill:hover,
+.header-nav .ai-pill.is-active {
+    border-color: var(--primary);
+    background: var(--primary-50);
+}
+
+.new-tag {
+    padding: .15rem .45rem;
+    border-radius: 6px;
+    background: var(--pink);
+    color: var(--white);
+    font-size: .66rem;
+    font-weight: 800;
+    letter-spacing: .04em;
+}
+
+/* ---------- Mobile menu ----------
+   No JavaScript: a hidden checkbox holds the open/closed state,
+   and the labels that point at it act as the open/close buttons. */
+.nav-toggle {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.menu-btn {
+    display: none;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.menu-btn span {
+    display: block;
+    height: 2.5px;
+    margin: 5px 0;
+    border-radius: 3px;
+    background: var(--ink);
+}
+
+.drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: var(--overlay);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s;
+}
+
+.drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    width: min(330px, 86vw);
+    overflow-y: auto;
+    background: var(--white);
+    transform: translateX(-100%);
+    transition: transform .28s ease;
+}
+
+.nav-toggle:checked ~ .drawer {
+    transform: none;
+}
+
+.nav-toggle:checked ~ .drawer-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.drawer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.2rem;
+    background: var(--primary);
+}
+
+.drawer-head img {
+    width: auto;
+    height: 36px;
+}
+
+.drawer-close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    color: var(--white);
+    font-size: 1.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.drawer-auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .6rem;
+    padding: 1.1rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.drawer-auth.is-user {
+    grid-template-columns: 1fr;
+}
+
+.drawer-links {
+    display: grid;
+    gap: .25rem;
+    padding: .8rem;
+}
+
+.drawer-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .85rem 1rem;
+    border-radius: 14px;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.drawer-links a:hover,
+.drawer-links a.is-active {
+    background: var(--primary-50);
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer {
+    position: relative;
+    margin-top: 5rem;
+    background: var(--primary);
+    color: var(--footer-text);
+}
+
+/* the wavy edge on top of the footer, drawn with repeated circles */
+.site-footer::before {
+    content: "";
+    position: absolute;
+    top: -34px;
+    left: 0;
+    right: 0;
+    height: 36px;
+    background: radial-gradient(circle at 40px 36px, var(--primary) 34px, transparent 35px) 0 0 / 80px 36px repeat-x;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 2.5rem;
+    padding: 3.2rem 0 2.6rem;
+}
+
+.footer-grid h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--white);
+}
+
+.footer-grid ul {
+    display: grid;
+    gap: .7rem;
+}
+
+.footer-grid a {
+    transition: color .2s;
+}
+
+.footer-grid a:hover {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.footer-brand img {
+    width: auto;
+    height: 40px;
+}
+
+.footer-tagline {
+    margin: 1.1rem 0 .5rem;
+    font: 800 1.15rem/1.3 var(--font-head);
+    color: var(--white);
+}
+
+.pay-card {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+    padding: 1rem 1.1rem;
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--ink);
+}
+
+.pay-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: var(--green-50);
+    color: var(--green);
+}
+
+.pay-card strong {
+    display: block;
+    font: 800 1.05rem/1.2 var(--font-head);
+}
+
+.pay-card small {
+    font-weight: 600;
+    color: var(--muted);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--footer-line);
+}
+
+.footer-bottom .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 0;
+    font-size: .92rem;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 1100px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .announce {
+        font-size: .8rem;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .header-main {
+        flex-wrap: wrap;
+        gap: .6rem;
+        padding: .7rem 0;
+    }
+
+    .brand {
+        margin: 0 auto;
+    }
+
+    .brand img {
+        height: 36px;
+    }
+
+    .desktop-only {
+        display: none;
+    }
+
+    .header-actions {
+        margin-left: 0;
+    }
+
+    .header-search {
+        order: 5;
+        flex-basis: 100%;
+        max-width: none;
+    }
+
+    .header-nav {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
