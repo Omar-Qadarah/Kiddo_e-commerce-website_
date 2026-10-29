@@ -42,6 +42,9 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <h1>Discounts</h1>
 <p>Manage product and category discounts and their availability.</p>
 </div>
+<a class="btn btn-primary d-inline-flex align-items-center gap-2" href="add_discount.php">
+    <i class="bi bi-plus-lg" aria-hidden="true"></i> Add Discount
+</a>
 </div>
 
 
@@ -52,7 +55,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<p><a class="btn btn-primary" href="add_discount.php">Add Discount</a></p>
+
 <div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle"><thead><tr>
 <th>ID</th><th>Title</th><th>Percentage</th><th>Product</th><th>Category</th>
 <th>Start</th><th>End</th><th>Status</th><th>Actions</th></tr></thead><tbody>
