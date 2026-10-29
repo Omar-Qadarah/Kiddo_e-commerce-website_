@@ -1,5 +1,9 @@
 <?php
-
+// Toy details page: products/details.php?id=<product id>
+// Opened by clicking any toy card (includes/toy-card.php).
+// Shows: image gallery, name, rating, price, description, quantity + Add to Cart,
+// and customer reviews. Uses the shared header (navbar) and footer.
+// Page files: assets/css/toys.css + assets/css/product.css, assets/js/product.js
 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -14,6 +18,7 @@ $reviewModel  = new Review($pdo);
 $id  = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $toy = $id ? $productModel->getToyDetails($id) : false;
 
+// ---------- Toy not found (wrong id, deleted or hidden toy) ----------
 if (!$toy) {
     http_response_code(404);
     $pageTitle   = 'Toy not found';
@@ -31,13 +36,16 @@ if (!$toy) {
     exit;
 }
 
+// ---------- Price ----------
 $price       = (float) $toy['price'];
 $discountPct = (float) $toy['discount_pct'];
 $finalPrice  = $discountPct > 0 ? round($price * (1 - $discountPct / 100), 2) : $price;
 $discountTxt = rtrim(rtrim(number_format($discountPct, 2), '0'), '.');
 $stock       = (int) $toy['stock'];
 
-
+// ---------- Gallery ----------
+// Main image (products.image) first, then every extra image of this toy
+// from the images table. The same file is never shown twice.
 $gallery = [];
 $addImage = function (?string $path, ?string $alt) use (&$gallery, $toy) {
     $path = ltrim(trim((string) $path), '/');
@@ -61,6 +69,7 @@ if (empty($gallery)) {
 $gallery   = array_values($gallery);
 $mainImage = $gallery[0];
 
+// ---------- Reviews ----------
 $reviews     = $reviewModel->getVisibleForProducts([(int) $toy['id']], 100)[(int) $toy['id']] ?? [];
 $rating      = round((float) $toy['avg_rating'], 1);
 $reviewCount = (int) $toy['review_count'];
@@ -69,6 +78,7 @@ foreach ($reviews as $review) {
     $ratingBars[$review['rating']]++;
 }
 
+// One-time message from cart/add.php
 $flash = $_SESSION['cart_flash'] ?? null;
 unset($_SESSION['cart_flash']);
 
@@ -123,6 +133,7 @@ require_once __DIR__ . '/../includes/header.php';
             <?php endif; ?>
         </div>
 
+        <!-- ===== B. Information ===== -->
         <div class="pd-info">
             <p class="pd-meta">
                 <?= htmlspecialchars($toy['category_name']) ?>
@@ -164,6 +175,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <?php endif; ?>
             </div>
 
+            <!-- ===== D. Quantity + Add to Cart -> cart/add.php ===== -->
             <form class="pd-cart" action="<?= BASE_URL ?>/cart/add.php" method="post">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="product_id" value="<?= (int) $toy['id'] ?>">
@@ -194,6 +206,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </section>
 
+<!-- ===== C. Customer reviews ===== -->
 <section class="container pd-reviews" id="reviews">
     <div class="section-head">
         <p class="eyebrow">Customer reviews</p>

@@ -1,5 +1,10 @@
 <?php
-
+// Toys page: products/index.php
+// Optional filters in the URL (they can be combined):
+//   ?category=<category slug>   sidebar "Toy types"
+//   ?age=<age group slug>       Age dropdown (the home page age cards link here too)
+//   ?gender=boys|girls|unisex   Gender dropdown
+// Page files: assets/css/toys.css + assets/css/shop.css, assets/js/toys.js
 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/Product.php';
@@ -16,6 +21,7 @@ $categories = $categoryModel->getAllWithToyCount();
 $ageGroups  = $ageGroupModel->getAll();
 $genders    = ['girls' => 'Girls', 'boys' => 'Boys', 'unisex' => 'Unisex only'];
 
+// ---------- Read the filters (only values that really exist are used) ----------
 $filters = ['category' => '', 'age' => '', 'gender' => ''];
 
 $categorySlug = (string) ($_GET['category'] ?? '');
@@ -46,6 +52,7 @@ function shopUrl(array $filters, array $change = []): string
     return BASE_URL . '/products/index.php' . ($query ? '?' . http_build_query($query) : '');
 }
 
+// ---------- Toys + their images (for the ‹ › arrows) ----------
 $toys        = $productModel->getFilteredToys($filters);
 $imagesByToy = $imageModel->getPathsForProducts(array_column($toys, 'id'));
 
@@ -63,6 +70,7 @@ function toyImageUrls(array $toy, array $imagesByToy): array
     return array_values($urls);
 }
 
+// ---------- Page heading ----------
 $minAge = $ageGroups ? min(array_column($ageGroups, 'min_age')) : 3;
 $maxAge = $ageGroups ? max(array_column($ageGroups, 'max_age')) : 12;
 $heading  = $activeCategory ? $activeCategory['name'] : 'All toys';
@@ -71,6 +79,7 @@ $subtitle = $activeCategory && !empty($activeCategory['description'])
     : 'Toys for every age from ' . (int) $minAge . ' to ' . (int) $maxAge . '.';
 $allCount = array_sum(array_column($categories, 'toy_count'));
 
+// Category icon: the Bootstrap Icons class saved by the admin (e.g. "bi bi-palette").
 function categoryIcon(?string $icon): string
 {
     $icon = trim((string) $icon);
@@ -88,6 +97,7 @@ $pageScripts = ['toys.js'];
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
+<!-- ============ Page heading ============ -->
 <section class="shop-hero">
     <div class="container">
         <nav class="breadcrumb" aria-label="Breadcrumb">
@@ -107,6 +117,7 @@ require_once __DIR__ . '/../includes/header.php';
 </section>
 
 <div class="shop">
+    <!-- ============ Full-height categories sidebar ============ -->
     <aside class="shop-sidebar" aria-label="Toy types">
         <div class="shop-sidebar-inner">
             <h2 class="sidebar-title">Toy types</h2>
@@ -135,6 +146,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
     </aside>
 
+    <!-- ============ Filters + toy grid ============ -->
     <div class="shop-main">
         <form class="filter-bar" action="<?= BASE_URL ?>/products/index.php" method="get" data-filter-form>
             <?php if ($filters['category'] !== ''): ?>

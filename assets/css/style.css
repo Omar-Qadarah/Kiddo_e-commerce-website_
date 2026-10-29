@@ -1,4 +1,13 @@
+/* ==========================================================================
+   Kiddo's — shared styles
+   Everything that appears on every page lives here: tokens, base,
+   buttons, header/navbar, footer. Page-specific rules go in their own
+   files (home.css, product.css ...) so this one stays small.
+   ========================================================================== */
 
+/* ---------- Tokens ----------
+   Every color, font and size the layout uses is defined here.
+   Change a value once and it updates across the whole site. */
 :root {
     --primary: #7B5CF5;
     --primary-dark: #6243E6;
@@ -63,6 +72,7 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* pushes the footer down on short pages */
 main {
     flex: 1;
 }
@@ -119,6 +129,7 @@ ul {
     white-space: nowrap;
 }
 
+/* ---------- Buttons ---------- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -160,7 +171,9 @@ ul {
 .btn-sm { padding: .5rem 1.05rem; font-size: .9rem; }
 .btn-block { width: 100%; }
 
-
+/* ==========================================================================
+   Header
+   ========================================================================== */
 .site-header {
     position: sticky;
     top: 0;
@@ -169,7 +182,8 @@ ul {
     box-shadow: 0 1px 0 var(--line);
 }
 
-
+/* The header uses the full screen width (24px gutter on each side, max 1680px),
+   so the logo sits at the far left and the account buttons at the far right. */
 .site-header .container {
     width: min(1680px, 100% - 48px);
 }
@@ -182,6 +196,7 @@ ul {
     padding: .9rem 0;
 }
 
+/* logo */
 .brand {
     display: inline-flex;
     align-items: center;
@@ -194,6 +209,7 @@ ul {
     height: 44px;
 }
 
+/* search */
 .header-search {
     position: relative;
     flex: 1;
@@ -237,6 +253,7 @@ ul {
     background: var(--primary-dark);
 }
 
+/* cart + account */
 .header-actions {
     display: flex;
     align-items: center;
@@ -293,6 +310,7 @@ a.user-chip:hover {
     color: var(--primary);
 }
 
+/* "Welcome, Rima!" — the name is a little bigger so it stands out */
 .welcome {
     font-weight: 700;
     color: var(--muted);
@@ -320,10 +338,12 @@ a.user-chip:hover .welcome-name {
     font: 800 .95rem/1 var(--font-head);
 }
 
-
+/* main nav row */
+/* Home / Toys: same row as the logo. The row is a flex line with
+   align-items: center, so the links sit exactly in its middle. */
 .header-nav {
     flex-shrink: 0;
-    margin: 0 1.1rem 0 .9rem; 
+    margin: 0 1.1rem 0 .9rem; /* breathing room between logo | links | search */
 }
 
 .header-nav ul {
@@ -347,6 +367,7 @@ a.user-chip:hover .welcome-name {
     color: var(--primary);
 }
 
+/* little bar under the current page; absolute, so it does not push the text up or down */
 .header-nav a.is-active::after {
     content: "";
     position: absolute;
@@ -358,7 +379,9 @@ a.user-chip:hover .welcome-name {
     background: var(--primary);
 }
 
-
+/* ---------- Mobile menu ----------
+   No JavaScript: a hidden checkbox holds the open/closed state,
+   and the labels that point at it act as the open/close buttons. */
 .nav-toggle {
     position: absolute;
     opacity: 0;
@@ -474,7 +497,9 @@ a.user-chip:hover .welcome-name {
     color: var(--primary);
 }
 
-
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 .site-footer {
     position: relative;
     margin-top: 5rem;
@@ -482,6 +507,7 @@ a.user-chip:hover .welcome-name {
     color: var(--footer-text);
 }
 
+/* the wavy edge on top of the footer, drawn with repeated circles */
 .site-footer::before {
     content: "";
     position: absolute;
@@ -575,14 +601,17 @@ a.user-chip:hover .welcome-name {
     font-size: .92rem;
 }
 
-
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
 @media (max-width: 1100px) {
     .footer-grid {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-
+/* Small laptops / large tablets: one row is tight, so drop the avatar and the
+   divider and tighten the gaps, keeping the search box wide enough to use. */
 @media (max-width: 1100px) and (min-width: 901px) {
     .header-main { gap: .8rem; }
     .header-nav { margin: 0 .3rem; }
@@ -645,4 +674,4 @@ a.user-chip:hover .welcome-name {
         transition: none !important;
         animation: none !important;
     }
-}
+}

@@ -1,5 +1,11 @@
 <?php
-
+// Home (landing) page.
+// 1) load data with the existing model classes
+// 2) include the shared header (navbar)  -> includes/header.php
+// 3) print the sections
+// 4) include the shared footer           -> includes/footer.php
+// Page files: assets/css/toys.css + assets/css/home.css, assets/js/home.js
+// (listed in $pageStyles / $pageScripts below, linked by includes/header.php)
 
 require_once __DIR__ . '/includes/init.php';
 require_once __DIR__ . '/classes/Product.php';
@@ -14,6 +20,7 @@ $ageGroups      = $ageGroupModel->getAllWithToyCount();
 $discountedToys = $productModel->getDiscountedToys(4);
 $newArrivals    = $productModel->getNewArrivals(4);
 
+// Hero line "Toys for ages X to Y" follows the age groups set by the admin.
 $minAge = 3;
 $maxAge = 12;
 if (!empty($ageGroups)) {
@@ -21,6 +28,7 @@ if (!empty($ageGroups)) {
     $maxAge = max(array_column($ageGroups, 'max_age'));
 }
 
+// The biggest discount running today feeds the first promo slide.
 $today       = date('Y-m-d');
 $topDiscount = null;
 foreach ($discountModel->getAll() as $discount) {
@@ -33,6 +41,7 @@ foreach ($discountModel->getAll() as $discount) {
     }
 }
 
+// Fallback picture for an age group that has no uploaded image.
 $ageEmoji  = ['🧸', '🖍️', '🔬', '🤖', '🎨', '🚀'];
 $ageColors = ['blue', 'green', 'orange', 'pink', 'purple'];
 
@@ -43,6 +52,7 @@ $pageScripts = ['home.js'];
 require_once __DIR__ . '/includes/header.php';
 ?>
 
+<!-- ============ Hero ============ -->
 <section class="hero">
     <span class="hero-bubble hero-bubble-1" aria-hidden="true"></span>
     <span class="hero-bubble hero-bubble-2" aria-hidden="true"></span>
@@ -68,6 +78,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
+<!-- ============ Shop by age ============ -->
 <?php if (!empty($ageGroups)): ?>
 <section class="home-section" id="shop-by-age">
     <div class="container">
@@ -108,6 +119,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 <?php endif; ?>
 
+<!-- ============ Promo slider ============ -->
 <section class="home-section promo-section" aria-roledescription="carousel" aria-label="Offers">
     <div class="container">
         <div class="promo-slider" data-slider>
@@ -170,6 +182,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </section>
 
+<!-- ============ Discounts ============ -->
 <?php if (!empty($discountedToys)): ?>
 <section class="home-section" id="discounts">
     <div class="container">
@@ -189,6 +202,7 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 <?php endif; ?>
 
+<!-- ============ New arrivals ============ -->
 <section class="home-section" id="new-arrivals">
     <div class="container">
         <div class="section-head is-row">
