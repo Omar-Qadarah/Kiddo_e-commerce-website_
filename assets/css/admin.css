@@ -653,3 +653,68 @@
     background: rgba(255, 255, 255, 0.20);
     color: #FFFFFF;
 }
+
+/* Dashboard only: existing admin pages keep their own layout. */
+.dashboard-page { min-width: 0; }
+.dashboard-date, .dashboard-period { color: var(--admin-muted); font-size: 12px; white-space: nowrap; }
+.dashboard-date { background: #fff; border: 1px solid var(--admin-border); border-radius: 999px; padding: 9px 14px; }
+.dashboard-date i { color: var(--admin-primary); margin-right: 6px; }
+.dashboard-summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 20px; }
+.dashboard-page .admin-card { min-width: 0; margin-bottom: 0; }
+.dashboard-metric { padding: 22px; }
+.dashboard-metric-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.dashboard-metric-top span { font-size: 12px; color: var(--admin-muted); font-weight: 800; }
+.dashboard-metric-top i { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; background: var(--admin-primary-100); color: var(--admin-primary); font-size: 20px; flex-shrink: 0; }
+.dashboard-metric strong { display: block; font: 800 29px/1.3 var(--admin-font-head); color: var(--admin-heading); margin-top: 12px; overflow-wrap: anywhere; }
+.dashboard-metric strong small, .dashboard-revenue-total small { font-size: 13px; font-family: var(--admin-font-body); font-weight: 700; }
+.dashboard-metric p { margin: 6px 0 0; color: var(--admin-muted); font-size: 11px; }
+.dashboard-metric-income { background: var(--admin-primary); border-color: var(--admin-primary); }
+.dashboard-metric-income .dashboard-metric-top span, .dashboard-metric-income p { color: #eee9ff; }
+.dashboard-metric-income strong { color: #fff; }
+.dashboard-metric-income .dashboard-metric-top i { background: rgba(255,255,255,.18); color: #fff; }
+.dashboard-metric-top .dashboard-icon-pink { background: #ffedf3; color: var(--admin-pink); }
+.dashboard-metric-top .dashboard-icon-blue { background: #e6f0ff; color: #2f7bf5; }
+.dashboard-metric-top .dashboard-icon-yellow { background: #fff6dc; color: #9a6b00; }
+.dashboard-main-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; margin-bottom: 20px; align-items: stretch; }
+.dashboard-panel-heading { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.dashboard-panel-heading h2 { font-size: 20px; font-weight: 800; margin: 0 0 5px; }
+.dashboard-panel-heading p { font-size: 12px; color: var(--admin-muted); margin: 0; }
+.dashboard-revenue-total { font: 800 32px/1.3 var(--admin-font-head); color: var(--admin-heading); }
+.dashboard-chart-caption { font-size: 11px; color: var(--admin-muted); margin: 5px 0 20px; }
+.dashboard-chart { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 14px; }
+.dashboard-chart-column { min-width: 0; text-align: center; }
+.dashboard-chart-value { display: block; font-size: 10px; font-weight: 800; color: var(--admin-primary-deep); overflow-wrap: anywhere; margin-bottom: 8px; }
+.dashboard-bar-track { height: 150px; display: flex; align-items: flex-end; justify-content: center; border-bottom: 1px solid var(--admin-border); background: linear-gradient(to top, var(--admin-primary-50), #fff); border-radius: 12px 12px 0 0; }
+.dashboard-bar { width: 55%; max-width: 40px; background: var(--admin-primary); border-radius: 9px 9px 2px 2px; min-height: 3px; }
+.dashboard-bar-zero { background: var(--admin-primary-200); }
+.dashboard-chart-day { display: block; font-weight: 800; font-size: 11px; color: var(--admin-heading); margin-top: 10px; }
+.dashboard-chart-column small { display: block; font-size: 10px; color: var(--admin-muted); }
+.dashboard-empty-note { margin: 18px 0 0; background: var(--admin-primary-50); color: var(--admin-muted); padding: 10px 12px; border-radius: 12px; font-size: 11px; }
+.dashboard-quick-symbol { display: grid; place-items: center; background: #fff6dc; color: #9a6b00; width: 34px; height: 34px; border-radius: 11px; }
+.dashboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.dashboard-action { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; padding: 15px; background: var(--admin-primary-50); border: 1px solid var(--admin-primary-100); border-radius: 16px; text-decoration: none; color: var(--admin-heading); transition: background .15s, border-color .15s; }
+.dashboard-action > i { color: var(--admin-primary); font-size: 21px; margin-bottom: 10px; }
+.dashboard-action strong { font-size: 13px; margin-bottom: 5px; }
+.dashboard-action span { font-size: 11px; color: var(--admin-muted); line-height: 1.4; }
+.dashboard-action:hover { background: var(--admin-primary-100); border-color: var(--admin-primary-200); color: var(--admin-heading); }
+.dashboard-action-primary { background: var(--admin-primary); border-color: var(--admin-primary); color: #fff; }
+.dashboard-action-primary > i, .dashboard-action-primary span { color: #eee9ff; }
+.dashboard-action-primary:hover { background: var(--admin-primary-dark); color: #fff; }
+.dashboard-action:focus-visible { outline: 3px solid var(--admin-primary); outline-offset: 3px; }
+.dashboard-lower-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; }
+.dashboard-page .admin-table thead th { padding: 12px; font-size: 10px; }
+.dashboard-page .admin-table tbody td, .dashboard-page .admin-table tfoot th, .dashboard-page .admin-table tfoot td { padding: 12px; font-size: 12px; }
+.dashboard-page .admin-table tfoot { border-top: 2px solid var(--admin-border); }
+@media (max-width: 1200px) {
+    .dashboard-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dashboard-main-grid, .dashboard-lower-grid { grid-template-columns: 1fr; }
+    .dashboard-quick { order: -1; }
+}
+@media (max-width: 575px) {
+    .dashboard-summary { grid-template-columns: 1fr; gap: 12px; }
+    .dashboard-chart { gap: 5px; }
+    .dashboard-chart-value { font-size: 9px; }
+    .dashboard-action { padding: 12px; }
+    .dashboard-action strong { font-size: 12px; }
+    .dashboard-panel-heading h2 { font-size: 19px; }
+}
