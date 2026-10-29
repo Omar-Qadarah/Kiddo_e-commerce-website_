@@ -1,0 +1,343 @@
+/* ==========================================================================
+   Kiddo's — toy details page (products/details.php)
+   Gallery, info, how to play, quantity − / +, reviews.
+   Shared bits (tints, stars, badge, breadcrumb look) come from storefront.css.
+   ========================================================================== */
+
+.details {
+    padding-top: 2rem;
+}
+
+.details .breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.details .breadcrumb a {
+    color: var(--primary);
+}
+
+.details .breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: start;
+}
+
+/* ---------- Gallery ---------- */
+.details-main-image {
+    --tint: #FFF3E2;
+    --ring: #FFE3C2;
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    border-radius: var(--radius-lg);
+    background: var(--tint);
+    box-shadow: var(--shadow-sm);
+}
+
+.details-main-image .toy-badge {
+    top: 20px;
+    left: 20px;
+    font-size: 1rem;
+}
+
+.details-circle {
+    display: grid;
+    place-items: center;
+    width: 56%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 0 0 44px var(--ring);
+    overflow: hidden;
+}
+
+.details-circle img {
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+}
+
+.details-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .8rem;
+    margin-top: 1rem;
+}
+
+.details-thumb {
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    padding: 8px;
+    border: 3px solid transparent;
+    border-radius: 18px;
+    background: var(--tint, var(--primary-50));
+    cursor: pointer;
+    transition: border-color .2s;
+}
+
+.details-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.details-thumb:hover,
+.details-thumb.is-active {
+    border-color: var(--primary);
+}
+
+/* ---------- Info ---------- */
+.details-info h1 {
+    margin: .3rem 0 .6rem;
+    font-size: clamp(2rem, 3.4vw, 2.8rem);
+}
+
+.details-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin: 1.2rem 0;
+}
+
+.chip {
+    padding: .35rem .9rem;
+    border-radius: 999px;
+    background: var(--primary-50);
+    color: var(--primary-deep);
+    font-size: .92rem;
+    font-weight: 800;
+}
+
+.chip-green {
+    background: var(--green-50);
+    color: #138A55;
+}
+
+.chip-pink {
+    background: var(--pink-50);
+    color: var(--pink-dark);
+}
+
+.details-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .3rem .8rem;
+    margin-bottom: 1rem;
+}
+
+.details-price strong {
+    font: 800 2.3rem/1.1 var(--font-head);
+    color: var(--primary);
+}
+
+.details-price del {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.details-desc {
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.how-to-play {
+    margin: 1.4rem 0 1.8rem;
+    padding: 1.2rem 1.4rem;
+    border-radius: var(--radius);
+    background: var(--primary-50);
+}
+
+.how-to-play h2 {
+    margin: 0 0 .3rem;
+    font-size: 1.2rem;
+    color: var(--primary-deep);
+}
+
+.how-to-play p {
+    margin: 0;
+}
+
+/* ---------- Quantity − / + and Add to cart ---------- */
+.details-buy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+}
+
+.qty {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: 5px;
+    border-radius: 999px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.qty-btn {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    font: 800 1.4rem/1 var(--font-body);
+    cursor: pointer;
+}
+
+.qty-btn:hover:not([disabled]) {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.qty-btn[disabled] {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.qty input {
+    width: 52px;
+    border: 0;
+    background: transparent;
+    font: 800 1.15rem/1 var(--font-body);
+    color: var(--ink);
+    text-align: center;
+    -moz-appearance: textfield;
+}
+
+.qty input::-webkit-outer-spin-button,
+.qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty input:focus {
+    outline: none;
+}
+
+.details-add {
+    padding: 1rem 2.2rem;
+    font-size: 1.05rem;
+}
+
+/* ---------- Reviews ---------- */
+.details-reviews {
+    padding-top: 4rem;
+}
+
+.reviews-empty {
+    color: var(--muted);
+    font-size: 1.05rem;
+}
+
+.review-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+}
+
+.review {
+    padding: 1.3rem 1.4rem;
+    border-radius: var(--radius);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.review-head {
+    display: flex;
+    align-items: center;
+    gap: .8rem;
+    margin-bottom: .7rem;
+}
+
+.review-head > div {
+    display: grid;
+    flex: 1;
+    line-height: 1.3;
+}
+
+.review-head strong {
+    color: var(--ink);
+}
+
+.review-avatar {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--primary-100);
+    color: var(--primary-deep);
+    font: 800 1.05rem/1 var(--font-head);
+}
+
+.review-date {
+    font-size: .85rem;
+    color: var(--muted);
+}
+
+.review p {
+    margin: 0;
+}
+
+/* ---------- Not found ---------- */
+.details-missing {
+    padding: 5rem 0 2rem;
+    text-align: center;
+}
+
+.details-missing > span {
+    display: block;
+    font-size: 4rem;
+}
+
+.details-missing p {
+    color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .details-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .details-circle {
+        box-shadow: 0 0 0 26px var(--ring);
+    }
+}
+
+@media (max-width: 480px) {
+    .details-thumb {
+        width: 70px;
+        height: 70px;
+    }
+
+    .details-add {
+        flex: 1;
+    }
+
+    .review-list {
+        grid-template-columns: 1fr;
+    }
+}

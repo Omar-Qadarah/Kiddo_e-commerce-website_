@@ -1,0 +1,479 @@
+/* ==========================================================================
+   Kiddo's — storefront styles (landing, toys and toy details pages)
+   Loaded after style.css and reuses its tokens (--primary, --ink, ...).
+   Holds: the one-row navbar, toy cards, stars and section headings.
+   ========================================================================== */
+
+/* ---------- Navbar: logo far left, links on the same row ---------- */
+.shop-header-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    min-height: var(--header-h);
+    padding: .8rem 0;
+}
+
+.shop-nav ul {
+    display: flex;
+    align-items: center;
+    gap: .2rem;
+}
+
+.shop-nav a {
+    position: relative;
+    display: inline-flex;
+    padding: .55rem .85rem;
+    border-radius: 999px;
+    font-weight: 800;
+    color: var(--ink);
+    transition: color .2s, background-color .2s;
+}
+
+.shop-nav a:hover {
+    color: var(--primary);
+    background: var(--primary-50);
+}
+
+.shop-nav a.is-active {
+    color: var(--primary);
+}
+
+/* small bar under the active link */
+.shop-nav a.is-active::after {
+    content: "";
+    position: absolute;
+    left: .85rem;
+    right: .85rem;
+    bottom: .1rem;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--primary);
+}
+
+.shop-header .header-search {
+    max-width: 440px;
+}
+
+/* "Welcome, Rima!" — large and easy to see */
+.shop-welcome {
+    font: 700 1.2rem/1.2 var(--font-head);
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+.shop-welcome strong {
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.drawer-auth .shop-welcome {
+    font-size: 1.3rem;
+    text-align: center;
+    padding: .3rem 0 .5rem;
+}
+
+/* ---------- Section headings ---------- */
+.shop-section {
+    padding: 4.5rem 0 0;
+}
+
+.section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.8rem;
+}
+
+.section-head h2 {
+    margin: 0;
+}
+
+.section-head.is-center {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.section-head.is-center p {
+    max-width: 560px;
+    margin: .4rem 0 0;
+    color: var(--muted);
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: .35rem;
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--pink);
+}
+
+.see-all {
+    font-weight: 800;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+.see-all:hover {
+    text-decoration: underline;
+}
+
+/* ---------- Toy grid + card ---------- */
+.toy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.6rem;
+}
+
+.toy-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s, box-shadow .2s;
+}
+
+.toy-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow);
+}
+
+/* soft color behind the picture (same color for the same category) */
+.toy-card-media {
+    --tint: #FFF3E2;
+    --ring: #FFE3C2;
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1 / 1;
+    border-radius: 22px;
+    background: var(--tint);
+    overflow: hidden;
+}
+
+.tint-yellow { --tint: #FFF3E2; --ring: #FFE3C2; }
+.tint-purple { --tint: #EFEBFF; --ring: #DED6FF; }
+.tint-peach  { --tint: #FFEDE7; --ring: #FFD9CC; }
+.tint-pink   { --tint: #FFEAF1; --ring: #FFD3E2; }
+.tint-mint   { --tint: #E2F8F4; --ring: #C4EFE7; }
+.tint-blue   { --tint: #E7F0FF; --ring: #CFE0FF; }
+
+/* white circle with a thick soft ring, like the reference */
+.toy-card-circle {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 64%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: var(--white);
+    box-shadow: 0 0 0 26px var(--ring);
+    overflow: hidden;
+}
+
+.toy-card-circle img {
+    grid-area: 1 / 1;
+    width: 72%;
+    height: 72%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity .25s;
+}
+
+.toy-card-circle img.is-shown {
+    opacity: 1;
+}
+
+.toy-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 2;
+    padding: .2rem .6rem;
+    border-radius: 999px;
+    background: var(--pink);
+    color: var(--white);
+    font-size: .85rem;
+    font-weight: 800;
+}
+
+.toy-age {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    padding: .2rem .65rem;
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--primary-deep);
+    font-size: .82rem;
+    font-weight: 800;
+}
+
+/* ‹ › arrows on the sides of the picture */
+.card-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--white);
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: background-color .2s, color .2s, transform .15s;
+}
+
+.card-arrow:hover {
+    background: var(--primary);
+    color: var(--white);
+}
+
+.card-arrow:active {
+    transform: scale(.92);
+}
+
+.card-arrow.is-prev { left: 10px; }
+.card-arrow.is-next { right: 10px; }
+
+.card-dots {
+    position: absolute;
+    left: 50%;
+    bottom: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 5px;
+    transform: translateX(-50%);
+}
+
+.card-dots span {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(123, 92, 245, .3);
+    transition: width .2s, background-color .2s;
+}
+
+.card-dots span.is-on {
+    width: 18px;
+    border-radius: 4px;
+    background: var(--primary);
+}
+
+.toy-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: .45rem;
+    padding: 1rem .6rem .4rem;
+}
+
+.toy-card-cat {
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.toy-card-name {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* the whole card opens the toy */
+.toy-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: var(--radius-lg);
+}
+
+.toy-card-link:hover {
+    color: var(--primary);
+}
+
+.toy-card-desc {
+    margin: 0;
+    color: var(--muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.toy-rating {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+/* five stars filled by --rating (0–5) */
+.stars {
+    --pct: calc(var(--rating, 0) / 5 * 100%);
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: 1px;
+}
+
+.stars::before {
+    content: "★★★★★";
+    background: linear-gradient(90deg, var(--yellow) var(--pct), #E1DCF2 var(--pct));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.toy-card-foot {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: .5rem;
+    margin-top: auto;
+    padding-top: .35rem;
+}
+
+.toy-price {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .2rem .55rem;
+}
+
+.toy-price strong {
+    font: 800 1.35rem/1.1 var(--font-head);
+    color: var(--ink);
+}
+
+.toy-price del {
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.toy-stock {
+    font-size: .85rem;
+    font-weight: 800;
+    color: var(--green);
+    white-space: nowrap;
+}
+
+.toy-stock.is-out {
+    color: var(--pink);
+}
+
+/* the cart button is clickable above the stretched link */
+.toy-card-cart {
+    position: relative;
+    z-index: 2;
+    margin-top: .7rem;
+}
+
+.btn[disabled] {
+    opacity: .55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+    .shop-header-row {
+        gap: .8rem;
+    }
+
+    .shop-nav a {
+        padding: .5rem .6rem;
+    }
+
+    .shop-welcome {
+        font-size: 1.05rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .shop-header-row {
+        flex-wrap: wrap;
+        gap: .6rem;
+        padding: .7rem 0;
+    }
+
+    .shop-nav {
+        display: none;
+    }
+
+    .shop-header .header-search {
+        max-width: none;
+    }
+
+    .shop-section {
+        padding-top: 3.2rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .toy-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: .9rem;
+    }
+
+    .toy-card {
+        padding: 8px;
+    }
+
+    .toy-card-circle {
+        box-shadow: 0 0 0 14px var(--ring);
+    }
+
+    .toy-card-body {
+        padding: .7rem .3rem .2rem;
+    }
+
+    .toy-card-name {
+        font-size: 1.02rem;
+    }
+
+    .toy-card-desc {
+        font-size: .9rem;
+    }
+
+    .toy-card-foot {
+        flex-direction: column;
+        gap: .2rem;
+    }
+
+    .toy-price strong {
+        font-size: 1.15rem;
+    }
+
+    .card-arrow {
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+    }
+
+    .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 380px) {
+    .toy-grid {
+        grid-template-columns: 1fr;
+    }
+}
