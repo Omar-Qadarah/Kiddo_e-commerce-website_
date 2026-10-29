@@ -52,189 +52,43 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $categories = $product->getCategories();
+$pageTitle = 'Add Product';
+$activePage = 'products';
+require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Product - Kiddo</title>
+<div class="product-page">
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 35px 20px;
-            font-family: Arial, sans-serif;
-            background: #f6f3ff;
-            color: #201447;
-        }
-
-        .container {
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 24px;
-        }
-
-        h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        .card {
-            background: #fff;
-            padding: 30px;
-            border-radius: 18px;
-            box-shadow: 0 5px 25px rgba(40, 20, 80, 0.07);
-        }
-
-        .field {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="file"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #ded8ef;
-            border-radius: 10px;
-            background: #fff;
-            color: #201447;
-            font: inherit;
-        }
-
-        textarea {
-            min-height: 110px;
-            resize: vertical;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            outline: none;
-            border-color: #7654ff;
-            box-shadow: 0 0 0 3px rgba(118, 84, 255, 0.12);
-        }
-
-        .active {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-
-        .active label {
-            margin: 0;
-        }
-
-        .active input {
-            width: 17px;
-            height: 17px;
-            accent-color: #7654ff;
-        }
-
-        .actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .primary {
-            background: #7654ff;
-            color: white;
-        }
-
-        .secondary {
-            background: #eee9fb;
-            color: #49347d;
-        }
-
-        .message {
-            margin-bottom: 18px;
-            padding: 12px;
-            border-radius: 10px;
-            background: #fff0f0;
-            color: #a12828;
-        }
-
-        @media (max-width: 500px) {
-            .card {
-                padding: 20px;
-            }
-
-            .top {
-                align-items: flex-start;
-                flex-direction: column;
-            }
-        }
-    </style>
-</head>
-
-<body>
-<div class="container">
-
-    <div class="top">
-        <h1>Add New Product</h1>
-        <a class="button secondary" href="products.php">← Back to Products</a>
+    <div class="admin-page-header">
+        <h2>Add New Product</h2>
+        <a class="btn btn-light" href="products.php">← Back to Products</a>
     </div>
 
-    <div class="card">
+    <div class="admin-card">
 
         <?php if ($message !== ""): ?>
-            <div class="message">
+            <div class="alert alert-danger" role="alert">
                 <?= htmlspecialchars($message, ENT_QUOTES, "UTF-8") ?>
             </div>
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data">
 
-            <div class="field">
-                <label for="name">Product Name *</label>
-                <input type="text" id="name" name="name"
+            <div class="mb-3">
+                <label class="form-label" for="name">Product Name *</label>
+                <input class="form-control" type="text" id="name" name="name"
                        value="<?= htmlspecialchars($_POST["name"] ?? "", ENT_QUOTES, "UTF-8") ?>"
                        required>
             </div>
 
-            <div class="field">
-                <label for="description">Description</label>
-                <textarea id="description" name="description"><?= htmlspecialchars($_POST["description"] ?? "", ENT_QUOTES, "UTF-8") ?></textarea>
+            <div class="mb-3">
+                <label class="form-label" for="description">Description</label>
+                <textarea class="form-control" id="description" name="description"><?= htmlspecialchars($_POST["description"] ?? "", ENT_QUOTES, "UTF-8") ?></textarea>
             </div>
 
-            <div class="field">
-                <label for="category_id">Category *</label>
-                <select id="category_id" name="category_id" required>
+            <div class="mb-3">
+                <label class="form-label" for="category_id">Category *</label>
+                <select class="form-select" id="category_id" name="category_id" required>
                     <option value="">Select Category</option>
                     <?php foreach ($categories as $category): ?>
                         <option value="<?= (int)$category["id"] ?>"
@@ -245,41 +99,40 @@ $categories = $product->getCategories();
                 </select>
             </div>
 
-            <div class="field">
-                <label for="price">Price (JOD) *</label>
-                <input type="number" id="price" name="price"
+            <div class="mb-3">
+                <label class="form-label" for="price">Price (JOD) *</label>
+                <input class="form-control" type="number" id="price" name="price"
                        min="0" step="0.01"
                        value="<?= htmlspecialchars($_POST["price"] ?? "", ENT_QUOTES, "UTF-8") ?>"
                        required>
             </div>
 
-            <div class="field">
-                <label for="stock">Stock Quantity *</label>
-                <input type="number" id="stock" name="stock"
+            <div class="mb-3">
+                <label class="form-label" for="stock">Stock Quantity *</label>
+                <input class="form-control" type="number" id="stock" name="stock"
                        min="0" step="1"
                        value="<?= htmlspecialchars($_POST["stock"] ?? "", ENT_QUOTES, "UTF-8") ?>"
                        required>
             </div>
 
-            <div class="field">
-                <label for="image">Product Image</label>
-                <input type="file" id="image" name="image" accept="image/*">
+            <div class="mb-3">
+                <label class="form-label" for="image">Product Image</label>
+                <input class="form-control" type="file" id="image" name="image" accept="image/*">
             </div>
 
-            <div class="active">
-                <input type="checkbox" id="is_active" name="is_active" value="1"
+            <div class="form-check mb-4">
+                <input class="form-check-input me-2" type="checkbox" id="is_active" name="is_active" value="1"
                     <?= isset($_POST["is_active"]) || $_SERVER["REQUEST_METHOD"] !== "POST" ? "checked" : "" ?>>
-                <label for="is_active">Active — visible to customers</label>
+                <label class="form-label" for="is_active">Active — visible to customers</label>
             </div>
 
-            <div class="actions">
-                <button class="button primary" type="submit">Add Product</button>
-                <a class="button secondary" href="products.php">Cancel</a>
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+                <button class="btn btn-primary" type="submit">Add Product</button>
+                <a class="btn btn-light" href="products.php">Cancel</a>
             </div>
 
         </form>
     </div>
 </div>
-</body>
-</html>
-```
+
+<?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

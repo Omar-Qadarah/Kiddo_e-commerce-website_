@@ -1,4 +1,3 @@
-
 <?php
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/Product.php';
@@ -101,213 +100,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'is_active' => $active
     ]);
 }
+$pageTitle = 'Edit Product';
+$activePage = 'products';
+require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Edit Product - Kiddo</title>
+<div class="product-page">
 
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    padding: 30px;
-    font-family: Arial, sans-serif;
-    background: #f6f3ff;
-    color: #201447;
-}
-
-.container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-h1 {
-    margin: 0;
-    font-size: 32px;
-}
-
-.card {
-    background: white;
-    padding: 28px;
-    border-radius: 18px;
-    box-shadow: 0 5px 18px rgba(32, 20, 71, 0.06);
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.field {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-input:not([type="checkbox"]):not([type="file"]),
-select,
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ded6f5;
-    border-radius: 10px;
-    font-size: 15px;
-    font-family: Arial, sans-serif;
-    color: #201447;
-    background: white;
-}
-
-textarea {
-    min-height: 90px;
-    resize: vertical;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    outline: 2px solid #c9baff;
-    border-color: #7654ff;
-}
-
-input[type="checkbox"] {
-    accent-color: #7654ff;
-}
-
-input[type="file"] {
-    max-width: 100%;
-}
-
-button,
-.btn {
-    display: inline-block;
-    padding: 11px 18px;
-    border: 1px solid #7654ff;
-    border-radius: 22px;
-    background: white;
-    color: #7654ff;
-    font-size: 15px;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-button.primary {
-    background: #7654ff;
-    color: white;
-}
-
-.actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.error {
-    background: #ffe9ed;
-    color: #9e263b;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-
-.small {
-    color: #756b99;
-    font-size: 13px;
-}
-
-@media (max-width: 650px) {
-    body {
-        padding: 15px;
-    }
-
-    .grid {
-        grid-template-columns: 1fr;
-        gap: 0;
-    }
-
-    .header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .card {
-        padding: 18px;
-    }
-}
-</style>
-</head>
-
-<body>
-<div class="container">
-
-    <div class="header">
-        <h1>Edit Product</h1>
-        <a class="btn" href="products.php">← Back to Products</a>
+    <div class="admin-page-header">
+        <h2>Edit Product</h2>
+        <a class="btn btn-light" href="products.php">← Back to Products</a>
     </div>
 
-    <div class="card">
+    <div class="admin-card">
 
         <?php if ($error !== ''): ?>
-            <div class="error"><?= h($error) ?></div>
+            <div class="alert alert-danger" role="alert"><?= h($error) ?></div>
         <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data">
 
-            <div class="grid">
-                <div>
-                    <div class="field">
-                        <label for="name">Product Name</label>
-                        <input type="text" id="name" name="name"
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Product Name</label>
+                        <input class="form-control" type="text" id="name" name="name"
                                value="<?= h($item['name'] ?? '') ?>" required>
                     </div>
 
-                    <div class="field">
-                        <label for="description">Description</label>
-                        <textarea id="description" name="description"
+                    <div class="mb-3">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" id="description" name="description"
                                   required><?= h($item['description'] ?? '') ?></textarea>
                     </div>
 
-                    <div class="field">
-                        <label for="instructions">Instructions</label>
-                        <textarea id="instructions" name="instructions"><?= h($item['instructions'] ?? '') ?></textarea>
+                    <div class="mb-3">
+                        <label class="form-label" for="instructions">Instructions</label>
+                        <textarea class="form-control" id="instructions" name="instructions"><?= h($item['instructions'] ?? '') ?></textarea>
                     </div>
 
-                    <div class="field">
-                        <label for="image">Replace Product Image</label>
-                        <input type="file" id="image" name="image"
+                    <div class="mb-3">
+                        <label class="form-label" for="image">Replace Product Image</label>
+                        <input class="form-control" type="file" id="image" name="image"
                                accept="image/jpeg,image/png,image/webp">
-                        <p class="small">JPG, PNG or WEBP. Maximum 3 MB.</p>
+                        <p class="form-text">JPG, PNG or WEBP. Maximum 3 MB.</p>
 
                         <?php if (!empty($item['image'])): ?>
-                            <p class="small">Current image: <?= h($item['image']) ?></p>
+                            <p class="form-text">Current image: <?= h($item['image']) ?></p>
                         <?php endif; ?>
                     </div>
                 </div>
 
-                <div>
-                    <div class="field">
-                        <label for="category_id">Category</label>
-                        <select id="category_id" name="category_id" required>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label" for="category_id">Category</label>
+                        <select class="form-select" id="category_id" name="category_id" required>
                             <option value="">Select Category</option>
                             <?php foreach ($categories as $category): ?>
                                 <option value="<?= (int)$category['id'] ?>"
@@ -318,48 +165,48 @@ button.primary {
                         </select>
                     </div>
 
-                    <div class="field">
-                        <label for="price">Price (JOD)</label>
-                        <input type="number" id="price" name="price"
+                    <div class="mb-3">
+                        <label class="form-label" for="price">Price (JOD)</label>
+                        <input class="form-control" type="number" id="price" name="price"
                                min="0.01" step="0.01"
                                value="<?= h($item['price'] ?? '') ?>" required>
                     </div>
 
-                    <div class="field">
-                        <label for="stock">Stock</label>
-                        <input type="number" id="stock" name="stock"
+                    <div class="mb-3">
+                        <label class="form-label" for="stock">Stock</label>
+                        <input class="form-control" type="number" id="stock" name="stock"
                                min="0" step="1"
                                value="<?= h($item['stock'] ?? 0) ?>" required>
                     </div>
 
-                    <div class="field">
-                        <label for="gender">Suitable For</label>
-                        <select id="gender" name="gender">
+                    <div class="mb-3">
+                        <label class="form-label" for="gender">Suitable For</label>
+                        <select class="form-select" id="gender" name="gender">
                             <option value="unisex" <?= ($item['gender'] ?? '') === 'unisex' ? 'selected' : '' ?>>Unisex</option>
                             <option value="boys" <?= ($item['gender'] ?? '') === 'boys' ? 'selected' : '' ?>>Boys</option>
                             <option value="girls" <?= ($item['gender'] ?? '') === 'girls' ? 'selected' : '' ?>>Girls</option>
                         </select>
                     </div>
 
-                    <div class="grid">
-                        <div class="field">
-                            <label for="min_age">Minimum Age</label>
-                            <input type="number" id="min_age" name="min_age"
+                    <div class="row g-3">
+                        <div class="mb-3">
+                            <label class="form-label" for="min_age">Minimum Age</label>
+                            <input class="form-control" type="number" id="min_age" name="min_age"
                                    min="0" max="18"
                                    value="<?= h($item['min_age'] ?? 0) ?>" required>
                         </div>
 
-                        <div class="field">
-                            <label for="max_age">Maximum Age</label>
-                            <input type="number" id="max_age" name="max_age"
+                        <div class="mb-3">
+                            <label class="form-label" for="max_age">Maximum Age</label>
+                            <input class="form-control" type="number" id="max_age" name="max_age"
                                    min="0" max="18"
                                    value="<?= h($item['max_age'] ?? 15) ?>" required>
                         </div>
                     </div>
 
-                    <div class="field">
-                        <label>
-                            <input type="checkbox" name="is_active" value="1"
+                    <div class="mb-3">
+                        <label class="form-label">
+                            <input class="form-check-input me-2" type="checkbox" name="is_active" value="1"
                                 <?= !empty($item['is_active']) ? 'checked' : '' ?>>
                             Active
                         </label>
@@ -367,13 +214,13 @@ button.primary {
                 </div>
             </div>
 
-            <div class="actions">
-                <a class="btn" href="products.php">Cancel</a>
-                <button class="primary" type="submit">Update Product</button>
+            <div class="d-flex gap-2 flex-wrap align-items-center">
+                <a class="btn btn-light" href="products.php">Cancel</a>
+                <button class="btn btn-primary" type="submit">Update Product</button>
             </div>
 
         </form>
     </div>
 </div>
-</body>
-</html>
+
+<?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>
