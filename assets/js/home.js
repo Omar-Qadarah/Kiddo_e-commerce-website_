@@ -1,4 +1,11 @@
+/* ==========================================================================
+   Kiddo's — home page script (index.php only, loaded with "defer")
+   Promo slider: arrows, dots, auto-play, swipe on phones.
+   (Toy cards are plain links to products/details.php — no JS needed.)
+   Plain JavaScript, no libraries.
+   ========================================================================== */
 
+/* ---------- Promo slider ---------- */
 (function () {
     const slider = document.querySelector('[data-slider]');
     if (!slider) return;
@@ -12,6 +19,7 @@
     let current = 0;
     let timer = null;
 
+    // one dot per slide
     for (let i = 0; i < slides.length; i++) {
         const dot = document.createElement('button');
         dot.type = 'button';
@@ -28,6 +36,7 @@
         });
         Array.from(slides).forEach(function (slide, i) {
             slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+            // links on hidden slides should not be reachable with Tab
             slide.querySelectorAll('a, button').forEach(function (el) {
                 el.tabIndex = i === current ? 0 : -1;
             });

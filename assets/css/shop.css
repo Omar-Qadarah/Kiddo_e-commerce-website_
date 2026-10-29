@@ -1,15 +1,27 @@
+/* ==========================================================================
+   Kiddo's — Toys page (products/index.php)
+   Loaded after style.css and toys.css
+   ($pageStyles = [..., 'toys.css', 'shop.css'] — see includes/header.php).
+   Toy cards, stars and the ‹ › arrows are styled in toys.css.
+   ========================================================================== */
 
+/* ---------- Page heading ---------- */
 .shop-hero {
     padding: 2rem 0 2.2rem;
     border-bottom: 1px solid var(--line);
     background: var(--primary-50);
 }
+/* same width as the header, so the title lines up with the logo and the sidebar */
 .shop-hero .container { width: min(1680px, 100% - 48px); }
 @media (max-width: 900px) { .shop-hero .container { width: calc(100% - 32px); } }
 .shop-hero h1 { margin: .3rem 0 .4rem; font-size: clamp(2rem, 4vw, 2.9rem); }
 .shop-hero p { margin: 0; font-size: 1.08rem; color: var(--muted); }
 
-
+/* ---------- Layout: full-height sidebar | content ----------
+   The sidebar runs down the whole left edge of the screen, from the heading
+   to the footer. Grid rows stretch both columns to the same height, and the
+   negative bottom margin lets the sidebar reach the footer's wavy edge
+   (the footer keeps its own margin-top from style.css). */
 .shop {
     display: grid;
     grid-template-columns: 290px minmax(0, 1fr);
@@ -23,6 +35,7 @@
     background: var(--white);
 }
 
+/* the list itself stays in view while the toys scroll (below the sticky header) */
 .shop-sidebar-inner {
     position: sticky;
     top: calc(var(--header-h) + 24px); /* just below the one-row sticky header */
@@ -142,14 +155,17 @@
 .shop-empty > span { display: block; font-size: 3rem; }
 .shop-empty p { color: var(--muted); }
 
+/* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
     .shop { grid-template-columns: 240px minmax(0, 1fr); }
     .cat-icon { width: 34px; height: 34px; font-size: 1rem; }
     .shop-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
 }
 
-
+/* Tablet portrait + phones: the sidebar becomes a row of category chips
+   above the toys that scrolls sideways. */
 @media (max-width: 900px) {
+    /* minmax(0, 1fr): the sideways-scrolling chip row must not widen the page */
     .shop { grid-template-columns: minmax(0, 1fr); margin-bottom: 0; }
     .shop-sidebar { min-width: 0; }
 

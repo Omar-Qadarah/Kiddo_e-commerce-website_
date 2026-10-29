@@ -1,4 +1,11 @@
+/* ==========================================================================
+   Kiddo's — toy cards + Toys page script (loaded with "defer")
+   1. ‹ › arrows on a toy card switch between that toy's images
+   2. Filter dropdowns on the Toys page apply as soon as they change
+   Plain JavaScript, no libraries.
+   ========================================================================== */
 
+/* ---------- 1. Card image arrows ---------- */
 (function () {
     // One listener for the whole page ("event delegation"): it works for
     // every card, and each card keeps its own position in data-index.
@@ -6,6 +13,7 @@
         const arrow = e.target.closest('[data-card-step]');
         if (!arrow) return;
 
+        // the arrow must never open the toy page
         e.preventDefault();
         e.stopPropagation();
 
@@ -37,6 +45,7 @@
     });
 })();
 
+/* ---------- 2. Filters apply on change ---------- */
 (function () {
     const form = document.querySelector('[data-filter-form]');
     if (!form) return;
@@ -61,6 +70,7 @@
         });
     });
 
+    // the "Apply" button is only needed when JavaScript is off
     const apply = form.querySelector('[data-filter-apply]');
     if (apply) apply.hidden = true;
 })();

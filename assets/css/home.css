@@ -1,7 +1,15 @@
-
+/* ==========================================================================
+   Kiddo's — home page
+   Loaded after style.css and toys.css, only on index.php
+   ($pageStyles = ['toys.css', 'home.css'] — see includes/header.php).
+   Toy cards, stars, buttons and section titles live in toys.css.
+   ========================================================================== */
 
 .home-section { padding: 4.5rem 0 0; }
 
+/* ==========================================================================
+   Hero
+   ========================================================================== */
 .hero {
     position: relative;
     overflow: hidden;
@@ -10,6 +18,7 @@
     color: var(--footer-text);
 }
 
+/* cloud edge at the bottom — same "repeated circles" trick as the footer wave */
 .hero::after {
     content: "";
     position: absolute;
@@ -69,6 +78,9 @@
     50% { transform: translateY(-10px); }
 }
 
+/* ==========================================================================
+   Shop by age
+   ========================================================================== */
 .age-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -174,6 +186,9 @@
 }
 .age-card:hover .age-arrow { transform: translateX(3px); }
 
+/* ==========================================================================
+   Promo slider
+   ========================================================================== */
 .promo-slider {
     overflow: hidden;
     border-radius: var(--radius-lg);
@@ -197,6 +212,7 @@
     color: var(--white);
 }
 
+/* big soft circle on the right of every slide */
 .promo-slide::after {
     content: "";
     position: absolute;
@@ -277,6 +293,9 @@
 }
 .promo-dots button[aria-current="true"] { width: 30px; background: var(--primary); }
 
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
 @media (max-width: 1100px) {
     .age-grid { grid-template-columns: repeat(3, 1fr); }
 }

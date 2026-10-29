@@ -1,4 +1,11 @@
+/* ==========================================================================
+   Kiddo's — toy components
+   Shared by every page that shows toys: the home page (index.php) and the
+   toy details page (products/details.php). Loaded after style.css through
+   $pageStyles (see includes/header.php). Uses the tokens from style.css.
+   ========================================================================== */
 
+/* extra colors used by the toy pages */
 :root {
     --orange: #FF8A3D;
     --orange-dark: #F26B1D;
@@ -10,6 +17,7 @@
     --star-off: #DAD5EE;
 }
 
+/* ---------- Small shared bits (buttons, section titles) ---------- */
 .btn-lg { padding: .95rem 1.9rem; font-size: 1.05rem; }
 
 .btn-white {
@@ -50,6 +58,7 @@
 
 .empty-note { color: var(--muted); font-weight: 600; }
 
+/* Home / Toys / Name — used by the Toys page and the toy details page */
 .breadcrumb {
     display: flex;
     flex-wrap: wrap;
@@ -62,7 +71,11 @@
 .breadcrumb a:hover { text-decoration: underline; }
 .breadcrumb [aria-current] { color: var(--text); }
 
-
+/* ==========================================================================
+   Toy cards (includes/toy-card.php)
+   Home: image, name, rating, price. Toys page: image (with ‹ › arrows),
+   name, short description, rating. Clicking a card opens products/details.php?id=…
+   ========================================================================== */
 .toy-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -70,7 +83,7 @@
 }
 
 .toy-card {
-    position: relative;
+    position: relative; /* the stretched name link fills this box */
     display: flex;
     flex-direction: column;
     padding: .8rem;
@@ -132,7 +145,8 @@
     color: var(--ink);
 }
 
-
+/* The name is the real link. Its ::after covers the whole card, so a click
+   anywhere on the card opens the toy — no JavaScript needed. */
 .toy-card-link::after {
     content: "";
     position: absolute;
@@ -144,6 +158,7 @@
 .toy-card-link:focus-visible::after { outline: 3px solid var(--primary-200); outline-offset: 2px; }
 .toy-card:hover .toy-card-link { color: var(--primary); }
 
+/* short description: max 2 lines, then "…" */
 .toy-card-desc {
     display: -webkit-box;
     margin: 0;
@@ -155,10 +170,11 @@
     color: var(--muted);
 }
 
+/* ---------- ‹ › image arrows (only when the toy has 2+ images) ---------- */
 .card-arrow {
     position: absolute;
     top: 50%;
-    z-index: 2; 
+    z-index: 2; /* above the stretched link, so clicks stay on the arrow */
     display: grid;
     place-items: center;
     width: 34px;
@@ -216,6 +232,7 @@
     color: var(--muted);
 }
 
+/* 5 stars filled to --rating (0–5) using a gradient behind the text */
 .stars {
     --rating: 0;
     display: inline-block;
@@ -242,6 +259,7 @@
 .toy-price strong { font: 800 1.3rem/1.2 var(--font-head); color: var(--ink); }
 .toy-price del { font-size: .9rem; font-weight: 700; color: var(--muted); }
 
+/* ---------- Responsive ---------- */
 @media (max-width: 1100px) {
     .toy-grid { grid-template-columns: repeat(3, 1fr); }
 }
