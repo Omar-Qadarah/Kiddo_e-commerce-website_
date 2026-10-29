@@ -194,6 +194,21 @@
     border-top: 1px solid var(--admin-sidebar-line);
 }
 
+/* The logout control is a <button>, so reset the browser's button look */
+.sidebar-logout {
+    width: 100%;
+    border: 0;
+    background: none;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.sidebar-logout:hover {
+    background: rgba(232, 69, 124, 0.16);
+    color: #FFFFFF;
+}
+
 /* Top navbar */
 
 .admin-navbar {
