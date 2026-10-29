@@ -267,11 +267,6 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <?php endforeach; ?>
 
-
-<!-- ================================================== -->
-<!-- DELETE MODALS: Keep these OUTSIDE the table -->
-<!-- ================================================== -->
-
 <?php foreach ($ageGroups as $ageGroup): ?>
 
     <div class="modal fade" id="deleteAgeGroupModal<?= (int) $ageGroup['id'] ?>" tabindex="-1"
