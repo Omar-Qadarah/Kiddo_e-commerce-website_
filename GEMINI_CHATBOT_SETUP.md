@@ -1,21 +1,23 @@
-# Gemini shopping assistant bundle
+# Gemini shopping assistant setup
 
-Copy the contents of this folder into the matching paths in `C:\xampp\htdocs\php-project\Kiddo_e-commerce-website_`.
+The floating chat button is included by the shared storefront layout. Its endpoint loads the Gemini key from the project-root `.env` file and uses active, in-stock products as catalog context.
 
-## Add the files
+## Add a fresh API key
 
-- Copy `ai/shopping_assistant.php` to the repo's `ai/` folder.
-- Copy `assets/css/assistant.css` and `assets/js/shopping-assistant.js` into the matching asset folders.
-- Add the snippet in `includes/header-chatbot-link.txt` beside the storefront stylesheet link.
-- Add the snippet in `includes/footer-chatbot-widget.txt` near the end of the shared storefront footer, before `</body>`.
+The key previously pasted into chat is compromised. Revoke it in [Google AI Studio](https://aistudio.google.com/app/apikey), then create a replacement. Do not paste the replacement into chat, PHP, JavaScript, or Git.
 
-The endpoint reads the `products` and `categories` tables for active, in-stock product context. It expects the project's existing `config/config.php` and `config/Database.php` files.
+Open the existing `.env` file in this project root and set:
 
-## Configure Gemini
+```ini
+GEMINI_API_KEY="YOUR_NEW_KEY"
+```
 
-1. Create an API key in [Google AI Studio](https://aistudio.google.com/app/apikey).
-2. Set `GEMINI_API_KEY` in Apache's environment. In a local XAMPP Apache configuration, add `SetEnv GEMINI_API_KEY "your-key"` and restart Apache. Keep the key out of source files and Git.
-3. The default model is `gemini-3.5-flash-lite`. You can optionally set `GEMINI_MODEL` to another model available to your API key.
-4. Make sure PHP's cURL extension is enabled and the `kiddos` database is running.
+The project-root `.gitignore` excludes `.env`, and `.htaccess` denies browser requests for `.env` and `.env.example`. Keep both protections in place. If you move `.env`, update the path in `ai/shopping_assistant.php`.
 
-The free Gemini tier has eligibility and usage limits, and Google may use free-tier prompts and responses to improve its products. The endpoint only adds public product-catalog data from the app; shoppers are reminded not to enter personal or payment details.
+## Requirements
+
+- PHP cURL extension enabled.
+- The `kiddos` database running and reachable.
+- The active storefront includes `includes/shop_header.php` and `includes/footer.php`.
+
+The default model is `gemini-3.5-flash-lite`. The floating icon can display without an API key; the key is needed only when a shopper sends a message. Restart Apache after changing its configuration, then reload the storefront.
