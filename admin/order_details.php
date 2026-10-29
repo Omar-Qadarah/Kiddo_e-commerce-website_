@@ -65,7 +65,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <div class="admin-page-header">
     <div>
         <h2>Order #<?= (int) $order['id'] ?></h2>
-        <p>Placed on <?= htmlspecialchars(date('Y-m-d H:i', strtotime($order['created_at']))) ?></p>
+        <p>Placed on <?= htmlspecialchars(date('d M Y, g:i A', strtotime($order['created_at']))) ?></p>
     </div>
     <a href="<?= BASE_URL ?>/admin/orders.php" class="btn btn-light">
         <i class="bi bi-arrow-left"></i>

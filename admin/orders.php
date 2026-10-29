@@ -85,7 +85,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                     <?= htmlspecialchars(ucfirst($order['status'])) ?>
                                 </span>
                             </td>
-                            <td><?= htmlspecialchars(date('Y-m-d H:i', strtotime($order['created_at']))) ?></td>
+                            <td>
+                                <?= htmlspecialchars(date('d M Y', strtotime($order['created_at']))) ?>
+                                <div class="small text-secondary">
+                                      <?= htmlspecialchars(date('g:i A', strtotime($order['created_at']))) ?>
+                                </div>
+                            </td>
                             <td>
                                 <a href="<?= BASE_URL ?>/admin/order_details.php?id=<?= (int) $order['id'] ?>"
                                    class="btn btn-sm btn-primary">
