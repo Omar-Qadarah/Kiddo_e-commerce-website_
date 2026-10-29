@@ -79,6 +79,13 @@ $pageTitle = 'Edit Discount';
 $activePage = 'discounts';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
+<div class="admin-page-header">
+<div>
+<h1>Edit Discount</h1>
+<p>Update the discount details, target and validity dates.</p>
+</div>
+</div>
+
 
 <?php if (!empty($errors)): ?>
 <ul class="alert alert-danger ps-5" role="alert">

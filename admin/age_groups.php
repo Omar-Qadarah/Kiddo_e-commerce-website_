@@ -34,7 +34,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <!-- Page Header -->
 <div class="admin-page-header">
     <div>
-        <h2>Age Groups</h2>
+        <h1>Age Groups</h1>
         <p>Manage the age groups available in your store.</p>
     </div>
 

@@ -45,6 +45,13 @@ $pageTitle = 'Reviews';
 $activePage = 'reviews';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
+<div class="admin-page-header">
+<div>
+<h1>Reviews</h1>
+<p>Review customer feedback and manage which reviews are visible.</p>
+</div>
+</div>
+
 
 <?php if (!empty($errors)): ?>
 <ul class="alert alert-danger ps-5" role="alert">
@@ -53,7 +60,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<p>Ratings must be whole numbers from 1 to 5. Invalid ratings are flagged and cannot be restored.</p>
+
 <div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle"><thead><tr>
 <th>ID</th><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th>
 <th>Created</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>

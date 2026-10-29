@@ -50,7 +50,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endif; ?>
 <div class="admin-page-header">
     <div>
-        <h2>Categories</h2>
+        <h1>Categories</h1>
         <p>Manage your store categories.</p>
     </div>
 

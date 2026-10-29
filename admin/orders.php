@@ -37,6 +37,13 @@ $activePage = 'orders';
 
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
+<div class="admin-page-header">
+<div>
+<h1>Orders</h1>
+<p>Track customer orders and move them to the next status.</p>
+</div>
+</div>
+
 
 <?php if (!empty($_SESSION['order_error'])): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -47,7 +54,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <?php unset($_SESSION['order_error']); ?>
 <?php endif; ?>
 
-<p class="admin-page-intro">Track customer orders and move them to the next status.</p>
+
 
 <!-- Summary cards double as the status filter -->
 <div class="status-cards">

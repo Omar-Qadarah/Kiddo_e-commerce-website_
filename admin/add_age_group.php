@@ -172,7 +172,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-page-header">
     <div>
-        <h2>Add Age Group</h2>
+        <h1>Add Age Group</h1>
         <p>Create a new age group for your store.</p>
     </div>
 

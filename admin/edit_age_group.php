@@ -189,7 +189,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-page-header">
     <div>
-        <h2>Edit Age Group</h2>
+        <h1>Edit Age Group</h1>
         <p>Update the age group information.</p>
     </div>
 
