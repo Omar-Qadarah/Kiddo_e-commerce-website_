@@ -132,7 +132,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                         data-bs-target="#editCategoryModal<?= (int) $category['id'] ?>"
                                     >
                                         <i class="bi bi-pencil"></i>
-                                        Edit
+                                        
                                     </button>
 
                                     <button
@@ -142,7 +142,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                         data-bs-target="#deleteCategoryModal<?= (int) $category['id'] ?>"
                                     >
                                         <i class="bi bi-trash"></i>
-                                        Delete
+                                        
                                     </button>
 
                                 </div>

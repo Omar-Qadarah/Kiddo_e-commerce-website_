@@ -111,14 +111,13 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                         data-bs-target="#editAgeGroupModal<?= (int) $ageGroup['id'] ?>">
                                         <i class="bi bi-pencil"></i>
-                                        Edit
+                                        
                                     </button>
 
-                                    <!-- Open Delete Modal -->
                                     <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
                                         data-bs-target="#deleteAgeGroupModal<?= (int) $ageGroup['id'] ?>">
                                         <i class="bi bi-trash"></i>
-                                        Delete
+                                        
                                     </button>
 
                                 </div>
