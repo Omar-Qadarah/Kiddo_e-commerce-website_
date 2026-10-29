@@ -142,6 +142,54 @@
 
 .shopping-chat__bubble--status { color: #65736b; font-style: italic; }
 
+.shopping-chat__products {
+    display: grid;
+    gap: .55rem;
+    width: 96%;
+    align-self: flex-start;
+}
+
+.shopping-chat__product-card {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: .7rem;
+    align-items: center;
+    padding: .55rem;
+    border: 1px solid #e2ebe5;
+    border-radius: 14px;
+    background: #fff;
+    color: var(--chat-ink);
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgb(21 47 34 / 5%);
+    transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease;
+}
+
+.shopping-chat__product-card:hover {
+    border-color: var(--chat-green);
+    box-shadow: 0 5px 14px rgb(21 47 34 / 10%);
+    transform: translateY(-1px);
+}
+
+.shopping-chat__product-card:focus-visible {
+    outline: 3px solid #f3bd3e;
+    outline-offset: 2px;
+}
+
+.shopping-chat__product-image {
+    display: block;
+    width: 68px;
+    height: 68px;
+    border-radius: 10px;
+    background: #f4faf6;
+    object-fit: contain;
+}
+
+.shopping-chat__product-details { display: grid; min-width: 0; gap: .18rem; }
+.shopping-chat__product-name { overflow: hidden; font-size: .88rem; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+.shopping-chat__product-meta { overflow: hidden; color: #6e7c73; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+.shopping-chat__product-footer { display: flex; align-items: center; justify-content: space-between; gap: .4rem; color: var(--chat-green-dark); font-size: .75rem; }
+.shopping-chat__product-footer strong { color: var(--chat-ink); font-size: .82rem; }
+
 .shopping-chat__form {
     display: flex;
     align-items: center;
