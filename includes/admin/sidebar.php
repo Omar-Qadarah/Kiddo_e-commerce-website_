@@ -3,7 +3,7 @@
     <div class="sidebar-brand">
         <a href="<?= BASE_URL ?>/admin/index.php">
             <span class="brand-icon">K</span>
-            <span>Kiddo<span class="brand-dot">.</span></span>
+            <span>Kiddo's</span>
         </a>
         <p>ADMIN PANEL</p>
     </div>
