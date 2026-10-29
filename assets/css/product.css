@@ -1,0 +1,297 @@
+/* ==========================================================================
+   Kiddo's — toy details page (products/details.php)
+   Loaded after style.css and toys.css
+   ($pageStyles = ['toys.css', 'product.css'] — see includes/header.php).
+   Stars, prices, badges and buttons come from toys.css / style.css.
+   ========================================================================== */
+
+.pd { padding-top: 1.6rem; }
+
+/* ---------- Breadcrumb (shared style in toys.css) ---------- */
+.pd .breadcrumb { margin-bottom: 1.6rem; }
+
+/* ---------- Message after Add to Cart ---------- */
+.pd-flash {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .6rem 1rem;
+    margin-bottom: 1.6rem;
+    padding: .9rem 1.2rem;
+    border-radius: var(--radius);
+    font-weight: 800;
+    animation: flash-in .35s ease-out;
+}
+.pd-flash.is-success { background: var(--green-50); color: #138553; }
+.pd-flash.is-error   { background: var(--pink-50); color: var(--pink-dark); }
+.pd-flash a { text-decoration: underline; }
+
+@keyframes flash-in {
+    from { opacity: 0; transform: translateY(-8px); }
+}
+
+/* ---------- Layout: gallery | info ---------- */
+.pd-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 3rem;
+}
+
+/* ---------- A. Gallery ---------- */
+.pd-gallery {
+    position: sticky;
+    top: calc(var(--header-h) + 28px); /* just below the one-row sticky header */
+}
+
+.pd-main {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background:
+        radial-gradient(circle at 50% 50%, var(--white) 0 38%, transparent 38.5%),
+        var(--primary-50);
+}
+
+.pd-main img {
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+    transition: opacity .2s;
+}
+.pd-main img.is-switching { opacity: 0; }
+
+.pd-main .toy-badge { top: 18px; left: 18px; font-size: .95rem; padding: .3rem .8rem; }
+
+.pd-thumbs {
+    display: flex;
+    gap: .8rem;
+    margin-top: 1rem;
+    padding-bottom: .3rem;
+    overflow-x: auto;
+}
+
+.pd-thumb {
+    flex: 0 0 88px;
+    display: grid;
+    place-items: center;
+    height: 88px;
+    padding: 8px;
+    border: 2px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--white);
+    cursor: pointer;
+    transition: border-color .2s, transform .15s;
+}
+.pd-thumb:hover { border-color: var(--primary-200); transform: translateY(-2px); }
+.pd-thumb[aria-current="true"] { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-100); }
+.pd-thumb img { width: 100%; height: 100%; object-fit: contain; }
+
+/* ---------- B. Info ---------- */
+.pd-info { display: flex; flex-direction: column; gap: 1rem; }
+.pd-info h1 { margin: 0; font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
+
+.pd-meta {
+    margin: 0;
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--primary);
+}
+
+.pd-rating { width: fit-content; font-size: .95rem; }
+.pd-rating .stars { font-size: 1.15rem; }
+.pd-rating:hover .toy-rating-text { color: var(--primary); text-decoration: underline; }
+
+.pd-price {
+    margin: 0;
+    padding: 1rem 1.2rem;
+    border-radius: var(--radius);
+    background: var(--primary-50);
+}
+.pd-price strong { font-size: 2.1rem; color: var(--primary-deep); }
+.pd-price del { font-size: 1.05rem; }
+
+.pd-save {
+    padding: .2rem .7rem;
+    border-radius: 999px;
+    background: var(--pink);
+    color: var(--white);
+    font-size: .85rem;
+    font-weight: 800;
+}
+
+.pd-chips { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.pd-chip {
+    padding: .35rem .9rem;
+    border-radius: 999px;
+    background: var(--primary-50);
+    color: var(--primary-deep);
+    font-size: .88rem;
+    font-weight: 800;
+}
+.pd-chip.is-in  { background: var(--green-50); color: #138553; }
+.pd-chip.is-out { background: var(--pink-50); color: var(--pink-dark); }
+
+.pd-description h2 { margin-bottom: .4rem; font-size: 1.25rem; }
+.pd-description p { margin: 0; }
+
+.pd-howto {
+    margin-top: .9rem !important;
+    padding: .85rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--yellow-50);
+}
+.pd-howto strong { color: var(--ink); }
+
+/* ---------- D. Quantity + Add to Cart ---------- */
+.pd-cart {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .9rem;
+    margin-top: .4rem;
+    padding-top: 1.2rem;
+    border-top: 1px dashed var(--line);
+}
+
+.qty {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px;
+    border: 2px solid var(--line);
+    border-radius: 999px;
+    background: var(--white);
+}
+
+.qty-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--primary-50);
+    color: var(--primary);
+    font: 800 1.4rem/1 var(--font-body);
+    cursor: pointer;
+    transition: background-color .2s, opacity .2s;
+}
+.qty-btn:hover:not(:disabled) { background: var(--primary-100); }
+.qty-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.qty-input {
+    width: 56px;
+    border: 0;
+    background: transparent;
+    font: 800 1.2rem/1 var(--font-head);
+    color: var(--ink);
+    text-align: center;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.qty-input:focus { outline: none; }
+.qty:focus-within { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-100); }
+
+.pd-add { flex: 1; min-width: 200px; }
+.pd-add[disabled] { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.pd-note {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin: 0;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+.pd-note svg { color: var(--green); }
+
+/* ---------- C. Reviews ---------- */
+.pd-reviews { padding-top: 4.5rem; }
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    align-items: start;
+    gap: 2rem;
+}
+
+.review-summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .4rem;
+    padding: 1.6rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+}
+
+.review-big { font: 800 3.4rem/1 var(--font-head); color: var(--ink); }
+.review-summary .stars { font-size: 1.3rem; }
+.review-total { font-weight: 700; color: var(--muted); }
+
+.review-bars { display: grid; gap: .45rem; width: 100%; margin-top: 1rem; }
+
+.review-bars li {
+    display: grid;
+    grid-template-columns: 34px 1fr 22px;
+    align-items: center;
+    gap: .6rem;
+    font-size: .88rem;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+.bar { height: 8px; overflow: hidden; border-radius: 999px; background: var(--primary-50); }
+.bar span { display: block; height: 100%; border-radius: 999px; background: var(--yellow); }
+
+.review-list { display: grid; gap: 1rem; }
+
+.review-card {
+    padding: 1.2rem 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.review-head { display: flex; align-items: center; gap: .8rem; }
+.review-head strong { display: block; line-height: 1.2; color: var(--ink); }
+.review-head small { font-weight: 600; color: var(--muted); }
+.review-head .stars { margin-left: auto; }
+.review-card p { margin: .8rem 0 0; }
+
+/* ---------- Toy not found ---------- */
+.pd-missing { padding: 5rem 0 2rem; text-align: center; }
+.pd-missing p { color: var(--muted); }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+    .pd-grid { grid-template-columns: 1fr; gap: 1.8rem; }
+    .pd-gallery { position: static; max-width: 520px; width: 100%; margin-inline: auto; }
+    .reviews-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .pd { padding-top: 1rem; }
+    .pd .breadcrumb { margin-bottom: 1rem; font-size: .85rem; }
+    .pd-thumb { flex-basis: 70px; height: 70px; }
+    .pd-price strong { font-size: 1.7rem; }
+    .pd-cart { gap: .7rem; }
+    .pd-add { min-width: 0; padding-inline: 1rem; }
+    .pd-reviews { padding-top: 3.2rem; }
+    .review-head { flex-wrap: wrap; }
+}

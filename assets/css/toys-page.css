@@ -1,0 +1,278 @@
+/* ==========================================================================
+   Kiddo's — toys page (products/index.php)
+   Full-height "Toy types" sidebar on the left, heading, filters, toy grid.
+   Toy cards come from storefront.css.
+   ========================================================================== */
+
+.toys-layout {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    align-items: stretch;
+    min-height: calc(100vh - var(--header-h));
+}
+
+/* ---------- Sidebar: runs from the navbar down to the footer ---------- */
+.toys-sidebar {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1.3rem 4rem;
+    background: var(--white);
+    border-right: 1px solid var(--line);
+    box-shadow: 6px 0 24px rgba(75, 47, 196, .05);
+}
+
+/* the list follows you while you scroll the toys */
+.toys-sidebar-inner {
+    position: sticky;
+    top: calc(var(--header-h) + 1.2rem);
+}
+
+.toys-sidebar-title {
+    margin: 0 0 1rem .4rem;
+    font-size: 1.35rem;
+}
+
+.cat-list {
+    display: grid;
+    gap: .35rem;
+}
+
+.cat-link {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .65rem .8rem;
+    border-radius: 16px;
+    font-weight: 800;
+    color: var(--ink);
+    transition: background-color .2s, color .2s;
+}
+
+.cat-link:hover {
+    background: var(--primary-50);
+    color: var(--primary);
+}
+
+.cat-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: var(--primary-50);
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.cat-name {
+    flex: 1;
+    line-height: 1.25;
+}
+
+.cat-count {
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.cat-link.is-active {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: var(--shadow-primary);
+}
+
+.cat-link.is-active .cat-icon {
+    background: rgba(255, 255, 255, .22);
+    color: var(--white);
+}
+
+.cat-link.is-active .cat-count {
+    color: var(--primary-100);
+}
+
+/* ---------- Heading ---------- */
+.toys-hero {
+    padding: 2.2rem 2.4rem 2.4rem;
+    background: linear-gradient(180deg, var(--primary-50), var(--bg));
+    border-bottom: 1px solid var(--line);
+}
+
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-bottom: .6rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.breadcrumb a {
+    color: var(--primary);
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.toys-hero h1 {
+    margin-bottom: .3rem;
+    font-size: clamp(2rem, 3.6vw, 2.9rem);
+}
+
+.toys-hero p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--muted);
+}
+
+.toys-content {
+    padding: 2rem 2.4rem 1rem;
+}
+
+/* ---------- Filters ---------- */
+.filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem 1.4rem;
+    padding: 1.3rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.filter-field {
+    display: grid;
+    gap: .4rem;
+    min-width: 200px;
+}
+
+.filter-field label {
+    font-size: .85rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.filter-field select {
+    width: 100%;
+    padding: .75rem 2.6rem .75rem 1.1rem;
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%237B5CF5' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 1rem center,
+        var(--primary-50);
+    font: 700 1rem/1.3 var(--font-body);
+    color: var(--ink);
+    appearance: none;
+    cursor: pointer;
+}
+
+.filter-field select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+.result-count {
+    margin: 1.8rem 0 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+/* ---------- Empty state ---------- */
+.toys-empty {
+    padding: 3rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.toys-empty > span {
+    display: block;
+    margin-bottom: .6rem;
+    font-size: 3.4rem;
+}
+
+.toys-empty p {
+    color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1100px) {
+    .toys-layout {
+        grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .toys-hero,
+    .toys-content {
+        padding-inline: 1.6rem;
+    }
+}
+
+/* small screens: the sidebar becomes a scrollable row of chips on top */
+@media (max-width: 820px) {
+    .toys-layout {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .toys-sidebar {
+        order: 2;
+        min-width: 0;
+        padding: 1rem 0 .4rem;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+        box-shadow: none;
+    }
+
+    .toys-sidebar-inner {
+        position: static;
+    }
+
+    .toys-sidebar-title {
+        margin-left: 16px;
+        font-size: 1.1rem;
+    }
+
+    .cat-list {
+        display: flex;
+        gap: .5rem;
+        padding: 0 16px .6rem;
+        overflow-x: auto;
+    }
+
+    .cat-link {
+        padding: .45rem .9rem .45rem .5rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        white-space: nowrap;
+    }
+
+    .cat-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        font-size: 1rem;
+    }
+
+    .toys-main {
+        display: contents;
+    }
+
+    .toys-hero {
+        order: 1;
+        padding: 1.6rem 16px;
+    }
+
+    .toys-content {
+        order: 3;
+        padding: 1.4rem 16px 0;
+    }
+
+    .filter-field {
+        flex: 1;
+        min-width: 140px;
+    }
+}

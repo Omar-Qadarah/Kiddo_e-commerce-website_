@@ -96,4 +96,28 @@ class ProductImage
 
         return $stmt->fetchAll();
     }
-}
+
+    // All images of several products in one query (for the Toys page cards).
+    // Returns [product_id => ['uploads/products/a.png', ...], ...]
+    public function getPathsForProducts(array $productIds): array
+    {
+        $productIds = array_values(array_unique(array_map('intval', $productIds)));
+        if (empty($productIds)) {
+            return [];
+        }
+
+        $placeholders = implode(',', array_fill(0, count($productIds), '?'));
+        $stmt = $this->pdo->prepare(
+            "SELECT product_id, image_path FROM images
+             WHERE product_id IN ($placeholders)
+             ORDER BY product_id, is_primary DESC, sort_order ASC, image_id ASC"
+        );
+        $stmt->execute($productIds);
+
+        $grouped = [];
+        foreach ($stmt->fetchAll() as $row) {
+            $grouped[(int) $row['product_id']][] = $row['image_path'];
+        }
+        return $grouped;
+    }
+}

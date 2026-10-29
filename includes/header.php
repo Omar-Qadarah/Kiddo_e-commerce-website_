@@ -25,6 +25,18 @@ $activePage = $activePage ?? '';
 <?php if (in_array($activePage, ['login', 'register', 'logout'], true)): ?>
     <link href="<?= BASE_URL ?>/assets/css/auth.css" rel="stylesheet">
 <?php endif; ?>
+<?php // Page-only files: a page sets e.g. $pageStyles = ['toys.css', 'home.css'] before including this header. ?>
+<?php // A full https:// link (e.g. the Bootstrap Icons CDN the admin already uses) is linked as-is. ?>
+<?php foreach ($pageStyles ?? [] as $cssFile): ?>
+<?php if (str_starts_with($cssFile, 'https://')): ?>
+    <link href="<?= htmlspecialchars($cssFile) ?>" rel="stylesheet">
+<?php else: ?>
+    <link href="<?= BASE_URL ?>/assets/css/<?= $cssFile ?>?v=<?= filemtime(__DIR__ . '/../assets/css/' . $cssFile) ?>" rel="stylesheet">
+<?php endif; ?>
+<?php endforeach; ?>
+<?php foreach ($pageScripts ?? [] as $jsFile): ?>
+    <script src="<?= BASE_URL ?>/assets/js/<?= $jsFile ?>?v=<?= filemtime(__DIR__ . '/../assets/js/' . $jsFile) ?>" defer></script>
+<?php endforeach; ?>
 </head>
 <body>
 

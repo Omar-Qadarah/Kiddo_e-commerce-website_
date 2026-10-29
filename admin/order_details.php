@@ -81,7 +81,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
             <h5 class="fw-bold mb-3">Items</h5>
 
             <div class="table-responsive">
-                <table class="table admin-table">
+                <table class="table admin-table admin-table-consistent admin-table-order_details">
                     <thead>
                         <tr>
                             <th>Product</th>

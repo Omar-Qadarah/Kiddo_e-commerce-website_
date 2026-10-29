@@ -38,14 +38,8 @@ foreach ($days as $day) {
     $highestIncome = max($highestIncome, $day['income']);
 }
 
-$quickActions = [
-    ['label' => 'Add Product', 'text' => 'Put a new toy on the shelf', 'icon' => 'bi-plus-lg', 'url' => 'add_product.php'],
-    ['label' => 'Manage Orders', 'text' => 'Review orders and delivery status', 'icon' => 'bi-bag', 'url' => 'orders.php'],
-    ['label' => 'Manage Products', 'text' => 'Update stock, prices and details', 'icon' => 'bi-box-seam', 'url' => 'products.php'],
-    ['label' => 'Add Discount', 'text' => 'Create a product or category offer', 'icon' => 'bi-percent', 'url' => 'add_discount.php'],
-    ['label' => 'Moderate Reviews', 'text' => 'Manage visible customer feedback', 'icon' => 'bi-star', 'url' => 'reviews.php'],
-    ['label' => 'Manage Users', 'text' => 'Find and manage customer accounts', 'icon' => 'bi-people', 'url' => 'users.php']
-];
+require_once __DIR__ . '/../includes/admin/quick_actions.php';
+$quickActions = getMostUsedAdminActions($pdo, $adminUserId);
 $statusColors = ['placed' => 'bg-warning', 'shipped' => 'bg-info', 'delivered' => 'bg-success'];
 $pageTitle = 'Dashboard';
 $activePage = 'dashboard';
@@ -114,12 +108,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
         <section class="admin-card dashboard-quick" aria-labelledby="quick-title">
             <div class="dashboard-panel-heading">
-                <div><h2 id="quick-title">Quick Actions</h2><p>Jump straight to your everyday store tasks.</p></div>
+                <div><h2 id="quick-title">Quick Actions</h2><p>Your most visited admin pages. Updates as you work.</p></div>
                 <span class="dashboard-quick-symbol"><i class="bi bi-lightning-charge" aria-hidden="true"></i></span>
             </div>
             <div class="dashboard-actions">
-                <?php foreach ($quickActions as $index => $action): ?>
-                    <a class="dashboard-action <?= $index === 0 ? 'dashboard-action-primary' : '' ?>"
+                <?php foreach ($quickActions as $action): ?>
+                    <a class="dashboard-action"
                        href="<?= htmlspecialchars($action['url'], ENT_QUOTES, 'UTF-8') ?>">
                         <i class="bi <?= htmlspecialchars($action['icon'], ENT_QUOTES, 'UTF-8') ?>" aria-hidden="true"></i>
                         <strong><?= htmlspecialchars($action['label'], ENT_QUOTES, 'UTF-8') ?></strong>
@@ -137,7 +131,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <a class="btn btn-outline-primary btn-sm" href="orders.php">View All Orders <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
             </div>
             <div class="table-responsive">
-                <table class="table admin-table align-middle">
+                <table class="table admin-table align-middle admin-table-consistent admin-table-index">
                     <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Status</th><th>Details</th></tr></thead>
                     <tbody>
                         <?php foreach ($recentOrders as $order): ?>
@@ -147,7 +141,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                 <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
                                 <td class="text-nowrap"><?= number_format((float) $order['total'], 2) ?> JOD</td>
                                 <td><span class="badge <?= $statusColors[$order['status']] ?? 'bg-secondary' ?>"><?= htmlspecialchars(ucfirst($order['status']), ENT_QUOTES, 'UTF-8') ?></span></td>
-                                <td><a class="btn btn-sm btn-light" href="order_details.php?id=<?= (int) $order['id'] ?>">View<span class="visually-hidden"> order #<?= (int) $order['id'] ?></span></a></td>
+                                <td><a class="btn admin-action-btn admin-action-toggle" href="order_details.php?id=<?= (int) $order['id'] ?>" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden"> order #<?= (int) $order['id'] ?></span></a></td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($recentOrders)): ?>
@@ -161,7 +155,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         <section class="admin-card" aria-labelledby="daily-title">
             <div class="dashboard-panel-heading"><div><h2 id="daily-title">Daily Revenue</h2><p>By order date · delivered orders only</p></div></div>
             <div class="table-responsive">
-                <table class="table admin-table">
+                <table class="table admin-table admin-table-consistent admin-table-index">
                     <thead><tr><th>Date</th><th>Delivered Orders</th><th>Income (JOD)</th></tr></thead>
                     <tbody>
                         <?php foreach ($days as $date => $day): ?>
