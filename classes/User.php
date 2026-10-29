@@ -31,6 +31,41 @@ class User{
     }
 }
 
+ public function getUsersForAdmin($search = null){
+    try {
+        $sql = "SELECT 
+                    u.id, 
+                    u.first_name, 
+                    u.last_name, 
+                    u.email, 
+                    u.phone, 
+                    u.role, 
+                    u.is_active, 
+                    u.created_at,
+                    COUNT(o.id) AS orders_count
+                FROM users u
+                LEFT JOIN orders o ON u.id = o.user_id";
+
+                $params = [];
+                if(!empty($search)){
+                    $sql .= " WHERE u.first_name LIKE :search 
+                         OR u.last_name LIKE :search 
+                         OR u.email LIKE :search 
+                         OR u.phone LIKE :search";
+                        $params[':search'] = "%$search%";
+                }
+
+                $sql .= " GROUP BY u.id ORDER BY u.created_at DESC";
+
+        $stmt = $this->con->prepare($sql);
+        $stmt->execute($params);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return [];
+    }
+ }
+
  public function getUserById($id){
     $sql = "SELECT first_name , last_name , email , phone  FROM users WHERE id = :id AND is_active = 1";
 
