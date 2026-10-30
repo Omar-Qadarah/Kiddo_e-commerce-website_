@@ -1078,3 +1078,48 @@
 
 /* The shared create/edit modal also honors narrow forms such as categories. */
 .admin-body .admin-dialog .admin-remote-form { max-width: none; width: 100%; }
+
+/* Shared interaction language; presentation only, pagination behavior is unchanged. */
+.admin-body { --admin-hover-bg: var(--admin-primary-100); --admin-hover-border: var(--admin-primary-200); }
+.dashboard-page .dashboard-metric {
+    display: grid; grid-template-rows: 36px auto 1fr; align-content: start; gap: 4px;
+    padding: 16px; background: var(--admin-surface); border-color: var(--admin-border);
+}
+.dashboard-page .dashboard-metric-top { display: grid; grid-template-columns: minmax(0, 1fr) 36px; align-items: start; gap: 8px; }
+.dashboard-page .dashboard-metric-top span { font-size: 13px; line-height: 1.4; color: var(--admin-muted); }
+.dashboard-page .dashboard-metric-top i { width: 36px; height: 36px; font-size: 18px; }
+.dashboard-page .dashboard-metric strong { margin: 0; color: var(--admin-heading); font-size: 28px; line-height: 1.2; }
+.dashboard-page .dashboard-metric p { margin: 0; color: var(--admin-muted); font-size: 12px; line-height: 1.4; }
+.dashboard-page .dashboard-metric-income .dashboard-metric-top span,
+.dashboard-page .dashboard-metric-income p { color: var(--admin-muted); }
+.dashboard-page .dashboard-metric-income .dashboard-metric-top i { background: var(--admin-primary-100); color: var(--admin-primary); }
+
+.admin-body .dashboard-action,
+.admin-body .sidebar-link,
+.admin-body .status-card,
+.admin-body .admin-action-btn,
+.admin-body .btn,
+.admin-body .admin-pagination a { transition: background-color .18s ease, border-color .18s ease, color .18s ease; }
+.admin-body .dashboard-action:hover { background: var(--admin-hover-bg); border-color: var(--admin-hover-border); color: var(--admin-heading); transform: none; }
+.admin-body .admin-table-consistent tbody td { transition: background-color .18s ease; }
+.admin-body .admin-table-consistent tbody tr:hover > td { background-color: var(--admin-hover-bg); }
+.admin-body .admin-sidebar .sidebar-link:not(.active):hover { background: var(--admin-hover-bg); color: var(--admin-primary-deep); }
+.admin-body :is(.admin-action-edit, .admin-action-toggle):hover,
+.admin-body :is(.btn-primary, .btn-outline-primary, .btn-light, .btn-outline-secondary, .btn-secondary, .btn-warning):not(.admin-action-delete):hover {
+    background: var(--admin-hover-bg); border-color: var(--admin-hover-border); color: var(--admin-primary-deep); transform: none;
+}
+/* Preserve the red destructive treatment while removing unnecessary motion. */
+.admin-body .admin-action-btn:hover { transform: none; }
+.admin-body .status-card { border: 1px solid var(--admin-border); box-shadow: none; }
+.admin-body .status-card:hover { background: var(--admin-primary-50); border-color: var(--admin-hover-border); color: var(--admin-heading); transform: none; }
+.admin-body .status-card.active { background: var(--admin-primary-100); border-color: var(--admin-primary-200); box-shadow: none; }
+.admin-body .status-card.active span,
+.admin-body .status-card.active strong { color: var(--admin-primary-deep); }
+.admin-body .status-card.active i { background: var(--admin-primary-200); color: var(--admin-primary-deep); }
+.admin-body .status-card:focus-visible { outline: 3px solid var(--admin-primary); outline-offset: 2px; }
+.admin-body .admin-pagination a,
+.admin-body .admin-pagination span { min-width: 36px; height: 36px; border-radius: 10px; font-size: 13px; }
+.admin-body .admin-pagination a { background: var(--admin-surface); border-color: var(--admin-border); color: var(--admin-primary-dark); }
+.admin-body .admin-pagination a:hover { background: var(--admin-hover-bg); border-color: var(--admin-hover-border); }
+.admin-body .admin-pagination [aria-current="page"] { background: var(--admin-primary); border-color: var(--admin-primary); color: #fff; }
+.admin-body .admin-pagination [aria-disabled="true"] { background: var(--admin-primary-50); color: var(--admin-muted); opacity: .5; cursor: not-allowed; }
