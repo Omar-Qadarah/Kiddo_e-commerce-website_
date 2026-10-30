@@ -7,6 +7,13 @@ require_once __DIR__ . '/../classes/Dashboard.php';
 $dashboard = new Dashboard($pdo);
 $summary = $dashboard->getSummary();
 $recentOrders = $dashboard->getRecentOrders();
+$recentStatusCounts = ['placed' => 0, 'shipped' => 0, 'delivered' => 0];
+foreach ($recentOrders as $recentOrder) {
+    if (isset($recentStatusCounts[$recentOrder['status']])) {
+        $recentStatusCounts[$recentOrder['status']]++;
+    }
+}
+
 
 // Seven calendar days in the application's Asia/Amman timezone, including today.
 $today = new DateTime('today');
@@ -150,6 +157,16 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     </tbody>
                 </table>
             </div>
+            <?php if (!empty($recentOrders)): ?>
+                <div class="dashboard-recent-summary" aria-label="Status summary of the displayed recent orders">
+                    <span>Status of these <?= count($recentOrders) ?> orders</span>
+                    <div class="dashboard-recent-statuses">
+                        <?php foreach ($recentStatusCounts as $status => $count): ?>
+                            <span class="badge <?= $statusColors[$status] ?>"><?= $count ?> <?= ucfirst($status) ?></span>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php endif; ?>
         </section>
 
         <section class="admin-card" aria-labelledby="daily-title">
