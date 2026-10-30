@@ -30,6 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('[data-slider]').forEach(function (slider) {
         var slides = slider.querySelectorAll('.promo-slide');
         var dots = slider.querySelectorAll('[data-slide-to]');
+        // names above the slider (each card has its own background colour)
+        var names = slider.querySelectorAll('[data-slide-name]');
         var current = 0;
         var timer = null;
 
@@ -39,6 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
             current = (index + slides.length) % slides.length;
             slides[current].classList.add('is-active');
             dots[current].classList.add('is-on');
+
+            // the active name follows the card (also when it rotates by itself)
+            names.forEach(function (name, i) {
+                name.classList.toggle('is-on', i === current);
+                name.setAttribute('aria-selected', i === current ? 'true' : 'false');
+            });
         }
 
         function restart() {
@@ -51,6 +59,13 @@ document.addEventListener('DOMContentLoaded', function () {
         dots.forEach(function (dot) {
             dot.addEventListener('click', function () {
                 show(parseInt(dot.getAttribute('data-slide-to'), 10));
+                restart();
+            });
+        });
+
+        names.forEach(function (name) {
+            name.addEventListener('click', function () {
+                show(parseInt(name.getAttribute('data-slide-name'), 10));
                 restart();
             });
         });

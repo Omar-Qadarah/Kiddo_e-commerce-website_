@@ -100,16 +100,33 @@
     margin-inline: auto;
 }
 
-/* white clouds at the bottom edge */
+/* smooth layered waves at the bottom edge (SVG inside .hero-clouds) */
 .hero-clouds {
     position: absolute;
     left: 0;
     right: 0;
     bottom: -1px;
-    height: 70px;
-    background:
-        radial-gradient(circle at 60px 70px, var(--bg) 52px, transparent 53px) 0 0 / 140px 70px repeat-x,
-        radial-gradient(circle at 20px 70px, var(--bg) 36px, transparent 37px) 70px 10px / 140px 60px repeat-x;
+    height: 110px;
+    line-height: 0;
+    pointer-events: none;
+}
+
+.hero-clouds svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-wave-back {
+    fill: rgba(255, 255, 255, .14);
+}
+
+.hero-wave-mid {
+    fill: rgba(255, 255, 255, .28);
+}
+
+.hero-wave-front {
+    fill: var(--bg);
 }
 
 /* ---------- Shop by age ---------- */
@@ -240,6 +257,66 @@
     color: var(--white);
 }
 
+/* one background colour per card (the gradient changes with the card) */
+.promo-slide.promo-purple {
+    background: linear-gradient(110deg, var(--primary-dark), #9C84FA);
+}
+
+.promo-slide.promo-pink {
+    background: linear-gradient(110deg, var(--pink-dark), #FF8FB1);
+}
+
+.promo-slide.promo-green {
+    background: linear-gradient(110deg, #129A5E, #4FD39A);
+}
+
+.promo-slide.promo-orange {
+    background: linear-gradient(110deg, #EE6A2F, #FFB648);
+}
+
+.promo-pink .promo-btn  { color: var(--pink-dark); }
+.promo-green .promo-btn { color: #129A5E; }
+.promo-orange .promo-btn { color: #E0611F; }
+
+/* names above the slider */
+.promo-names {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+    margin-bottom: 1.2rem;
+}
+
+.promo-name {
+    --name-color: var(--primary);
+    padding: .55rem 1.2rem;
+    border: 2px solid var(--primary-100);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--text);
+    font: inherit;
+    font-weight: 800;
+    font-size: .95rem;
+    cursor: pointer;
+    transition: background-color .25s, color .25s, border-color .25s, transform .2s;
+}
+
+.promo-name-pink   { --name-color: var(--pink); }
+.promo-name-green  { --name-color: var(--green); }
+.promo-name-orange { --name-color: #F07A32; }
+
+.promo-name:hover {
+    border-color: var(--name-color);
+    color: var(--name-color);
+    transform: translateY(-2px);
+}
+
+.promo-name.is-on {
+    border-color: var(--name-color);
+    background: var(--name-color);
+    color: var(--white);
+}
+
 .promo-slide.is-active {
     display: flex;
     animation: promo-in .45s ease;
@@ -367,6 +444,10 @@
 @media (max-width: 900px) {
     .hero {
         padding: 3rem 0 6rem;
+    }
+
+    .hero-clouds {
+        height: 70px;
     }
 
     .hero-grid {

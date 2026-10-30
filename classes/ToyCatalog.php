@@ -149,6 +149,34 @@ class ToyCatalog
         return $paths;
     }
 
+    // ---------- Navbar search (products/find.php) ----------
+
+    // The active toy whose name is exactly the typed text (case-insensitive).
+    public function findToyByExactName(string $name): array|false
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT p.id FROM products p
+             WHERE p.is_active = 1 AND LOWER(TRIM(p.name)) = LOWER(:name)
+             ORDER BY p.id ASC LIMIT 1"
+        );
+        $stmt->execute(['name' => trim($name)]);
+
+        return $stmt->fetch();
+    }
+
+    // Active toys whose name contains the typed text ("did you mean" list).
+    public function findToysByNamePart(string $text, int $limit = 4): array
+    {
+        // % and _ typed by the user are searched as normal characters
+        $like = '%' . addcslashes(trim($text), '%_\\') . '%';
+        $stmt = $this->pdo->prepare(
+            self::CARD_SELECT . " AND p.name LIKE :text ORDER BY p.name ASC LIMIT " . max(1, $limit)
+        );
+        $stmt->execute(['text' => $like]);
+
+        return $stmt->fetchAll();
+    }
+
     // ---------- Product details page ----------
 
     // One active toy with category, discount and rating summary.

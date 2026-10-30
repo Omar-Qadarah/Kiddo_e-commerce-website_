@@ -3,6 +3,7 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/shop_functions.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
 require_once __DIR__ . '/../classes/ProductImage.php';
+require_once __DIR__ . '/../classes/Review.php';
 require_once __DIR__ . '/../classes/Recommendation.php';
 
 $catalog = new ToyCatalog($pdo);
@@ -45,6 +46,18 @@ $tint = $tints[(int) $toy['category_id'] % count($tints)];
 // Message from cart/add.php, shown once
 $cartFlash = $_SESSION['cart_flash'] ?? null;
 unset($_SESSION['cart_flash']);
+
+// ---------- Write a review ----------
+// Same login check as the navbar: auth/login.php puts the user id in the session.
+$reviewUserId    = (int) ($_SESSION['user_id'] ?? 0);
+$isLoggedIn      = $reviewUserId > 0;
+$alreadyReviewed = $isLoggedIn && (new Review($pdo))->hasReviewed($reviewUserId, (int) $toy['id']);
+
+// Message from products/add_review.php, shown once (+ what the user typed on an error)
+$reviewFlash = $_SESSION['review_flash'] ?? null;
+unset($_SESSION['review_flash']);
+$oldRating  = (string) ($reviewFlash['old']['rating'] ?? '');
+$oldComment = (string) ($reviewFlash['old']['comment'] ?? '');
 
 $pageTitle  = $toy['name'];
 $activePage = 'toys';
@@ -201,6 +214,12 @@ require_once __DIR__ . '/../includes/shop_header.php';
 <section class="container details-reviews">
     <h2>What families say</h2>
 
+    <?php if ($reviewFlash): ?>
+        <p class="details-flash is-<?= $reviewFlash['type'] === 'success' ? 'success' : 'error' ?>" role="status">
+            <?= htmlspecialchars($reviewFlash['message']) ?>
+        </p>
+    <?php endif; ?>
+
     <?php if (empty($reviews)): ?>
         <p class="reviews-empty">No reviews yet — be the first to tell other parents what you think!</p>
     <?php else: ?>
@@ -222,6 +241,43 @@ require_once __DIR__ . '/../includes/shop_header.php';
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
+
+    <!-- ============ Write a review ============ -->
+    <div class="review-form-box">
+        <?php if (!$isLoggedIn): ?>
+            <div class="review-login">
+                <p><strong>Have this toy?</strong> Log in to share your rating and comment with other families.</p>
+                <a class="btn btn-primary" href="<?= BASE_URL ?>/products/add_review.php?id=<?= (int) $toy['id'] ?>">Log in to write a review</a>
+            </div>
+        <?php elseif ($alreadyReviewed): ?>
+            <p class="review-done">✓ You have already reviewed this toy. Thank you for helping other families!</p>
+        <?php else: ?>
+            <form class="review-form" action="<?= BASE_URL ?>/products/add_review.php" method="post">
+                <h3>Write a review</h3>
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                <input type="hidden" name="product_id" value="<?= (int) $toy['id'] ?>">
+
+                <fieldset class="star-input">
+                    <legend>Your rating</legend>
+                    <!-- 5 → 1 in the HTML so the CSS can colour the stars before the checked one -->
+                    <div class="star-row">
+                    <?php for ($star = 5; $star >= 1; $star--): ?>
+                        <input type="radio" id="star-<?= $star ?>" name="rating" value="<?= $star ?>"
+                               <?= $oldRating === (string) $star ? 'checked' : '' ?> required>
+                        <label for="star-<?= $star ?>" title="<?= $star ?> <?= $star === 1 ? 'star' : 'stars' ?>">★<span class="sr-only"><?= $star ?> <?= $star === 1 ? 'star' : 'stars' ?></span></label>
+                    <?php endfor; ?>
+                    </div>
+                </fieldset>
+
+                <label class="review-label" for="review-comment">Your comment</label>
+                <textarea id="review-comment" name="comment" rows="4" minlength="3" maxlength="500" required
+                          placeholder="What did your child like about this toy?"><?= htmlspecialchars($oldComment) ?></textarea>
+                <small class="review-hint">3–500 characters.</small>
+
+                <button class="btn btn-primary" type="submit">Post review</button>
+            </form>
+        <?php endif; ?>
+    </div>
 </section>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
