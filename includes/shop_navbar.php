@@ -9,12 +9,12 @@ $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
 $firstName  = preg_split('/\s+/', $userName)[0] ?? '';
 $cartCount  = (int) ($_SESSION['cart_count'] ?? 0);
-$searchTerm = $_GET['q'] ?? '';
+$searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a broken URL like ?q[]= is ignored)
 
 // key => [label, path from the project root]
 $shopNavLinks = [
     'home'       => ['Home', '/index.php'],
-    'categories' => ['Categories', '/products/index.php#toy-types'],
+    'categories' => ['Categories', '/products/categories.php'],
     'toys'       => ['Toys', '/products/index.php'],
 ];
 ?>
@@ -42,7 +42,8 @@ $shopNavLinks = [
             </ul>
         </nav>
 
-        <form class="header-search" action="<?= BASE_URL ?>/products/search.php" method="get" role="search">
+        <!-- Toy name -> that toy's page, otherwise a "Not found" message (products/find.php) -->
+        <form class="header-search" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
             <label class="sr-only" for="site-search">Search toys by name</label>
             <input id="site-search" type="search" name="q" maxlength="60"
                    placeholder="Search toys by name…"
