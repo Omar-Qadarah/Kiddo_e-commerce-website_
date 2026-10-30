@@ -34,7 +34,6 @@ class Review
 
     public function restore($id)
     {
-        // Do not restore a review with an invalid rating.
         $statement = $this->pdo->prepare(
             'UPDATE reviews SET is_visible = 1 WHERE id = ? AND rating BETWEEN 1 AND 5'
         );
@@ -53,9 +52,6 @@ class Review
         return in_array((string) $rating, ['1', '2', '3', '4', '5'], true);
     }
 
-    // Visible reviews for several toys at once, grouped by product id.
-    // Used by the home page card details. Only the first name and the
-    // first letter of the last name are returned.
     public function getVisibleForProducts(array $productIds, int $perProduct = 10)
     {
         $productIds = array_values(array_unique(array_map('intval', $productIds)));
@@ -89,5 +85,56 @@ class Review
             ];
         }
         return $grouped;
+    }
+
+    public function hasReviewed($userId, $productId): bool
+    {
+        if (empty($userId) || empty($productId) || (int)$userId <= 0 || (int)$productId <= 0) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM reviews WHERE user_id = ? AND product_id = ?');
+        $stmt->execute([(int)$userId, (int)$productId]);
+        return (int)$stmt->fetchColumn() > 0;
+    }
+
+    public function isEligibleToReview($userId, $productId): bool
+    {
+        if (empty($userId) || empty($productId) || (int)$userId <= 0 || (int)$productId <= 0) {
+            return false;
+        }
+
+        $sql = "SELECT COUNT(*) 
+                FROM orders o
+                INNER JOIN order_items oi ON o.id = oi.order_id
+                WHERE o.user_id = ? 
+                  AND oi.product_id = ? 
+                  AND o.status = 'completed'";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([(int)$userId, (int)$productId]);
+        return (int)$stmt->fetchColumn() > 0;
+    }
+
+    public function canUserReview($userId, $productId): bool
+    {
+        return $this->isEligibleToReview($userId, $productId) && !$this->hasReviewed($userId, $productId);
+    }
+
+    public function createReview($productId, $userId, $rating, $comment): bool
+    {
+        $productId = (int)$productId;
+        $userId = (int)$userId;
+        $rating = (int)$rating;
+        $comment = trim((string)$comment);
+
+        if (!$this->canUserReview($userId, $productId) || !$this->isValidRating($rating)) {
+            return false;
+        }
+
+        $sql = "INSERT INTO reviews (product_id, user_id, rating, comment, is_visible, created_at) 
+                VALUES (?, ?, ?, ?, 1, NOW())";
+        $stmt = $this->pdo->prepare($sql);
+        return $stmt->execute([$productId, $userId, $rating, $comment]);
     }
 }
