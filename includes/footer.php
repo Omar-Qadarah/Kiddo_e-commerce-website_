@@ -44,7 +44,6 @@
     <div class="footer-bottom">
         <div class="container">
             <span>&copy; <?= date('Y') ?> Kiddo's. All rights reserved.</span>
-            <span>Amman, Jordan</span>
         </div>
     </div>
 </footer>

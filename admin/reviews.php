@@ -41,7 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-$reviews = $review->getAll();
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('reviews', $_GET);
+$reviews = $pagination['rows'];
 $pageTitle = 'Reviews';
 $activePage = 'reviews';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
@@ -62,6 +66,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </ul>
 <?php endif; ?>
 
+<?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-reviews"><thead><tr>
 <th>ID</th><th>Product</th><th>Customer</th><th>Rating</th><th>Comment</th>
 <th>Created</th><th>Visibility</th><th>Actions</th></tr></thead><tbody>
@@ -83,7 +88,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php elseif ($review->isValidRating($row['rating'])): ?>
 <button class="btn admin-action-btn admin-action-toggle" name="action" value="restore" title="Restore review" aria-label="Restore review"><i class="bi bi-eye" aria-hidden="true"></i></button>
 <?php endif; ?>
-<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" onclick="return confirm('Delete this review permanently?')" title="Delete review" aria-label="Delete review"><i class="bi bi-trash" aria-hidden="true"></i></button>
+<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" title="Delete review" aria-label="Delete review"><i class="bi bi-trash" aria-hidden="true"></i></button>
 </form></td></tr><?php endforeach; ?>
 <?php if (empty($reviews)): ?><tr><td colspan="8">No reviews found.</td></tr><?php endif; ?>
-</tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>
+</tbody></table></div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Kiddo's — categories page (products/categories.php)
+   Loaded AFTER toys-page.css, which already styles the layout, the
+   "Toy types" sidebar, the heading and the empty state.
+   This file only adds the age cards (agecat-*) and the results row.
+   Every class here starts with "agecat" so nothing touches other pages.
+   ========================================================================== */
+
+/* ---------- Section heading ---------- */
+.agecat-head {
+    margin-bottom: 1.4rem;
+}
+
+.agecat-eyebrow {
+    display: inline-block;
+    margin-bottom: .3rem;
+    padding: .25rem .8rem;
+    border-radius: 999px;
+    background: var(--primary-100);
+    color: var(--primary);
+    font-size: .8rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.agecat-head h2 {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+}
+
+/* ---------- Age cards (same look as the landing page "Shop by age") ---------- */
+.agecat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1.3rem;
+}
+
+.agecat-card {
+    --age: var(--primary);
+    --age-soft: var(--primary-50);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 3px solid transparent;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    color: var(--text);
+    box-shadow: var(--shadow-sm);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+
+.agecat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.agecat-card:focus-visible {
+    outline: 3px solid var(--age);
+    outline-offset: 3px;
+}
+
+/* the chosen age card */
+.agecat-card.is-active {
+    border-color: var(--age);
+    box-shadow: 0 10px 26px color-mix(in srgb, var(--age) 30%, transparent);
+}
+
+.agecat-blue   { --age: #3D7BF5; --age-soft: #E5EEFF; }
+.agecat-green  { --age: #22A86A; --age-soft: #DDF5EA; }
+.agecat-orange { --age: #F57A2A; --age-soft: #FFE8D9; }
+.agecat-pink   { --age: #E8457C; --age-soft: #FFE3EE; }
+
+.agecat-top {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 150px;
+    background:
+        radial-gradient(circle at 85% 10%, rgba(255, 255, 255, .55) 0 40px, transparent 41px),
+        var(--age-soft);
+}
+
+.agecat-pic {
+    display: grid;
+    place-items: center;
+    width: 96px;
+    height: 96px;
+    border: 3px dashed color-mix(in srgb, var(--age) 45%, transparent);
+    border-radius: 50%;
+    background: var(--white);
+    font-size: 3rem;
+    line-height: 1;
+}
+
+/* "0–3 years" bubble sitting on the edge */
+.agecat-range {
+    position: absolute;
+    left: 18px;
+    bottom: -18px;
+    padding: .4rem .9rem .3rem;
+    border: 4px solid var(--white);
+    border-radius: 999px 999px 0 0;
+    background: var(--age);
+    color: var(--white);
+    font: 800 1.15rem/1 var(--font-head);
+    white-space: nowrap;
+}
+
+.agecat-range small {
+    font-size: .8rem;
+    font-weight: 700;
+}
+
+.agecat-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.9rem 1.2rem 1.2rem;
+}
+
+.agecat-body h3 {
+    margin: 0 0 .4rem;
+    color: var(--ink);
+}
+
+.agecat-body p {
+    flex: 1;
+    margin: 0 0 .9rem;
+    color: var(--muted);
+    font-size: .95rem;
+}
+
+.agecat-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: .9rem;
+    border-top: 1px dashed var(--line);
+    font-weight: 800;
+    color: var(--age);
+}
+
+.agecat-go {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--age);
+    color: var(--white);
+    transition: transform .2s;
+}
+
+.agecat-card:hover .agecat-go,
+.agecat-card.is-active .agecat-go {
+    transform: translateX(3px);
+}
+
+/* ---------- Results under the cards ---------- */
+.agecat-results {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+    padding-bottom: 1rem;
+}
+
+.agecat-results-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem 1rem;
+    margin: 2rem 0 1.2rem;
+}
+
+/* toys-page.css gives .result-count its own margin; here the row handles it */
+.agecat-results-head .result-count {
+    margin: 0;
+}
+
+.agecat-hint {
+    margin: 2rem 0 1rem;
+    padding: 1.1rem 1.4rem;
+    border: 2px dashed var(--primary-200);
+    border-radius: var(--radius);
+    background: var(--white);
+    color: var(--muted);
+    font-weight: 700;
+    text-align: center;
+}
+
+.agecat-hint span {
+    margin-right: .3rem;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1280px) {
+    .agecat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .agecat-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.6rem;
+    }
+
+    .agecat-top {
+        height: 130px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .agecat-card,
+    .agecat-go {
+        transition: none;
+    }
+
+    .agecat-card:hover {
+        transform: none;
+    }
+}

@@ -12,12 +12,18 @@ if (!is_string($status) || !in_array($status, Order::STATUSES, true)) {
     $status = '';
 }
 
-// One query for everything; the filtered list and the counts both come from it
-$allOrders = $orderModel->getAllOrders();
-$orders = $status === '' ? $allOrders : $orderModel->getAllOrders($status);
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('orders', $_GET);
+$orders = $pagination['rows'];
 
-// How many orders are in each status, e.g. ['placed' => 3, 'delivered' => 1]
-$statusCounts = array_count_values(array_column($allOrders, 'status'));
+// Status cards use aggregate counts, without loading every order.
+$statusCounts = [];
+foreach ($pdo->query('SELECT status, COUNT(*) AS total FROM orders GROUP BY status')->fetchAll(PDO::FETCH_ASSOC) as $countRow) {
+    $statusCounts[$countRow['status']] = (int) $countRow['total'];
+}
+$totalOrders = array_sum($statusCounts);
 
 $statusIcons = [
     'placed'    => 'bi-hourglass-split',
@@ -58,14 +64,14 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <!-- Summary cards double as the status filter -->
 <div class="status-cards">
-    <a href="<?= BASE_URL ?>/admin/orders.php"
+    <a href="<?= adminTableEscape(adminTableUrl($pagination, ['status' => '', 'page' => 1])) ?>"
        class="status-card <?= $status === '' ? 'active' : '' ?>">
         <i class="bi bi-bag"></i>
         <span>All</span>
-        <strong><?= count($allOrders) ?></strong>
+        <strong><?= $totalOrders ?></strong>
     </a>
     <?php foreach (Order::STATUSES as $option): ?>
-        <a href="<?= BASE_URL ?>/admin/orders.php?status=<?= urlencode($option) ?>"
+        <a href="<?= adminTableEscape(adminTableUrl($pagination, ['status' => $option, 'page' => 1])) ?>"
            class="status-card status-<?= $option ?> <?= $status === $option ? 'active' : '' ?>">
             <i class="bi <?= $statusIcons[$option] ?>"></i>
             <span><?= htmlspecialchars(ucfirst($option)) ?></span>
@@ -74,6 +80,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <?php endforeach; ?>
 </div>
 
+<?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card">
     <div class="table-responsive">
         <table class="table admin-table admin-table-consistent admin-table-orders">
@@ -118,7 +125,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <?php endif; ?>
             </tbody>
         </table>
-    </div>
+    </div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
 </div>
 
 <?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>
