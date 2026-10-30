@@ -502,7 +502,7 @@ a.user-chip:hover .welcome-name {
    ========================================================================== */
 .site-footer {
     position: relative;
-    margin-top: 5rem;
+    margin-top: 3.5rem;
     background: var(--primary);
     color: var(--footer-text);
 }
@@ -522,7 +522,7 @@ a.user-chip:hover .welcome-name {
     display: grid;
     grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
     gap: 2.5rem;
-    padding: 3.2rem 0 2.6rem;
+    padding: 2.5rem 0 1.75rem;
 }
 
 .footer-grid h3 {
@@ -597,7 +597,7 @@ a.user-chip:hover .welcome-name {
     justify-content: center;
     align-items: center;
     gap: 1rem;
-    padding: 1.2rem 0;
+    padding: .9rem 0;
     font-size: .92rem;
 }
 
@@ -674,4 +674,4 @@ a.user-chip:hover .welcome-name {
         transition: none !important;
         animation: none !important;
     }
-}
+}
