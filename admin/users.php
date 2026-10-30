@@ -215,11 +215,19 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
     <script>
         function openModal(id) {
-            document.getElementById(id).style.display = 'flex';
+            if (id === 'addModal') {
+                document.getElementById(id).style.display = 'flex';
+            } else {
+                bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).show();
+            }
         }
 
         function closeModal(id) {
-            document.getElementById(id).style.display = 'none';
+            if (id === 'addModal') {
+                document.getElementById(id).style.display = 'none';
+            } else {
+                bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).hide();
+            }
         }
 
         function openEditModal(id, firstName, lastName, phone, role) {
@@ -232,7 +240,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         }
 
         function confirmSoftDelete(userId) {
-            if (confirm("Are you sure you want to deactivate and remove this user?")) {
+            window.confirmAdminDelete("Are you sure you want to deactivate and remove this user?", () => {
                 const row = document.getElementById('user-row-' + userId);
                 if (row) {
                     row.style.transition = 'opacity 0.3s ease';
@@ -241,7 +249,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                         window.location.href = 'users.php?action=delete&id=' + userId;
                     }, 300);
                 }
-            }
+            }, 'Delete user?');
         }
     </script>
 

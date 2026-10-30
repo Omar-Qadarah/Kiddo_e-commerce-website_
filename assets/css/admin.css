@@ -949,3 +949,50 @@
     .dashboard-lower-grid { grid-template-columns: 1fr; }
     .dashboard-quick .dashboard-actions { flex: initial; grid-template-rows: none; }
 }
+
+/* Shared Edit / Delete dialogs only. Existing page and table layouts stay intact. */
+.admin-body .modal { --bs-modal-zindex: 1060; }
+.admin-body .modal-backdrop { --bs-backdrop-bg: #1e1840; --bs-backdrop-opacity: .4; --bs-backdrop-zindex: 1050; }
+.admin-body .admin-dialog .modal-dialog { width: calc(100% - 32px); max-width: 780px; margin: 24px auto; min-height: calc(100% - 48px); }
+.admin-body .admin-dialog .admin-dialog-small { max-width: 600px; }
+.admin-body .admin-dialog .admin-dialog-product { max-width: 920px; }
+.admin-body .admin-delete-dialog .modal-dialog { max-width: 480px; }
+.admin-body .admin-dialog .modal-content { max-height: calc(100dvh - 48px); border: 1px solid var(--admin-border) !important; border-radius: 20px !important; overflow: hidden; box-shadow: var(--admin-shadow) !important; }
+.admin-body .admin-dialog .modal-content > form { display: flex; flex-direction: column; min-height: 0; max-height: calc(100dvh - 48px); }
+.admin-body .admin-dialog .modal-header { flex-shrink: 0; padding: 16px 20px !important; border-bottom: 1px solid var(--admin-border) !important; gap: 12px; margin: 0; }
+.admin-body .admin-dialog .modal-title,
+.admin-body .admin-dialog .modal-header h3 { font: 700 22px/1.3 var(--admin-font-head); margin: 0; }
+.admin-body .admin-dialog .modal-header p { font-size: 13px; }
+.admin-body .admin-dialog .btn-close { width: 36px; height: 36px; box-sizing: border-box; padding: 10px; margin: 0 0 0 auto; background-size: 14px; flex-shrink: 0; border-radius: 10px; }
+.admin-body .admin-dialog .btn-close:hover { background-color: var(--admin-primary-50); }
+.admin-body .admin-dialog .modal-body { padding: 20px !important; overflow-y: auto; min-height: 0; }
+.admin-body .admin-dialog .modal-footer { flex-shrink: 0; padding: 12px 20px !important; gap: 8px; border-top: 1px solid var(--admin-border); margin: 0; }
+.admin-body .admin-dialog .modal-footer > * { margin: 0; }
+.admin-body .admin-dialog .btn { min-height: 40px; padding: 8px 16px; font-size: 14px; }
+.admin-body .admin-dialog .form-label { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.admin-body .admin-dialog .form-control,
+.admin-body .admin-dialog .form-select { min-height: 42px; font-size: 14px; }
+.admin-body .admin-dialog .mb-3 { margin-bottom: 16px !important; }
+.admin-body .admin-dialog .form-text { font-size: 12px; margin-top: 4px; }
+.admin-body .admin-dialog .modal-body img { max-width: 96px; max-height: 80px; object-fit: cover; border-radius: 8px; }
+.admin-body .admin-dialog .admin-remote-form { padding: 0 !important; margin: 0; border: 0; box-shadow: none; background: transparent; }
+.admin-body #adminEditDialog .modal-body { display: flex; flex-direction: column; overflow: hidden; }
+.admin-body .admin-dialog .admin-remote-form { display: flex; flex-direction: column; min-height: 0; }
+.admin-body .admin-dialog .admin-remote-fields { min-height: 0; overflow-y: auto; padding-right: 4px; }
+.admin-body .admin-dialog .admin-remote-footer { display: flex; justify-content: flex-end; gap: 8px; padding-top: 12px; margin-top: 12px; border-top: 1px solid var(--admin-border); flex-shrink: 0; }
+.admin-body .admin-dialog .admin-discount-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 16px; }
+.admin-body .admin-dialog .admin-discount-fields > input[type="hidden"] { display: none; }
+.admin-body .admin-dialog .admin-discount-fields > p:not(.mb-3) { grid-column: 1 / -1; }
+.admin-body .admin-delete-dialog .display-4,
+.admin-body .admin-delete-dialog .admin-delete-symbol { font-size: 28px; color: #dc3545; display: inline-block; margin-bottom: 12px; }
+.admin-body .admin-delete-dialog h5 { font-size: 22px; }
+.admin-body .admin-delete-dialog .modal-body p { font-size: 14px; line-height: 1.5; }
+@media (max-width: 575px) {
+    .admin-body .admin-dialog .modal-dialog { margin: 16px auto; min-height: calc(100% - 32px); }
+    .admin-body .admin-dialog .modal-content,
+    .admin-body .admin-dialog .modal-content > form { max-height: calc(100dvh - 32px); }
+    .admin-body .admin-dialog .modal-body { padding: 16px !important; }
+    .admin-body .admin-dialog .admin-discount-fields { grid-template-columns: 1fr; }
+}
+
+.admin-body .admin-dialog .admin-remote-fields > .row { margin-left: 0; margin-right: 0; }

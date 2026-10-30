@@ -83,7 +83,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php elseif ($review->isValidRating($row['rating'])): ?>
 <button class="btn admin-action-btn admin-action-toggle" name="action" value="restore" title="Restore review" aria-label="Restore review"><i class="bi bi-eye" aria-hidden="true"></i></button>
 <?php endif; ?>
-<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" onclick="return confirm('Delete this review permanently?')" title="Delete review" aria-label="Delete review"><i class="bi bi-trash" aria-hidden="true"></i></button>
+<button class="btn admin-action-btn admin-action-delete" name="action" value="delete" title="Delete review" aria-label="Delete review"><i class="bi bi-trash" aria-hidden="true"></i></button>
 </form></td></tr><?php endforeach; ?>
 <?php if (empty($reviews)): ?><tr><td colspan="8">No reviews found.</td></tr><?php endif; ?>
 </tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

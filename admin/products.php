@@ -95,7 +95,6 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                 <form
                                     method="post"
                                     action="delete_product.php"
-                                    onsubmit="return confirm('Are you sure you want to delete this product?')"
                                 >
                                     <input
                                         type="hidden"
