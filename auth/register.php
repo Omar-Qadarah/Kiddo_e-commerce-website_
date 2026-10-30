@@ -60,11 +60,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // createUser hashes the password. The database default role is customer.
             $result = $userModel->createUser($first_name, $last_name, $email, $password);
             if ($result === true) {
-                $_SESSION['register_success'] = 'Your account is ready. Please log in.';
-                header('Location: login.php');
-                exit;
-            }
-            $errors[] = $result === 'Email already exists'
+                $newUser = $userModel->getUserByEmail($email);
+                if ($newUser && !empty($newUser['is_active']) && $newUser['role'] === 'customer') {
+                    session_regenerate_id(true);
+                    $_SESSION['user_id'] = $newUser['id'];
+                    $_SESSION['user_name'] = $newUser['first_name'] . ' ' . $newUser['last_name'];
+                    $_SESSION['user_role'] = $newUser['role'];
+                    unset($_SESSION['csrf_token'], $_SESSION['register_success']);
+                    header('Location: ../index.php');
+                    exit;
+                }
+                $errors[] = 'Your account was created, but we could not sign you in. Please log in.';
+            }            $errors[] = $result === 'Email already exists'
                 ? 'This email is already registered.' : 'Unable to create the account. Please try again.';
         } catch (PDOException $error) {
             error_log($error->getMessage());
