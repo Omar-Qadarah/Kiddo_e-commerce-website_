@@ -8,6 +8,7 @@ $cart     = new Cart($pdo);
 $details  = $cart->getDetails();
 $items    = $details['items'];
 $subtotal = $details['subtotal'];
+$suggestions = $cart->getSuggestions();
 
 // Show the message once, then forget it
 $flash = $_SESSION['cart_flash'] ?? null;
@@ -78,6 +79,22 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <a class="btn btn-primary btn-block" href="<?= BASE_URL ?>/checkout/index.php">Checkout</a>
             </aside>
         </div>
+    <?php endif; ?>
+    
+   
+    <?php if ($suggestions): ?>
+        <section class="cart-suggestions">
+            <h2><?= empty($items) ? 'Start with these favorites' : 'More toys to grow little minds' ?></h2>
+            <div class="toy-grid">
+                <?php foreach ($suggestions as $toy): ?>
+                    <?php
+                    $cardMode     = 'shop';
+                    $cardReturnTo = 'cart';
+                    require __DIR__ . '/../includes/toy_card.php';
+                    ?>
+                <?php endforeach; ?>
+            </div>
+        </section>
     <?php endif; ?>
 </section>
 

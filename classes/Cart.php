@@ -149,6 +149,33 @@ class Cart
         return ['items' => $items, 'subtotal' => round($subtotal, 2)];
     }
 
+
+    // A few toys to suggest under the cart: deals first, then new toys.
+    // Skips toys already in the cart or sold out.
+    public function getSuggestions(int $limit = 4): array
+    {
+        $catalog = new ToyCatalog($this->pdo);
+        $toys    = array_merge($catalog->getDiscountedToys(8), $catalog->getNewArrivals(8));
+
+        $suggestions = [];
+        foreach ($toys as $toy) {
+            $id = (int) $toy['id'];
+
+            if (isset($_SESSION['cart'][$id]) || isset($suggestions[$id]) || (int) $toy['stock'] < 1) {
+                continue;
+            }
+
+            $suggestions[$id] = $toy;
+
+            if (count($suggestions) === $limit) {
+                break;
+            }
+        }
+
+        return array_values($suggestions);
+    }
+    
+
     public function getQuantity(int $productId): int
     {
         return (int) ($_SESSION['cart'][$productId] ?? 0);

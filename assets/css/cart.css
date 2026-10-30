@@ -365,3 +365,16 @@
         gap: .5rem 1rem;
     }
 }
+
+
+/* ---------- Suggestions under the cart ---------- */
+.cart-suggestions {
+    margin-top: 3.5rem;
+}
+
+.cart-suggestions h2 {
+    margin-bottom: 1.5rem;
+    font-family: var(--font-head);
+    font-size: 1.6rem;
+    color: var(--ink);
+}
