@@ -104,7 +104,7 @@ require_once __DIR__ . '/../includes/header.php';
 <input id="password" name="password" type="password" maxlength="72" autocomplete="new-password" required>
 <label for="confirm_password">Confirm password</label>
 <input id="confirm_password" name="confirm_password" type="password" maxlength="72" autocomplete="new-password" required>
-<p class="auth-hint">Use a password of at least 8 characters (up to 72 bytes).</p>
+<p class="auth-hint">Use a password of at least 8 characters.</p>
 <button class="btn btn-primary" type="submit">Register</button></form><?php if (GoogleAuth::isConfigured()): ?><p class="auth-google-separator">or create an account with</p><a class="btn btn-outline google-auth-button" href="<?= BASE_URL ?>/auth/google_start.php">Continue with Google</a><?php endif; ?>
 <p>Already registered? <a href="login.php">Log in</a></p>
 </div></section>
