@@ -94,6 +94,8 @@ class ToyCatalog
     //   category => category slug
     //   age      => ['min_age' => .., 'max_age' => ..] of the chosen age group
     //   gender   => girls | boys | unisex
+    //   price    => ['min' => .. or null, 'max' => .. or null] in JOD,
+    //               checked against the price after discount (the price on the card)
     public function getFilteredToys(array $filters): array
     {
         $sql    = self::CARD_SELECT;
@@ -115,7 +117,27 @@ class ToyCatalog
             $params['gender'] = $filters['gender'];
         }
 
-        $sql .= " ORDER BY p.created_at DESC, p.id DESC";
+        // Price: the discount is calculated inside CARD_SELECT, so the query is
+        // wrapped (like getDiscountedToys) to filter on the final price.
+        // min is included, max is not: 10-25 means 10.00 up to 24.99.
+        if (!empty($filters['price'])) {
+            $finalPrice = "ROUND(toys.price * (1 - toys.discount_pct / 100), 2)";
+            $sql = "SELECT * FROM (" . $sql . ") AS toys WHERE 1 = 1";
+
+            if ($filters['price']['min'] !== null) {
+                $sql .= " AND $finalPrice >= :price_min";
+                $params['price_min'] = (float) $filters['price']['min'];
+            }
+
+            if ($filters['price']['max'] !== null) {
+                $sql .= " AND $finalPrice < :price_max";
+                $params['price_max'] = (float) $filters['price']['max'];
+            }
+
+            $sql .= " ORDER BY toys.created_at DESC, toys.id DESC";
+        } else {
+            $sql .= " ORDER BY p.created_at DESC, p.id DESC";
+        }
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
