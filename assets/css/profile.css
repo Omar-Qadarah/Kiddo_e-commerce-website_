@@ -1,0 +1,263 @@
+/* Account page reuses the same sidebar layout and palette as the toy categories page. */
+.kiddo-account-layout { min-height: calc(100vh - var(--header-h)); }
+.kiddo-account-layout .toys-main { display: block; min-width: 0; background: linear-gradient(180deg, var(--primary-50), var(--bg) 280px); }
+.kiddo-account-layout .toys-sidebar-title { display: flex; align-items: center; gap: .55rem; }
+.account-sidebar-list .account-sidebar-link {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    font: 800 .95rem/1.25 var(--font-body);
+    text-align: left;
+    cursor: pointer;
+}
+.account-sidebar-list .account-sidebar-link.is-active {
+    background: var(--primary);
+    color: var(--white);
+    box-shadow: var(--shadow-primary);
+}
+.account-sidebar-list .account-sidebar-link.is-active .cat-icon {
+    background: rgba(255, 255, 255, .22);
+    color: var(--white);
+}
+.account-sidebar-list .account-sidebar-link:focus-visible { outline: 3px solid var(--primary-200); outline-offset: 2px; }
+
+.kiddo-account-wrapper {
+    min-height: max(68vh, 560px);
+    padding: clamp(1.5rem, 4vw, 3rem) 0 4rem;
+}
+
+.kiddo-account-container { max-width: 1080px; }
+
+.kiddo-account-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: clamp(1.2rem, 3vw, 2rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.kiddo-account-eyebrow {
+    display: inline-block;
+    margin-bottom: .3rem;
+    color: var(--primary);
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.kiddo-page-title { margin: 0; font-size: clamp(1.8rem, 4vw, 2.55rem); }
+.kiddo-subtitle { margin: .25rem 0 0; color: var(--muted); }
+
+.kiddo-account-identity { display: flex; align-items: center; gap: .85rem; min-width: 0; }
+.kiddo-profile-avatar {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 66px;
+    height: 66px;
+    overflow: hidden;
+    border: 3px solid var(--primary-100);
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--primary-100), var(--pink-50));
+    color: var(--primary-deep);
+    font: 800 1.35rem/1 var(--font-head);
+}
+
+.kiddo-profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.kiddo-account-identity-copy { display: grid; min-width: 0; }
+.kiddo-account-identity-copy strong { overflow: hidden; color: var(--ink); text-overflow: ellipsis; white-space: nowrap; }
+.kiddo-account-identity-copy > span { overflow: hidden; color: var(--muted); font-size: .86rem; text-overflow: ellipsis; white-space: nowrap; }
+
+.kiddo-form-alert {
+    margin: 0 0 1rem;
+    padding: .9rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: 14px;
+    font-weight: 700;
+}
+
+.kiddo-form-alert.is-success { border-color: #b7ebcb; background: #effbf3; color: #17653b; }
+.kiddo-form-alert.is-error { border-color: #ffd1d8; background: #fff3f5; color: #a51128; }
+.kiddo-form-alert ul { margin: 0; padding-left: 1.25rem; list-style: disc; }
+
+.kiddo-card,
+.profile-form-wrapper {
+    margin-bottom: 1rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.kiddo-card > h5 { margin: 0; font-size: 1.1rem; }
+.kiddo-card > p { margin: .4rem 0 0; color: var(--muted); }
+.kiddo-card.text-center { text-align: center; }
+.kiddo-card.p-5 { padding: clamp(1.5rem, 5vw, 3rem); }
+.reviews-panel-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .4rem; }
+.reviews-panel-head h5 { margin: 0; }
+.review-panel-hint { margin: .25rem 0 0; color: var(--muted); font-size: .9rem; }
+
+.kiddo-order-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .65rem 1rem;
+    margin-bottom: .6rem;
+    padding: .9rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--primary-50);
+}
+
+.kiddo-badge,
+.kiddo-badge-subtle {
+    display: inline-flex;
+    align-items: center;
+    padding: .35rem .7rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.badge-status-completed { background: var(--green-50); color: #18794e; }
+.badge-status-placed { background: #f1f2f7; color: #6d6b80; }
+.kiddo-badge-subtle { background: var(--primary-50); color: var(--muted); }
+
+.kiddo-product-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem .2rem;
+    border-bottom: 1px solid #f0edf8;
+}
+
+.kiddo-product-row:last-child { border-bottom: 0; }
+.kiddo-product-row > div:first-child { display: flex; align-items: center; gap: .85rem; min-width: 0; }
+.kiddo-product-row > div:last-child { flex: 0 0 auto; }
+.kiddo-product-row h6 { margin: 0 0 .15rem; color: var(--ink); font-size: .95rem; }
+.kiddo-product-row a:hover h6 { color: var(--primary); }
+.kiddo-thumb { width: 58px; height: 58px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 13px; background: var(--bg); object-fit: contain; }
+
+.kiddo-btn-review,
+.kiddo-btn-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: .65rem 1.2rem;
+    border: 0;
+    border-radius: 13px;
+    background: var(--primary);
+    color: var(--white);
+    font: 800 .92rem/1.2 var(--font-body);
+    cursor: pointer;
+    box-shadow: var(--shadow-primary);
+    transition: transform .18s, background-color .18s;
+}
+
+.kiddo-btn-review:hover,
+.kiddo-btn-save:hover { transform: translateY(-1px); background: var(--primary-dark); color: var(--white); }
+
+.reviews-container { display: grid; gap: .85rem; }
+.review-entry-box { padding: 1rem; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+.review-head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .8rem; }
+.review-product-info { display: flex; align-items: center; gap: .75rem; min-width: 0; }
+.review-thumb { width: 52px; height: 52px; flex: 0 0 auto; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); object-fit: contain; }
+.review-product-title { display: block; color: var(--ink); font-weight: 800; }
+.review-product-title:hover { color: var(--primary); }
+.review-date { margin: .15rem 0 0; color: var(--muted); font-size: .82rem; }
+.review-stars { margin-bottom: .4rem; color: #e5a400; letter-spacing: .12em; }
+.star-empty { color: #d9d6e4; }
+.review-comment { margin: 0; color: var(--text); white-space: pre-line; }
+
+.profile-form-wrapper { max-width: 780px; margin: 0 auto 1rem; padding: clamp(1.2rem, 3vw, 2rem); }
+.profile-section-title { margin: 0 0 .2rem; color: var(--ink); font-size: 1.3rem; }
+.profile-section-desc { margin: 0 0 1.4rem; color: var(--muted); }
+.profile-form { display: grid; gap: 1rem; }
+.profile-photo-field { display: flex; align-items: center; gap: 1rem; padding: 1rem; border: 1px dashed var(--primary-200); border-radius: 16px; background: var(--primary-50); }
+.profile-photo-preview { width: 82px; height: 82px; }
+.profile-photo-control { display: grid; gap: .35rem; min-width: 0; }
+.profile-photo-control .kiddo-label { margin: 0; }
+.profile-photo-control input { max-width: 100%; color: var(--text); font: 600 .88rem var(--font-body); }
+.profile-photo-control input::file-selector-button { margin-right: .65rem; padding: .55rem .8rem; border: 0; border-radius: 10px; background: var(--white); color: var(--primary-deep); font: 800 .82rem var(--font-body); cursor: pointer; }
+.profile-photo-control small,
+.profile-field-hint { color: var(--muted); font-size: .8rem; }
+.profile-fields-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.profile-fields-grid .col-md-6 { min-width: 0; }
+.kiddo-form-group { display: grid; gap: .4rem; }
+.kiddo-label { color: var(--text); font-size: .9rem; font-weight: 800; }
+.kiddo-control { width: 100%; min-height: 48px; padding: .7rem .9rem; border: 1px solid #ded9ee; border-radius: 12px; outline: none; background: #fdfcff; color: var(--ink); font: 600 .95rem var(--font-body); transition: border-color .18s, box-shadow .18s, background-color .18s; }
+.kiddo-control:focus { border-color: var(--primary); outline: none; background: #fff; box-shadow: 0 0 0 4px var(--primary-50); }
+.profile-form-actions { display: flex; justify-content: flex-end; padding-top: .3rem; }
+
+.kiddo-modal-bg { display: none; position: fixed; inset: 0; z-index: 120; align-items: center; justify-content: center; padding: 1rem; background: rgba(30, 24, 64, .5); backdrop-filter: blur(4px); }
+.kiddo-modal-window { width: min(480px, 100%); padding: 1.4rem; border: 1px solid var(--line); border-radius: 20px; background: var(--white); box-shadow: var(--shadow); }
+.kiddo-modal-window h5 { margin: 0; }
+.kiddo-modal-window form { display: grid; gap: .8rem; }
+.kiddo-modal-window .d-flex { display: flex; align-items: center; justify-content: space-between; }
+.kiddo-modal-window .mb-3 { margin-bottom: .75rem; }
+.kiddo-modal-window .text-muted { color: var(--muted); }
+.kiddo-modal-window .text-dark { color: var(--ink); }
+.kiddo-modal-window .kiddo-label { margin: 0; }
+.kiddo-modal-window textarea.kiddo-control { min-height: 110px; resize: vertical; }
+.kiddo-modal-window .btn-close { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--primary-50); color: var(--primary-deep); font-size: 1.3rem; cursor: pointer; }
+
+/* Small utility classes used by the existing account and review markup. */
+.kiddo-account-wrapper .d-flex { display: flex; }
+.kiddo-account-wrapper .align-items-center { align-items: center; }
+.kiddo-account-wrapper .justify-content-between { justify-content: space-between; }
+.kiddo-account-wrapper .gap-3 { gap: .75rem; }
+.kiddo-account-wrapper .fw-bold { font-weight: 800; }
+.kiddo-account-wrapper .text-dark { color: var(--ink); }
+.kiddo-account-wrapper .text-muted { color: var(--muted); }
+.kiddo-account-wrapper .small { font-size: .85rem; }
+.kiddo-account-wrapper .ms-2 { margin-left: .5rem; }
+.kiddo-account-wrapper .mb-0 { margin-bottom: 0; }
+.kiddo-account-wrapper .mb-1 { margin-bottom: .25rem; }
+.kiddo-account-wrapper .mb-2 { margin-bottom: .5rem; }
+.kiddo-account-wrapper .mb-3 { margin-bottom: .75rem; }
+.kiddo-account-wrapper .text-decoration-none { text-decoration: none; }
+
+@media (max-width: 680px) {
+    .kiddo-account-wrapper { min-height: 0; padding-top: 1rem; }
+    .kiddo-account-hero { align-items: flex-start; flex-direction: column; }
+    .kiddo-account-identity { width: 100%; padding-top: .85rem; border-top: 1px solid var(--line); }
+    .kiddo-order-head { align-items: flex-start; }
+    .kiddo-product-row { align-items: flex-start; flex-direction: column; }
+    .kiddo-product-row > div:last-child { padding-left: 4.6rem; }
+    .profile-fields-grid { grid-template-columns: 1fr; gap: 0; }
+    .profile-photo-field { align-items: flex-start; }
+}
+
+@media (max-width: 420px) {
+    .profile-photo-field { flex-direction: column; }
+    .review-head-row { flex-direction: column; }
+    .reviews-panel-head { align-items: flex-start; flex-direction: column; }
+}
+
+@media (max-width: 900px) {
+    .kiddo-account-layout { grid-template-columns: minmax(0, 1fr); }
+    .kiddo-account-layout .toys-sidebar { display: none; }
+    .kiddo-account-layout .toys-main { display: block; min-height: 65vh; }
+}
+
+.drawer-account-sections { display: grid; gap: .35rem; margin-top: .3rem; padding-top: .65rem; border-top: 1px solid var(--line); }
+.drawer-account-sections-title { padding: 0 .35rem .2rem; color: var(--muted); font-size: .76rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+.drawer-account-sections .drawer-account-link { width: 100%; border: 0; background: var(--white); font: 800 .92rem/1.25 var(--font-body); text-align: left; cursor: pointer; }
+.drawer-account-sections .drawer-account-link:hover,
+.drawer-account-sections .drawer-account-link.is-active { background: var(--primary); color: var(--white); box-shadow: var(--shadow-primary); }
+.drawer-account-sections .drawer-account-link:hover:not(.is-active) { background: var(--primary-50); color: var(--primary-deep); }
+
+@media (min-width: 901px) {
+    .drawer-account-sections { display: none; }
+}

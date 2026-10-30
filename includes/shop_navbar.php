@@ -7,7 +7,8 @@
 $activePage = $activePage ?? '';
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
-$firstName  = preg_split('/\s+/', $userName)[0] ?? '';
+$nameParts  = preg_split('/\s+/u', $userName, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+$firstName  = $nameParts[0] ?? '';
 $cartCount  = (int) ($_SESSION['cart_count'] ?? 0);
 $searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a broken URL like ?q[]= is ignored)
 
@@ -69,9 +70,7 @@ $shopNavLinks = [
             <span class="header-divider desktop-only"></span>
 
             <?php if ($isLoggedIn): ?>
-                <span class="shop-welcome desktop-only">Welcome, <strong><?= htmlspecialchars($firstName) ?>!</strong></span>
-                <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/orders/index.php">My orders</a>
-                <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
+                <?php require __DIR__ . '/account_menu.php'; ?>
             <?php else: ?>
                 <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/login.php">Login</a>
                 <a class="btn btn-primary btn-sm desktop-only" href="<?= BASE_URL ?>/auth/register.php">Register</a>
@@ -91,9 +90,21 @@ $shopNavLinks = [
 
     <?php if ($isLoggedIn): ?>
         <div class="drawer-auth is-user">
-            <span class="shop-welcome">Welcome, <strong><?= htmlspecialchars($firstName) ?>!</strong></span>
-            <a class="btn btn-outline" href="<?= BASE_URL ?>/orders/index.php">My orders</a>
-            <a class="btn btn-outline" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
+            <?php if ($activePage === 'profile'): ?>
+                <div class="drawer-account-sections" aria-label="Profile sections">
+                    <button type="button" class="drawer-account-link account-tab-link <?= ($activeAccountTab ?? '') === 'orders' ? 'is-active' : '' ?>" onclick="switchTab('orders', this); document.getElementById('nav-toggle').checked = false;" aria-controls="tab-orders" <?= ($activeAccountTab ?? '') === 'orders' ? 'aria-current="page"' : '' ?>>🛍️ My Orders</button>
+                    <button type="button" class="drawer-account-link account-tab-link <?= ($activeAccountTab ?? '') === 'reviews' ? 'is-active' : '' ?>" onclick="switchTab('reviews', this); document.getElementById('nav-toggle').checked = false;" aria-controls="tab-reviews" <?= ($activeAccountTab ?? '') === 'reviews' ? 'aria-current="page"' : '' ?>>⭐ My Reviews</button>
+                    <button type="button" class="drawer-account-link account-tab-link <?= ($activeAccountTab ?? '') === 'profile' ? 'is-active' : '' ?>" onclick="switchTab('profile', this); document.getElementById('nav-toggle').checked = false;" aria-controls="tab-profile" <?= ($activeAccountTab ?? '') === 'profile' ? 'aria-current="page"' : '' ?>>👤 My Profile</button>
+                </div>
+            <?php else: ?>
+                <a class="drawer-account-link" href="<?= BASE_URL ?>/orders/index.php">🛍️ My Orders</a>
+                <a class="drawer-account-link" href="<?= BASE_URL ?>/auth/profile.php?tab=reviews">⭐ My Reviews</a>
+                <a class="drawer-account-link" href="<?= BASE_URL ?>/auth/profile.php">👤 My Profile</a>
+            <?php endif; ?>
+            <form action="<?= BASE_URL ?>/auth/logout.php" method="post">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                <button class="account-menu__logout" type="submit">Log out</button>
+            </form>
         </div>
     <?php else: ?>
         <div class="drawer-auth">
