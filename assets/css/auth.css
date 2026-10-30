@@ -13,3 +13,6 @@
 .auth-success { background: #eaf8ee; color: #225c35; padding: 12px; border-radius: 10px; }
 .auth-hint { font-size: .85rem; margin-top: 8px; }
 @media (max-width: 576px) { .auth-card { padding: 20px; } }
+
+.auth-google-separator { text-align: center; color: #777; margin: 12px 0; }
+.google-auth-button { display: block; box-sizing: border-box; width: 100%; text-align: center; text-decoration: none !important; margin: 12px 0; }
