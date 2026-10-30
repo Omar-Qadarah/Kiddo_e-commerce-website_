@@ -102,7 +102,14 @@ require_once __DIR__ . '/includes/shop_header.php';
             </svg>
         </div>
     </div>
-    <div class="hero-clouds" aria-hidden="true"></div>
+    <!-- smooth layered waves at the bottom edge -->
+    <div class="hero-clouds" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false">
+            <path class="hero-wave-back" d="M0 58 C 180 104 360 104 540 74 C 720 44 900 18 1080 38 C 1260 58 1350 88 1440 70 L1440 120 L0 120 Z"/>
+            <path class="hero-wave-mid" d="M0 82 C 220 54 420 50 640 76 C 860 102 1060 106 1260 82 C 1350 72 1400 66 1440 66 L1440 120 L0 120 Z"/>
+            <path class="hero-wave-front" d="M0 96 C 240 74 480 74 720 92 C 960 110 1200 110 1440 88 L1440 120 L0 120 Z"/>
+        </svg>
+    </div>
 </section>
 
 <!-- ============ Shop by age ============ -->
@@ -154,7 +161,15 @@ require_once __DIR__ . '/includes/shop_header.php';
 <section class="shop-section">
     <div class="container">
         <div class="promo" data-slider>
-            <div class="promo-slide is-active">
+            <!-- Names: click one to open its card. The active name follows the auto-rotation too. -->
+            <div class="promo-names" role="tablist" aria-label="Offers">
+                <?php foreach (['New toys', 'Discounts', 'Cash on delivery', 'Birthday surprise'] as $i => $name): ?>
+                    <button type="button" role="tab" class="promo-name promo-name-<?= ['purple', 'pink', 'green', 'orange'][$i] ?> <?= $i === 0 ? 'is-on' : '' ?>"
+                            data-slide-name="<?= $i ?>" aria-selected="<?= $i === 0 ? 'true' : 'false' ?>"><?= $name ?></button>
+                <?php endforeach; ?>
+            </div>
+
+            <div class="promo-slide promo-purple is-active">
                 <div class="promo-text">
                     <span class="promo-tag">Fresh on the shelf</span>
                     <h2>New toys every week</h2>
@@ -163,7 +178,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 </div>
                 <span class="promo-art" aria-hidden="true">🎁</span>
             </div>
-            <div class="promo-slide">
+            <div class="promo-slide promo-pink">
                 <div class="promo-text">
                     <span class="promo-tag">Discounts</span>
                     <h2>Happy prices this week</h2>
@@ -172,7 +187,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 </div>
                 <span class="promo-art" aria-hidden="true">🏷️</span>
             </div>
-            <div class="promo-slide">
+            <div class="promo-slide promo-green">
                 <div class="promo-text">
                     <span class="promo-tag">Cash on delivery</span>
                     <h2>Pay when it arrives</h2>
@@ -181,7 +196,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 </div>
                 <span class="promo-art" aria-hidden="true">🚚</span>
             </div>
-            <div class="promo-slide">
+            <div class="promo-slide promo-orange">
                 <div class="promo-text">
                     <span class="promo-tag">Birthday surprise</span>
                     <h2>10% off on their big day</h2>
