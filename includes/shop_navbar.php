@@ -69,6 +69,7 @@ $shopNavLinks = [
 
             <?php if ($isLoggedIn): ?>
                 <span class="shop-welcome desktop-only">Welcome, <strong><?= htmlspecialchars($firstName) ?>!</strong></span>
+                <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/orders/index.php">My orders</a>
                 <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
             <?php else: ?>
                 <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/login.php">Login</a>
@@ -90,6 +91,7 @@ $shopNavLinks = [
     <?php if ($isLoggedIn): ?>
         <div class="drawer-auth is-user">
             <span class="shop-welcome">Welcome, <strong><?= htmlspecialchars($firstName) ?>!</strong></span>
+            <a class="btn btn-outline" href="<?= BASE_URL ?>/orders/index.php">My orders</a>
             <a class="btn btn-outline" href="<?= BASE_URL ?>/auth/logout.php">Logout</a>
         </div>
     <?php else: ?>
