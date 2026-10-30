@@ -10,12 +10,23 @@
     let opener = null;
     let pendingDelete = null;
     let loadNumber = 0;
+    // Reuse existing add/edit endpoints and their existing success redirects.
+    const formPages = {
+        'edit_product.php': { title: 'Edit Product', list: 'products.php', size: 'product' },
+        'edit_discount.php': { title: 'Edit Discount', list: 'discounts.php' },
+        'add_product.php': { title: 'Add Product', list: 'products.php', size: 'product' },
+        'add_category.php': { title: 'Add Category', list: 'categories.php', size: 'small' },
+        'add_age_group.php': { title: 'Add Age Group', list: 'age_groups.php' },
+        'add_discount.php': { title: 'Add Discount', list: 'discounts.php' }
+    };
 
     // Reuse the existing Users fields and IDs inside the same Bootstrap modal system.
-    document.querySelectorAll('.users-page #editModal.modal-overlay').forEach(element => {
+    document.querySelectorAll('.users-page .modal-overlay').forEach(element => {
         element.className = 'modal fade admin-dialog';
         element.tabIndex = -1;
-        element.setAttribute('aria-label', element.id === 'editModal' ? 'Edit User' : 'Add User');
+        const title = element.id === 'editModal' ? 'Edit User' : 'Add User';
+        element.setAttribute('aria-label', title);
+        element.querySelector('.modal-header h3').textContent = title;
         const content = element.querySelector('.modal-card');
         content.className = 'modal-content';
         const dialog = document.createElement('div');
@@ -108,7 +119,7 @@
         const doc = new DOMParser().parseFromString(html, 'text/html');
         const content = doc.querySelector('.admin-content');
         const form = content?.querySelector('form');
-        if (!form) throw new Error('The edit form could not be loaded. Please reopen it or sign in again.');
+        if (!form) throw new Error('The form could not be loaded. Please reopen it or sign in again.');
         editBody.replaceChildren();
         content.querySelectorAll('.alert').forEach(alert => editBody.append(alert));
         form.classList.add('admin-remote-form');
@@ -129,6 +140,7 @@
             form.querySelector('[type="submit"]').before(cancel);
         }
         const submit = form.querySelector('[type="submit"]');
+        if (new URL(url).pathname.endsWith('/add_discount.php')) submit.textContent = 'Add Discount';
         let footer = submit.closest('.d-flex');
         if (!footer || footer === form) {
             footer = document.createElement('div');
@@ -137,32 +149,37 @@
             footer.append(submit);
         }
         footer.className = 'admin-remote-footer';
+        const cancelButton = footer.querySelector('[data-bs-dismiss="modal"]');
+        if (cancelButton) footer.prepend(cancelButton);
         const fields = document.createElement('div');
         fields.className = 'admin-remote-fields';
         [...form.children].filter(child => child !== footer).forEach(child => fields.append(child));
         form.append(fields, footer);
-        if (url.includes('edit_discount.php')) fields.classList.add('admin-discount-fields');
+        if (/\/(add|edit)_discount\.php/.test(url)) fields.classList.add('admin-discount-fields');
         editBody.append(form);
         editUrl = url;
         editBody.scrollTop = 0;
     }
 
     document.addEventListener('click', async event => {
-        const link = event.target.closest('a.admin-action-edit');
+        const link = event.target.closest('a[href]');
         if (!link || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
         const url = new URL(link.href);
-        if (url.origin !== location.origin || !/\/edit_(product|discount)\.php$/.test(url.pathname)) return;
+        const page = url.pathname.split('/').pop();
+        const settings = formPages[page];
+        if (url.origin !== location.origin || !settings) return;
         event.preventDefault();
         opener = link;
         editUrl = link.href;
         const currentLoad = ++loadNumber;
-        editTitle.textContent = url.pathname.endsWith('edit_product.php') ? 'Edit Product' : 'Edit Discount';
-        editElement.querySelector('.modal-dialog').classList.toggle('admin-dialog-product', url.pathname.endsWith('edit_product.php'));
-        editBody.textContent = 'Loading edit form…';
+        editTitle.textContent = settings.title;
+        editElement.querySelector('.modal-dialog').classList.toggle('admin-dialog-product', settings.size === 'product');
+        editElement.querySelector('.modal-dialog').classList.toggle('admin-dialog-small', settings.size === 'small');
+        editBody.textContent = 'Loading form…';
         editDialog.show();
         try {
             const response = await fetch(editUrl, { credentials: 'same-origin' });
-            if (!response.ok) throw new Error('Unable to load the edit form. Please try again.');
+            if (!response.ok) throw new Error('Unable to load the form. Please try again.');
             const html = await response.text();
             if (currentLoad === loadNumber) showEditContent(html, response.url);
         } catch (error) {
@@ -171,7 +188,7 @@
             const fallback = document.createElement('a');
             fallback.href = link.href;
             fallback.className = 'btn btn-light d-block mt-3';
-            fallback.textContent = 'Open the existing edit page';
+            fallback.textContent = 'Open the existing form page';
             editBody.append(fallback);
         }
     });
@@ -190,7 +207,7 @@
         submitButtons.forEach(button => { button.disabled = true; });
         try {
             const response = await fetch(submitUrl, { method, body: data, credentials: 'same-origin' });
-            const expectedPage = editUrl.includes('edit_product.php') ? 'products.php' : 'discounts.php';
+            const expectedPage = formPages[new URL(editUrl).pathname.split('/').pop()].list;
             if (response.ok && new URL(response.url).pathname.endsWith('/' + expectedPage)) {
                 location.reload();
                 return;

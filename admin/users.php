@@ -215,19 +215,11 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
     <script>
         function openModal(id) {
-            if (id === 'addModal') {
-                document.getElementById(id).style.display = 'flex';
-            } else {
-                bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).show();
-            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).show();
         }
 
         function closeModal(id) {
-            if (id === 'addModal') {
-                document.getElementById(id).style.display = 'none';
-            } else {
-                bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).hide();
-            }
+            bootstrap.Modal.getOrCreateInstance(document.getElementById(id)).hide();
         }
 
         function openEditModal(id, firstName, lastName, phone, role) {
