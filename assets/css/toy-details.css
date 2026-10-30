@@ -314,8 +314,31 @@
 .details-missing p {
     color: var(--muted);
 }
+/* ---------- Message after Add to cart ---------- */
+.details-flash {
+    margin-top: 1rem;
+    padding: .8rem 1rem;
+    border-radius: var(--radius-sm);
+    font-weight: 700;
+}
 
+.details-flash.is-success {
+    background: var(--green-50);
+    color: var(--green);
+}
+
+.details-flash.is-error {
+    background: var(--pink-50);
+    color: var(--pink-dark);
+}
+
+.details-flash a {
+    margin-left: .5rem;
+    color: var(--primary);
+    text-decoration: underline;
+}
 /* ---------- Responsive ---------- */
+
 @media (max-width: 900px) {
     .details-grid {
         grid-template-columns: 1fr;

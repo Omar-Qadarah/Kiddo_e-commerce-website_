@@ -11,6 +11,9 @@ class Order
         'shipped'   => 'delivered',
         'delivered' => null,          // final step, nothing after it
     ];
+    
+    // Delivery fee for every order (JOD), same as the database default
+    public const DELIVERY_FEE = 2.00;
 
     private PDO $pdo;                 // the database connection, shared by all methods
 
@@ -89,5 +92,83 @@ class Order
 
         $stmt = $this->pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
         return $stmt->execute([$newStatus, $id]);
+    }
+    
+        // CUSTOMER: one order, only if it belongs to this customer
+    public function getCustomerOrder(int $orderId, int $userId): ?array
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM orders WHERE id = ? AND user_id = ?");
+        $stmt->execute([$orderId, $userId]);
+        $order = $stmt->fetch();
+
+        return $order ?: null;
+    } 
+        // CUSTOMER: all orders of one customer, newest first, with how many toys
+    public function getCustomerOrders(int $userId): array
+    {
+        $stmt = $this->pdo->prepare(
+            "SELECT o.id, o.total, o.status, o.created_at,
+                    COALESCE(SUM(oi.quantity), 0) AS toys_count
+             FROM orders o
+             LEFT JOIN order_items oi ON oi.order_id = o.id
+             WHERE o.user_id = ?
+             GROUP BY o.id
+             ORDER BY o.created_at DESC"
+        );
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll();
+    }
+    
+    // Saves the order and its toys in one transaction and returns the new order id.
+
+    // If anything fails, nothing is saved.
+    public function create(int $userId, array $cart, string $phone, string $address): int
+    {
+        $subtotal = $cart['subtotal'];
+        $total    = round($subtotal + self::DELIVERY_FEE, 2);
+
+        $this->pdo->beginTransaction();
+
+        try {
+            $stmt = $this->pdo->prepare(
+                "INSERT INTO orders (user_id, subtotal, delivery_fee, total, phone, address_text, latitude, longitude)
+                 VALUES (?, ?, ?, ?, ?, ?, 0, 0)"
+            );
+            $stmt->execute([$userId, $subtotal, self::DELIVERY_FEE, $total, $phone, $address]);
+            $orderId = (int) $this->pdo->lastInsertId();
+
+            $stockStmt = $this->pdo->prepare(
+                "UPDATE products SET stock = stock - ? WHERE id = ? AND stock >= ?"
+            );
+            $itemStmt = $this->pdo->prepare(
+                "INSERT INTO order_items (order_id, product_id, product_name, unit_price, quantity, line_total)
+                 VALUES (?, ?, ?, ?, ?, ?)"
+            );
+
+            foreach ($cart['items'] as $item) {
+                // Take the toys out of stock, only if there are enough left
+                $stockStmt->execute([$item['quantity'], $item['id'], $item['quantity']]);
+
+                if ($stockStmt->rowCount() === 0) {
+                    throw new Exception($item['name'] . ' is no longer available in this quantity.');
+                }
+
+                $itemStmt->execute([
+                    $orderId,
+                    $item['id'],
+                    $item['name'],
+                    $item['unit_price'],
+                    $item['quantity'],
+                    $item['line_total'],
+                ]);
+            }
+
+            $this->pdo->commit();
+            return $orderId;
+        } catch (Exception $e) {
+            $this->pdo->rollBack();
+            throw $e;
+        }
     }
 }

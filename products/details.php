@@ -45,6 +45,10 @@ $stock       = (int) $toy['stock'];
 $tints       = ['tint-yellow', 'tint-purple', 'tint-peach', 'tint-pink', 'tint-mint', 'tint-blue'];
 $tint        = $tints[(int) $toy['category_id'] % count($tints)];
 
+// Message from cart/add.php, shown once
+$cartFlash = $_SESSION['cart_flash'] ?? null;
+unset($_SESSION['cart_flash']);
+
 $pageTitle  = $toy['name'];
 $activePage = 'toys';
 $pageStyles = ['toy-details.css'];
@@ -142,6 +146,15 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <?= $stock > 0 ? 'Add to cart' : 'Out of stock' ?>
                 </button>
             </form>
+            
+            <?php if ($cartFlash): ?>
+                <p class="details-flash is-<?= $cartFlash['type'] ?>" role="status">
+                    <?= htmlspecialchars($cartFlash['message']) ?>
+                    <?php if ($cartFlash['type'] === 'success'): ?>
+                        <a href="<?= BASE_URL ?>/cart/index.php">View cart</a>
+                    <?php endif; ?>
+                </p>
+            <?php endif; ?>
         </div>
     </div>
 </section>
