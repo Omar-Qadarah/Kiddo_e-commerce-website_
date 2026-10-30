@@ -300,6 +300,131 @@
     margin: 0;
 }
 
+/* ---------- Write a review (form posts to products/add_review.php) ---------- */
+.details-reviews {
+    scroll-margin-top: calc(var(--header-h) + 1rem);
+}
+
+.details-reviews > .details-flash {
+    margin: 0 0 1.2rem;
+}
+
+.review-form-box {
+    margin-top: 1.8rem;
+    padding: 1.6rem 1.8rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+
+.review-form h3 {
+    margin: 0 0 .8rem;
+    color: var(--ink);
+}
+
+.review-login {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.review-login p,
+.review-done {
+    margin: 0;
+    color: var(--text);
+    font-weight: 600;
+}
+
+.review-done {
+    color: var(--green);
+    font-weight: 800;
+}
+
+/* stars: the inputs are 5 → 1 and shown right-to-left, so "~" can colour
+   every star up to the hovered / checked one */
+.star-input {
+    margin: 0 0 1rem;
+    padding: 0;
+    border: 0;
+}
+
+.star-row {
+    display: inline-flex;
+    flex-direction: row-reverse;
+    gap: .15rem;
+}
+
+.star-input legend {
+    padding: 0;
+    margin-bottom: .3rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.star-input input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+}
+
+.star-input label {
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--primary-200);
+    cursor: pointer;
+    transition: color .15s, transform .15s;
+}
+
+.star-input label:hover,
+.star-input label:hover ~ label,
+.star-input input:checked ~ label {
+    color: var(--yellow);
+}
+
+.star-input label:hover {
+    transform: scale(1.12);
+}
+
+.star-input input:focus-visible + label {
+    outline: 3px solid var(--primary-200);
+    outline-offset: 2px;
+    border-radius: 6px;
+}
+
+.review-label {
+    display: block;
+    margin-bottom: .4rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.review-form textarea {
+    display: block;
+    width: 100%;
+    padding: .9rem 1rem;
+    border: 2px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text);
+    font: inherit;
+    resize: vertical;
+}
+
+.review-form textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+}
+
+.review-hint {
+    display: block;
+    margin: .35rem 0 1rem;
+    color: var(--muted);
+}
+
 /* ---------- Not found ---------- */
 .details-missing {
     padding: 5rem 0 2rem;
