@@ -21,7 +21,7 @@ $searchLabels = ['products' => 'Search products...', 'orders' => 'Search order I
     <?php endforeach; ?>
     <label class="admin-page-size" for="table-size">Show
         <select class="form-select" id="table-size" name="per_page" onchange="this.form.requestSubmit()">
-            <?php foreach ([10, 20, 50] as $size): ?><option value="<?= $size ?>" <?= $size === $pagination['size'] ? 'selected' : '' ?>><?= $size ?></option><?php endforeach; ?>
+            <?php foreach ([5] as $size): ?><option value="<?= $size ?>" <?= $size === $pagination['size'] ? 'selected' : '' ?>><?= $size ?></option><?php endforeach; ?>
         </select>
     </label>
     <button class="btn btn-outline-primary" type="submit">Search</button>
