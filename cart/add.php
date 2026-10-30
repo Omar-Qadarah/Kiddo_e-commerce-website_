@@ -30,5 +30,11 @@ $_SESSION['cart_flash'] = [
     'message' => $result['message'],
 ];
 
+// Added from the cart suggestions: stay on the cart page
+if (($_POST['return_to'] ?? '') === 'cart') {
+    header('Location: ' . BASE_URL . '/cart/index.php');
+    exit;
+}
+
 header('Location: ' . BASE_URL . '/products/details.php?id=' . $productId);
 exit;

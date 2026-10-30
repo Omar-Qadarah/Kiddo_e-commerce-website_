@@ -95,6 +95,9 @@ $tint         = $tints[(int) $toy['category_id'] % count($tints)];
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="product_id" value="<?= (int) $toy['id'] ?>">
                 <input type="hidden" name="quantity" value="1">
+                <?php if (($cardReturnTo ?? '') === 'cart'): ?>
+                    <input type="hidden" name="return_to" value="cart">
+                <?php endif; ?>
                 <button class="btn btn-primary btn-block" type="submit" <?= $stock > 0 ? '' : 'disabled' ?>>
                     <?= $stock > 0 ? 'Add to cart' : 'Out of stock' ?>
                 </button>
