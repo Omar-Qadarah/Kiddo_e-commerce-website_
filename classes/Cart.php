@@ -92,6 +92,13 @@ class Cart
         return ['ok' => true, 'message' => 'Cart updated.'];
     }
 
+        // Empties the cart after the order is placed
+    public function clear(): void
+    {
+        $_SESSION['cart'] = [];
+        $this->updateCount();
+    }
+
     // [product_id => quantity]
     public function getItems(): array
     {
