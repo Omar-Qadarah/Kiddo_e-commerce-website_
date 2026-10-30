@@ -10,16 +10,20 @@ class SearchHistory {
     public function addSearch($user_id, $searchTerm, $resultCount = 0) {
         $term = trim($searchTerm);
 
-        if (empty($term) || empty($user_id) || $user_id <= 0) {
+        if (empty($term) || empty($user_id) || (int)$user_id <= 0) {
             return false;
         }
 
         try {
             $deleteSql = "DELETE FROM search_history WHERE user_id = :user_id AND LOWER(search_term) = LOWER(:term)";
             $deleteStmt = $this->con->prepare($deleteSql);
-            $deleteStmt->execute([":user_id" => (int)$user_id, ":term" => $term]);
+            $deleteStmt->execute([
+                ":user_id" => (int)$user_id, 
+                ":term"    => $term
+            ]);
 
-            $sql = "INSERT INTO search_history (user_id, search_term, results_count) VALUES (:user_id, :term, :resultCount)";
+            $sql = "INSERT INTO search_history (user_id, search_term, results_count, searched_at) 
+                    VALUES (:user_id, :term, :resultCount, NOW())";
             $stmt = $this->con->prepare($sql);
             
             return $stmt->execute([
@@ -28,12 +32,13 @@ class SearchHistory {
                 ":resultCount" => (int)$resultCount
             ]);
         } catch (PDOException $e) {
+            error_log("SearchHistory addSearch Error: " . $e->getMessage());
             return false;
         }
     }
 
     public function getRecentSearches($user_id, $limit = 5) {
-        if (empty($user_id) || $user_id <= 0) {
+        if (empty($user_id) || (int)$user_id <= 0) {
             return [];
         }
 
@@ -50,12 +55,13 @@ class SearchHistory {
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
+            error_log("SearchHistory getRecentSearches Error: " . $e->getMessage());
             return [];
         }
     }
 
     public function deleteSearchItem($user_id, $search_id) {
-        if (empty($user_id) || $user_id <= 0 || empty($search_id) || $search_id <= 0) {
+        if (empty($user_id) || (int)$user_id <= 0 || empty($search_id) || (int)$search_id <= 0) {
             return false;
         }
 
@@ -69,12 +75,13 @@ class SearchHistory {
                 ':user_id'   => (int)$user_id
             ]);
         } catch (PDOException $e) {
+            error_log("SearchHistory deleteSearchItem Error: " . $e->getMessage());
             return false;
         }
     }
 
     public function clearAllHistory($user_id) {
-        if (empty($user_id) || $user_id <= 0) {
+        if (empty($user_id) || (int)$user_id <= 0) {
             return false;
         }
 
@@ -86,6 +93,7 @@ class SearchHistory {
                 ':user_id' => (int)$user_id
             ]);
         } catch (PDOException $e) {
+            error_log("SearchHistory clearAllHistory Error: " . $e->getMessage());
             return false;
         }
     }
