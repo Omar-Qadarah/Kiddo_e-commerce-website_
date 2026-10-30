@@ -13,8 +13,7 @@ class AdminTable
     {
         $search = isset($request['search']) && is_string($request['search']) ? trim($request['search']) : '';
         $search = substr($search, 0, 120);
-        $size = isset($request['per_page']) && is_scalar($request['per_page']) ? (string) $request['per_page'] : '10';
-        $size = in_array($size, ['10', '20', '50'], true) ? (int) $size : 10;
+        $size = 5; // Fixed maximum for every admin management list.
         $requestedPage = isset($request['page']) && is_string($request['page']) && ctype_digit($request['page']) ? (int) $request['page'] : 1;
         $where = [];
         $params = [];
