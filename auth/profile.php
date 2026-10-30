@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
+require_once __DIR__ . '/../includes/account_helpers.php';
 require_once __DIR__ . '/../classes/Review.php';
 
 $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
@@ -11,6 +12,7 @@ if ($userId <= 0) {
 
 $reviewModel = new Review($pdo);
 $errors = [];
+$profileFormValues = [];
 $successMsg = $_SESSION['success_message'] ?? '';
 $errorMsg   = $_SESSION['error_message'] ?? '';
 unset($_SESSION['success_message'], $_SESSION['error_message']);
@@ -19,39 +21,111 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     checkCsrf();
 
     if ($_POST['action'] === 'update_profile') {
-        $firstName = trim($_POST['first_name'] ?? '');
-        $lastName  = trim($_POST['last_name'] ?? '');
-        $phone     = trim($_POST['phone'] ?? '');
-        $birthDate = trim($_POST['birth_date'] ?? '');
+        $firstName = trim(is_string($_POST['first_name'] ?? null) ? $_POST['first_name'] : '');
+        $lastName  = trim(is_string($_POST['last_name'] ?? null) ? $_POST['last_name'] : '');
+        $email     = strtolower(trim(is_string($_POST['email'] ?? null) ? $_POST['email'] : ''));
+        $phone     = trim(is_string($_POST['phone'] ?? null) ? $_POST['phone'] : '');
+        $birthDate = trim(is_string($_POST['birth_date'] ?? null) ? $_POST['birth_date'] : '');
+        $profileFormValues = compact('firstName', 'lastName', 'email', 'phone', 'birthDate');
+        $profileImageExtension = null;
 
-        if (empty($firstName) || empty($lastName)) {
-            $errors[] = 'First name and last name are required.';
+        $firstNameLength = function_exists('mb_strlen') ? mb_strlen($firstName, 'UTF-8') : strlen($firstName);
+        $lastNameLength = function_exists('mb_strlen') ? mb_strlen($lastName, 'UTF-8') : strlen($lastName);
+        if ($firstName === '' || $firstNameLength > 50) {
+            $errors[] = 'Enter a first name using 1 to 50 characters.';
+        }
+        if ($lastName === '' || $lastNameLength > 50) {
+            $errors[] = 'Enter a last name using 1 to 50 characters.';
+        }
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 120) {
+            $errors[] = 'Enter a valid email address (up to 120 characters).';
+        } else {
+            $emailCheck = $pdo->prepare('SELECT id FROM users WHERE email = ? AND id <> ? LIMIT 1');
+            $emailCheck->execute([$email, $userId]);
+            if ($emailCheck->fetchColumn()) {
+                $errors[] = 'That email address is already used by another account.';
+            }
+        }
+        if (strlen($phone) > 20) {
+            $errors[] = 'Phone number must be 20 characters or fewer.';
+        }
+        if ($birthDate !== '') {
+            $parsedBirthDate = DateTime::createFromFormat('!Y-m-d', $birthDate);
+            if (!$parsedBirthDate || $parsedBirthDate->format('Y-m-d') !== $birthDate || $parsedBirthDate > new DateTime('today')) {
+                $errors[] = 'Choose a valid date that is not in the future.';
+            }
+        }
+
+        $upload = $_FILES['profile_image'] ?? null;
+        if (is_array($upload) && ($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+            if (($upload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+                $errors[] = 'The profile photo could not be uploaded. Please try another image.';
+            } elseif ((int)($upload['size'] ?? 0) > 3 * 1024 * 1024) {
+                $errors[] = 'Profile photos must be 3 MB or smaller.';
+            } else {
+                $temporaryFile = (string)($upload['tmp_name'] ?? '');
+                $imageInfo = $temporaryFile !== '' ? @getimagesize($temporaryFile) : false;
+                $fileInfo = class_exists('finfo') ? new finfo(FILEINFO_MIME_TYPE) : null;
+                $mimeType = $fileInfo && $temporaryFile !== '' ? $fileInfo->file($temporaryFile) : (string)($imageInfo['mime'] ?? '');
+                $allowedImageTypes = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+                if (!$imageInfo || !isset($allowedImageTypes[$mimeType]) || ($imageInfo['mime'] ?? '') !== $mimeType) {
+                    $errors[] = 'Use a valid JPG, PNG, or WebP photo.';
+                } elseif ((int)$imageInfo[0] > 4000 || (int)$imageInfo[1] > 4000) {
+                    $errors[] = 'Profile photo dimensions must be 4000 × 4000 pixels or smaller.';
+                } else {
+                    $profileImageExtension = $allowedImageTypes[$mimeType];
+                }
+            }
         }
 
         if (empty($errors)) {
             try {
-                $updateSql = "UPDATE users 
-                              SET first_name = :first_name, 
-                                  last_name = :last_name, 
-                                  phone = :phone, 
-                                  birth_date = :birth_date 
+                $newProfileImage = null;
+                if ($profileImageExtension !== null) {
+                    $profileDirectory = __DIR__ . '/../uploads/profiles';
+                    if (!is_dir($profileDirectory) && !@mkdir($profileDirectory, 0755, true) && !is_dir($profileDirectory)) {
+                        throw new RuntimeException('Unable to create the profile photo folder.');
+                    }
+                    $newProfileImage = sprintf('user_%d_%s.%s', $userId, bin2hex(random_bytes(8)), $profileImageExtension);
+                    if (!move_uploaded_file($temporaryFile, $profileDirectory . '/' . $newProfileImage)) {
+                        throw new RuntimeException('Unable to save the uploaded profile photo.');
+                    }
+                }
+
+                $updateSql = "UPDATE users
+                              SET first_name = :first_name,
+                                  last_name = :last_name,
+                                  email = :email,
+                                  phone = :phone,
+                                  birth_date = :birth_date
                               WHERE id = :id";
                 $updateStmt = $pdo->prepare($updateSql);
                 $updateStmt->execute([
                     ':first_name' => $firstName,
                     ':last_name'  => $lastName,
+                    ':email'      => $email,
                     ':phone'      => !empty($phone) ? $phone : null,
                     ':birth_date' => !empty($birthDate) ? $birthDate : null,
-                    ':id'         => $userId
+                    ':id'         => $userId,
                 ]);
 
-                $_SESSION['user_name'] = $firstName;
+                if ($newProfileImage !== null) {
+                    foreach (glob(__DIR__ . '/../uploads/profiles/user_' . $userId . '_*.{jpg,jpeg,png,webp}', GLOB_BRACE) ?: [] as $oldImage) {
+                        if (basename($oldImage) !== $newProfileImage && is_file($oldImage)) {
+                            @unlink($oldImage);
+                        }
+                    }
+                }
+
+                $_SESSION['user_name'] = trim($firstName . ' ' . $lastName);
                 $_SESSION['success_message'] = 'Profile updated successfully.';
                 header('Location: profile.php');
                 exit;
-            } catch (PDOException $e) {
+            } catch (Throwable $e) {
                 error_log("Profile Update Error: " . $e->getMessage());
-                $errors[] = 'An error occurred while updating your profile.';
+                $errors[] = $e instanceof PDOException && $e->getCode() === '23000'
+                    ? 'That email address is already used by another account.'
+                    : 'An error occurred while updating your profile. Please try again.';
             }
         }
     } elseif ($_POST['action'] === 'submit_review') {
@@ -68,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         } elseif ($reviewModel->hasReviewed($userId, $productId)) {
             $errors[] = 'You have already submitted a review for this product.';
         } elseif (!$reviewModel->isEligibleToReview($userId, $productId)) {
-            $errors[] = 'Only verified buyers with a completed order can review this product.';
+            $errors[] = 'Only verified buyers with a delivered order can review this product.';
         } else {
             if ($reviewModel->createReview($productId, $userId, $rating, $comment)) {
                 $_SESSION['success_message'] = 'Thank you! Your review has been submitted successfully.';
@@ -121,322 +195,82 @@ $myReviewsStmt = $pdo->prepare("SELECT r.*, p.name AS product_name, p.image AS p
 $myReviewsStmt->execute([$userId]);
 $myReviews = $myReviewsStmt->fetchAll(PDO::FETCH_ASSOC);
 
+$profileImageUrl = accountProfileImageUrl($userId);
+$profileInitials = accountUserInitials(trim($user['first_name'] . ' ' . $user['last_name']));
+$activeAccountTab = 'profile';
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_review') {
+    $activeAccountTab = 'orders';
+} elseif (isset($_GET['tab']) && in_array($_GET['tab'], ['orders', 'reviews', 'profile'], true)) {
+    $activeAccountTab = $_GET['tab'];
+}
 $pageTitle = 'My Profile';
 $activePage = 'profile';
-require_once __DIR__ . '/../includes/header.php';
+$pageStyles = ['toys-page.css', 'profile.css'];
+require_once __DIR__ . '/../includes/shop_header.php';
 ?>
 
-<style>
-.kiddo-account-wrapper {
-    background-color: #fcfbfe;
-    padding: 30px 0 60px;
-    min-height: 80vh;
-    
-}
-.kiddo-page-title {
-    color: #2d3436;
-    font-weight: 800;
-    font-size: 2rem;
-    margin-bottom: 4px;
-}
-.kiddo-subtitle {
-    color: #636e72;
-    margin-bottom: 24px;
-}
-.kiddo-tabs-bar {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-}
-.kiddo-tab-btn {
-    border: none;
-    background: #f1f2f6;
-    color: #636e72;
-    padding: 10px 24px;
-    border-radius: 12px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-.kiddo-tab-btn:hover {
-    background: #e4e6ed;
-    color: #2d3436;
-}
-.kiddo-tab-btn.active {
-    background: #6c5ce7;
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
-}
-.kiddo-card {
-    display: flex;
-    flex-direction: column;
-    padding: 24px;
-    background: #ffffff;
-    border-radius: 18px;
-    border: 1px solid #edf0f5;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-    margin-bottom: 20px;
-}
-.kiddo-order-head {
-    background: #fafafa;
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #edf0f5;
-}
-.kiddo-badge {
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 700;
-    text-transform: capitalize;
-}
-.badge-status-completed {
-    background: #eafaf1;
-    color: #2ed573;
-}
-.badge-status-placed {
-    background: #eef2f7;
-    color: #747d8c;
-}
-.kiddo-product-row {
-    padding: 14px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #f8f9fa;
-}
-.kiddo-product-row:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-.kiddo-thumb {
-    width: 58px;
-    height: 58px;
-    border-radius: 12px;
-    object-fit: cover;
-    background: #f8f9fa;
-    border: 1px solid #edf0f5;
-}
-.kiddo-btn-review {
-    background: #6c5ce7;
-    color: #fff;
-    border: none;
-    padding: 7px 18px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-}
-.kiddo-btn-review:hover {
-    background: #5b4cdb;
-    color: #fff;
-}
-.kiddo-badge-subtle {
-    background: #f1f2f6;
-    color: #747d8c;
-    padding: 6px 12px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-.reviews-container {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-.review-entry-box {
-    background: #ffffff;
-    border: 1px solid #edf0f5;
-    border-radius: 14px;
-    padding: 18px 20px;
-    transition: box-shadow 0.2s ease;
-}
-.review-entry-box:hover {
-    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.05);
-}
-.review-head-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 12px;
-}
-.review-product-info {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
-.review-thumb {
-    width: 52px;
-    height: 52px;
-    border-radius: 10px;
-    object-fit: cover;
-    background: #f8f9fa;
-    border: 1px solid #edf0f5;
-    flex-shrink: 0;
-}
-.review-product-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #2d3436;
-    margin: 0 0 4px 0;
-    text-decoration: none;
-    display: block;
-}
-.review-product-title:hover {
-    color: #6c5ce7;
-}
-.review-date {
-    font-size: 0.8rem;
-    color: #8395a7;
-    margin: 0;
-}
-.review-stars {
-    color: #f1c40f !important;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
-    margin-bottom: 8px;
-    line-height: 1;
-}
-.review-stars .star-empty {
-    color: #dfe6e9 !important;
-}
-.review-comment {
-    color: #4b5563;
-    font-size: 0.95rem;
-    line-height: 1.55;
-    margin: 0;
-}
-.profile-form-wrapper {
-    background: #ffffff;
-    border: 1px solid #edf0f5;
-    border-radius: 20px;
-    padding: 32px;
-    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.04);
-}
-.profile-section-title {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: #2d3436;
-    margin-bottom: 6px;
-}
-.profile-section-desc {
-    font-size: 0.9rem;
-    color: #8395a7;
-    margin-bottom: 24px;
-}
-.kiddo-form-group {
-    margin-bottom: 20px;
-}
-.kiddo-label {
-    display: block;
-    font-size: 0.85rem;
-    font-weight: 700;
-    color: #576574;
-    margin-bottom: 8px;
-}
-.kiddo-control {
-    width: 100%;
-    height: 48px;
-    background-color: #fafbfc;
-    border: 1.5px solid #e4e7eb;
-    border-radius: 12px;
-    padding: 0 16px;
-    font-size: 0.95rem;
-    color: #2d3436;
-    transition: all 0.2s ease-in-out;
-}
-.kiddo-control:focus {
-    background-color: #ffffff;
-    border-color: #6c5ce7;
-    outline: none;
-    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.12);
-}
-.kiddo-control:disabled,
-.kiddo-control[readonly] {
-    background-color: #f1f2f6;
-    border-color: #e4e7eb;
-    color: #8395a7;
-    cursor: not-allowed;
-}
-.kiddo-btn-save {
-    background-color: #6c5ce7;
-    color: #ffffff;
-    border: none;
-    height: 48px;
-    padding: 0 32px;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.25);
-    transition: all 0.2s ease;
-}
-.kiddo-btn-save:hover {
-    background-color: #5b4cdb;
-    box-shadow: 0 6px 16px rgba(108, 92, 231, 0.35);
-    transform: translateY(-1px);
-}
-.kiddo-modal-bg {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(45, 52, 54, 0.45);
-    backdrop-filter: blur(4px);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-}
-.kiddo-modal-window {
-    background: #ffffff;
-    border-radius: 20px;
-    max-width: 480px;
-    width: 90%;
-    padding: 26px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-}
-</style>
 
-<div class="kiddo-account-wrapper">
-    <div class="container" style="max-width: 960px;">
-        <h1 class="kiddo-page-title">My Account</h1>
-        <p class="kiddo-subtitle">Welcome, <?= htmlspecialchars($user['first_name'] . ' ' . $user['last_name'], ENT_QUOTES, 'UTF-8') ?></p>
+<div class="toys-layout kiddo-account-layout">
+    <aside class="toys-sidebar" aria-label="My account sections">
+        <div class="toys-sidebar-inner">
+            <h2 class="toys-sidebar-title"><span aria-hidden="true">🧸</span> My account</h2>
+            <ul class="cat-list account-sidebar-list">
+                <li>
+                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'orders' ? 'is-active' : '' ?>" onclick="switchTab('orders', this)" aria-controls="tab-orders" <?= $activeAccountTab === 'orders' ? 'aria-current="page"' : '' ?>>
+                        <span class="cat-icon" aria-hidden="true">🛍️</span><span class="cat-name">My Orders</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'reviews' ? 'is-active' : '' ?>" onclick="switchTab('reviews', this)" aria-controls="tab-reviews" <?= $activeAccountTab === 'reviews' ? 'aria-current="page"' : '' ?>>
+                        <span class="cat-icon" aria-hidden="true">⭐</span><span class="cat-name">My Reviews</span>
+                    </button>
+                </li>
+                <li>
+                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'profile' ? 'is-active' : '' ?>" onclick="switchTab('profile', this)" aria-controls="tab-profile" <?= $activeAccountTab === 'profile' ? 'aria-current="page"' : '' ?>>
+                        <span class="cat-icon" aria-hidden="true">👤</span><span class="cat-name">My Profile</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <div class="toys-main kiddo-account-main">
+      <div class="kiddo-account-wrapper">
+       <div class="container kiddo-account-container">
+        <header class="kiddo-account-hero">
+            <div>
+                <span class="kiddo-account-eyebrow">Your account</span>
+                <h1 class="kiddo-page-title">My Account</h1>
+                <p class="kiddo-subtitle">Manage your profile, orders, and reviews in one place.</p>
+            </div>
+            <div class="kiddo-account-identity">
+                <span class="kiddo-profile-avatar">
+                    <?php if ($profileImageUrl): ?>
+                        <img src="<?= htmlspecialchars($profileImageUrl, ENT_QUOTES, 'UTF-8') ?>" alt="">
+                    <?php else: ?>
+                        <span><?= htmlspecialchars($profileInitials, ENT_QUOTES, 'UTF-8') ?></span>
+                    <?php endif; ?>
+                </span>
+                <span class="kiddo-account-identity-copy">
+                    <strong><?= htmlspecialchars(trim($user['first_name'] . ' ' . $user['last_name']), ENT_QUOTES, 'UTF-8') ?></strong>
+                    <span><?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8') ?></span>
+                </span>
+            </div>
+        </header>
 
         <?php if (!empty($successMsg)): ?>
-    <div style="display: flex; justify-content: start; width: 100%; margin-bottom: 24px;">
-        <div id="successAlertBox" style="display: inline-flex; align-items: center; justify-content: space-between; gap: 14px; background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 12px; padding: 12px 18px; box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08); font-size: 0.95rem; font-weight: 600; color: #065f46; max-width: 90%; min-width: 320px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-                <span><?= htmlspecialchars($successMsg, ENT_QUOTES, 'UTF-8') ?></span>
-            </div>
-            <button type="button" onclick="document.getElementById('successAlertBox').remove();" aria-label="Close" style="background: transparent; border: none; font-size: 1.25rem; line-height: 1; color: #047857; cursor: pointer; padding: 0 4px; display: flex; align-items: center; justify-content: center; opacity: 0.7; transition: opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">
-                &times;
-            </button>
-        </div>
-    </div>
-<?php endif; ?>
+            <div class="kiddo-form-alert is-success" role="status"><?= htmlspecialchars($successMsg, ENT_QUOTES, 'UTF-8') ?></div>
+        <?php endif; ?>
 
         <?php if (!empty($errorMsg)): ?>
-            <div class="alert alert-danger alert-dismissible fade show rounded-4 mb-4" role="alert">
+            <div class="kiddo-form-alert is-error" role="alert">
                 <?= htmlspecialchars($errorMsg, ENT_QUOTES, 'UTF-8') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         <?php endif; ?>
 
         <?php if (!empty($errors)): ?>
-            <div class="alert alert-danger rounded-4 mb-4">
-                <ul class="mb-0">
+            <div class="kiddo-form-alert is-error" role="alert">
+                <ul>
                     <?php foreach ($errors as $err): ?>
                         <li><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></li>
                     <?php endforeach; ?>
@@ -444,13 +278,7 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         <?php endif; ?>
 
-        <div class="kiddo-tabs-bar">
-            <button type="button" class="kiddo-tab-btn active" onclick="switchTab('orders', this)">My Orders</button>
-            <button type="button" class="kiddo-tab-btn" onclick="switchTab('reviews', this)">My Reviews</button>
-            <button type="button" class="kiddo-tab-btn" onclick="switchTab('profile', this)">Profile Settings</button>
-        </div>
-
-        <div id="tab-orders">
+        <div id="tab-orders" style="<?= $activeAccountTab === 'orders' ? '' : 'display:none;' ?>">
             <?php if (empty($orders)): ?>
                 <div class="kiddo-card p-5 text-center">
                     <h5 class="fw-bold text-dark">No orders found</h5>
@@ -466,7 +294,7 @@ require_once __DIR__ . '/../includes/header.php';
                                 <span class="text-muted small ms-2"><?= date('M j, Y', strtotime($ord['created_at'])) ?></span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <span class="kiddo-badge <?= $ord['status'] === 'completed' ? 'badge-status-completed' : 'badge-status-placed' ?>">
+                                <span class="kiddo-badge <?= $ord['status'] === 'delivered' ? 'badge-status-completed' : 'badge-status-placed' ?>">
                                     <?= ucfirst(htmlspecialchars($ord['status'], ENT_QUOTES, 'UTF-8')) ?>
                                 </span>
                                 <span class="fw-bold text-dark"><?= number_format((float)$ord['total'], 2) ?> JOD</span>
@@ -506,7 +334,7 @@ require_once __DIR__ . '/../includes/header.php';
                                             </button>
                                         <?php elseif ($alreadyReviewed): ?>
                                             <span class="kiddo-badge-subtle">Reviewed</span>
-                                        <?php elseif ($ord['status'] !== 'completed'): ?>
+                                        <?php elseif ($ord['status'] !== 'delivered'): ?>
                                             <span class="kiddo-badge-subtle">Awaiting Delivery</span>
                                         <?php endif; ?>
                                     </div>
@@ -518,9 +346,15 @@ require_once __DIR__ . '/../includes/header.php';
             <?php endif; ?>
         </div>
 
-        <div id="tab-reviews" style="display: none;">
+        <div id="tab-reviews" style="<?= $activeAccountTab === 'reviews' ? '' : 'display:none;' ?>">
             <div class="kiddo-card" style="gap: 16px;">
-                <h5 class="fw-bold mb-2 text-dark">Submitted Reviews</h5>
+                <div class="reviews-panel-head">
+                    <div>
+                        <h5 class="fw-bold mb-2 text-dark">Submitted Reviews</h5>
+                        <p class="review-panel-hint">Share feedback on toys from your delivered orders.</p>
+                    </div>
+                    <button type="button" class="kiddo-btn-review" onclick="switchTab('orders', null)">Review a purchase</button>
+                </div>
 
                 <?php if (empty($myReviews)): ?>
                     <p class="text-muted mb-0">You have not written any reviews yet.</p>
@@ -565,53 +399,70 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
         </div>
 
-        <div id="tab-profile" style="display: none;">
-            <div class="profile-form-wrapper" style="max-width: 640px;">
+        <div id="tab-profile" style="<?= $activeAccountTab === 'profile' ? '' : 'display:none;' ?>">
+            <div class="profile-form-wrapper">
                 <h4 class="profile-section-title">Personal Information</h4>
                 <p class="profile-section-desc">Manage your account details and contact information.</p>
 
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data" class="profile-form">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
                     <input type="hidden" name="action" value="update_profile">
 
-                    <div class="row g-3 mb-2">
+                    <div class="profile-photo-field">
+                        <span class="kiddo-profile-avatar profile-photo-preview" id="profilePhotoPreview">
+                            <?php if ($profileImageUrl): ?>
+                                <img src="<?= htmlspecialchars($profileImageUrl, ENT_QUOTES, 'UTF-8') ?>" alt="Profile photo preview">
+                            <?php else: ?>
+                                <span><?= htmlspecialchars($profileInitials, ENT_QUOTES, 'UTF-8') ?></span>
+                            <?php endif; ?>
+                        </span>
+                        <div class="profile-photo-control">
+                            <label class="kiddo-label" for="profile-image">Profile photo</label>
+                            <input id="profile-image" name="profile_image" type="file" accept="image/jpeg,image/png,image/webp">
+                            <small>JPG, PNG, or WebP · up to 3 MB</small>
+                        </div>
+                    </div>
+
+                    <div class="profile-fields-grid">
                         <div class="col-md-6">
                             <div class="kiddo-form-group">
-                                <label class="kiddo-label">First Name</label>
-                                <input type="text" name="first_name" class="kiddo-control" value="<?= htmlspecialchars($user['first_name'], ENT_QUOTES, 'UTF-8') ?>" required>
+                                <label class="kiddo-label" for="first-name">First name</label>
+                                <input id="first-name" type="text" name="first_name" maxlength="50" class="kiddo-control" value="<?= htmlspecialchars($profileFormValues['firstName'] ?? $user['first_name'], ENT_QUOTES, 'UTF-8') ?>" required>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="kiddo-form-group">
-                                <label class="kiddo-label">Last Name</label>
-                                <input type="text" name="last_name" class="kiddo-control" value="<?= htmlspecialchars($user['last_name'], ENT_QUOTES, 'UTF-8') ?>" required>
+                                <label class="kiddo-label" for="last-name">Last name</label>
+                                <input id="last-name" type="text" name="last_name" maxlength="50" class="kiddo-control" value="<?= htmlspecialchars($profileFormValues['lastName'] ?? $user['last_name'], ENT_QUOTES, 'UTF-8') ?>" required>
                             </div>
                         </div>
                     </div>
 
                     <div class="kiddo-form-group">
-                        <label class="kiddo-label">Email Address</label>
-                        <input type="email" class="kiddo-control" value="<?= htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8') ?>">
+                        <label class="kiddo-label" for="profile-email">Email address</label>
+                        <input id="profile-email" type="email" name="email" maxlength="120" class="kiddo-control" value="<?= htmlspecialchars($profileFormValues['email'] ?? $user['email'], ENT_QUOTES, 'UTF-8') ?>" required>
                     </div>
 
                     <div class="kiddo-form-group">
-                        <label class="kiddo-label">Phone Number</label>
-                        <input type="tel" name="phone" class="kiddo-control" placeholder="+962 7X XXX XXXX" value="<?= htmlspecialchars($user['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        <label class="kiddo-label" for="profile-phone">Phone number</label>
+                        <input id="profile-phone" type="tel" name="phone" maxlength="20" class="kiddo-control" placeholder="+962 7X XXX XXXX" value="<?= htmlspecialchars($profileFormValues['phone'] ?? $user['phone'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
                     </div>
 
-                    <div class="kiddo-form-group mb-4">
-                        <label class="kiddo-label">Child's Birth Date</label>
-                        <input type="date" name="birth_date" class="kiddo-control" value="<?= htmlspecialchars($user['birth_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
-                        <small class="text-muted" style="font-size: 0.75rem;">Used to receive exclusive birthday discounts.</small>
+                    <div class="kiddo-form-group">
+                        <label class="kiddo-label" for="birth-date">Child's birth date</label>
+                        <input id="birth-date" type="date" name="birth_date" class="kiddo-control" value="<?= htmlspecialchars($profileFormValues['birthDate'] ?? $user['birth_date'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+                        <small class="profile-field-hint">Used for birthday discounts.</small>
                     </div>
 
-                    <div class="pt-2">
-                        <button type="submit" class="kiddo-btn-save">Save Changes</button>
+                    <div class="profile-form-actions">
+                        <button type="submit" class="kiddo-btn-save">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
 
+       </div>
+      </div>
     </div>
 </div>
 
@@ -619,7 +470,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="kiddo-modal-window">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-bold mb-0 text-dark">Rate Product</h5>
-            <button type="button" class="btn-close" onclick="closeReviewModal()"></button>
+            <button type="button" class="btn-close" onclick="closeReviewModal()" aria-label="Close review form">&times;</button>
         </div>
         <form method="POST">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
@@ -658,12 +509,13 @@ function switchTab(tabName, btn) {
     document.getElementById('tab-reviews').style.display = 'none';
     document.getElementById('tab-profile').style.display = 'none';
     
-    document.querySelectorAll('.kiddo-tab-btn').forEach(function(b) {
-        b.classList.remove('active');
+    document.querySelectorAll('.account-tab-link').forEach(function(b) {
+        b.classList.toggle('is-active', b === btn);
+        if (b === btn) b.setAttribute('aria-current', 'page');
+        else b.removeAttribute('aria-current');
     });
 
     document.getElementById('tab-' + tabName).style.display = 'block';
-    btn.classList.add('active');
 }
 
 function openReviewModal(productId, productName) {
@@ -674,6 +526,21 @@ function openReviewModal(productId, productName) {
 
 function closeReviewModal() {
     document.getElementById('reviewModal').style.display = 'none';
+}
+
+const profileImageInput = document.getElementById('profile-image');
+const profileImagePreview = document.getElementById('profilePhotoPreview');
+if (profileImageInput && profileImagePreview) {
+    profileImageInput.addEventListener('change', () => {
+        const file = profileImageInput.files && profileImageInput.files[0];
+        if (!file || !file.type.startsWith('image/')) return;
+        const imageUrl = URL.createObjectURL(file);
+        const previewImage = document.createElement('img');
+        previewImage.alt = 'Selected profile photo preview';
+        previewImage.onload = () => URL.revokeObjectURL(imageUrl);
+        previewImage.src = imageUrl;
+        profileImagePreview.replaceChildren(previewImage);
+    });
 }
 </script>
 

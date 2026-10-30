@@ -5,27 +5,18 @@ require_once __DIR__ . '/csrf.php';
 $activePage = $activePage ?? '';
 // Logged in = auth/login.php put the user id in the session (and logout.php removes it).
 $isLoggedIn = !empty($_SESSION['user_id']);
-$userName   = $_SESSION['user_name'] ?? '';
+$userName   = trim((string)($_SESSION['user_name'] ?? ''));
 $cartCount  = (int) ($_SESSION['cart_count'] ?? 0);
 $searchTerm = $_GET['q'] ?? '';
 
-// "Hind Bundoq" -> "HB", "هند بندق" -> "هب"
-// mb_* functions count whole characters, so Arabic letters aren't cut in half.
-$nameParts = preg_split('/\s+/', trim($userName), -1, PREG_SPLIT_NO_EMPTY);
+$nameParts = preg_split('/\s+/u', $userName, -1, PREG_SPLIT_NO_EMPTY) ?: [];
 $firstName = $nameParts[0] ?? '';
-$initials  = '';
-foreach (array_slice($nameParts, 0, 2) as $part) {
-    $initials .= mb_strtoupper(mb_substr($part, 0, 1));
-}
 
 // Main menu. key => [label, path from the project root]
 $navLinks = [
     'home' => ['Home', '/index.php'],
     'toys' => ['Toys', '/products/index.php'],
 ];
-if ($isLoggedIn) {
-    $navLinks['orders'] = ['My Orders', '/orders/index.php'];
-}
 ?>
 <!-- Keeps the mobile menu open/closed state. Toggled by the labels below, no JS. -->
 <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
@@ -78,15 +69,7 @@ if ($isLoggedIn) {
             <span class="header-divider desktop-only"></span>
 
             <?php if ($isLoggedIn): ?>
-                <a class="user-chip desktop-only" href="<?= BASE_URL ?>/auth/profile.php">
-                    <span class="avatar"><?= htmlspecialchars($initials) ?></span>
-                    <span class="welcome">Welcome, <strong class="welcome-name"><?= htmlspecialchars($firstName) ?></strong>!</span>
-                </a>
-                <!-- same POST + token that auth/logout.php already checks -->
-                <form class="desktop-only" action="<?= BASE_URL ?>/auth/logout.php" method="post">
-                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
-                    <button class="btn btn-outline btn-sm" type="submit">Logout</button>
-                </form>
+                <?php require __DIR__ . '/account_menu.php'; ?>
             <?php else: ?>
                 <a class="btn btn-outline btn-sm desktop-only" href="<?= BASE_URL ?>/auth/login.php">Login</a>
                 <a class="btn btn-primary btn-sm desktop-only" href="<?= BASE_URL ?>/auth/register.php">Sign Up</a>
@@ -107,13 +90,12 @@ if ($isLoggedIn) {
 
     <?php if ($isLoggedIn): ?>
         <div class="drawer-auth is-user">
-            <span class="user-chip">
-                <span class="avatar"><?= htmlspecialchars($initials) ?></span>
-                <span class="welcome">Welcome, <strong class="welcome-name"><?= htmlspecialchars($firstName) ?></strong>!</span>
-            </span>
+            <span class="drawer-account-welcome">Welcome, <strong><?= htmlspecialchars($firstName, ENT_QUOTES, 'UTF-8') ?></strong></span>
+            <a class="drawer-account-link" href="<?= BASE_URL ?>/auth/profile.php">My profile</a>
+            <a class="drawer-account-link" href="<?= BASE_URL ?>/orders/index.php">My orders</a>
             <form action="<?= BASE_URL ?>/auth/logout.php" method="post">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
-                <button class="btn btn-outline btn-block" type="submit">Logout</button>
+                <button class="account-menu__logout" type="submit">Log out</button>
             </form>
         </div>
     <?php else: ?>
@@ -130,4 +112,4 @@ if ($isLoggedIn) {
             </li>
         <?php endforeach; ?>
     </ul>
-</aside>
+</aside>

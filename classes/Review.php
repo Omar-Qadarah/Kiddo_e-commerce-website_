@@ -109,7 +109,7 @@ class Review
                 INNER JOIN order_items oi ON o.id = oi.order_id
                 WHERE o.user_id = ? 
                   AND oi.product_id = ? 
-                  AND o.status = 'completed'";
+                  AND o.status = 'delivered'";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([(int)$userId, (int)$productId]);
