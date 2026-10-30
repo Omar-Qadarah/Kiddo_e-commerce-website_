@@ -3,6 +3,8 @@
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/SearchHistory.php';
+require_once __DIR__ . '/../includes/shop_pagination.php';
+require_once __DIR__ . '/../includes/shop_functions.php';
 
 
 $historyModel = new SearchHistory($pdo);
@@ -54,7 +56,7 @@ $sql = "SELECT p.id, p.category_id, p.name, p.description, p.price, p.stock,
 $params = [];
 
 if ($searchTerm !== '') {
-    $sql .= " AND (p.name LIKE :search_name OR p.description LIKE :search_desc)";
+    $sql .= " AND (LOWER(p.name) LIKE LOWER(:search_name) OR LOWER(p.description) LIKE LOWER(:search_desc))";
     $params[':search_name'] = "%{$searchTerm}%";
     $params[':search_desc'] = "%{$searchTerm}%";
 }
@@ -95,14 +97,19 @@ if ($ageGroupId) {
     }
 }
 
-$sql .= " ORDER BY {$orderBy}";
-
+$countStmt = $pdo->prepare("SELECT COUNT(*) FROM ($sql) AS matching_products");
+$countStmt->execute($params);
+$resultsCount = (int) $countStmt->fetchColumn();
+$pagination = shopPagination($resultsCount);
+$sql .= " ORDER BY {$orderBy}, p.id DESC LIMIT :page_limit OFFSET :page_offset";
 $stmt = $pdo->prepare($sql);
-$stmt->execute($params);
+foreach ($params as $key => $value) $stmt->bindValue($key, $value);
+$stmt->bindValue(':page_limit', SHOP_PAGE_SIZE, PDO::PARAM_INT);
+$stmt->bindValue(':page_offset', $pagination['offset'], PDO::PARAM_INT);
+$stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-$resultsCount = count($products);
 
-if ($userId > 0 && $searchTerm !== '') {
+if ($userId > 0 && $searchTerm !== '' && $pagination['page'] === 1) {
     $historyModel->addSearch($userId, $searchTerm, $resultsCount);
 }
 
@@ -481,7 +488,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php foreach ($products as $prod): ?>
                             <div class="product-item">
                                 <div class="product-img-wrap">
-                                    <img src="<?= htmlspecialchars(!empty($prod['image']) ? $prod['image'] : 'assets/images/default.png', ENT_QUOTES, 'UTF-8') ?>" 
+                                    <img src="<?= htmlspecialchars(shopToyImages($prod)[0], ENT_QUOTES, 'UTF-8') ?>" 
                                          alt="<?= htmlspecialchars($prod['name'], ENT_QUOTES, 'UTF-8') ?>"
                                          loading="lazy">
                                 </div>
@@ -492,13 +499,14 @@ require_once __DIR__ . '/../includes/header.php';
                                     </h6>
                                     <div class="product-footer">
                                         <span class="product-price"><?= number_format((float)$prod['price'], 2) ?> JOD</span>
-                                        <a href="product-details.php?id=<?= (int)$prod['id'] ?>" class="btn-view-product">View</a>
+                                        <a href="details.php?id=<?= (int)$prod['id'] ?>" class="btn-view-product">View</a>
                                     </div>
                                 </div>
                             </div>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
+                <?php renderShopPagination($pagination, $_GET); ?>
             </main>
         </div>
 

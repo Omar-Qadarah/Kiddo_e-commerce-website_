@@ -96,10 +96,16 @@ class ToyCatalog
     //   gender   => girls | boys | unisex
     //   price    => ['min' => .. or null, 'max' => .. or null] in JOD,
     //               checked against the price after discount (the price on the card)
-    public function getFilteredToys(array $filters): array
+    private function filteredQuery(array $filters): array
     {
         $sql    = self::CARD_SELECT;
         $params = [];
+
+        if (!empty($filters['q'])) {
+            $sql .= " AND (LOWER(p.name) LIKE LOWER(:search_name) OR LOWER(c.name) LIKE LOWER(:search_category) OR LOWER(p.description) LIKE LOWER(:search_description))";
+            $like = '%' . addcslashes(trim($filters['q']), '%_\\') . '%';
+            $params += ['search_name' => $like, 'search_category' => $like, 'search_description' => $like];
+        }
 
         if (!empty($filters['category'])) {
             $sql .= " AND c.slug = :category";
@@ -139,9 +145,32 @@ class ToyCatalog
             $sql .= " ORDER BY p.created_at DESC, p.id DESC";
         }
 
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+        return [$sql, $params];
+    }
 
+    public function countFilteredToys(array $filters): int
+    {
+        [$sql, $params] = $this->filteredQuery($filters);
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM ($sql) AS matching_toys");
+        $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
+    }
+
+    public function getFilteredToys(array $filters, ?int $limit = null, int $offset = 0): array
+    {
+        [$sql, $params] = $this->filteredQuery($filters);
+        if ($limit !== null) {
+            $sql .= " LIMIT :page_limit OFFSET :page_offset";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+        if ($limit !== null) {
+            $stmt->bindValue(':page_limit', max(1, $limit), PDO::PARAM_INT);
+            $stmt->bindValue(':page_offset', max(0, $offset), PDO::PARAM_INT);
+        }
+        $stmt->execute();
         return $stmt->fetchAll();
     }
 

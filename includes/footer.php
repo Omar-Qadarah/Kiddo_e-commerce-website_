@@ -106,5 +106,6 @@ if (empty($_SESSION['shopping_assistant_csrf'])) {
 </div>
 <script src="<?= BASE_URL ?>/assets/js/shopping-assistant.js?v=<?= filemtime(__DIR__ . '/../assets/js/shopping-assistant.js') ?>" defer></script>
 
+<script src="<?= BASE_URL ?>/assets/js/storefront-ux.js?v=<?= filemtime(__DIR__ . '/../assets/js/storefront-ux.js') ?>" defer></script>
 </body>
 </html>

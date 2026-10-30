@@ -57,7 +57,7 @@ function categoriesPageIcon(?string $icon): string
 // (the same rule ToyCatalog already uses for the toys page filter).
 $toysByAge = [];
 foreach ($ageCards as $key => $card) {
-    $toysByAge[$key] = $catalog->getFilteredToys([
+    $toysByAge[$key] = $catalog->countFilteredToys([
         'category' => $categorySlug,
         'age'      => ['min_age' => $card['min'], 'max_age' => $card['max']],
     ]);
@@ -102,7 +102,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                         <a class="cat-link <?= $isActive ? 'is-active' : '' ?>"
                            href="<?= categoriesPageUrl($category['slug']) ?>"
                            <?= $isActive ? 'aria-current="page"' : '' ?>>
-                            <span class="cat-icon"><i class="<?= htmlspecialchars(categoriesPageIcon($category['icon'])) ?>" aria-hidden="true"></i></span>
+                            <span class="cat-icon"><img src="<?= htmlspecialchars(shopCategoryIllustration($category['name'])) ?>" alt="" width="32" height="32"></span>
                             <span class="cat-name"><?= htmlspecialchars($category['name']) ?></span>
                             <?php if ((int) $category['toy_count'] > 0): ?>
                                 <span class="cat-count"><?= (int) $category['toy_count'] ?></span>
@@ -138,7 +138,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
                 <div class="agecat-grid">
                     <?php foreach ($ageCards as $key => $card): ?>
-                        <?php $count = count($toysByAge[$key]); ?>
+                        <?php $count = $toysByAge[$key]; ?>
                         <a class="agecat-card agecat-<?= $card['color'] ?>"
                            href="<?= htmlspecialchars(ageToysUrl($key, $categorySlug)) ?>">
                             <div class="agecat-top">

@@ -37,6 +37,7 @@ $activePage = $activePage ?? '';
 <?php foreach ($pageScripts ?? [] as $jsFile): ?>
     <script src="<?= BASE_URL ?>/assets/js/<?= $jsFile ?>?v=<?= filemtime(__DIR__ . '/../assets/js/' . $jsFile) ?>" defer></script>
 <?php endforeach; ?>
+<link href="<?= BASE_URL ?>/assets/css/storefront-ux.css?v=<?= filemtime(__DIR__ . '/../assets/css/storefront-ux.css') ?>" rel="stylesheet">
 </head>
 <body>
 

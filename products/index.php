@@ -10,6 +10,7 @@
 // Page files: assets/css/toys-page.css (+ storefront.css), assets/js/storefront.js
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
+require_once __DIR__ . '/../includes/shop_pagination.php';
 require_once __DIR__ . '/../classes/AgeGroup.php';
 
 $catalog       = new ToyCatalog($pdo);
@@ -30,7 +31,7 @@ $priceRanges = [
 ];
 
 // ---------- Read the filters (only values that really exist are used) ----------
-$filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => ''];
+$filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => '', 'q' => trim((string) ($_GET['q'] ?? ''))];
 $activeCategory = null;
 $activeAge      = null;
 $activePrice    = null;
@@ -67,7 +68,7 @@ function toysUrl(array $filters, array $change = []): string
 {
     $query = array_filter(array_merge($filters, $change), fn($value) => $value !== '');
 
-    return BASE_URL . '/products/index.php' . ($query ? '?' . http_build_query($query) : '');
+    return BASE_URL . '/products/' . (basename($_SERVER['SCRIPT_NAME']) === 'find.php' ? 'find.php' : 'index.php') . ($query ? '?' . http_build_query($query) : '');
 }
 
 // Bootstrap Icons class saved by the admin, e.g. "bi bi-palette".
@@ -79,12 +80,16 @@ function categoryIconClass(?string $icon): string
 }
 
 // ---------- Toys + all their images (for the ‹ › arrows) ----------
-$toys = $catalog->getFilteredToys([
+$catalogFilters = [
     'category' => $filters['category'],
     'age'      => $activeAge,
     'gender'   => $filters['gender'],
     'price'    => $activePrice,
-]);
+    'q' => $filters['q'],
+];
+$totalToys = $catalog->countFilteredToys($catalogFilters);
+$pagination = shopPagination($totalToys);
+$toys = $catalog->getFilteredToys($catalogFilters, SHOP_PAGE_SIZE, $pagination['offset']);
 $extraImages = $catalog->getImagePathsForToys(array_column($toys, 'id'));
 
 // ---------- Heading ----------
@@ -96,6 +101,7 @@ $subtitle = $activeCategory && !empty($activeCategory['description'])
     : 'Toys for every age from ' . $minAge . ' to ' . $maxAge . '.';
 $allCount = array_sum(array_column($categories, 'toy_count'));
 
+$heading = $filters['q'] !== '' ? 'Search results for “' . $filters['q'] . '”' : $heading;
 $pageTitle  = $heading;
 $activePage = 'toys';
 $pageStyles = [
@@ -126,7 +132,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                         <a class="cat-link <?= $isActive ? 'is-active' : '' ?>"
                            href="<?= toysUrl($filters, ['category' => $category['slug']]) ?>"
                            <?= $isActive ? 'aria-current="page"' : '' ?>>
-                            <span class="cat-icon"><i class="<?= htmlspecialchars(categoryIconClass($category['icon'])) ?>" aria-hidden="true"></i></span>
+                            <span class="cat-icon"><img src="<?= htmlspecialchars(shopCategoryIllustration($category['name'])) ?>" alt="" width="32" height="32"></span>
                             <span class="cat-name"><?= htmlspecialchars($category['name']) ?></span>
                             <?php if ((int) $category['toy_count'] > 0): ?>
                                 <span class="cat-count"><?= (int) $category['toy_count'] ?></span>
@@ -154,7 +160,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
         <div class="toys-content">
             <!-- ============ Filters ============ -->
-            <form class="filter-bar" action="<?= BASE_URL ?>/products/index.php" method="get" data-filter-form>
+            <form class="filter-bar" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get" data-filter-form>
+                <input type="hidden" name="q" value="<?= htmlspecialchars($filters['q']) ?>">
                 <?php if ($filters['category'] !== ''): ?>
                     <input type="hidden" name="category" value="<?= htmlspecialchars($filters['category']) ?>">
                 <?php endif; ?>
@@ -196,7 +203,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
             </form>
 
             <p class="result-count" role="status">
-                <?= count($toys) ?> <?= count($toys) === 1 ? 'toy' : 'toys' ?> found
+                <?= $totalToys ?> <?= $totalToys === 1 ? 'toy' : 'toys' ?> found
             </p>
 
             <!-- ============ Toy grid ============ -->
@@ -216,6 +223,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php">Show all toys</a>
                 </div>
             <?php endif; ?>
+        <?php renderShopPagination($pagination, $filters); ?>
         </div>
     </div>
 </div>

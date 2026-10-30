@@ -10,6 +10,7 @@
 //   includes/toy_card.php (toy cards), toys-page.css + categories-page.css (look).
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
+require_once __DIR__ . '/../includes/shop_pagination.php';
 require_once __DIR__ . '/../includes/age_cards.php';
 
 $catalog    = new ToyCatalog($pdo);
@@ -34,10 +35,13 @@ foreach ($categories as $category) {
 $categorySlug = $activeCategory ? $activeCategory['slug'] : '';
 
 // ---------- Toys of this age (and type) ----------
-$toys = $catalog->getFilteredToys([
+$catalogFilters = [
     'category' => $categorySlug,
     'age'      => ['min_age' => $card['min'], 'max_age' => $card['max']],
-]);
+];
+$totalToys = $catalog->countFilteredToys($catalogFilters);
+$pagination = shopPagination($totalToys);
+$toys = $catalog->getFilteredToys($catalogFilters, SHOP_PAGE_SIZE, $pagination['offset']);
 $extraImages = $toys ? $catalog->getImagePathsForToys(array_column($toys, 'id')) : [];
 
 // ---------- Heading ----------
@@ -84,7 +88,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
         <div class="agecat-results-head">
             <p class="result-count" role="status">
-                <?= count($toys) ?> <?= count($toys) === 1 ? 'toy' : 'toys' ?>
+                <?= $totalToys ?> <?= $totalToys === 1 ? 'toy' : 'toys' ?>
                 <?= $activeCategory ? 'in ' . htmlspecialchars($typeName) . ' ' : '' ?>for ages <?= $ageLabel ?>
             </p>
             <a class="btn btn-outline btn-sm" href="<?= htmlspecialchars($categoriesUrl) ?>">← Back to categories</a>
@@ -107,6 +111,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <a class="btn btn-primary" href="<?= BASE_URL ?>/products/categories.php">Back to categories</a>
             </div>
         <?php endif; ?>
+        <?php renderShopPagination($pagination, ['age' => $ageKey, 'category' => $categorySlug]); ?>
     </div>
 </div>
 
