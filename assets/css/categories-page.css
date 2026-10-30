@@ -32,7 +32,8 @@
 /* ---------- Age cards (same look as the landing page "Shop by age") ---------- */
 .agecat-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    /* 5 cards (0–3 … 12+) in one row on wide screens */
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1.3rem;
 }
 
@@ -70,6 +71,7 @@
 .agecat-green  { --age: #22A86A; --age-soft: #DDF5EA; }
 .agecat-orange { --age: #F57A2A; --age-soft: #FFE8D9; }
 .agecat-pink   { --age: #E8457C; --age-soft: #FFE3EE; }
+.agecat-purple { --age: #7B5CF5; --age-soft: #EAE4FF; }
 
 .agecat-top {
     position: relative;
@@ -157,7 +159,7 @@
     transform: translateX(3px);
 }
 
-/* ---------- Results under the cards ---------- */
+/* ---------- Results (products/age_toys.php) ---------- */
 .agecat-results {
     scroll-margin-top: calc(var(--header-h) + 1rem);
     padding-bottom: 1rem;
@@ -192,8 +194,40 @@
     margin-right: .3rem;
 }
 
+/* "Other ages" chips on products/age_toys.php */
+.agecat-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    margin-bottom: .4rem;
+}
+
+.agecat-chip {
+    padding: .45rem 1rem;
+    border: 2px solid color-mix(in srgb, var(--age) 35%, transparent);
+    border-radius: 999px;
+    background: var(--white);
+    color: var(--age);
+    font-weight: 800;
+    font-size: .92rem;
+    transition: background-color .2s, color .2s;
+}
+
+.agecat-chip:hover,
+.agecat-chip.is-active {
+    border-color: var(--age);
+    background: var(--age);
+    color: var(--white);
+}
+
 /* ---------- Responsive ---------- */
 @media (max-width: 1280px) {
+    .agecat-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
     .agecat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
