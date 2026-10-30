@@ -31,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $review->delete($id);
             }
             if (empty($errors)) {
+                $_SESSION['success_message'] = 'Review status updated successfully.';
                 header('Location: reviews.php');
                 exit;
             }
