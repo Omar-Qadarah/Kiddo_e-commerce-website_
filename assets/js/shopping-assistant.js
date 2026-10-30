@@ -143,7 +143,7 @@
                         history: history.slice(-8).map((turn) => ({ role: turn.role, text: turn.text }))
                     })
                 });
-                const result = await response.json();
+                const result = await response.json().catch(() => ({}));
                 thinking.remove();
                 if (!response.ok || typeof result.reply !== 'string') {
                     throw new Error(result.error || 'Please try again in a moment.');

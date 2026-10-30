@@ -42,6 +42,8 @@ $reviewCount = (int) $toy['review_count'];
 $stock = (int) $toy['stock'];
 $tints = ['tint-yellow', 'tint-purple', 'tint-peach', 'tint-pink', 'tint-mint', 'tint-blue'];
 $tint = $tints[(int) $toy['category_id'] % count($tints)];
+$userId = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
+$recommendedToys = $recModel->getRecommendations($userId, [(int) $toy['id']], 4);
 
 // Message from cart/add.php, shown once
 $cartFlash = $_SESSION['cart_flash'] ?? null;
