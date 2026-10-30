@@ -57,8 +57,9 @@ class Recommendation
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE oi1.product_id IN ($placeholders)
                   AND oi2.product_id NOT IN ($placeholders)
-                  AND o.status = 'completed'
+                  AND o.status = 'delivered'
                   AND p.stock > 0
+                  AND p.is_active = 1
                 GROUP BY p.id
                 ORDER BY pair_count DESC, p.id DESC
                 LIMIT " . (int)$limit;
@@ -97,7 +98,7 @@ class Recommendation
 
         if ($searchCol !== null) {
             try {
-                $searchStmt = $this->pdo->prepare("SELECT `{$searchCol}` FROM search_history WHERE user_id = ? ORDER BY id DESC LIMIT 5");
+                $searchStmt = $this->pdo->prepare("SELECT `{$searchCol}` FROM search_history WHERE user_id = ? ORDER BY search_id DESC LIMIT 5");
                 $searchStmt->execute([$userId]);
                 $queries = $searchStmt->fetchAll(PDO::FETCH_COLUMN);
 
@@ -120,6 +121,7 @@ class Recommendation
                                 WHERE (" . implode(' OR ', $conditions) . ")
                                   AND p.id NOT IN ($excludePlaceholders)
                                   AND p.stock > 0
+                                  AND p.is_active = 1
                                 ORDER BY p.id DESC
                                 LIMIT " . (int)$limit;
 
@@ -155,6 +157,7 @@ class Recommendation
                         WHERE p.category_id IN ($cPl)
                           AND p.id NOT IN ($excludePlaceholders)
                           AND p.stock > 0
+                          AND p.is_active = 1
                         ORDER BY p.id DESC
                         LIMIT " . (int)$limit;
 
@@ -203,6 +206,7 @@ class Recommendation
                 WHERE (" . implode(' OR ', $conditions) . ")
                   AND p.id NOT IN ($excludePl)
                   AND p.stock > 0
+                  AND p.is_active = 1
                 ORDER BY p.price DESC
                 LIMIT " . (int)$limit;
 
@@ -225,6 +229,7 @@ class Recommendation
                 LEFT JOIN categories c ON p.category_id = c.id
                 WHERE p.id NOT IN ($excludePl)
                   AND p.stock > 0
+                  AND p.is_active = 1
                 GROUP BY p.id
                 ORDER BY total_sales DESC, p.id DESC
                 LIMIT " . (int)$limit;
