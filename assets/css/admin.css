@@ -996,3 +996,17 @@
 }
 
 .admin-body .admin-dialog .admin-remote-fields > .row { margin-left: 0; margin-right: 0; }
+
+/* Farha navigation proportions and icon shapes; Kiddo's brand/layout stay intact. */
+.admin-sidebar .sidebar-nav { gap: .3rem; }
+.admin-sidebar .sidebar-nav .sidebar-link,
+.admin-sidebar .sidebar-bottom .sidebar-link {
+    gap: .8rem; padding: .8rem 1rem; min-height: 0;
+    border-radius: 14px; font-size: 16px; font-weight: 800; line-height: 1.6;
+}
+.admin-sidebar .sidebar-nav .sidebar-icon,
+.admin-sidebar .sidebar-bottom .sidebar-link i {
+    width: 20px; height: 20px; flex: 0 0 20px;
+    font-size: 20px; line-height: 1; display: inline-block;
+}
+.admin-sidebar .sidebar-label { margin-left: 16px; margin-right: 16px; }
