@@ -4,6 +4,7 @@
 //   ?category=<category slug>   sidebar "Toy types"
 //   ?age=<age group slug>       Age dropdown (the landing page age cards link here too)
 //   ?gender=girls|boys|unisex   Gender dropdown
+//   ?price=<price range key>    Price dropdown (keys in $priceRanges below)
 // Cards: arrows on the picture browse all the toy's images; "How to play"
 // is only shown on products/details.php.
 // Page files: assets/css/toys-page.css (+ storefront.css), assets/js/storefront.js
@@ -19,10 +20,20 @@ $ageGroups  = $ageGroupModel->getAll();
 usort($ageGroups, fn($a, $b) => [(int) $a['sort_order'], (int) $a['min_age']] <=> [(int) $b['sort_order'], (int) $b['min_age']]);
 $genders    = ['girls' => 'Girls', 'boys' => 'Boys', 'unisex' => 'Unisex'];
 
+// Price ranges in JOD (after discount). min is included, max is not; null = no limit.
+$priceRanges = [
+    'under-10'  => ['label' => 'Under 10 JOD',  'min' => null, 'max' => 10],
+    '10-25'     => ['label' => '10 – 25 JOD',   'min' => 10,   'max' => 25],
+    '25-50'     => ['label' => '25 – 50 JOD',   'min' => 25,   'max' => 50],
+    '50-100'    => ['label' => '50 – 100 JOD',  'min' => 50,   'max' => 100],
+    'over-100'  => ['label' => '100 JOD & more', 'min' => 100, 'max' => null],
+];
+
 // ---------- Read the filters (only values that really exist are used) ----------
-$filters        = ['category' => '', 'age' => '', 'gender' => ''];
+$filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => ''];
 $activeCategory = null;
 $activeAge      = null;
+$activePrice    = null;
 
 $categorySlug = (string) ($_GET['category'] ?? '');
 foreach ($categories as $category) {
@@ -43,6 +54,12 @@ foreach ($ageGroups as $group) {
 $gender = (string) ($_GET['gender'] ?? '');
 if (isset($genders[$gender])) {
     $filters['gender'] = $gender;
+}
+
+$priceKey = (string) ($_GET['price'] ?? '');
+if (isset($priceRanges[$priceKey])) {
+    $activePrice      = $priceRanges[$priceKey];
+    $filters['price'] = $priceKey;
 }
 
 // Toys page link that keeps the other filters.
@@ -66,6 +83,7 @@ $toys = $catalog->getFilteredToys([
     'category' => $filters['category'],
     'age'      => $activeAge,
     'gender'   => $filters['gender'],
+    'price'    => $activePrice,
 ]);
 $extraImages = $catalog->getImagePathsForToys(array_column($toys, 'id'));
 
@@ -163,6 +181,16 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     </select>
                 </div>
 
+                <div class="filter-field">
+                    <label for="filter-price">Price</label>
+                    <select id="filter-price" name="price">
+                        <option value="">Any price</option>
+                        <?php foreach ($priceRanges as $value => $range): ?>
+                            <option value="<?= $value ?>" <?= $filters['price'] === $value ? 'selected' : '' ?>><?= $range['label'] ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
                 <noscript><button class="btn btn-primary" type="submit">Apply</button></noscript>
                 <a class="btn btn-outline" href="<?= BASE_URL ?>/products/index.php">Reset filters</a>
             </form>
@@ -184,7 +212,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <div class="toys-empty">
                     <span aria-hidden="true">🧸</span>
                     <h2>No toys match these filters</h2>
-                    <p>Try another age or toy type, or start again.</p>
+                    <p>Try another age, price or toy type, or start again.</p>
                     <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php">Show all toys</a>
                 </div>
             <?php endif; ?>
