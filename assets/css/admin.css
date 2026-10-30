@@ -1122,3 +1122,47 @@
 .admin-body .admin-pagination a:hover { background: var(--admin-hover-bg); border-color: var(--admin-hover-border); }
 .admin-body .admin-pagination [aria-current="page"] { background: var(--admin-primary); border-color: var(--admin-primary); color: #fff; }
 .admin-body .admin-pagination [aria-disabled="true"] { background: var(--admin-primary-50); color: var(--admin-muted); opacity: .5; cursor: not-allowed; }
+
+/* Orders-only finishing pass; keep the sidebar and all other pages intact. */
+.admin-body .admin-content:has(.admin-table-orders) .admin-page-header { margin-bottom: 12px; }
+.admin-body .admin-content:has(.admin-table-orders) .status-cards { gap: 12px; margin-bottom: 16px; align-items: stretch; }
+.admin-body .admin-content:has(.admin-table-orders) .status-card {
+    padding: 12px 16px; border-radius: 16px; column-gap: 12px;
+    grid-template-rows: auto auto; align-items: center;
+}
+.admin-body .admin-content:has(.admin-table-orders) .status-card i { width: 36px; height: 36px; font-size: 18px; border-radius: 12px; align-self: center; }
+.admin-body .admin-content:has(.admin-table-orders) .status-card span { font-size: 12px; line-height: 1.4; }
+.admin-body .admin-content:has(.admin-table-orders) .status-card strong { font-size: 26px; line-height: 1.1; }
+.admin-body .admin-content:has(.admin-table-orders) .status-card.active { background: var(--admin-sidebar-bg); border-color: var(--admin-sidebar-bg); }
+.admin-body .admin-content:has(.admin-table-orders) .admin-table-controls { gap: 8px; margin-bottom: 16px; align-items: center; }
+.admin-body .admin-content:has(.admin-table-orders) .admin-table-controls .form-control,
+.admin-body .admin-content:has(.admin-table-orders) .admin-table-controls .form-select,
+.admin-body .admin-content:has(.admin-table-orders) .admin-table-controls .btn {
+    box-sizing: border-box; height: 42px; min-height: 42px; border-radius: 12px;
+    font-size: 14px; line-height: 1.4;
+}
+.admin-body .admin-content:has(.admin-table-orders) .admin-page-size { align-items: center; gap: 8px; }
+.admin-body .admin-content:has(.admin-table-orders) .admin-card { border-radius: 20px; }
+.admin-body .admin-content:has(.admin-table-orders) .table-responsive { border-radius: 16px; }
+.admin-body .admin-table-orders tbody tr:hover > td { background-color: var(--admin-primary-50); }
+.admin-body .admin-table-orders .admin-action-toggle {
+    width: 38px; height: 38px; min-width: 38px; min-height: 38px;
+    border-radius: 10px; background: var(--admin-primary-50); border-color: var(--admin-primary-100);
+}
+.admin-body .admin-table-orders .admin-action-toggle i { font-size: 16px; }
+
+.admin-body .admin-table-orders .admin-action-toggle:hover { background: var(--admin-hover-bg); border-color: var(--admin-hover-border); }
+
+/* Real recent-order status summary balances the lower dashboard row. */
+.dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) { align-items: stretch; }
+.dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) > .admin-card { align-self: stretch; height: auto; }
+.dashboard-page .dashboard-lower-grid > section:has(.dashboard-recent-summary) { display: flex; flex-direction: column; }
+.dashboard-recent-summary { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 12px; border-top: 1px solid var(--admin-border); }
+.dashboard-recent-summary > span { color: var(--admin-muted); font-size: 12px; }
+.dashboard-recent-statuses { display: flex; flex-wrap: wrap; gap: 8px; }
+.dashboard-recent-statuses .badge { font-size: 12px; font-weight: 600; }
+@media (max-width: 1200px) {
+    .dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) { align-items: start; }
+    .dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) > .admin-card { align-self: start; }
+    .dashboard-recent-summary { margin-top: 12px; }
+}
