@@ -1010,3 +1010,31 @@
     font-size: 20px; line-height: 1; display: inline-block;
 }
 .admin-sidebar .sidebar-label { margin-left: 16px; margin-right: 16px; }
+
+/* Shared database-paginated admin lists. */
+.admin-table-controls { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.admin-table-controls .form-control, .admin-table-controls .form-select, .admin-table-controls .btn { min-height: 40px; font-size: 14px; }
+.admin-table-controls .admin-table-search { flex: 1 1 200px; width: auto; min-width: 160px; }
+.admin-table-controls .admin-table-filter { flex: 0 1 180px; width: auto; max-width: 220px; }
+.admin-page-size { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--admin-muted); white-space: nowrap; }
+.admin-page-size .form-select { width: 76px; }
+.admin-table-toolbar > .admin-table-controls { flex: 1; margin-bottom: 0; }
+.admin-pagination-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 16px; margin-top: 12px; border-top: 1px solid var(--admin-border); }
+.admin-result-count { margin: 0; font-size: 13px; color: var(--admin-muted); }
+.admin-pagination { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.admin-pagination a, .admin-pagination span { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; height: 36px; padding: 0 12px; border: 1px solid var(--admin-border); border-radius: 10px; background: var(--admin-primary-50); color: var(--admin-primary-dark); font-size: 13px; font-weight: 700; text-decoration: none; }
+.admin-pagination a:hover { background: var(--admin-primary-100); }
+.admin-pagination a:focus-visible { outline: 3px solid var(--admin-primary); outline-offset: 2px; }
+.admin-pagination [aria-current="page"] { color: #fff; border-color: var(--admin-primary); background: var(--admin-primary); }
+.admin-pagination [aria-disabled="true"] { opacity: .5; }
+.admin-pagination .admin-pagination-ellipsis { min-width: 24px; padding: 0 4px; border: 0; background: transparent; }
+/* Simple text-only delete confirmations, including the existing entity dialogs. */
+.admin-body .admin-delete-dialog .modal-header { padding: 12px 20px !important; }
+.admin-body .admin-delete-dialog .modal-body { padding: 16px 20px !important; }
+.admin-body .admin-delete-dialog .modal-footer { padding: 12px 20px !important; }
+.admin-body .admin-delete-dialog .modal-body p { margin-bottom: 0 !important; }
+@media (max-width: 575px) {
+    .admin-table-controls .admin-table-search { flex-basis: 100%; }
+    .admin-table-controls .admin-table-filter { flex: 1 1 120px; max-width: none; }
+    .admin-pagination-footer { align-items: flex-start; }
+}

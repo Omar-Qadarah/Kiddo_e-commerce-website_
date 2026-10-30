@@ -3,7 +3,11 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/Product.php';
 
 $product = new Product($pdo);
-$products = $product->getAll();
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('products', $_GET);
+$products = $pagination['rows'];
 
 function h($value): string
 {
@@ -28,7 +32,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         </a>
     </div>
 
-    <div class="admin-card">
+    <?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
+<div class="admin-card">
         <div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-products">
             <thead>
                 <tr>
@@ -123,7 +128,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 </tr>
             <?php endif; ?>
             </tbody>
-        </table></div>
+        </table></div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
     </div>
 
 </div>

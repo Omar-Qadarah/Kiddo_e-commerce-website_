@@ -49,6 +49,7 @@
         element.querySelector('.modal-dialog')?.classList.add('modal-dialog-centered', 'modal-dialog-scrollable');
         if (element.id.toLowerCase().startsWith('delete')) {
             element.classList.add('admin-delete-dialog');
+            element.querySelectorAll('.modal-body > .text-danger:has(i), .modal-body > i').forEach(icon => icon.remove());
             const content = element.querySelector('.modal-content');
             if (!content.querySelector('.modal-header')) {
                 const title = content.querySelector('h5');

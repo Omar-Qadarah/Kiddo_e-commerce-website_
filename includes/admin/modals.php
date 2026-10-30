@@ -17,7 +17,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <i class="bi bi-trash admin-delete-symbol" aria-hidden="true"></i>
                 <p id="adminDeleteMessage" class="mb-0"></p>
             </div>
             <div class="modal-footer">

@@ -28,11 +28,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
-$discounts = $pdo->query('SELECT discounts.*, products.name AS product_name,
-    categories.name AS category_name FROM discounts
-    LEFT JOIN products ON products.id = discounts.product_id
-    LEFT JOIN categories ON categories.id = discounts.category_id
-    ORDER BY discounts.id DESC')->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('discounts', $_GET);
+$discounts = $pagination['rows'];
 $pageTitle = 'Discounts';
 $activePage = 'discounts';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
@@ -56,6 +56,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </ul>
 <?php endif; ?>
 
+<?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-discounts"><thead><tr>
 <th>ID</th><th>Title</th><th>Percentage</th><th>Product</th><th>Category</th>
 <th>Start</th><th>End</th><th>Status</th><th>Actions</th></tr></thead><tbody>
@@ -76,4 +77,4 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <button class="btn admin-action-btn admin-action-delete" name="action" value="delete" title="Delete discount" aria-label="Delete discount"><i class="bi bi-trash" aria-hidden="true"></i></button>
 </form></div></td></tr><?php endforeach; ?>
 <?php if (empty($discounts)): ?><tr><td colspan="9">No discounts found.</td></tr><?php endif; ?>
-</tbody></table></div></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>
+</tbody></table></div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?></div><?php require_once __DIR__ . '/../includes/admin/layout_end.php'; ?>

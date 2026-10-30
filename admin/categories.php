@@ -5,7 +5,11 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/Category.php';
 
 $categoryModel = new Category($pdo);
-$categories = $categoryModel->getAll();
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('categories', $_GET);
+$categories = $pagination['rows'];
 
 $pageTitle = 'Categories';
 $activePage = 'categories';
@@ -63,6 +67,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     </a>
 </div>
 
+<?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card">
 
     <div class="table-responsive">
@@ -150,7 +155,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
             </tbody>
 
         </table>
-    </div>
+    </div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
 
 
     <?php foreach ($categories as $category): ?>
