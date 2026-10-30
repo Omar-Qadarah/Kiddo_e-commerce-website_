@@ -1075,3 +1075,6 @@
     .dashboard-page .admin-page-header h1 { font-size: 28px; }
     .dashboard-page .dashboard-panel-heading h2 { font-size: 18px; }
 }
+
+/* The shared create/edit modal also honors narrow forms such as categories. */
+.admin-body .admin-dialog .admin-remote-form { max-width: none; width: 100%; }
