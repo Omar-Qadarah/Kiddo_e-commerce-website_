@@ -92,7 +92,7 @@ try {
     unset($_SESSION['csrf_token']);
 
     if ($user['role'] === 'admin') {
-        header('Location: ' . BASE_URL . '/admin/discounts.php');
+        header('Location: ' . BASE_URL . '/admin/index.php');
     } elseif (!empty($_SESSION['after_login']) && is_string($_SESSION['after_login']) &&
         str_starts_with($_SESSION['after_login'], '/') && !str_starts_with($_SESSION['after_login'], '//')) {
         $target = $_SESSION['after_login'];
