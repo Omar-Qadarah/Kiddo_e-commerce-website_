@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 $searchTerm = isset($_GET['q']) ? trim($_GET['q']) : '';
 $categoryId = filter_input(INPUT_GET, 'category', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
 $ageGroupId = filter_input(INPUT_GET, 'age_group', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
-$gender = (isset($_GET['gender']) && in_array($_GET['gender'], ['boys', 'girls'], true)) ? $_GET['gender'] : '';
+$gender = (isset($_GET['gender']) && in_array($_GET['gender'], ['boys', 'girls', 'unisex'], true)) ? $_GET['gender'] : '';
 $minPrice = filter_input(INPUT_GET, 'min_price', FILTER_VALIDATE_FLOAT);
 $maxPrice = filter_input(INPUT_GET, 'max_price', FILTER_VALIDATE_FLOAT);
 
