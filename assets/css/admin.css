@@ -1103,7 +1103,6 @@
 .admin-body .dashboard-action:hover { background: var(--admin-hover-bg); border-color: var(--admin-hover-border); color: var(--admin-heading); transform: none; }
 .admin-body .admin-table-consistent tbody td { transition: background-color .18s ease; }
 .admin-body .admin-table-consistent tbody tr:hover > td { background-color: var(--admin-hover-bg); }
-.admin-body .admin-sidebar .sidebar-link:not(.active):hover { background: var(--admin-hover-bg); color: var(--admin-primary-deep); }
 .admin-body :is(.admin-action-edit, .admin-action-toggle):hover,
 .admin-body :is(.btn-primary, .btn-outline-primary, .btn-light, .btn-outline-secondary, .btn-secondary, .btn-warning):not(.admin-action-delete):hover {
     background: var(--admin-hover-bg); border-color: var(--admin-hover-border); color: var(--admin-primary-deep); transform: none;
@@ -1112,10 +1111,10 @@
 .admin-body .admin-action-btn:hover { transform: none; }
 .admin-body .status-card { border: 1px solid var(--admin-border); box-shadow: none; }
 .admin-body .status-card:hover { background: var(--admin-primary-50); border-color: var(--admin-hover-border); color: var(--admin-heading); transform: none; }
-.admin-body .status-card.active { background: var(--admin-primary-100); border-color: var(--admin-primary-200); box-shadow: none; }
+.admin-body .status-card.active { background: var(--admin-primary); border-color: var(--admin-primary); color: #fff; box-shadow: none; }
 .admin-body .status-card.active span,
-.admin-body .status-card.active strong { color: var(--admin-primary-deep); }
-.admin-body .status-card.active i { background: var(--admin-primary-200); color: var(--admin-primary-deep); }
+.admin-body .status-card.active strong { color: #fff; }
+.admin-body .status-card.active i { background: rgba(255, 255, 255, .18); color: #fff; }
 .admin-body .status-card:focus-visible { outline: 3px solid var(--admin-primary); outline-offset: 2px; }
 .admin-body .admin-pagination a,
 .admin-body .admin-pagination span { min-width: 36px; height: 36px; border-radius: 10px; font-size: 13px; }
