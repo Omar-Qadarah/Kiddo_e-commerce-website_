@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_role'] = $user['role'];
                 unset($_SESSION['csrf_token']);
                 if ($user['role'] === 'admin') {
-                    header('Location: ../admin/discounts.php');
+                    header('Location: ../admin/index.php');
                 } elseif (!empty($_SESSION['after_login'])) {
                     // Back to the page the customer wanted (e.g. checkout)
                     $target = $_SESSION['after_login'];
