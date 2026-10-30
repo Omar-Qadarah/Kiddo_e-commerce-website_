@@ -1,5 +1,4 @@
 <?php
-// Read-only listing queries. Existing model CRUD methods remain unchanged.
 class AdminTable
 {
     private $pdo;
@@ -53,6 +52,7 @@ class AdminTable
                 $from = 'users u';
                 $order = 'u.created_at DESC, u.id DESC';
                 $searchColumns = ["CONCAT(u.first_name, ' ', u.last_name)", 'u.email', 'u.phone'];
+                $where[] = 'u.is_active = 1';
                 break;
             case 'categories':
                 $select = 'c.*'; $from = 'categories c'; $order = 'c.id DESC'; $searchColumns = ['c.name'];
