@@ -11,13 +11,64 @@ function assistantRespond(int $status, array $payload): void
     exit;
 }
 
-if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
-    header('Allow: POST');
-    assistantRespond(405, ['error' => 'Send a message using the chat form.']);
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
 }
 
 require_once __DIR__ . '/../config/config.php';
-// Load the project-root .env when present. Apache environment variables still work as a fallback.
+require_once __DIR__ . '/../config/Database.php';
+require_once __DIR__ . '/../includes/shop_functions.php';
+
+$pdo = (new Database())->connect();
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET' && isset($_GET['action']) && $_GET['action'] === 'recommendations') {
+    require_once __DIR__ . '/../classes/Recommendation.php';
+
+    $context = trim((string)($_GET['context'] ?? 'catalog'));
+    $limit = isset($_GET['limit']) ? max(1, min(8, (int)$_GET['limit'])) : 4;
+    $userId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
+
+    $excludeIds = [];
+    if (!empty($_GET['product_ids'])) {
+        $excludeIds = is_array($_GET['product_ids'])
+            ? array_map('intval', $_GET['product_ids'])
+            : array_map('intval', explode(',', (string)$_GET['product_ids']));
+    } elseif ($context === 'cart' || $context === 'checkout') {
+        $excludeIds = array_keys($_SESSION['cart'] ?? []);
+    }
+
+    $recModel = new Recommendation($pdo);
+    $suggestions = $recModel->getRecommendations($userId, $excludeIds, $limit);
+
+    $cards = [];
+    foreach ($suggestions as $item) {
+        $img = !empty($item['image']) && file_exists(__DIR__ . '/../uploads/products/' . basename($item['image']))
+            ? BASE_URL . '/uploads/products/' . basename($item['image'])
+            : BASE_URL . '/assets/images/toy-placeholder.svg';
+
+        $cards[] = [
+            'id' => (int)$item['id'],
+            'name' => (string)$item['name'],
+            'category' => (string)($item['category_name'] ?? 'Toy'),
+            'price' => (float)$item['price'],
+            'priceFormatted' => number_format((float)$item['price'], 2) . ' JOD',
+            'image' => $img,
+            'url' => BASE_URL . '/products/details.php?id=' . (int)$item['id'],
+        ];
+    }
+
+    assistantRespond(200, [
+        'success' => true,
+        'context' => $context,
+        'items' => $cards
+    ]);
+}
+
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    header('Allow: POST, GET');
+    assistantRespond(405, ['error' => 'Method not allowed.']);
+}
+
 $envPath = dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env';
 if (is_readable($envPath)) {
     $envValues = @parse_ini_file($envPath, false, INI_SCANNER_RAW);
@@ -27,9 +78,6 @@ if (is_readable($envPath)) {
             putenv('GEMINI_API_KEY=' . $fileApiKey);
         }
     }
-}
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
 }
 
 $providedToken = $_SERVER['HTTP_X_CHAT_CSRF'] ?? '';
@@ -52,7 +100,7 @@ if ($message === '' || $messageLength > 1000) {
 $now = time();
 $recentRequests = array_values(array_filter(
     $_SESSION['shopping_assistant_requests'] ?? [],
-    static fn($time): bool => is_int($time) && $time > $now - 60
+    static fn($time): bool => is_int($time) && $time > ($now - 60)
 ));
 if (count($recentRequests) >= 12) {
     assistantRespond(429, ['error' => 'That is a lot of questions at once. Please wait a minute and try again.']);
@@ -84,9 +132,6 @@ $history[] = ['role' => 'user', 'parts' => [['text' => $message]]];
 $productContext = 'The product catalog could not be loaded. Do not claim a specific product is available; invite the shopper to browse the toys page.';
 $catalogById = [];
 try {
-    require_once __DIR__ . '/../config/Database.php';
-    require_once __DIR__ . '/../includes/shop_functions.php';
-    $pdo = (new Database())->connect();
     $stmt = $pdo->query(
         "SELECT p.id, p.name, p.description, p.price, p.min_age, p.max_age,
                 COALESCE(
@@ -151,7 +196,8 @@ $payload = [
         ],
     ],
 ];
-$model = getenv('GEMINI_MODEL') ?: 'gemini-3.5-flash-lite';
+
+$model = getenv('GEMINI_MODEL') ?: 'gemini-2.5-flash';
 $url = 'https://generativelanguage.googleapis.com/v1beta/models/'
     . rawurlencode($model) . ':generateContent';
 
