@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/User.php';
+require_once __DIR__ . '/../config/GoogleAuth.php';
 $userModel = new User($pdo);
 $errors = [];
 
@@ -65,13 +66,13 @@ require_once __DIR__ . '/../includes/header.php';
 <?php endforeach; ?>
 </ul>
 <?php endif; ?>
-<form method="post">
+<?php if (!empty($_SESSION['google_auth_error'])): ?><p class="auth-errors" role="alert"><?= htmlspecialchars($_SESSION['google_auth_error'], ENT_QUOTES, 'UTF-8') ?></p><?php unset($_SESSION['google_auth_error']); endif; ?><form method="post">
 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
 <label for="email">Email</label>
 <input id="email" name="email" type="email" maxlength="120" autocomplete="username" required value="<?= htmlspecialchars($email, ENT_QUOTES, 'UTF-8') ?>">
 <label for="password">Password</label>
 <input id="password" name="password" type="password" autocomplete="current-password" required>
 <button class="btn btn-primary" type="submit">Login</button>
-</form><p>New here? <a href="register.php">Create an account</a></p>
+</form><?php if (GoogleAuth::isConfigured()): ?><p class="auth-google-separator">or</p><a class="btn btn-outline google-auth-button" href="<?= BASE_URL ?>/auth/google_start.php">Continue with Google</a><?php endif; ?><p>New here? <a href="register.php">Create an account</a></p>
 </div></section>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

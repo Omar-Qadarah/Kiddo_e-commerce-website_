@@ -122,6 +122,45 @@ class User{
     }
 
 
+    /** Look up a Google identity without exposing inactive accounts to login. */
+    public function getUserByGoogleId(string $googleId): ?array
+    {
+        $statement = $this->con->prepare('SELECT * FROM users WHERE google_id = ? LIMIT 1');
+        $statement->execute([$googleId]);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
+
+    /** Link a verified Google identity to an existing email while preserving role and account data. */
+    public function linkGoogleAccount(int $userId, string $googleId): bool
+    {
+        $statement = $this->con->prepare(
+            'UPDATE users SET google_id = :google_id WHERE id = :id AND google_id IS NULL AND is_active = 1'
+        );
+        return $statement->execute([':google_id' => $googleId, ':id' => $userId]) && $statement->rowCount() === 1;
+    }
+
+    /** Create a customer account for a verified Google identity. The schema supplies role=customer. */
+    public function createGoogleUser(string $firstName, string $lastName, string $email, string $googleId): ?array
+    {
+        $statement = $this->con->prepare(
+            'INSERT INTO users (first_name, last_name, email, password_hash, google_id) VALUES (:first_name, :last_name, :email, NULL, :google_id)'
+        );
+        $statement->execute([
+            ':first_name' => mb_substr($firstName, 0, 50, 'UTF-8'),
+            ':last_name' => mb_substr($lastName, 0, 50, 'UTF-8'),
+            ':email' => $email,
+            ':google_id' => $googleId,
+        ]);
+        return $this->getUserByGoogleId($googleId);
+    }
+    public function getUserByIdForLogin(int $id): ?array
+    {
+        $statement = $this->con->prepare('SELECT * FROM users WHERE id = ? AND is_active = 1 LIMIT 1');
+        $statement->execute([$id]);
+        $user = $statement->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
+    }
     // Login needs the password hash, role and active status.
     public function getUserByEmail($email)
     {
