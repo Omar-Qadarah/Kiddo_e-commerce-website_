@@ -25,11 +25,17 @@ if ($order === null) {
     exit;
 }
 
-$items = $orderModel->getOrderItems($id);
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('order_items', $_GET);
+$items = $pagination['rows'];
 $nextStatus = $orderModel->getNextStatus($order['status']);
 
 // 3. Safety check: the items must add up to the saved subtotal
-$itemsSum = array_reduce($items, fn($sum, $item) => $sum + (float) $item['line_total'], 0.0);
+$itemsTotalStatement = $pdo->prepare('SELECT COALESCE(SUM(line_total), 0) FROM order_items WHERE order_id = ?');
+$itemsTotalStatement->execute([$id]);
+$itemsSum = (float) $itemsTotalStatement->fetchColumn();
 $totalsMatch = abs($itemsSum - (float) $order['subtotal']) < 0.01;
 
 $badgeClasses = [
@@ -79,6 +85,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <div class="col-lg-8">
         <div class="admin-card">
             <h5 class="fw-bold mb-3">Items</h5>
+            <?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 
             <div class="table-responsive">
                 <table class="table admin-table admin-table-consistent admin-table-order_details">
@@ -107,7 +114,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                         <?php endif; ?>
                     </tbody>
                 </table>
-            </div>
+            </div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
 
             <?php if (!$totalsMatch): ?>
                 <div class="alert alert-warning mt-3">

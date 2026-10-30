@@ -46,8 +46,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
-$search = isset($_GET['search']) ? trim($_GET['search']) : '';
-$users = $userObj->getUsersForAdmin($search);
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('users', $_GET);
+$users = $pagination['rows'];
 $pageTitle = 'Users';
 $activePage = 'users';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
@@ -81,10 +84,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 
     <div class="admin-page-header admin-table-toolbar">
-        <form class="d-flex gap-2 flex-wrap flex-grow-1" method="GET" action="users.php">
-            <input type="text" name="search" class="form-control w-auto flex-grow-1" placeholder="Search name, email or phone" value="<?= htmlspecialchars($_GET['search'] ?? '') ?>">
-            <button type="submit" class="btn btn-outline-primary">Search</button>
-        </form>
+        <?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
         <button class="btn btn-primary" onclick="openModal('addModal')">+ Add user</button>
     </div>
 
@@ -133,7 +133,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     <?php endforeach; ?>
                 <?php endif; ?>
             </tbody>
-        </table></div>
+        </table></div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
     </div>
 
     <div class="modal-overlay" id="addModal">

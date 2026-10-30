@@ -4,7 +4,11 @@ require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/AgeGroup.php';
 
 $ageGroupModel = new AgeGroup($pdo);
-$ageGroups = $ageGroupModel->getAll();
+require_once __DIR__ . '/../classes/AdminTable.php';
+require_once __DIR__ . '/../includes/admin/table_helpers.php';
+$adminTable = new AdminTable($pdo);
+$pagination = $adminTable->getPage('age_groups', $_GET);
+$ageGroups = $pagination['rows'];
 
 $pageTitle = 'Age Groups';
 $activePage = 'age_groups';
@@ -46,6 +50,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 
 <!-- Age Groups Table -->
+<?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card">
     <div class="table-responsive">
         <table class="table admin-table admin-table-consistent admin-table-age_groups">
@@ -125,7 +130,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
             </tbody>
 
         </table>
-    </div>
+    </div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
 </div>
 
 
