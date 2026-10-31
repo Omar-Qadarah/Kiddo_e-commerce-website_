@@ -310,3 +310,8 @@ html { scroll-padding-top:100px; }
  #shop-by-age .age-carousel-track { grid-template-columns:none; grid-auto-columns:calc((100% - 12px)/2); gap:12px; overflow-anchor:none; }
  #shop-by-age .age-circle { justify-self:center; max-width:100%; }
 }
+
+/* Account navigation heading is a label; profile panels share the hero edges. */
+.kiddo-account-layout .toys-sidebar .toys-sidebar-title { display:block; background:transparent; border:0; border-radius:0; box-shadow:none; padding:4px 8px 16px; margin:0; font-size:18px; line-height:1.4; cursor:default; }
+.kiddo-account-layout .profile-form-wrapper { width:100%; max-width:none; margin:0 0 24px; }
+.kiddo-account-layout .account-sidebar-list .cat-icon svg { display:block; flex-shrink:0; }
