@@ -2,6 +2,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Category.php';
 require_once __DIR__ . '/../classes/CategoryImage.php';
@@ -93,7 +94,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <?php endif; ?>
 
     <form method="POST" class="admin-form" enctype="multipart/form-data">
-        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">">
         <div class="mb-3">
             <label for="name" class="form-label">Category Name *</label>
             <input
