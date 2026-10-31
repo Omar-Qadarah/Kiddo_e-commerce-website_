@@ -160,3 +160,18 @@ body { line-height: 1.55; }
 .details-recommendations-heading { margin-bottom:20px; }
 .details-recommendations-heading h2 { margin:0 0 4px; color:#2f2c38; font-size:24px; font-weight:800; }
 .details-recommendations-heading p { margin:0; color:#777281; font-size:14px; }
+
+/* Keep the brand and links together, center search in the remaining space,
+   and anchor the account controls at the right edge. */
+@media (min-width: 1101px) {
+    .site-header .container.shop-header-row {
+        width: min(1680px, calc(100% - 48px));
+        grid-template-columns: auto auto minmax(280px, 1fr) auto;
+        column-gap: clamp(16px, 1.8vw, 26px);
+    }
+    .site-header .brand { justify-self: start; }
+    .site-header .shop-nav { justify-self: start; }
+    .site-header .shop-nav a { font-size: 15px; padding-inline: 14px; }
+    .site-header .header-search { width: min(100%, 570px); max-width: 570px; justify-self: center; }
+    .site-header .header-actions { justify-self: end; }
+}

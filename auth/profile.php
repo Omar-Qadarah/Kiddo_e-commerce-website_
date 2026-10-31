@@ -294,7 +294,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                                 <span class="text-muted small ms-2"><?= date('M j, Y', strtotime($ord['created_at'])) ?></span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <span class="kiddo-badge <?= $ord['status'] === 'delivered' ? 'badge-status-completed' : 'badge-status-placed' ?>">
+                                <span class="kiddo-badge <?= $ord['status'] === 'delivered' ? 'badge-status-completed' : ($ord['status'] === 'cancelled' ? 'badge-status-cancelled' : 'badge-status-placed') ?>">
                                     <?= ucfirst(htmlspecialchars($ord['status'], ENT_QUOTES, 'UTF-8')) ?>
                                 </span>
                                 <span class="fw-bold text-dark"><?= number_format((float)$ord['total'], 2) ?> JOD</span>
@@ -334,6 +334,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
                                             </button>
                                         <?php elseif ($alreadyReviewed): ?>
                                             <span class="kiddo-badge-subtle">Reviewed</span>
+                                        <?php elseif ($ord['status'] === 'cancelled'): ?>
+                                            <span class="kiddo-badge-subtle">Order cancelled</span>
                                         <?php elseif ($ord['status'] !== 'delivered'): ?>
                                             <span class="kiddo-badge-subtle">Awaiting Delivery</span>
                                         <?php endif; ?>

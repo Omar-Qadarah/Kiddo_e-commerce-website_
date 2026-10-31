@@ -288,7 +288,7 @@
 /* Summary cards that also act as filters (orders page) */
 .status-cards {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 16px;
 }
@@ -595,7 +595,9 @@
 
 @media (max-width: 768px) {
     .status-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(120px, 1fr));
+        overflow-x: auto;
+        padding: 2px 2px 8px;
     }
 
     .admin-sidebar {

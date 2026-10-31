@@ -2,8 +2,9 @@
 
 class Order
 {
-    // Whitelist: the only statuses allowed (same as the ENUM in the database)
-    public const STATUSES = ['placed', 'shipped', 'delivered'];
+    // Admin order states. Cancelled orders are terminal, not delivery steps.
+    public const STATUSES = ['placed', 'shipped', 'delivered', 'cancelled'];
+    public const TRACKING_STATUSES = ['placed', 'shipped', 'delivered'];
 
     // Business rule: an order moves forward only, one step at a time
     private const NEXT_STATUS = [
@@ -92,6 +93,34 @@ class Order
 
         $stmt = $this->pdo->prepare("UPDATE orders SET status = ? WHERE id = ?");
         return $stmt->execute([$newStatus, $id]);
+    }
+
+    // Cancel before delivery and restore reserved stock atomically.
+    public function cancelOrder(int $id): bool
+    {
+        $this->pdo->beginTransaction();
+        try {
+            $stmt = $this->pdo->prepare('SELECT status FROM orders WHERE id = ? FOR UPDATE');
+            $stmt->execute([$id]);
+            $status = $stmt->fetchColumn();
+            if (!in_array($status, ['placed', 'shipped'], true)) {
+                $this->pdo->rollBack();
+                return false;
+            }
+
+            $stockStmt = $this->pdo->prepare(
+                'UPDATE products p INNER JOIN order_items oi ON oi.product_id = p.id
+                 SET p.stock = p.stock + oi.quantity WHERE oi.order_id = ?'
+            );
+            $stockStmt->execute([$id]);
+            $cancelStmt = $this->pdo->prepare("UPDATE orders SET status = 'cancelled' WHERE id = ?");
+            $cancelStmt->execute([$id]);
+            $this->pdo->commit();
+            return true;
+        } catch (Throwable $error) {
+            if ($this->pdo->inTransaction()) $this->pdo->rollBack();
+            throw $error;
+        }
     }
     
         // CUSTOMER: one order, only if it belongs to this customer

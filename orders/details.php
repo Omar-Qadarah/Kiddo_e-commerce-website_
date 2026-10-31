@@ -21,7 +21,7 @@ $flash = $_SESSION['order_flash'] ?? null;
 unset($_SESSION['order_flash']);
 
 // How far the order got: placed, shipped, delivered
-$steps   = Order::STATUSES;
+$steps   = Order::TRACKING_STATUSES;
 $reached = array_search($order['status'], $steps);
 
 $pageTitle  = 'Order #' . $order['id'];
@@ -39,11 +39,15 @@ require_once __DIR__ . '/../includes/shop_header.php';
         <p class="cart-flash is-success"><?= htmlspecialchars($flash) ?></p>
     <?php endif; ?>
 
-    <ol class="order-steps">
-        <?php foreach ($steps as $i => $step): ?>
-            <li class="<?= $i <= $reached ? 'is-done' : '' ?>"><?= ucfirst($step) ?></li>
-        <?php endforeach; ?>
-    </ol>
+    <?php if ($order['status'] === 'cancelled'): ?>
+        <p class="order-status is-cancelled" role="status">This order was cancelled.</p>
+    <?php else: ?>
+        <ol class="order-steps">
+            <?php foreach ($steps as $i => $step): ?>
+                <li class="<?= $i <= $reached ? 'is-done' : '' ?>"><?= ucfirst($step) ?></li>
+            <?php endforeach; ?>
+        </ol>
+    <?php endif; ?>
 
     <div class="cart-layout">
         <div class="checkout-card">

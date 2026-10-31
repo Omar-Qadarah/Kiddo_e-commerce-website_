@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `address_text` varchar(255) NOT NULL,
   `latitude` decimal(10,7) NOT NULL,
   `longitude` decimal(10,7) NOT NULL,
-  `status` enum('placed','shipped','delivered') NOT NULL DEFAULT 'placed',
+  `status` enum('placed','shipped','delivered','cancelled') NOT NULL DEFAULT 'placed',
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
