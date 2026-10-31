@@ -126,3 +126,37 @@ body { line-height: 1.55; }
 .profile-photo-field, .profile-photo-control, .profile-fields-grid, .kiddo-form-group { min-width:0; max-width:100%; }
 .profile-photo-control input[type=file] { width:100%; min-width:0; }
 .cart-item .cart-qty { justify-self:start; width:max-content; }
+
+/* Shared image-first product cards with price, stock and a direct cart action. */
+.toy-grid .toy-card { display:flex; flex-direction:column; min-width:0; overflow:hidden; padding:0; border:1px solid #eceaf2; border-radius:14px; background:#fff; box-shadow:0 2px 8px #29203c08; }
+.toy-grid .toy-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px #29203c12; }
+.toy-grid .toy-card-media { width:100%; height:auto; aspect-ratio:1 / 1; border-radius:13px 13px 0 0; background:#fff; }
+.toy-grid .toy-card-circle { width:100%; height:100%; border-radius:0; background:transparent; box-shadow:none; }
+.toy-grid .toy-card-circle img { width:100%; height:100%; box-sizing:border-box; padding:8px; object-fit:contain; }
+.toy-grid .toy-card-body { display:flex; flex-direction:column; gap:7px; padding:12px; }
+.toy-grid .toy-card-cat, .toy-grid .toy-card-desc, .toy-grid .toy-age { display:none; }
+.toy-grid .toy-card-name { min-height:38px; margin:0; font-size:15px; line-height:1.35; }
+.toy-grid .toy-card-link::after { border-radius:14px; }
+.toy-grid .toy-rating { display:flex; align-items:center; min-height:18px; gap:5px; margin:0; color:#f5bf30; font-size:12px; }
+.toy-grid .toy-rating-text { color:#85818c; font-size:11px; }
+.toy-grid .toy-card-foot { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0; padding:0; }
+.toy-grid .toy-price { display:flex; align-items:baseline; gap:7px; }
+.toy-grid .toy-price strong { color:#262344; font-size:20px; font-weight:800; line-height:1.2; }
+.toy-grid .toy-price del { color:#918d9d; font-size:12px; }
+.toy-grid .toy-stock { flex:0 0 auto; color:#19b879; font-size:13px; font-weight:800; white-space:nowrap; }
+.toy-grid .toy-stock.is-out { color:#e34f66; }
+.toy-grid .toy-card-cart { position:relative; z-index:2; width:100%; margin:2px 0 0; }
+.toy-grid .toy-card-cart button { width:100%; min-height:50px; height:50px; border:0; border-radius:12px; background:#7957f5; color:#fff; font-size:14px; font-weight:800; box-shadow:none; }
+.toy-grid .toy-card-cart button:hover:not(:disabled) { background:#6846e6; }
+@media (max-width: 600px) {
+    .toy-grid .toy-card-body { padding:10px; }
+    .toy-grid .toy-card-name { font-size:14px; }
+    .toy-grid .toy-price strong { font-size:17px; }
+    .toy-grid .toy-stock { font-size:11px; }
+    .toy-grid .toy-card-cart button { min-height:44px; height:44px; }
+}
+
+.details-recommendations { margin-top:48px; margin-bottom:24px; }
+.details-recommendations-heading { margin-bottom:20px; }
+.details-recommendations-heading h2 { margin:0 0 4px; color:#2f2c38; font-size:24px; font-weight:800; }
+.details-recommendations-heading p { margin:0; color:#777281; font-size:14px; }

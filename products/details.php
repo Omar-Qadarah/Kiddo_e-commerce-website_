@@ -43,7 +43,15 @@ $stock = (int) $toy['stock'];
 $tints = ['tint-yellow', 'tint-purple', 'tint-peach', 'tint-pink', 'tint-mint', 'tint-blue'];
 $tint = $tints[(int) $toy['category_id'] % count($tints)];
 $userId = isset($_SESSION['user_id']) ? (int) $_SESSION['user_id'] : null;
-$recommendedToys = $recModel->getRecommendations($userId, [(int) $toy['id']], 4);
+$recommendedRows = $recModel->getRecommendations($userId, [(int) $toy['id']], 4);
+$recommendedCardsById = $catalog->getToysByIds(array_column($recommendedRows, 'id'));
+$recommendedToys = [];
+foreach ($recommendedRows as $recommendedRow) {
+    $recommendedId = (int) $recommendedRow['id'];
+    if (isset($recommendedCardsById[$recommendedId])) {
+        $recommendedToys[] = $recommendedCardsById[$recommendedId];
+    }
+}
 
 // Message from cart/add.php, shown once
 $cartFlash = $_SESSION['cart_flash'] ?? null;
@@ -170,44 +178,17 @@ require_once __DIR__ . '/../includes/shop_header.php';
 </section>
 
 <?php if (!empty($recommendedToys)): ?>
-<section class="container details-recommendations" style="margin-top: 48px; margin-bottom: 24px;">
-    <div style="margin-bottom: 24px;">
-        <h2 style="font-size: 1.5rem; font-weight: 800; color: #2d3436; margin-bottom: 4px;">You May Also Love</h2>
-        <p style="color: #636e72; font-size: 0.95rem; margin: 0;">Frequently paired toys and top recommendations for you</p>
+<section class="container details-recommendations">
+    <div class="details-recommendations-heading">
+        <h2>You May Also Love</h2>
+        <p>Frequently paired toys and top recommendations for you</p>
     </div>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
-        <?php foreach ($recommendedToys as $recToy): 
-            $recPrice = (float) $recToy['price'];
-            $recImg = !empty($recToy['image']) ? BASE_URL . '/uploads/products/' . basename($recToy['image']) : BASE_URL . '/assets/images/toy-placeholder.svg';
-        ?>
-            <div style="background: #ffffff; border: 1px solid #edf0f5; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: transform 0.2s ease;">
-                <div>
-                    <a href="<?= BASE_URL ?>/products/details.php?id=<?= (int) $recToy['id'] ?>" style="text-decoration: none; display: block;">
-                        <div style="background: #fafbfc; border-radius: 12px; height: 160px; display: flex; align-items: center; justify-content: center; padding: 12px; margin-bottom: 12px; border: 1px solid #f1f2f6;">
-                            <img src="<?= htmlspecialchars($recImg) ?>" alt="<?= htmlspecialchars($recToy['name']) ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='<?= BASE_URL ?>/assets/images/toy-placeholder.svg';">
-                        </div>
-                        <span style="display: inline-block; font-size: 0.75rem; font-weight: 700; color: #6c5ce7; background: #ede9fe; padding: 3px 10px; border-radius: 12px; margin-bottom: 6px;">
-                            <?= htmlspecialchars($recToy['category_name'] ?? 'Toy') ?>
-                        </span>
-                        <h3 style="font-size: 0.95rem; font-weight: 700; color: #2d3436; margin: 0 0 8px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="<?= htmlspecialchars($recToy['name']) ?>">
-                            <?= htmlspecialchars($recToy['name']) ?>
-                        </h3>
-                    </a>
-                </div>
-
-                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid #f8f9fa;">
-                    <strong style="color: #2d3436; font-size: 1.05rem;"><?= shopMoney($recPrice) ?></strong>
-                    <form action="<?= BASE_URL ?>/cart/add.php" method="post" style="margin: 0;">
-                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
-                        <input type="hidden" name="product_id" value="<?= (int) $recToy['id'] ?>">
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="btn btn-primary" style="padding: 6px 14px; font-size: 0.85rem; border-radius: 10px; height: auto;" title="Add to cart">
-                            + Add
-                        </button>
-                    </form>
-                </div>
-            </div>
+    <div class="toy-grid">
+        <?php $cardMode = 'shop'; ?>
+        <?php foreach ($recommendedToys as $toy): ?>
+            <?php $cardImages = null; ?>
+            <?php require __DIR__ . '/../includes/toy_card.php'; ?>
         <?php endforeach; ?>
     </div>
 </section>
