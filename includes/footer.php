@@ -89,7 +89,7 @@ if (empty($_SESSION['shopping_assistant_csrf'])) {
         </div>
         <form class="shopping-chat__form" id="shopping-chat-form">
             <label class="sr-only" for="shopping-chat-input">Your message</label>
-            <input id="shopping-chat-input" name="message" type="text" maxlength="1000" autocomplete="off" placeholder="Ask about toys&#8230;" required>
+            <textarea id="shopping-chat-input" name="message" rows="1" wrap="soft" maxlength="1000" autocomplete="off" placeholder="Ask about toys&#8230;" required></textarea>
             <button type="submit" aria-label="Send message">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 21 3l-6.5 18-3.2-7.3L3 11.5Zm8.3 2.2L21 3"/></svg>
             </button>
