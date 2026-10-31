@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `categories` (
   `slug` varchar(60) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `icon` varchar(50) DEFAULT NULL,
+  `image` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_categories_name` (`name`),

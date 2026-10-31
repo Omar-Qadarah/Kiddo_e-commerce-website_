@@ -12,7 +12,7 @@ class Category
 
     public function getAll(): array
     {
-        $sql = "SELECT id, name, slug, description, icon, created_at
+        $sql = "SELECT id, name, slug, description, icon, image, created_at
                 FROM categories
                 ORDER BY id DESC";
 
@@ -25,7 +25,7 @@ class Category
     
     public function getById(int $id): array|false
     {
-        $sql = "SELECT id, name, slug, description, icon, created_at
+        $sql = "SELECT id, name, slug, description, icon, image, created_at
                 FROM categories
                 WHERE id = :id";
 
@@ -75,9 +75,9 @@ class Category
      public function create(array $data): bool
     {
         $sql = "INSERT INTO categories
-                (name, slug, description, icon)
+                (name, slug, description, icon, image)
                 VALUES
-                (:name, :slug, :description, :icon)";
+                (:name, :slug, :description, :icon, :image)";
 
         $stmt = $this->conn->prepare($sql);
 
@@ -85,7 +85,8 @@ class Category
             'name'        => $data['name'],
             'slug'        => $data['slug'],
             'description' => $data['description'] ?? null,
-            'icon'        => $data['icon'] ?? null
+            'icon'        => $data['icon'] ?? null,
+            'image'       => $data['image'] ?? null
         ]);
     }
 
@@ -96,7 +97,8 @@ class Category
                 SET name = :name,
                     slug = :slug,
                     description = :description,
-                    icon = :icon
+                    icon = :icon,
+                    image = :image
                 WHERE id = :id";
 
         $stmt = $this->conn->prepare($sql);
@@ -106,7 +108,8 @@ class Category
             'name'        => $data['name'],
             'slug'        => $data['slug'],
             'description' => $data['description'] ?? null,
-            'icon'        => $data['icon'] ?? null
+            'icon'        => $data['icon'] ?? null,
+            'image'       => $data['image'] ?? null
         ]);
     }
 
@@ -137,12 +140,12 @@ class Category
     // Categories for the Toys page sidebar, with how many visible toys each has.
     public function getAllWithToyCount(): array
     {
-        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon,
+        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon, c.image,
                        COUNT(p.id) AS toy_count
                 FROM categories c
                 LEFT JOIN products p
                     ON p.category_id = c.id AND p.is_active = 1
-                GROUP BY c.id, c.name, c.slug, c.description, c.icon
+                GROUP BY c.id, c.name, c.slug, c.description, c.icon, c.image
                 ORDER BY c.name ASC";
 
         $stmt = $this->conn->prepare($sql);

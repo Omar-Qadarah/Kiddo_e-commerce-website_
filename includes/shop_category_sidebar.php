@@ -22,7 +22,13 @@ $allCount = array_sum(array_column($categories, 'toy_count'));
                         <a class="cat-link <?= $isActive ? 'is-active' : '' ?>"
                            href="<?= $categoryUrl($category['slug']) ?>"
                            <?= $isActive ? 'aria-current="page"' : '' ?>>
-                            <span class="cat-icon"><img src="<?= htmlspecialchars(shopCategoryIllustration($category['name'])) ?>" alt="" width="32" height="32"></span>
+                            <span class="cat-icon">
+                                <?php if (!empty($category['image'])): ?>
+                                    <img src="<?= htmlspecialchars(shopCategoryImageUrl($category['image']), ENT_QUOTES, 'UTF-8') ?>" alt="" width="32" height="32">
+                                <?php else: ?>
+                                    <span aria-hidden="true">🧸</span>
+                                <?php endif; ?>
+                            </span>
                             <span class="cat-name"><?= htmlspecialchars($category['name']) ?></span>
                             <?php if ((int) $category['toy_count'] > 0): ?>
                                 <span class="cat-count"><?= (int) $category['toy_count'] ?></span>

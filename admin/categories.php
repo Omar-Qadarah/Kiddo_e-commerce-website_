@@ -2,7 +2,9 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Category.php';
+require_once __DIR__ . '/../classes/CategoryImage.php';
 
 $categoryModel = new Category($pdo);
 require_once __DIR__ . '/../classes/AdminTable.php';
@@ -79,7 +81,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     <th>Name</th>
                     <th>Slug</th>
                     <th>Description</th>
-                    <th>Icon</th>
+                    <th>Image</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -118,9 +120,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             </td>
 
                             <td>
-                                <?php if (!empty($category['icon'])): ?>
-                                    <i class="<?= htmlspecialchars($category['icon']) ?>"></i>
-                                    <?= htmlspecialchars($category['icon']) ?>
+                                <?php if (!empty($category['image'])): ?>
+                                    <img class="category-admin-thumb" src="<?= htmlspecialchars(CategoryImage::url($category['image']), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>">
                                 <?php else: ?>
                                     —
                                 <?php endif; ?>
@@ -174,6 +175,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     <form
                         action="<?= BASE_URL ?>/admin/update_category.php"
                         method="POST"
+                        enctype="multipart/form-data"
                     >
 
                         <div class="modal-header border-0 pb-0">
@@ -207,6 +209,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                 name="id"
                                 value="<?= (int) $category['id'] ?>"
                             >
+                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                             <div class="mb-3">
                                 <label
@@ -270,21 +273,19 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
                             <div>
                                 <label
-                                    for="edit-icon-<?= (int) $category['id'] ?>"
+                                    for="edit-image-<?= (int) $category['id'] ?>"
                                     class="form-label"
                                 >
-                                    Icon (optional)
+                                    Category image (optional)
                                 </label>
-
-                                <input
-                                    type="text"
-                                    id="edit-icon-<?= (int) $category['id'] ?>"
-                                    name="icon"
-                                    class="form-control"
-                                    maxlength="100"
-                                    value="<?= htmlspecialchars($category['icon'] ?? '') ?>"
-                                    placeholder="bi bi-stars"
-                                >
+                                <?php if (!empty($category['image'])): ?>
+                                    <div class="category-image-current mb-2">
+                                        <img class="category-admin-thumb" src="<?= htmlspecialchars(CategoryImage::url($category['image']), ENT_QUOTES, 'UTF-8') ?>" alt="Current <?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?> image">
+                                        <label class="form-check-label ms-2"><input class="form-check-input" type="checkbox" name="remove_image" value="1"> Remove current image</label>
+                                    </div>
+                                <?php endif; ?>
+                                <input type="file" id="edit-image-<?= (int) $category['id'] ?>" name="image" class="form-control" accept="image/jpeg,image/png,image/webp">
+                                <div class="form-text">JPG, PNG, or WebP. Maximum 3 MB.</div>
                             </div>
 
                         </div>
@@ -334,6 +335,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                         action="<?= BASE_URL ?>/admin/delete_category.php"
                         method="POST"
                     >
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
 
                         <div class="modal-body text-center p-4">
 

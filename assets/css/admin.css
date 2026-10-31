@@ -1168,3 +1168,6 @@
     .dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) > .admin-card { align-self: start; }
     .dashboard-recent-summary { margin-top: 12px; }
 }
+/* Uploaded category artwork in the categories table and edit modal. */
+.category-admin-thumb { display: inline-block; width: 56px; height: 48px; object-fit: cover; border-radius: 10px; border: 1px solid var(--admin-border, #e8e6f0); background: #fff; vertical-align: middle; }
+.category-image-current { display: flex; align-items: center; gap: .4rem; }

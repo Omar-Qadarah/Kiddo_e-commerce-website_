@@ -1,13 +1,16 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Category.php';
+require_once __DIR__ . '/../classes/CategoryImage.php';
 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . '/admin/categories.php');
     exit;
 }
+checkCsrf();
 
 
 $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
@@ -31,6 +34,7 @@ try {
         $deleted = $categoryModel->delete($id);
 
         if ($deleted) {
+            CategoryImage::delete($category['image'] ?? null);
             $_SESSION['category_success'] = 'Category deleted successfully.';
         } else {
             $_SESSION['category_error'] =
