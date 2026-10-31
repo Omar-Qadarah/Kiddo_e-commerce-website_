@@ -18,7 +18,7 @@ $searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a b
 // key => [label, path from the project root]
 $shopNavLinks = [
     'home'       => ['Home', '/index.php'],
-    'toys'       => ['All toys', '/products/index.php'],
+    'toys'       => ['Toys', '/products/index.php'],
     'offers' => ['Offers', '/products/index.php?offers=1'],
 ];
 ?>

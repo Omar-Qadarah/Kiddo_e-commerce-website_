@@ -3,9 +3,9 @@
 // The calling page supplies $categoryUrl so its existing route/state is kept.
 $allCount = array_sum(array_column($categories, 'toy_count'));
 ?>
-    <aside class="toys-sidebar" id="toy-types" aria-label="Toy types">
+    <aside class="toys-sidebar" id="toy-types" aria-label="Categories">
         <div class="toys-sidebar-inner">
-            <h2 class="toys-sidebar-title">Toy types</h2>
+            <h2 class="toys-sidebar-title">Categories</h2>
             <ul class="cat-list">
                 <li>
                     <a class="cat-link <?= $activeCategory ? '' : 'is-active' ?>"

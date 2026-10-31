@@ -141,7 +141,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 <div class="toys-layout toys-pill-page catalog-page">
     <!-- ============ Full-height sidebar on the left ============ -->
     <details class="catalog-sidebar" open>
-        <summary>Filters &amp; toy types <span aria-hidden="true">⌄</span></summary>
+        <summary>Filters &amp; categories <span aria-hidden="true">⌄</span></summary>
         <div class="catalog-sidebar-content">
     <?php $categoryUrl = fn($slug) => toysUrl($filters, ['category' => $slug]); require __DIR__ . '/../includes/shop_category_sidebar.php'; ?>
             <section class="catalog-filters" aria-labelledby="catalog-filter-title">
