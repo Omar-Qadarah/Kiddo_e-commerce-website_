@@ -212,14 +212,6 @@ require_once __DIR__ . '/includes/shop_header.php';
 
 
 
-<?php if ($categories): ?>
-<section class="shop-section home-categories">
-    <div class="container">
-        <div class="section-head"><div><span class="eyebrow">Follow their curiosity</span><h2>What do they love?</h2></div><a class="see-all" href="<?= BASE_URL ?>/products/categories.php">Explore categories →</a></div>
-        <?php $allHomeCategories = $categories; $categories = array_slice($categories, 0, 8); require __DIR__ . '/includes/category_grid.php'; $categories = $allHomeCategories; ?>
-    </div>
-</section>
-<?php endif; ?>
 <!-- ============ Discounts ============ -->
 <?php if (!empty($discounted)): ?>
 <section class="shop-section" id="discounts">
