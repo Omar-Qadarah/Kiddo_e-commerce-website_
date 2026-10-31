@@ -69,6 +69,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <path d="M392 175 l7 14 15 2 -11 10 3 15 -14 -7 -14 7 3 -15 -11 -10 15 -2z" fill="#FFC93D"/>
                 <path d="M70 262 l5 10 11 1 -8 7 2 11 -10 -5 -10 5 2 -11 -8 -7 11 -1z" fill="#fff" opacity=".9"/>
                 <!-- teddy -->
+                <g class="hero-teddy">
                 <circle cx="215" cy="122" r="30" fill="#B97A45"/>
                 <circle cx="215" cy="122" r="17" fill="#F2C9A0"/>
                 <circle cx="345" cy="122" r="30" fill="#B97A45"/>
@@ -89,6 +90,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <circle cx="280" cy="268" r="7" fill="#D6336B"/>
                 <ellipse cx="200" cy="330" rx="26" ry="20" fill="#B97A45"/>
                 <ellipse cx="360" cy="330" rx="26" ry="20" fill="#B97A45"/>
+                </g>
                 <!-- ball -->
                 <circle cx="168" cy="352" r="40" fill="#FFC93D"/>
                 <path d="M148 318 C178 340 178 368 152 388" stroke="#E8457C" stroke-width="9" fill="none"/>
