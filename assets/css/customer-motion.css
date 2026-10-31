@@ -52,3 +52,14 @@
     .header-search button:active { transform:translateY(-50%) !important; }
     .cart-remove:active,.kiddo-btn-save:active,.kiddo-btn-review:active,.age-carousel-arrow:active,.promo-arrow:active,.shop-pagination a:active { transform:none !important; }
 }
+
+/* A brief greeting, then the bear rests. No continuous decorative animation. */
+@media(prefers-reduced-motion:no-preference) {
+ .hero .hero-teddy { transform-box:fill-box; transform-origin:50% 100%; animation:teddy-greeting 2s ease-in-out .35s 2; }
+}
+@keyframes teddy-greeting {
+ 0%,100% { transform:translateY(0) rotate(0); }
+ 25% { transform:translateY(-3px) rotate(-1.5deg); }
+ 65% { transform:translateY(-2px) rotate(1.5deg); }
+}
+@media(prefers-reduced-motion:reduce) { .hero .hero-teddy { animation:none; transform:none; } }
