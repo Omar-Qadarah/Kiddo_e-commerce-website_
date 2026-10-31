@@ -56,6 +56,7 @@ function shopAsset(string $folder, string $file): string
     <script src="<?= htmlspecialchars(shopAsset('js', $script)) ?>" defer></script>
 <?php endforeach; ?>
 <link href="<?= BASE_URL ?>/assets/css/storefront-ux.css?v=<?= filemtime(__DIR__ . '/../assets/css/storefront-ux.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/store-design.css?v=<?= filemtime(__DIR__ . '/../assets/css/store-design.css') ?>" rel="stylesheet">
 </head>
 <body>
 

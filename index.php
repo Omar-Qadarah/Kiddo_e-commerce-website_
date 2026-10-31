@@ -12,6 +12,7 @@ $catalog     = new ToyCatalog($pdo);
 $ageGroups   = $catalog->getAgeGroupsWithToyCount();
 $discounted  = $catalog->getDiscountedToys(4);
 $newArrivals = $catalog->getNewArrivals(4);
+$categories = $catalog->getCategoriesWithToyCount();
 
 // "Toys for ages 3 to 12" — taken from the age groups the admin saved.
 $minAge = $ageGroups ? min(array_map('intval', array_column($ageGroups, 'min_age'))) : 3;
@@ -45,6 +46,12 @@ require_once __DIR__ . '/includes/shop_header.php';
             <div class="hero-actions">
                 <a class="btn btn-pink" href="<?= BASE_URL ?>/products/index.php">Explore Now</a>
                 <a class="btn hero-btn-light" href="#shop-by-age">Shop by age</a>
+            </div>
+            <div class="hero-budget" aria-label="Shop by budget">
+                <span>Find a little gift:</span>
+                <a href="<?= BASE_URL ?>/products/index.php?price=under-10">Under 10 JOD</a>
+                <a href="<?= BASE_URL ?>/products/index.php?price=10-25">10–25 JOD</a>
+                <a href="<?= BASE_URL ?>/products/index.php?price=25-50">25–50 JOD</a>
             </div>
         </div>
 
@@ -112,6 +119,11 @@ require_once __DIR__ . '/includes/shop_header.php';
     </div>
 </section>
 
+<section class="store-promises container" aria-label="Shopping at Kiddo's">
+    <div><span aria-hidden="true">↗</span><strong>Delivered across Jordan</strong><small>Playtime, brought to your door</small></div>
+    <div><span aria-hidden="true">✓</span><strong>Cash on delivery</strong><small>Pay when your order arrives</small></div>
+    <div><span aria-hidden="true">♡</span><strong>Play for every stage</strong><small>Discover toys by age and interest</small></div>
+</section>
 <!-- ============ Shop by age ============ -->
 <?php if (!empty($ageGroups)): ?>
 <section class="shop-section" id="shop-by-age">
@@ -157,6 +169,14 @@ require_once __DIR__ . '/includes/shop_header.php';
 </section>
 <?php endif; ?>
 
+<?php if ($categories): ?>
+<section class="shop-section home-categories">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">Follow their curiosity</span><h2>What do they love?</h2></div><a class="see-all" href="<?= BASE_URL ?>/products/categories.php">Explore categories →</a></div>
+        <?php $allHomeCategories = $categories; $categories = array_slice($categories, 0, 8); require __DIR__ . '/includes/category_grid.php'; $categories = $allHomeCategories; ?>
+    </div>
+</section>
+<?php endif; ?>
 <!-- ============ Promo slider ============ -->
 <section class="shop-section">
     <div class="container">
@@ -233,11 +253,11 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <span class="eyebrow">Discounts</span>
                 <h2>Happy prices this week</h2>
             </div>
-            <a class="see-all" href="<?= BASE_URL ?>/products/index.php">See all toys →</a>
+            <a class="see-all" href="<?= BASE_URL ?>/products/index.php?offers=1">Shop all offers →</a>
         </div>
 
         <div class="toy-grid">
-            <?php $cardMode = 'landing'; ?>
+            <?php $cardMode = 'shop'; ?>
             <?php foreach ($discounted as $toy): ?>
                 <?php $cardImages = null; ?>
                 <?php require __DIR__ . '/includes/toy_card.php'; ?>
@@ -260,7 +280,7 @@ require_once __DIR__ . '/includes/shop_header.php';
 
         <?php if (!empty($newArrivals)): ?>
             <div class="toy-grid">
-                <?php $cardMode = 'landing'; ?>
+                <?php $cardMode = 'shop'; ?>
                 <?php foreach ($newArrivals as $toy): ?>
                     <?php $cardImages = null; ?>
                     <?php require __DIR__ . '/includes/toy_card.php'; ?>

@@ -33,7 +33,7 @@ document.querySelectorAll('.age-grid, .agecat-grid').forEach(track => {
         return button;
     });
     const update = () => {
-        const visible = Math.min(5, Math.max(1, Math.floor(track.clientWidth / 175)));
+        const visible = Math.min(5, track.children.length || 1, Math.max(1, Math.floor(track.clientWidth / 175)));
         track.style.setProperty('--age-visible', visible);
         const end = track.scrollWidth - track.clientWidth;
         buttons[0].disabled = track.scrollLeft <= 2;
@@ -43,4 +43,28 @@ document.querySelectorAll('.age-grid, .agecat-grid').forEach(track => {
     track.addEventListener('scroll', update, {passive: true});
     new ResizeObserver(update).observe(track);
     update();
+});
+
+document.addEventListener('click', event => {
+    document.querySelectorAll('[data-navigation-menu][open]').forEach(menu => {
+        if (!menu.contains(event.target)) menu.open = false;
+    });
+});
+document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    document.querySelectorAll('[data-navigation-menu][open]').forEach(menu => {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+    });
+});
+document.querySelectorAll('[data-filter-form] input[type="checkbox"]').forEach(input => {
+    input.addEventListener('change', () => input.form.requestSubmit());
+});
+
+// Mobile filtering stays available without putting a long form before every product.
+document.querySelectorAll('.browse-filter-panel').forEach(panel => {
+    const mobile = matchMedia('(max-width: 600px)');
+    const sync = () => {panel.open = !mobile.matches;};
+    sync();
+    mobile.addEventListener('change', sync);
 });

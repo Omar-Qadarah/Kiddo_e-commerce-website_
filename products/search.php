@@ -115,6 +115,7 @@ if ($userId > 0 && $searchTerm !== '' && $pagination['page'] === 1) {
 
 $recentSearches = ($userId > 0) ? $historyModel->getRecentSearches($userId, 5) : [];
 
+$pageStyles = ['browsing.css'];
 $pageTitle = 'Search & Explore';
 $activePage = 'search';
 require_once __DIR__ . '/../includes/header.php';

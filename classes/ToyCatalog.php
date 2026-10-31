@@ -123,27 +123,34 @@ class ToyCatalog
             $params['gender'] = $filters['gender'];
         }
 
+        if (!empty($filters['stock'])) {
+            $sql .= " AND p.stock > 0";
+        }
+
         // Price: the discount is calculated inside CARD_SELECT, so the query is
         // wrapped (like getDiscountedToys) to filter on the final price.
         // min is included, max is not: 10-25 means 10.00 up to 24.99.
+        // Final price is also used for sorting, so offers and price filters agree.
+        $sql = "SELECT * FROM (" . $sql . ") AS toys WHERE 1 = 1";
+        $finalPrice = "ROUND(toys.price * (1 - toys.discount_pct / 100), 2)";
         if (!empty($filters['price'])) {
-            $finalPrice = "ROUND(toys.price * (1 - toys.discount_pct / 100), 2)";
-            $sql = "SELECT * FROM (" . $sql . ") AS toys WHERE 1 = 1";
-
             if ($filters['price']['min'] !== null) {
                 $sql .= " AND $finalPrice >= :price_min";
                 $params['price_min'] = (float) $filters['price']['min'];
             }
-
             if ($filters['price']['max'] !== null) {
                 $sql .= " AND $finalPrice < :price_max";
                 $params['price_max'] = (float) $filters['price']['max'];
             }
-
-            $sql .= " ORDER BY toys.created_at DESC, toys.id DESC";
-        } else {
-            $sql .= " ORDER BY p.created_at DESC, p.id DESC";
         }
+        if (!empty($filters['offers'])) $sql .= " AND toys.discount_pct > 0";
+        $sorts = [
+            'newest' => 'toys.created_at DESC, toys.id DESC',
+            'price_asc' => "$finalPrice ASC, toys.id DESC",
+            'price_desc' => "$finalPrice DESC, toys.id DESC",
+            'name_asc' => 'toys.name ASC, toys.id DESC',
+        ];
+        $sql .= ' ORDER BY ' . ($sorts[$filters['sort'] ?? 'newest'] ?? $sorts['newest']);
 
         return [$sql, $params];
     }
