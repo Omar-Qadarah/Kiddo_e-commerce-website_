@@ -1,7 +1,7 @@
 <?php
-// Receives the "Add to Cart" form from products/details.php
-// POST: product_id, quantity, csrf_token
-// Then goes back to the same toy page with a message.
+ 
+ 
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Cart.php';
@@ -24,13 +24,24 @@ if (!$productId || $productId < 1) {
 $cart   = new Cart($pdo);
 $result = $cart->add($productId, $quantity ?: 0);
 
-// One-time message shown at the top of the toy page.
+if (($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '') === 'XMLHttpRequest') {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'success' => $result['added'] > 0,
+        'message' => $result['added'] > 0 ? 'Item added successfully' : $result['message'],
+        'count' => $cart->getCount(),
+    ]);
+    exit;
+}
+
+
+ 
 $_SESSION['cart_flash'] = [
     'type'    => $result['added'] > 0 ? 'success' : 'error',
     'message' => $result['message'],
 ];
 
-// Added from the cart suggestions: stay on the cart page
+ 
 if (($_POST['return_to'] ?? '') === 'cart') {
     header('Location: ' . BASE_URL . '/cart/index.php');
     exit;

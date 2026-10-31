@@ -1,5 +1,5 @@
 <?php
-/** Google OpenID Connect helper. Credentials come from the project .env or Apache environment. */
+ 
 final class GoogleAuth
 {
     private const AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
@@ -72,7 +72,7 @@ final class GoogleAuth
             throw new RuntimeException('Google did not return an identity token.');
         }
 
-        // Verify the JWT signature locally with Google's published OpenID keys.
+         
         $parts = explode('.', $idToken);
         if (count($parts) !== 3) {
             throw new RuntimeException('Google returned an invalid identity token.');

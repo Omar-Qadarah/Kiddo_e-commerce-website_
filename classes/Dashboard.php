@@ -11,7 +11,7 @@ class Dashboard
 
     public function getSummary()
     {
-        // Income is an estimate based on delivered order totals, including delivery.
+         
         $income = $this->pdo->query(
             "SELECT COALESCE(SUM(total), 0) FROM orders WHERE status = 'delivered'"
         )->fetchColumn();
@@ -31,7 +31,7 @@ class Dashboard
 
     public function getDailyRevenue($startDate, $endDate)
     {
-        // endDate is exclusive. Group by creation date because there is no delivered_at column.
+         
         $sql = "SELECT DATE(created_at) AS order_date, COUNT(*) AS orders_count,
                        SUM(total) AS income
                 FROM orders

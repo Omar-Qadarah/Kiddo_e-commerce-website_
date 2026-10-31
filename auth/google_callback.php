@@ -43,7 +43,7 @@ try {
                 googleAuthFail('This email is linked to another Google account. Sign in with your password first.');
             }
             if (empty($user['google_id']) && !$users->linkGoogleAccount((int) $user['id'], $googleId)) {
-                // A concurrent sign-in may have linked it already; re-read before reporting a conflict.
+                 
                 $user = $users->getUserByGoogleId($googleId);
                 if (!$user) {
                     throw new RuntimeException('Could not safely link the Google account.');
@@ -68,7 +68,7 @@ try {
                 if ($insertError->getCode() !== '23000') {
                     throw $insertError;
                 }
-                // Resolve a concurrent first login against the existing unique keys.
+                 
                 $user = $users->getUserByGoogleId($googleId) ?: $users->getUserByEmail($email);
                 if ($user && empty($user['google_id']) && $user['is_active']) {
                     $users->linkGoogleAccount((int) $user['id'], $googleId);

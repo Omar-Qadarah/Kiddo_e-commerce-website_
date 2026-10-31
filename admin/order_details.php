@@ -7,7 +7,7 @@ require_once __DIR__ . '/../classes/Order.php';
 
 $orderModel = new Order($pdo);
 
-// 1. Read and validate the id from the URL: order_details.php?id=15
+ 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$id || $id < 1) {
@@ -16,7 +16,7 @@ if (!$id || $id < 1) {
     exit;
 }
 
-// 2. Load the order and its items
+ 
 $order = $orderModel->getOrderById($id);
 
 if ($order === null) {
@@ -32,7 +32,7 @@ $pagination = $adminTable->getPage('order_items', $_GET);
 $items = $pagination['rows'];
 $nextStatus = $orderModel->getNextStatus($order['status']);
 
-// 3. Safety check: the items must add up to the saved subtotal
+ 
 $itemsTotalStatement = $pdo->prepare('SELECT COALESCE(SUM(line_total), 0) FROM order_items WHERE order_id = ?');
 $itemsTotalStatement->execute([$id]);
 $itemsSum = (float) $itemsTotalStatement->fetchColumn();
@@ -82,7 +82,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="row g-4">
 
-    <!-- LEFT: items and totals -->
+     
     <div class="col-lg-8">
         <div class="admin-card">
             <h5 class="fw-bold mb-3">Items</h5>
@@ -143,7 +143,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         </div>
     </div>
 
-    <!-- RIGHT: status and customer -->
+     
     <div class="col-lg-4">
 
         <div class="admin-card mb-4">

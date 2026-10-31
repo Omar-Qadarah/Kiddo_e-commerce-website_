@@ -63,7 +63,7 @@
     </nav>
 
     <?php require_once __DIR__ . '/../csrf.php'; ?>
-    <!-- logout.php only signs out on a POST with the session token -->
+     
     <form class="sidebar-bottom" action="<?= BASE_URL ?>/auth/logout.php" method="post">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
         <button type="submit" class="sidebar-link sidebar-logout">

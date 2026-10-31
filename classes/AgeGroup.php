@@ -148,8 +148,8 @@ class AgeGroup
         return $stmt->rowCount() > 0;
     }
 
-    // Age groups for the home page "Shop by age" cards, with how many
-    // visible toys fit each group (the toy's age range overlaps the group's).
+     
+     
     public function getAllWithToyCount(): array
     {
         $sql = "SELECT

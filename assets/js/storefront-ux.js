@@ -1,4 +1,4 @@
-// Small progressive enhancements; links and forms keep their native behavior.
+ 
 document.addEventListener('click', event => {
     document.querySelectorAll('details.account-menu[open]').forEach(menu => {
         if (!menu.contains(event.target)) menu.open = false;
@@ -43,7 +43,7 @@ document.querySelectorAll('.age-grid, .agecat-grid').forEach(track => {
     track.addEventListener('scroll', update, {passive: true});
     new ResizeObserver(update).observe(track);
     update();
-    track.scrollLeft = 0; // Start with the youngest age groups on a new page.
+    track.scrollLeft = 0;  
 });
 
 document.addEventListener('click', event => {
@@ -62,7 +62,7 @@ document.querySelectorAll('[data-filter-form] input[type="checkbox"]').forEach(i
     input.addEventListener('change', () => input.form.requestSubmit());
 });
 
-// Mobile filtering stays available without putting a long form before every product.
+ 
 document.querySelectorAll('.browse-filter-panel').forEach(panel => {
     const mobile = matchMedia('(max-width: 600px)');
     const sync = () => {panel.open = !mobile.matches;};
@@ -70,7 +70,7 @@ document.querySelectorAll('.browse-filter-panel').forEach(panel => {
     mobile.addEventListener('change', sync);
 });
 
-// Small, cancellable search suggestions. Enter always keeps the normal results form.
+ 
 document.querySelectorAll('[data-suggestions]').forEach(form => {
     const input = form.querySelector('input[type="search"]');
     const list = form.querySelector('.search-suggestions');
@@ -96,7 +96,7 @@ document.querySelectorAll('[data-suggestions]').forEach(form => {
     document.addEventListener('click',event=>{if(!form.contains(event.target))close();});
 });
 
-// Keyboard support for the existing checkbox-driven customer drawer.
+ 
 (() => {
  const state=document.getElementById('nav-toggle');
  const open=document.querySelector('label.menu-btn');

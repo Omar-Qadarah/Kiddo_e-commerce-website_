@@ -1,14 +1,14 @@
 <?php
-// Storefront layout start for the landing, toys and toy details pages.
-// Same <head> as includes/header.php, but it loads the new navbar
-// (includes/shop_navbar.php) so the shared header.php/navbar.php stay as they are.
-// The page closes the layout with the existing includes/footer.php.
-//
-// Before including it, a page may set:
-//   $pageTitle    text for <title>
-//   $activePage   home | categories | toys  (highlights the nav link)
-//   $pageStyles   extra CSS files from assets/css/ (or full URLs)
-//   $pageScripts  extra JS files from assets/js/
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 require_once __DIR__ . '/init.php';
 require_once __DIR__ . '/csrf.php';
 require_once __DIR__ . '/shop_functions.php';
@@ -18,7 +18,7 @@ $activePage  = $activePage ?? '';
 $pageStyles  = $pageStyles ?? [];
 $pageScripts = $pageScripts ?? [];
 
-// Adds ?v=<last change time> so the browser picks up edited files.
+ 
 function shopAsset(string $folder, string $file): string
 {
     if (preg_match('#^https?://#i', $file)) {

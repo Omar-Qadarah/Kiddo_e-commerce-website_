@@ -1,4 +1,4 @@
-/* Authentication pages reuse the existing navbar, footer and buttons. */
+ 
 .auth-section { padding-top: 48px; padding-bottom: 48px; }
 .auth-card { max-width: 520px; margin: auto; padding: 32px; background: white;
     border: 1px solid #ece8f8; border-radius: 20px; box-shadow: 0 12px 30px #4b2fc414; }
@@ -17,7 +17,7 @@
 .auth-google-separator { text-align: center; color: #777; margin: 12px 0; }
 .google-auth-button { display: block; box-sizing: border-box; width: 100%; text-align: center; text-decoration: none !important; margin: 12px 0; }
 
-/* Shared, compact authentication layout; form names and handlers are unchanged. */
+ 
 .auth-section { width: min(100% - 32px,480px); padding-top: 32px; padding-bottom: 32px; }
 .auth-card { width: 100%; max-width: 480px; padding: 24px 28px; border-radius: 18px; box-shadow: 0 8px 24px #4b2fc40c; }
 .auth-card h1 { font-size: 24px; line-height: 1.2; margin: 0 0 8px; }
@@ -29,7 +29,7 @@
 .auth-card .auth-hint { margin: 8px 0 0; font-size: 12px; }
 @media(max-width:600px) { .auth-section { padding-block:24px; } .auth-card { padding:22px 20px; } .auth-card h1 { font-size:22px; } }
 
-/* Playful decoration stays behind the authentication forms only. */
+ 
 body:has(.auth-section) main {
     min-height:calc(100dvh - var(--header-h, 84px));
     background-color:#f7f3ff;
@@ -45,7 +45,7 @@ body:has(.auth-section) .auth-card { background:#fff; box-shadow:0 12px 40px #62
     body:has(.auth-section) .auth-section { padding-top:28px; padding-bottom:32px; }
 }
 
-/* Fit the full form comfortably on typical laptop screens, without clipping. */
+ 
 body:has(.auth-section) main { display:grid; align-items:center; }
 body:has(.auth-section) .auth-section { padding-block:16px; width:min(460px,calc(100% - 32px)); }
 body:has(.auth-section) .auth-card { padding:20px 24px; }
@@ -62,7 +62,7 @@ body:has(.auth-section) .auth-card > p:last-child { margin:8px 0 0; }
  body:has(.auth-section) .auth-card { padding:20px; }
  body:has(.auth-section) .auth-card h1 { font-size:22px; }
 }
-/* Let the real navbar height determine the available space. */
+ 
 body:has(.auth-section) { min-height:100dvh; display:flex; flex-direction:column; }
 body:has(.auth-section) .site-header { flex-shrink:0; }
 body:has(.auth-section) main { flex:1; min-height:0; }

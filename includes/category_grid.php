@@ -1,4 +1,4 @@
-<?php // Every card opens the real, paginated category result set. ?>
+<?php  ?>
 <div class="category-discovery-grid">
 <?php foreach ($categories as $category): ?>
     <a class="category-discovery-card" href="<?= BASE_URL ?>/products/index.php?category=<?= urlencode($category['slug']) ?>">

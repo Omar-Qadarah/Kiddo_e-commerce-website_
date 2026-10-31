@@ -1,4 +1,4 @@
-/* Product browsing: one layout, shared sidebar, natural responsive cards. */
+ 
 .toys-layout { margin-right: 64px; }
 .toys-layout .toys-main { min-width: 0; }
 .toys-layout .toys-hero { padding: 24px 32px; }
@@ -60,7 +60,7 @@ body:has(.toys-layout) .footer-grid { padding-block: 24px 20px; gap: 24px; }
     .toys-content .agecat-chip { padding-inline: 12px; }
 }
 
-/* Toys: compact age navigation replaces the large discovery cards and dropdown. */
+ 
 .toys-pill-page .toys-age-switch { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 20px; }
 .toys-pill-page .toys-age-switch .agecat-chip { min-height: 40px; padding: 8px 16px; font-size: 14px; line-height: 20px; }
 .toys-pill-page .toys-age-switch .agecat-chip:not(.is-active):hover { background: var(--age-soft); color: var(--age); }

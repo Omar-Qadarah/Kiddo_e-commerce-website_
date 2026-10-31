@@ -15,7 +15,7 @@ foreach ($ageGroupRows as $i => $group) {
         'count'=>$ageCatalog->countFilteredToys(['age'=>['min_age'=>(int)$group['min_age'],'max_age'=>(int)$group['max_age']]]),
     ];
 }
-// Old callers may check this variable; deleted/unknown ranges are never advertised or applied.
+ 
 $legacyAgeCards = [];
 function ageCardRange(array $card): string
 {

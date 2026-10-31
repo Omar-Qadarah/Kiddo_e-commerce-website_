@@ -1,5 +1,5 @@
 <?php
-// One page size and one footer for all customer product listings.
+ 
 const SHOP_PAGE_SIZE = 12;
 function shopPagination(int $total): array
 {

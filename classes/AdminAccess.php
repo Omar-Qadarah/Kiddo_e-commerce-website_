@@ -1,6 +1,6 @@
 <?php
 
-/** Centralized object-oriented authorization for admin routes. */
+ 
 final class AdminAccess
 {
     public function __construct(private PDO $pdo)

@@ -1,4 +1,4 @@
-/* Account page reuses the same sidebar layout and palette as the toy categories page. */
+ 
 .kiddo-account-layout { min-height: calc(100vh - var(--header-h)); }
 .kiddo-account-layout .toys-main { display: block; min-width: 0; background: linear-gradient(180deg, var(--primary-50), var(--bg) 280px); }
 .kiddo-account-layout .toys-sidebar-title { display: flex; align-items: center; gap: .55rem; }
@@ -212,7 +212,7 @@
 .kiddo-modal-window textarea.kiddo-control { min-height: 110px; resize: vertical; }
 .kiddo-modal-window .btn-close { display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: var(--primary-50); color: var(--primary-deep); font-size: 1.3rem; cursor: pointer; }
 
-/* Small utility classes used by the existing account and review markup. */
+ 
 .kiddo-account-wrapper .d-flex { display: flex; }
 .kiddo-account-wrapper .align-items-center { align-items: center; }
 .kiddo-account-wrapper .justify-content-between { justify-content: space-between; }

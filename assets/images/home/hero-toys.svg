@@ -1,19 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 440" width="520" height="440">
-  <!-- soft background circles -->
+   
   <circle cx="280" cy="215" r="200" fill="#fff" fill-opacity=".1"/>
   <circle cx="280" cy="215" r="145" fill="#fff" fill-opacity=".08"/>
 
-  <!-- paper plane + dotted trail -->
+   
   <path d="M300 92 Q 360 60 430 52" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="4 9" stroke-linecap="round" opacity=".8"/>
   <path d="M492 18 L420 52 L446 60 Z" fill="#fff"/>
   <path d="M492 18 L446 60 L462 92 Z" fill="#E3DCFF"/>
   <path d="M446 60 L452 76 L462 92" fill="none" stroke="#C9BDFB" stroke-width="2"/>
 
-  <!-- stars -->
+   
   <path d="M470 205 l7 15 16 2 -12 11 3 16 -14 -8 -14 8 3 -16 -12 -11 16 -2z" fill="#FFC93D"/>
   <path d="M40 292 l5 10 11 1.5 -8 7.5 2 11 -10 -5.5 -10 5.5 2 -11 -8 -7.5 11 -1.5z" fill="#fff" opacity=".85"/>
 
-  <!-- balloons -->
+   
   <path d="M128 168 C 120 220 150 250 136 300" fill="none" stroke="#fff" stroke-width="2.5" opacity=".9"/>
   <path d="M82 196 C 86 240 70 270 96 312" fill="none" stroke="#fff" stroke-width="2.5" opacity=".9"/>
   <ellipse cx="130" cy="112" rx="44" ry="54" fill="#F2558C"/>
@@ -23,24 +23,24 @@
   <path d="M75 193 l5 8 5 -8z" fill="#EFAF16"/>
   <ellipse cx="68" cy="136" rx="7" ry="12" fill="#fff" opacity=".5"/>
 
-  <!-- teddy bear -->
+   
   <g>
     <circle cx="210" cy="108" r="36" fill="#C4834E"/>
     <circle cx="210" cy="108" r="20" fill="#F1C9A0"/>
     <circle cx="350" cy="108" r="36" fill="#C4834E"/>
     <circle cx="350" cy="108" r="20" fill="#F1C9A0"/>
-    <!-- body -->
+     
     <ellipse cx="280" cy="320" rx="92" ry="98" fill="#D6955C"/>
     <ellipse cx="280" cy="332" rx="58" ry="66" fill="#F3D2AC"/>
-    <!-- arms -->
+     
     <ellipse cx="190" cy="300" rx="30" ry="46" fill="#C4834E" transform="rotate(20 190 300)"/>
     <ellipse cx="370" cy="300" rx="30" ry="46" fill="#C4834E" transform="rotate(-20 370 300)"/>
-    <!-- feet -->
+     
     <ellipse cx="222" cy="400" rx="40" ry="28" fill="#C4834E"/>
     <ellipse cx="338" cy="400" rx="40" ry="28" fill="#C4834E"/>
     <ellipse cx="222" cy="402" rx="22" ry="15" fill="#F1C9A0"/>
     <ellipse cx="338" cy="402" rx="22" ry="15" fill="#F1C9A0"/>
-    <!-- head -->
+     
     <circle cx="280" cy="170" r="96" fill="#D6955C"/>
     <ellipse cx="280" cy="208" rx="44" ry="34" fill="#F3D2AC"/>
     <ellipse cx="280" cy="192" rx="15" ry="11" fill="#2A2150"/>
@@ -51,18 +51,18 @@
     <circle cx="319" cy="149" r="3" fill="#fff"/>
     <circle cx="218" cy="196" r="13" fill="#F47FA4" opacity=".6"/>
     <circle cx="342" cy="196" r="13" fill="#F47FA4" opacity=".6"/>
-    <!-- bow tie -->
+     
     <path d="M280 262 L244 246 L244 280 Z" fill="#E8457C"/>
     <path d="M280 262 L316 246 L316 280 Z" fill="#E8457C"/>
     <circle cx="280" cy="263" r="10" fill="#D6336B"/>
   </g>
 
-  <!-- ball -->
+   
   <circle cx="150" cy="372" r="46" fill="#FFC93D"/>
   <path d="M106 362 Q 150 382 194 362" fill="none" stroke="#F2558C" stroke-width="11"/>
   <path d="M150 326 Q 168 372 150 418" fill="none" stroke="#fff" stroke-width="7"/>
 
-  <!-- blocks K I D -->
+   
   <g font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="40" text-anchor="middle" fill="#fff">
     <g transform="rotate(-8 430 300)">
       <rect x="398" y="268" width="64" height="64" rx="12" fill="#FF8A3D"/>

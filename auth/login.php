@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($user['role'] === 'admin') {
                     header('Location: ../admin/index.php');
                 } elseif (!empty($_SESSION['after_login'])) {
-                    // Back to the page the customer wanted (e.g. checkout)
+                     
                     $target = $_SESSION['after_login'];
                     unset($_SESSION['after_login']);
                     header('Location: ' . $target);

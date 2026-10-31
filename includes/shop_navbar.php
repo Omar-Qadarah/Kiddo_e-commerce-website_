@@ -1,9 +1,9 @@
 <?php
-// Storefront navbar (landing, toys and toy details pages).
-// One row: logo on the far left, then Home / Categories / Toys,
-// then search, cart and the account area on the right.
-// It reuses the classes of assets/css/style.css (brand, header-search,
-// icon-link, drawer ...) and adds its own in assets/css/storefront.css.
+ 
+ 
+ 
+ 
+ 
 require_once __DIR__ . '/csrf.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
 $activePage = $activePage ?? '';
@@ -12,9 +12,9 @@ $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
 $nameParts  = preg_split('/\s+/u', $userName, -1, PREG_SPLIT_NO_EMPTY) ?: [];
 $firstName  = $nameParts[0] ?? '';
 $cartCount  = (int) ($_SESSION['cart_count'] ?? 0);
-$searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a broken URL like ?q[]= is ignored)
+$searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : '';  
 
-// key => [label, path from the project root]
+ 
 $shopNavLinks = [
     'home'       => ['Home', '/index.php'],
     'categories' => ['Categories', '/products/categories.php'],
@@ -22,7 +22,7 @@ $shopNavLinks = [
     'offers' => ['Offers', '/products/index.php?offers=1'],
 ];
 ?>
-<!-- Keeps the mobile menu open/closed state. Toggled by the labels below, no JS. -->
+ 
 <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true" tabindex="-1">
 
 <header class="site-header shop-header">
@@ -45,7 +45,7 @@ $shopNavLinks = [
             </ul>
         </nav>
 
-        <!-- Partial search opens the shared catalog and keeps filter/pagination support. -->
+         
         <form class="header-search" data-suggestions="<?= BASE_URL ?>/products/suggestions.php" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
             <label class="sr-only" for="site-search">Search toys by name</label>
             <input id="site-search" type="search" autocomplete="off" aria-controls="search-suggestions" aria-expanded="false" name="q" maxlength="60"
@@ -82,7 +82,7 @@ $shopNavLinks = [
     </div>
 </header>
 
-<!-- Mobile drawer (same classes as the shared navbar) -->
+ 
 <label for="nav-toggle" class="drawer-backdrop" aria-hidden="true"></label>
 
 <aside class="drawer" aria-label="Menu">

@@ -5,13 +5,13 @@ require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Order.php';
 
-// This file only accepts form submissions
+ 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ' . BASE_URL . '/admin/orders.php');
     exit;
 }
 
-checkCsrf();   // make sure the form came from our own page
+checkCsrf();    
 
 $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
 $newStatus = $_POST['status'] ?? '';
@@ -50,7 +50,7 @@ if (($_POST['action'] ?? '') === 'cancel') {
     }
 }
 
-// Post / Redirect / Get: refreshing the page will not resubmit the form
+ 
 if (($_POST['action'] ?? '') === 'cancel' && ($_POST['return_to'] ?? '') === 'orders') {
     header('Location: ' . BASE_URL . '/admin/orders.php');
 } else {

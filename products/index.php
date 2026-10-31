@@ -1,13 +1,13 @@
 <?php
-// Toys page: products/index.php
-// Optional filters in the URL (they can be combined):
-//   ?category=<category slug>   sidebar "Toy types"
-//   ?age=<age group slug>       Sidebar age filter (landing-page age links also work)
-//   ?gender=girls|boys|unisex   Gender dropdown
-//   ?price=<price range key>    Price dropdown (keys in $priceRanges below)
-// Cards: arrows on the picture browse all the toy's images; "How to play"
-// is only shown on products/details.php.
-// Page files: assets/css/toys-page.css (+ storefront.css), assets/js/storefront.js
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
 require_once __DIR__ . '/../classes/SearchHistory.php';
@@ -23,7 +23,7 @@ $categories = $isOffersPage
 $ageGroups  = $storeAgeGroups;
 $genders    = ['girls' => 'Girls', 'boys' => 'Boys', 'unisex' => 'Unisex'];
 
-// Price ranges in JOD (after discount). min is included, max is not; null = no limit.
+ 
 $priceRanges = [
     'under-10'  => ['label' => 'Under 10 JOD',  'min' => null, 'max' => 10],
     '10-25'     => ['label' => '10 – 25 JOD',   'min' => 10,   'max' => 25],
@@ -32,7 +32,7 @@ $priceRanges = [
     'over-100'  => ['label' => '100 JOD & more', 'min' => 100, 'max' => null],
 ];
 
-// ---------- Read the filters (only values that really exist are used) ----------
+ 
 $filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => '', 'q' => is_string($_GET['q'] ?? null) ? mb_substr(preg_replace('/\s+/u', ' ', trim($_GET['q'])), 0, 60) : '', 'sort' => 'newest', 'stock' => '', 'offers' => ''];
 $activeCategory = null;
 $activeAge      = null;
@@ -60,7 +60,7 @@ foreach ($ageGroups as $group) {
     }
 }
 
-// Compact age buttons reuse the existing age-card ranges. Legacy database age links still work.
+ 
 $requestedAge = $ageCards[$ageSlug] ?? null;
 if ($requestedAge) {
     $activeAge = ['min_age' => $requestedAge['min'], 'max_age' => $requestedAge['max']];
@@ -81,10 +81,10 @@ if (isset($priceRanges[$priceKey])) {
 $sortLabels = ['newest' => 'Newest first', 'price_asc' => 'Price: low to high', 'price_desc' => 'Price: high to low', 'name_asc' => 'Name: A–Z'];
 $sortKey = is_string($_GET['sort'] ?? null) ? $_GET['sort'] : '';
 if (isset($sortLabels[$sortKey])) $filters['sort'] = $sortKey;
-$filters['stock'] = ''; // Availability checkbox was removed from the customer UI.
+$filters['stock'] = '';  
 $filters['offers'] = $isOffersPage ? '1' : '';
 
-// Toys page link that keeps the other filters.
+ 
 function toysUrl(array $filters, array $change = []): string
 {
     $query = array_filter(array_merge($filters, $change), fn($value) => $value !== '');
@@ -92,7 +92,7 @@ function toysUrl(array $filters, array $change = []): string
     return BASE_URL . '/products/' . (basename($_SERVER['SCRIPT_NAME']) === 'find.php' ? 'find.php' : 'index.php') . ($query ? '?' . http_build_query($query) : '');
 }
 
-// Bootstrap Icons class saved by the admin, e.g. "bi bi-palette".
+ 
 function categoryIconClass(?string $icon): string
 {
     $icon = trim((string) $icon);
@@ -100,7 +100,7 @@ function categoryIconClass(?string $icon): string
     return preg_match('/^bi bi-[a-z0-9-]+$/', $icon) ? $icon : 'bi bi-box-seam';
 }
 
-// ---------- Toys + all their images (for the ‹ › arrows) ----------
+ 
 $catalogFilters = [
     'category' => $filters['category'],
     'age'      => $activeAge,
@@ -114,7 +114,7 @@ $catalogFilters = [
 $totalToys = $catalog->countFilteredToys($catalogFilters);
 $pagination = shopPagination($totalToys);
 
-// Record real searches without changing the results page or its layout.
+ 
 $searchUserId = (int) ($_SESSION['user_id'] ?? 0);
 $requestedSearchPage = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT);
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET'
@@ -129,7 +129,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET'
 $toys = $catalog->getFilteredToys($catalogFilters, SHOP_PAGE_SIZE, $pagination['offset']);
 $extraImages = $catalog->getImagePathsForToys(array_column($toys, 'id'));
 
-// ---------- Heading ----------
+ 
 $minAge   = $ageGroups ? min(array_map('intval', array_column($ageGroups, 'min_age'))) : 3;
 $maxAge   = $ageGroups ? max(array_map('intval', array_column($ageGroups, 'max_age'))) : 12;
 $heading  = $activeCategory ? $activeCategory['name'] : ($filters['offers'] ? 'Little prices, big smiles' : 'Find their next favourite');
@@ -166,7 +166,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     'price' => $activePrice['label'] ?? '',
                     'q' => $filters['q'] !== '' ? 'Search: ' . $filters['q'] : '',
                     'stock' => $filters['stock'] ? 'In stock' : '',
-                    'offers' => '', // Offers is page context, not a removable customer checkbox.
+                    'offers' => '',  
                 ];
                 foreach ($chipLabels as $key => $label): if ($label === '') continue; ?>
                     <a href="<?= htmlspecialchars(toysUrl($filters, [$key => ''])) ?>" aria-label="<?= htmlspecialchars('Remove filter: ' . $label) ?>"><?= htmlspecialchars($label) ?> <span aria-hidden="true">×</span></a>
@@ -196,7 +196,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
     </div>
 
-    <!-- ============ Full-height sidebar on the left ============ -->
+     
     <details class="catalog-sidebar" open>
         <summary>Filters <span aria-hidden="true">⌄</span></summary>
         <div class="catalog-sidebar-content">
@@ -262,7 +262,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
     <div class="toys-main">
         <div class="toys-content">
-            <!-- ============ Toy grid ============ -->
+             
             <?php if (!empty($toys)): ?>
                 <div class="toy-grid">
                     <?php $cardMode = 'shop'; ?>
@@ -285,7 +285,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 </div>
 
 <script>
-// Native disclosure on mobile; desktop keeps the sidebar open.
+ 
 (function () {
     const sidebar = document.querySelector('.catalog-sidebar');
     const mobile = window.matchMedia('(max-width: 820px)');

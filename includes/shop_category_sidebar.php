@@ -1,6 +1,6 @@
 <?php
-// Same category navigation on discovery, filtered toys and age pages.
-// The calling page supplies $categoryUrl so its existing route/state is kept.
+ 
+ 
 $allCount = array_sum(array_column($categories, 'toy_count'));
 ?>
     <aside class="toys-sidebar" id="toy-types" aria-label="Categories">

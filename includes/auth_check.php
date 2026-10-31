@@ -1,9 +1,9 @@
 <?php
-// Include init.php before this guard on protected customer pages.
+ 
 $currentUserId = $_SESSION['user_id'] ?? null;
 
 if (!is_scalar($currentUserId) || !ctype_digit((string) $currentUserId)) {
-    // Remember the page so login can bring the customer back here
+     
     $_SESSION['after_login'] = $_SERVER['REQUEST_URI'];
     header('Location: ' . BASE_URL . '/auth/login.php');
     exit;

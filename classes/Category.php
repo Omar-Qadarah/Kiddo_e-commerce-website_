@@ -137,7 +137,7 @@ class Category
         return $deleteStmt->rowCount() > 0;
     }
 
-    // Categories for the Toys page sidebar, with how many visible toys each has.
+     
     public function getAllWithToyCount(): array
     {
         $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon, c.image,

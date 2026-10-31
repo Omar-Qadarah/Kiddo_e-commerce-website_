@@ -13,7 +13,7 @@ if (!$id) {
     $_SESSION['age_group_error'] = 'Invalid age group ID.';
 } else {
     try {
-        // Products use age ranges, not age-group IDs; deleting a group never deletes products.
+         
         $deleted = (new AgeGroup($pdo))->delete($id);
         $_SESSION[$deleted ? 'age_group_success' : 'age_group_error'] = $deleted ? 'Age group deleted successfully.' : 'Age group no longer exists.';
     } catch (PDOException $error) {

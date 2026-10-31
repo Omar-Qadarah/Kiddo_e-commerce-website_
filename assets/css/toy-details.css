@@ -1,8 +1,8 @@
-/* ==========================================================================
-   Kiddo's — toy details page (products/details.php)
-   Gallery, info, how to play, quantity − / +, reviews.
-   Shared bits (tints, stars, badge, breadcrumb look) come from storefront.css.
-   ========================================================================== */
+ 
+
+
+
+
 
 .details {
     padding-top: 2rem;
@@ -32,7 +32,7 @@
     align-items: start;
 }
 
-/* ---------- Gallery ---------- */
+ 
 .details-main-image {
     --tint: #FFF3E2;
     --ring: #FFE3C2;
@@ -62,7 +62,7 @@
     border-radius: inherit;
 }
 
-/* bigger ‹ › arrows on the big picture (base style: storefront.css) */
+ 
 .details-main-image .card-arrow {
     width: 46px;
     height: 46px;
@@ -104,7 +104,7 @@
     border-color: var(--primary);
 }
 
-/* ---------- Info ---------- */
+ 
 .details-info h1 {
     margin: .3rem 0 .6rem;
     font-size: clamp(2rem, 3.4vw, 2.8rem);
@@ -177,7 +177,7 @@
     margin: 0;
 }
 
-/* ---------- Quantity − / + and Add to cart ---------- */
+ 
 .details-buy {
     display: flex;
     flex-wrap: wrap;
@@ -244,7 +244,7 @@
     font-size: 1.05rem;
 }
 
-/* ---------- Reviews ---------- */
+ 
 .details-reviews {
     padding-top: 4rem;
 }
@@ -305,7 +305,7 @@
     margin: 0;
 }
 
-/* ---------- Write a review (form posts to products/add_review.php) ---------- */
+ 
 .details-reviews {
     scroll-margin-top: calc(var(--header-h) + 1rem);
 }
@@ -347,8 +347,8 @@
     font-weight: 800;
 }
 
-/* stars: the inputs are 5 → 1 and shown right-to-left, so "~" can colour
-   every star up to the hovered / checked one */
+ 
+
 .star-input {
     margin: 0 0 1rem;
     padding: 0;
@@ -430,7 +430,7 @@
     color: var(--muted);
 }
 
-/* ---------- Not found ---------- */
+ 
 .details-missing {
     padding: 5rem 0 2rem;
     text-align: center;
@@ -444,7 +444,7 @@
 .details-missing p {
     color: var(--muted);
 }
-/* ---------- Message after Add to cart ---------- */
+ 
 .details-flash {
     margin-top: 1rem;
     padding: .8rem 1rem;
@@ -467,7 +467,7 @@
     color: var(--primary);
     text-decoration: underline;
 }
-/* ---------- Responsive ---------- */
+ 
 
 @media (max-width: 900px) {
     .details-grid {

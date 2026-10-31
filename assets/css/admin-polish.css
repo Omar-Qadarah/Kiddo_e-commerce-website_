@@ -1,4 +1,4 @@
-/* Admin only: visual tokens and responsive navigation. */
+ 
 .admin-body {--admin-sidebar-width:240px;--admin-topbar-height:72px;font-size:14px;line-height:1.5}
 .admin-body .admin-wrapper,.admin-body .admin-main{min-width:0}
 .admin-body .admin-main{margin-left:240px;width:calc(100% - 240px)}
@@ -79,7 +79,7 @@
 
 @media(max-width:991px){.admin-body .admin-drawer-overlay:not([hidden]){left:min(260px,calc(100vw - 48px));}}
 
-/* Keep real table width on small screens; scroll its container, not the page. */
+ 
 @media(max-width:991px){
  .admin-body .admin-content .table-responsive { display:block; min-width:0; max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; touch-action:pan-x pan-y; }
  .admin-body .admin-content .table-responsive > table.admin-table { min-width:760px; width:100%; table-layout:auto; }

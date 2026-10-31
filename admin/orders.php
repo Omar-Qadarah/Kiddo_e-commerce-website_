@@ -6,7 +6,7 @@ require_once __DIR__ . '/../classes/Order.php';
 
 $orderModel = new Order($pdo);
 
-// Filter from the URL: orders.php?status=placed (unknown value = show all)
+ 
 $status = $_GET['status'] ?? '';
 if (!is_string($status) || !in_array($status, Order::STATUSES, true)) {
     $status = '';
@@ -18,7 +18,7 @@ $adminTable = new AdminTable($pdo);
 $pagination = $adminTable->getPage('orders', $_GET);
 $orders = $pagination['rows'];
 
-// Status cards use aggregate counts, without loading every order.
+ 
 $statusCounts = [];
 foreach ($pdo->query('SELECT status, COUNT(*) AS total FROM orders GROUP BY status')->fetchAll(PDO::FETCH_ASSOC) as $countRow) {
     $statusCounts[$countRow['status']] = (int) $countRow['total'];
@@ -32,7 +32,7 @@ $statusIcons = [
     'cancelled' => 'bi-x-circle',
 ];
 
-// Bootstrap badge colour for each status
+ 
 $badgeClasses = [
     'placed'    => 'bg-warning text-dark',
     'shipped'   => 'bg-info text-dark',
@@ -72,7 +72,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 
 
-<!-- Summary cards double as the status filter -->
+ 
 <div class="status-cards">
     <a href="<?= adminTableEscape(adminTableUrl($pagination, ['status' => '', 'page' => 1])) ?>"
        class="status-card <?= $status === '' ? 'active' : '' ?>">

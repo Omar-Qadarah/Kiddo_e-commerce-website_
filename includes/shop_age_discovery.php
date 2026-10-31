@@ -1,4 +1,4 @@
-<?php // Existing large discovery cards, reused without changing their links. ?>
+<?php  ?>
             <section class="agecat-section" id="age-cards" aria-labelledby="agecat-title">
                 <div class="agecat-head">
                     <span class="agecat-eyebrow">Shop by age</span>

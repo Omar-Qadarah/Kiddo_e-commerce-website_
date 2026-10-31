@@ -1,7 +1,7 @@
 (() => {
-    /* ========================================================
-     * 1. Shopping Assistant Chat Widget (Existing Feature)
-     * ======================================================== */
+     
+
+
     const widget = document.querySelector('.shopping-chat');
     if (widget) {
         const launcher = widget.querySelector('.shopping-chat__launcher');
@@ -98,7 +98,7 @@
             input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
         };
         input.addEventListener('input', resizeMessageBox);
-        // Enter sends; Shift+Enter keeps a manual newline. Text still wraps naturally.
+         
         input.addEventListener('keydown', (event) => {
             if (event.key !== 'Enter' || event.shiftKey || event.isComposing || event.keyCode === 229) return;
             event.preventDefault();
@@ -180,9 +180,9 @@
         });
     }
 
-    /* ========================================================
-     * 2. Personalized Upsell & Cross-sell Injector
-     * ======================================================== */
+     
+
+
     const recBoxes = document.querySelectorAll('[data-assistant-box]');
     if (!recBoxes.length) return;
 

@@ -203,7 +203,7 @@ try {
         exit;
     }
 
-    // Delete the old image only after a successful database update
+     
     if ($uploadedImagePath !== null && !empty($ageGroup['image'])) {
         $oldImageFile = __DIR__ . '/../' . $ageGroup['image'];
 

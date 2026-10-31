@@ -1,6 +1,6 @@
 <?php
-// Receives the checkout form, checks it and saves the order.
-// POST: phone, address, csrf_token
+ 
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../includes/csrf.php';
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 checkCsrf();
 
-// Remove spaces and dashes from the phone
+ 
 $phone   = preg_replace('/[\s-]/', '', trim((string) ($_POST['phone'] ?? '')));
 $address = trim((string) ($_POST['address'] ?? ''));
 
@@ -48,7 +48,7 @@ if (!$errors) {
     }
 }
 
-// Something is wrong: back to checkout with the errors and what was typed
+ 
 if ($errors) {
     $_SESSION['checkout_errors'] = $errors;
     $_SESSION['checkout_old']    = ['phone' => $phone, 'address' => $address];
@@ -56,7 +56,7 @@ if ($errors) {
     exit;
 }
 
-// Order saved
+ 
 $cart->clear();
 $_SESSION['order_flash'] = 'Thank you! Your order #' . $orderId . ' has been placed.';
 
