@@ -43,9 +43,8 @@ $allowedSorts = [
 $sort = $_GET['sort'] ?? 'newest';
 $orderBy = $allowedSorts[$sort] ?? 'p.created_at DESC';
 
-$categoriesStmt = $pdo->query("SELECT id, name FROM categories ORDER BY name ASC");
-$categories = (new ToyCatalog($pdo))->getShopCategories();
-$shopCategory = is_string($_GET['category'] ?? null) && isset(ToyCatalog::shopCollections()[$_GET['category']]) ? $_GET['category'] : '';
+$categoriesStmt = $pdo->query("SELECT id, name, slug FROM categories ORDER BY name ASC");
+$categories = $categoriesStmt->fetchAll(PDO::FETCH_ASSOC);
 
 $ageGroupsStmt = $pdo->query("SELECT id, name, min_age, max_age FROM age_groups ORDER BY sort_order ASC");
 $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -54,7 +53,7 @@ $sql = "SELECT p.id, p.category_id, p.name, p.description, p.price, p.stock,
                p.gender, p.min_age, p.max_age, p.image, c.name AS category_name
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.id
-        WHERE p.is_active = 1 AND c.slug <> 'kids-gaming' AND LOWER(p.name) NOT REGEXP 'game console|game controller|headphones|digital camera|walkie-talkie'";
+        WHERE p.is_active = 1";
 
 $params = [];
 
@@ -68,14 +67,10 @@ if ($searchTerm !== '') {
     }
 }
 
-if ($shopCategory !== '') {
-    $sql .= ' AND (' . ToyCatalog::collectionExpression() . ') = :shop_category';
-    $params[':shop_category'] = $shopCategory;
-} elseif ($categoryId) {
+if ($categoryId) {
     $sql .= " AND p.category_id = :cat_id";
     $params[':cat_id'] = $categoryId;
 }
-
 if ($gender !== '') {
     $sql .= " AND (p.gender = :gender OR p.gender = 'unisex')";
     $params[':gender'] = $gender;
@@ -440,7 +435,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="category" class="filter-select">
                                 <option value="">All Categories</option>
                                 <?php foreach ($categories as $cat): ?>
-                                    <option value="<?= htmlspecialchars($cat['slug']) ?>" <?= $shopCategory === $cat['slug'] ? 'selected' : '' ?>>
+                                    <option value="<?= (int) $cat['id'] ?>" <?= $categoryId === (int) $cat['id'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($cat['name'], ENT_QUOTES, 'UTF-8') ?>
                                     </option>
                                 <?php endforeach; ?>
