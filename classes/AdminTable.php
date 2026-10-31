@@ -43,7 +43,7 @@ class AdminTable
                 $from = 'orders o JOIN users u ON o.user_id = u.id';
                 $order = 'o.created_at DESC, o.id DESC';
                 $searchColumns = ['CAST(o.id AS CHAR)', "CONCAT(u.first_name, ' ', u.last_name)"];
-                $status = isset($request['status']) && is_string($request['status']) && in_array($request['status'], ['placed', 'shipped', 'delivered'], true) ? $request['status'] : '';
+                $status = isset($request['status']) && is_string($request['status']) && in_array($request['status'], ['placed', 'shipped', 'delivered', 'cancelled'], true) ? $request['status'] : '';
                 if ($status !== '') { $where[] = 'o.status = ?'; $params[] = $status; }
                 $query['status'] = $status;
                 break;

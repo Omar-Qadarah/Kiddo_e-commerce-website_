@@ -29,6 +29,7 @@ $statusIcons = [
     'placed'    => 'bi-hourglass-split',
     'shipped'   => 'bi-truck',
     'delivered' => 'bi-check2-circle',
+    'cancelled' => 'bi-x-circle',
 ];
 
 // Bootstrap badge colour for each status
@@ -36,6 +37,7 @@ $badgeClasses = [
     'placed'    => 'bg-warning text-dark',
     'shipped'   => 'bg-info text-dark',
     'delivered' => 'bg-success',
+    'cancelled' => 'bg-danger',
 ];
 
 $pageTitle = 'Orders';
@@ -58,6 +60,14 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <?php unset($_SESSION['order_error']); ?>
+<?php endif; ?>
+<?php if (!empty($_SESSION['order_success'])): ?>
+    <div class="alert alert-success alert-dismissible fade show" role="status">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        <?= htmlspecialchars($_SESSION['order_success']) ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <?php unset($_SESSION['order_success']); ?>
 <?php endif; ?>
 
 
@@ -119,6 +129,32 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             <td>
                                 <a href="<?= BASE_URL ?>/admin/order_details.php?id=<?= (int) $order['id'] ?>"
                                    class="btn admin-action-btn admin-action-toggle" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i></a>
+                                <?php if (in_array($order['status'], ['placed', 'shipped'], true)): ?>
+                                    <?php $cancelModalId = 'cancelOrderModal' . (int) $order['id']; ?>
+                                    <button type="button" class="btn admin-action-btn text-danger" title="Cancel order" aria-label="Cancel order"
+                                            data-bs-toggle="modal" data-bs-target="#<?= $cancelModalId ?>"><i class="bi bi-x-circle" aria-hidden="true"></i></button>
+                                    <div class="modal fade" id="<?= $cancelModalId ?>" tabindex="-1" aria-labelledby="<?= $cancelModalId ?>Label" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-sm">
+                                            <div class="modal-content border-0 rounded-4 shadow">
+                                                <form action="<?= BASE_URL ?>/admin/update_order_status.php" method="POST">
+                                                    <div class="modal-body text-center p-4">
+                                                        <div class="mb-3 text-danger"><i class="bi bi-exclamation-triangle display-4"></i></div>
+                                                        <h5 class="fw-bold" id="<?= $cancelModalId ?>Label">Cancel Order?</h5>
+                                                        <p class="text-secondary mb-4">Cancel order <strong>#<?= (int) $order['id'] ?></strong> and return its items to stock?</p>
+                                                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                                        <input type="hidden" name="id" value="<?= (int) $order['id'] ?>">
+                                                        <input type="hidden" name="action" value="cancel">
+                                                        <input type="hidden" name="return_to" value="orders">
+                                                        <div class="d-flex justify-content-center gap-2">
+                                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">Keep Order</button>
+                                                            <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i> Yes, Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
