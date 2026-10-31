@@ -315,3 +315,20 @@ html { scroll-padding-top:100px; }
 .kiddo-account-layout .toys-sidebar .toys-sidebar-title { display:block; background:transparent; border:0; border-radius:0; box-shadow:none; padding:4px 8px 16px; margin:0; font-size:18px; line-height:1.4; cursor:default; }
 .kiddo-account-layout .profile-form-wrapper { width:100%; max-width:none; margin:0 0 24px; }
 .kiddo-account-layout .account-sidebar-list .cat-icon svg { display:block; flex-shrink:0; }
+
+/* Useful discovery below the dynamic category grid. */
+.category-hub .category-gift { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:32px; padding:28px; margin-top:32px; border:1px solid var(--line); border-radius:20px; background:linear-gradient(120deg,#f2ecff,#fff8ef); }
+.category-hub .category-gift .browse-eyebrow { text-align:left; margin:0 0 8px; }
+.category-gift h2 { font-size:26px; line-height:1.25; margin:0 0 12px; }
+.category-gift p { color:var(--muted); font-size:14px; margin:0; max-width:46ch; }
+.category-discovery-links { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:20px; font-size:13px; font-weight:800; color:var(--primary); }
+.category-gift-form { display:grid; grid-template-columns:1fr 1fr; gap:16px; min-width:0; padding:20px; background:white; border:1px solid var(--line); border-radius:14px; }
+.category-gift-form > div { min-width:0; }
+.category-gift-form label { display:block; font-size:13px; font-weight:700; margin-bottom:6px; }
+.category-gift-form select { width:100%; min-width:0; height:44px; padding:8px 30px 8px 12px; border:1px solid var(--line); border-radius:10px; background:#faf9ff; color:var(--ink); font:inherit; font-size:14px; }
+.category-gift-form button { grid-column:1/-1; min-height:44px; }
+@media(max-width:820px) { .category-hub .category-gift { grid-template-columns:1fr; gap:20px; padding:24px; } }
+@media(max-width:460px) { .category-hub .category-gift { padding:20px; margin-top:24px; } .category-gift-form { grid-template-columns:1fr; padding:16px; } .category-gift-form select { font-size:16px; } .category-gift h2 { font-size:24px; } }
+/* Category page copy aligns with the left edge of its content. */
+.category-hub > .browse-eyebrow,
+.category-hub.category-discovery > h1 { text-align:left; }
