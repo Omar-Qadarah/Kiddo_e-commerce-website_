@@ -31,7 +31,16 @@ if (!$toy) {
     exit;
 }
 
-$images = shopToyImages($toy, array_column($imageModel->getByProductId((int) $toy['id']), 'image_path'));
+// Presentation fallback only: skip missing local image files on this page.
+$detailsImageUrls = function (array $product, array $extra = []): array {
+    $urls = array_filter(shopToyImages($product, $extra), function ($url) {
+        if (!str_starts_with($url, BASE_URL . '/')) return true;
+        $relative = rawurldecode(substr($url, strlen(BASE_URL) + 1));
+        return is_file(__DIR__ . '/../' . $relative);
+    });
+    return $urls ? array_values($urls) : [shopCategoryIllustration($product['category_name'] ?? '')];
+};
+$images = $detailsImageUrls($toy, array_column($imageModel->getByProductId((int) $toy['id']), 'image_path'));
 
 $reviews = $catalog->getReviews((int) $toy['id']);
 $price = (float) $toy['price'];
@@ -137,15 +146,6 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
             <p class="details-desc"><?= nl2br(htmlspecialchars($toy['description'])) ?></p>
 
-            <div class="how-to-play">
-                <h2>How to play</h2>
-                <p>
-                    <?= trim((string) $toy['instructions']) !== ''
-                        ? nl2br(htmlspecialchars($toy['instructions']))
-                        : 'Instructions for this toy are coming soon.' ?>
-                </p>
-            </div>
-
             <form class="details-buy" action="<?= BASE_URL ?>/cart/add.php" method="post">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '') ?>">
                 <input type="hidden" name="product_id" value="<?= (int) $toy['id'] ?>">
@@ -179,15 +179,15 @@ require_once __DIR__ . '/../includes/shop_header.php';
 <section class="container details-recommendations">
     <div class="details-recommendations-heading">
         <h2>You May Also Love</h2>
-        <p>Frequently paired toys and top recommendations for you</p>
     </div>
 
     <div class="toy-grid">
-        <?php $cardMode = 'shop'; ?>
+        <?php $cardMode = 'shop'; $detailsToy = $toy; ?>
         <?php foreach ($recommendedToys as $toy): ?>
-            <?php $cardImages = null; ?>
+            <?php $cardImages = $detailsImageUrls($toy); ?>
             <?php require __DIR__ . '/../includes/toy_card.php'; ?>
         <?php endforeach; ?>
+        <?php $toy = $detailsToy; unset($detailsToy); ?>
     </div>
 </section>
 <?php endif; ?>

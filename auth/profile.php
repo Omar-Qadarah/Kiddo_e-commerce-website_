@@ -215,21 +215,21 @@ require_once __DIR__ . '/../includes/shop_header.php';
 <div class="toys-layout kiddo-account-layout">
     <aside class="toys-sidebar" aria-label="My account sections">
         <div class="toys-sidebar-inner">
-            <h2 class="toys-sidebar-title"><span aria-hidden="true">🧸</span> My account</h2>
+            <h2 class="toys-sidebar-title">My account</h2>
             <ul class="cat-list account-sidebar-list">
                 <li>
-                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'orders' ? 'is-active' : '' ?>" onclick="switchTab('orders', this)" aria-controls="tab-orders" <?= $activeAccountTab === 'orders' ? 'aria-current="page"' : '' ?>>
-                        <span class="cat-icon" aria-hidden="true">🛍️</span><span class="cat-name">My Orders</span>
+                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'profile' ? 'is-active' : '' ?>" onclick="switchTab('profile', this)" aria-controls="tab-profile" <?= $activeAccountTab === 'profile' ? 'aria-current="page"' : '' ?>>
+                        <span class="cat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0M12 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></span><span class="cat-name">My Profile</span>
                     </button>
                 </li>
                 <li>
                     <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'reviews' ? 'is-active' : '' ?>" onclick="switchTab('reviews', this)" aria-controls="tab-reviews" <?= $activeAccountTab === 'reviews' ? 'aria-current="page"' : '' ?>>
-                        <span class="cat-icon" aria-hidden="true">⭐</span><span class="cat-name">My Reviews</span>
+                        <span class="cat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2-5.5-2.9-5.5 2.9 1-6.2L3 9.6l6.2-.9L12 3z"/></svg></span><span class="cat-name">My Reviews</span>
                     </button>
                 </li>
                 <li>
-                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'profile' ? 'is-active' : '' ?>" onclick="switchTab('profile', this)" aria-controls="tab-profile" <?= $activeAccountTab === 'profile' ? 'aria-current="page"' : '' ?>>
-                        <span class="cat-icon" aria-hidden="true">👤</span><span class="cat-name">My Profile</span>
+                    <button type="button" class="cat-link account-tab-link account-sidebar-link <?= $activeAccountTab === 'orders' ? 'is-active' : '' ?>" onclick="switchTab('orders', this)" aria-controls="tab-orders" <?= $activeAccountTab === 'orders' ? 'aria-current="page"' : '' ?>>
+                        <span class="cat-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7zM9 7V5a3 3 0 0 1 6 0v2"/></svg></span><span class="cat-name">My Orders</span>
                     </button>
                 </li>
             </ul>

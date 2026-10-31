@@ -142,6 +142,46 @@ require_once __DIR__ . '/../includes/shop_header.php';
 ?>
 
 <div class="toys-layout toys-pill-page catalog-page">
+    <div class="catalog-topbar">
+            <div class="active-filters" aria-label="Applied filters">
+                <?php
+                $chipLabels = [
+                    'category' => $activeCategory['name'] ?? '',
+                    'age' => $requestedAge ? $requestedAge['title'] . ' (' . ageCardRange($requestedAge) . ')' : '',
+                    'gender' => $genders[$filters['gender']] ?? '',
+                    'price' => $activePrice['label'] ?? '',
+                    'q' => $filters['q'] !== '' ? 'Search: ' . $filters['q'] : '',
+                    'stock' => $filters['stock'] ? 'In stock' : '',
+                    'offers' => '', // Offers is page context, not a removable customer checkbox.
+                ];
+                foreach ($chipLabels as $key => $label): if ($label === '') continue; ?>
+                    <a href="<?= htmlspecialchars(toysUrl($filters, [$key => ''])) ?>" aria-label="<?= htmlspecialchars('Remove filter: ' . $label) ?>"><?= htmlspecialchars($label) ?> <span aria-hidden="true">×</span></a>
+                <?php endforeach; ?>
+            </div>
+            <div class="catalog-toolbar">
+                <p class="result-count" role="status">
+                    <?php $entity = $filters['offers'] ? ($totalToys === 1 ? 'offer' : 'offers') : ($totalToys === 1 ? 'toy' : 'toys'); ?>
+                    <?php if ($totalToys): ?>
+                        Showing <?= $pagination['offset'] + 1 ?><?php if ($totalToys > 1): ?>–<?= min($pagination['offset'] + SHOP_PAGE_SIZE, $totalToys) ?><?php endif; ?> of <strong><?= $totalToys ?></strong> <?= $entity ?>
+                    <?php else: ?>0 <?= $entity ?> found<?php endif; ?>
+                </p>
+                <form class="catalog-sort" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get">
+                    <?php foreach ($filters as $key => $value): if ($key === 'sort' || $value === '') continue; ?>
+                        <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>">
+                    <?php endforeach; ?>
+                    <label for="filter-sort">Sort by</label>
+                    <select id="filter-sort" name="sort">
+                        <?php foreach ($sortLabels as $key => $label): ?>
+                        <option value="<?= $key ?>" <?= $filters['sort'] === $key ? 'selected' : '' ?>><?= $label ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <a class="btn btn-outline" href="<?= htmlspecialchars(toysUrl($filters, ['sort' => 'newest'])) ?>">Reset</a>
+                    <noscript><button class="btn btn-outline" type="submit">Apply sort</button></noscript>
+                </form>
+            </div>
+
+    </div>
+
     <!-- ============ Full-height sidebar on the left ============ -->
     <details class="catalog-sidebar" open>
         <summary>Filters <span aria-hidden="true">⌄</span></summary>
@@ -153,9 +193,15 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <?php foreach (['q', 'sort'] as $key): if ($filters[$key] === '') continue; ?>
                     <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($filters[$key]) ?>">
                 <?php endforeach; ?>
-                <?php if ($filters['category'] !== ''): ?>
-                    <input type="hidden" name="category" value="<?= htmlspecialchars($filters['category']) ?>">
-                <?php endif; ?>
+                <div class="filter-field">
+                    <label for="filter-category">Category</label>
+                    <select id="filter-category" name="category">
+                        <option value="">All categories</option>
+                        <?php foreach ($categories as $category): ?>
+                        <option value="<?= htmlspecialchars($category['slug']) ?>" <?= $filters['category'] === $category['slug'] ? 'selected' : '' ?>><?= htmlspecialchars($category['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
                 <div class="filter-field">
                     <label for="filter-age">Age</label>
@@ -202,43 +248,6 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
     <div class="toys-main">
         <div class="toys-content">
-            <div class="active-filters" aria-label="Applied filters">
-                <?php
-                $chipLabels = [
-                    'category' => $activeCategory['name'] ?? '',
-                    'age' => $requestedAge ? $requestedAge['title'] . ' (' . ageCardRange($requestedAge) . ')' : '',
-                    'gender' => $genders[$filters['gender']] ?? '',
-                    'price' => $activePrice['label'] ?? '',
-                    'q' => $filters['q'] !== '' ? 'Search: ' . $filters['q'] : '',
-                    'stock' => $filters['stock'] ? 'In stock' : '',
-                    'offers' => '', // Offers is page context, not a removable customer checkbox.
-                ];
-                foreach ($chipLabels as $key => $label): if ($label === '') continue; ?>
-                    <a href="<?= htmlspecialchars(toysUrl($filters, [$key => ''])) ?>" aria-label="<?= htmlspecialchars('Remove filter: ' . $label) ?>"><?= htmlspecialchars($label) ?> <span aria-hidden="true">×</span></a>
-                <?php endforeach; ?>
-            </div>
-            <div class="catalog-toolbar">
-                <p class="result-count" role="status">
-                    <?php $entity = $filters['offers'] ? ($totalToys === 1 ? 'offer' : 'offers') : ($totalToys === 1 ? 'toy' : 'toys'); ?>
-                    <?php if ($totalToys): ?>
-                        Showing <?= $pagination['offset'] + 1 ?><?php if ($totalToys > 1): ?>–<?= min($pagination['offset'] + SHOP_PAGE_SIZE, $totalToys) ?><?php endif; ?> of <strong><?= $totalToys ?></strong> <?= $entity ?>
-                    <?php else: ?>0 <?= $entity ?> found<?php endif; ?>
-                </p>
-                <form class="catalog-sort" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get">
-                    <?php foreach ($filters as $key => $value): if ($key === 'sort' || $value === '') continue; ?>
-                        <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>">
-                    <?php endforeach; ?>
-                    <label for="filter-sort">Sort by</label>
-                    <select id="filter-sort" name="sort">
-                        <?php foreach ($sortLabels as $key => $label): ?>
-                        <option value="<?= $key ?>" <?= $filters['sort'] === $key ? 'selected' : '' ?>><?= $label ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <a class="btn btn-outline" href="<?= htmlspecialchars(toysUrl($filters, ['sort' => 'newest'])) ?>">Reset</a>
-                    <noscript><button class="btn btn-outline" type="submit">Apply sort</button></noscript>
-                </form>
-            </div>
-
             <!-- ============ Toy grid ============ -->
             <?php if (!empty($toys)): ?>
                 <div class="toy-grid">
