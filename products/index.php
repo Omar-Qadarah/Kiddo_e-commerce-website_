@@ -2,7 +2,7 @@
 // Toys page: products/index.php
 // Optional filters in the URL (they can be combined):
 //   ?category=<category slug>   sidebar "Toy types"
-//   ?age=<age group slug>       Age buttons (legacy landing-page age links also work)
+//   ?age=<age group slug>       Sidebar age filter (landing-page age links also work)
 //   ?gender=girls|boys|unisex   Gender dropdown
 //   ?price=<price range key>    Price dropdown (keys in $priceRanges below)
 // Cards: arrows on the picture browse all the toy's images; "How to play"
@@ -128,6 +128,7 @@ if ($requestedAge && !$activeCategory && !$filters['offers']) {
 $heading = $filters['q'] !== '' ? 'Search results for “' . $filters['q'] . '”' : $heading;
 $pageTitle  = $heading;
 $activePage = $filters['offers'] ? 'offers' : 'toys';
+$catalogLayout = true;
 $pageStyles = [
     'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
     'toys-page.css',
@@ -137,20 +138,18 @@ $pageStyles = [
 require_once __DIR__ . '/../includes/shop_header.php';
 ?>
 
-<div class="toys-layout toys-pill-page">
+<div class="toys-layout toys-pill-page catalog-page">
     <!-- ============ Full-height sidebar on the left ============ -->
+    <details class="catalog-sidebar" open>
+        <summary>Filters &amp; toy types <span aria-hidden="true">⌄</span></summary>
+        <div class="catalog-sidebar-content">
     <?php $categoryUrl = fn($slug) => toysUrl($filters, ['category' => $slug]); require __DIR__ . '/../includes/shop_category_sidebar.php'; ?>
-
-    <div class="toys-main">
-        <div class="toys-content">
-            <!-- ============ Filters ============ -->
-            <details class="browse-filter-panel" open>
-            <summary class="browse-filter-summary">Filter &amp; sort <span aria-hidden="true">⌄</span></summary>
+            <section class="catalog-filters" aria-labelledby="catalog-filter-title">
+                <h2 id="catalog-filter-title">Filters</h2>
             <form class="filter-bar" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get" data-filter-form>
-                <div class="filter-field filter-search">
-                    <label for="browse-search">Find a toy</label>
-                    <input id="browse-search" type="search" name="q" maxlength="60" placeholder="Try blocks, robot, puzzle…" value="<?= htmlspecialchars($filters['q']) ?>">
-                </div>
+                <?php foreach (['q', 'sort'] as $key): if ($filters[$key] === '') continue; ?>
+                    <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($filters[$key]) ?>">
+                <?php endforeach; ?>
                 <?php if ($filters['category'] !== ''): ?>
                     <input type="hidden" name="category" value="<?= htmlspecialchars($filters['category']) ?>">
                 <?php endif; ?>
@@ -189,21 +188,17 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     </select>
                 </div>
 
-                <div class="filter-field">
-                    <label for="filter-sort">Sort by</label>
-                    <select id="filter-sort" name="sort">
-                        <?php foreach ($sortLabels as $key => $label): ?>
-                        <option value="<?= $key ?>" <?= $filters['sort'] === $key ? 'selected' : '' ?>><?= $label ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
                 <div class="filter-actions">
-                    <button class="btn btn-primary browse-apply" type="submit">Apply</button>
-                    <a class="btn btn-outline" href="<?= BASE_URL ?>/products/index.php<?= $filters['offers'] ? '?offers=1' : '' ?>">Reset filters</a>
+                    <button class="btn btn-primary browse-apply" type="submit">Apply filters</button>
+                    <a class="btn btn-outline" href="<?= BASE_URL ?>/products/index.php<?= $filters['offers'] ? '?offers=1' : '' ?>">Clear all</a>
                 </div>
             </form>
-            </details>
+            </section>
+        </div>
+    </details>
 
+    <div class="toys-main">
+        <div class="toys-content">
             <div class="active-filters" aria-label="Applied filters">
                 <?php
                 $chipLabels = [
@@ -219,9 +214,26 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <a href="<?= htmlspecialchars(toysUrl($filters, [$key => ''])) ?>" aria-label="<?= htmlspecialchars('Remove filter: ' . $label) ?>"><?= htmlspecialchars($label) ?> <span aria-hidden="true">×</span></a>
                 <?php endforeach; ?>
             </div>
-            <p class="result-count" role="status">
-                <?= $totalToys ?> <?= $totalToys === 1 ? 'toy' : 'toys' ?> found
-            </p>
+            <div class="catalog-toolbar">
+                <p class="result-count" role="status">
+                    <?php $entity = $filters['offers'] ? ($totalToys === 1 ? 'offer' : 'offers') : ($totalToys === 1 ? 'toy' : 'toys'); ?>
+                    <?php if ($totalToys): ?>
+                        Showing <?= $pagination['offset'] + 1 ?><?php if ($totalToys > 1): ?>–<?= min($pagination['offset'] + SHOP_PAGE_SIZE, $totalToys) ?><?php endif; ?> of <strong><?= $totalToys ?></strong> <?= $entity ?>
+                    <?php else: ?>0 <?= $entity ?> found<?php endif; ?>
+                </p>
+                <form class="catalog-sort" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get">
+                    <?php foreach ($filters as $key => $value): if ($key === 'sort' || $value === '') continue; ?>
+                        <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($value) ?>">
+                    <?php endforeach; ?>
+                    <label for="filter-sort">Sort by</label>
+                    <select id="filter-sort" name="sort">
+                        <?php foreach ($sortLabels as $key => $label): ?>
+                        <option value="<?= $key ?>" <?= $filters['sort'] === $key ? 'selected' : '' ?>><?= $label ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button class="btn btn-outline" type="submit">Sort</button>
+                </form>
+            </div>
 
             <!-- ============ Toy grid ============ -->
             <?php if (!empty($toys)): ?>
@@ -237,12 +249,22 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <span aria-hidden="true">🧸</span>
                     <h2><?= $filters['q'] !== '' ? 'No toys found for “' . htmlspecialchars($filters['q']) . '”' : 'No toys match these filters' ?></h2>
                     <p>Check your spelling, try fewer words, or remove a filter.</p><a class="btn btn-outline" href="<?= BASE_URL ?>/products/categories.php">Browse categories</a>
-                    <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php">Show all toys</a>
+                    <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php<?= $filters['offers'] ? '?offers=1' : '' ?>">Clear filters</a>
                 </div>
             <?php endif; ?>
-        <?php renderShopPagination($pagination, $filters); ?>
+        <?php renderShopPagination($pagination, $filters, true); ?>
         </div>
     </div>
 </div>
 
+<script>
+// Native disclosure on mobile; desktop keeps the sidebar open.
+(function () {
+    const sidebar = document.querySelector('.catalog-sidebar');
+    const mobile = window.matchMedia('(max-width: 820px)');
+    const syncSidebar = () => { sidebar.open = !mobile.matches; };
+    syncSidebar();
+    mobile.addEventListener('change', syncSidebar);
+})();
+</script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
