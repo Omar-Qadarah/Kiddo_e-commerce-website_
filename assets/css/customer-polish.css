@@ -187,3 +187,41 @@ body { line-height: 1.55; }
 .toy-grid .toy-card-foot .toy-price strong { text-align:left; }
 .toy-grid .toy-card-cart button { height:40px; min-height:40px; padding:8px 14px; border-radius:10px; font-size:13px; line-height:1.4; }
 @media(max-width:600px) { .toy-grid .toy-card-cart button { height:44px; min-height:44px; } }
+
+/* Standalone category hub, using the existing database-backed card component. */
+.category-hub.category-discovery { min-height:50vh; padding-block:28px 40px; }
+.category-hub .browse-eyebrow { display:block; text-align:center; font-size:12px; margin:16px 0 8px; }
+.category-hub.category-discovery h1 { text-align:center; font-size:clamp(28px,3vw,36px); margin-bottom:28px; }
+.category-hub .category-discovery-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; }
+.category-hub .category-art { height:168px; background:#f6f1ff; }
+.category-hub .category-art img { width:90%; height:148px; object-fit:contain; }
+.category-hub .category-discovery-card:nth-child(4n+2) .category-art { background:#eef9f7; }
+.category-hub .category-discovery-card:nth-child(4n+3) .category-art { background:#fff6e8; }
+.category-hub .category-discovery-card:nth-child(4n+4) .category-art { background:#fff0f5; }
+.category-hub .category-card-copy { min-height:64px; }
+@media(max-width:1000px) { .category-hub .category-discovery-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:760px) { .category-hub .category-discovery-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; } }
+@media(max-width:460px) { .category-hub .category-art { height:120px; } .category-hub .category-art img { height:108px; } .category-hub .category-card-copy strong { font-size:14px; } }
+@media(max-width:340px) { .category-hub .category-discovery-grid { grid-template-columns:minmax(0,1fr); } }
+
+/* Compact category introduction and three-column customer footer. */
+.category-hub.category-discovery { padding-top:20px; }
+.category-hub .browse-eyebrow { margin-top:0; }
+.category-hub.category-discovery h1 { margin-bottom:24px; }
+.site-footer { margin-top:28px; }
+.site-footer::before { top:-16px; height:18px; background:radial-gradient(circle at 24px 18px,var(--primary) 16px,transparent 17px) 0 0 / 48px 18px repeat-x; }
+.site-footer .footer-grid { grid-template-columns:1.25fr 1fr 1fr; align-items:start; gap:32px; padding-block:24px 20px; }
+.site-footer .footer-grid h3 { font-size:17px; margin:0 0 12px; }
+.site-footer .footer-brand img { width:150px; height:auto; }
+.site-footer .footer-brand p { max-width:38ch; margin:8px 0 0; font-size:13px; line-height:1.5; }
+.site-footer .footer-grid ul { margin:0; font-size:13px; line-height:1.6; }
+.site-footer .footer-social { gap:8px; margin-top:12px; }
+.site-footer .footer-social a { width:34px; height:34px; }
+.site-footer .footer-social svg { width:17px; height:17px; }
+.site-footer .pay-card { gap:12px; padding:12px; border-radius:12px; }
+.site-footer .pay-icon { width:36px; height:36px; border-radius:10px; }
+.site-footer .pay-card strong { font-size:15px; }
+.site-footer .pay-card small { font-size:12px; }
+.site-footer .footer-bottom .container { padding-block:12px; font-size:12px; gap:0; }
+@media(max-width:760px) { .site-footer .footer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; } .site-footer .footer-brand { grid-column:1/-1; } }
+@media(max-width:440px) { .site-footer .footer-grid { grid-template-columns:minmax(0,1fr); gap:20px; } }

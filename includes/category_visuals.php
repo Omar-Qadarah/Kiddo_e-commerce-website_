@@ -4,6 +4,7 @@ function shopCategoryIllustration(string $name): string
 {
     $name = strtolower($name);
     $matches = [
+        'ride-on' => 'vehicle', 'active play' => 'sports',
         'plush' => 'baby', 'doll' => 'doll', 'figure' => 'doll', 'vehicle' => 'vehicle', 'rc toys' => 'vehicle', 'craft' => 'crafts', 'baby' => 'baby', 'toddler' => 'baby',
         'brain' => 'puzzle', 'construct' => 'blocks', 'building' => 'blocks',
         'educat' => 'education', 'electron' => 'robot', 'gaming' => 'gaming',

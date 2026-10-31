@@ -6,7 +6,6 @@
 // icon-link, drawer ...) and adds its own in assets/css/storefront.css.
 require_once __DIR__ . '/csrf.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
-$navigationCategories = (new ToyCatalog($pdo))->getShopCategories();
 $activePage = $activePage ?? '';
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
@@ -18,6 +17,7 @@ $searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a b
 // key => [label, path from the project root]
 $shopNavLinks = [
     'home'       => ['Home', '/index.php'],
+    'categories' => ['Categories', '/products/categories.php'],
     'toys'       => ['Toys', '/products/index.php'],
     'offers' => ['Offers', '/products/index.php?offers=1'],
 ];
@@ -39,19 +39,7 @@ $shopNavLinks = [
             <ul>
                 <?php foreach ($shopNavLinks as $key => [$label, $path]): ?>
                     <li>
-                        <?php if ($key === 'categories'): ?>
-                        <details class="nav-categories" data-navigation-menu>
-                            <summary class="<?= $activePage === 'categories' ? 'is-active' : '' ?>">Categories <span aria-hidden="true">⌄</span></summary>
-                            <div class="nav-category-panel">
-                                <a class="nav-category-all" href="<?= BASE_URL ?>/products/categories.php">Explore all categories →</a>
-                                <?php foreach ($navigationCategories as $navCategory): ?>
-                                <a href="<?= BASE_URL ?>/products/index.php?category=<?= urlencode($navCategory['slug']) ?>"><?= htmlspecialchars($navCategory['name']) ?></a>
-                                <?php endforeach; ?>
-                            </div>
-                        </details>
-                        <?php else: ?>
                         <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>" <?= $activePage === $key ? 'aria-current="page"' : '' ?>><?= $label ?></a>
-                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
