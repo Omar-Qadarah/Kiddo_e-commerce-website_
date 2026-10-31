@@ -2,7 +2,9 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Category.php';
+require_once __DIR__ . '/../classes/CategoryImage.php';
 
 $categoryModel = new Category($pdo);
 
@@ -10,13 +12,13 @@ $errors = [];
 $name = '';
 $slug = '';
 $description = '';
-$icon = '';
+$imagePath = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    checkCsrf();
     $name = trim($_POST['name'] ?? '');
     $slug = strtolower(trim($_POST['slug'] ?? ''));
     $description = trim($_POST['description'] ?? '');
-    $icon = trim($_POST['icon'] ?? '');
 
     if ($name === '') {
         $errors[] = 'Category name is required.';
@@ -37,18 +39,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
+        $uploadedImage = null;
         try {
-            $categoryModel->create([
+            $uploadedImage = CategoryImage::upload($_FILES['image'] ?? null);
+            $created = $categoryModel->create([
                 'name' => $name,
                 'slug' => $slug,
                 'description' => $description !== '' ? $description : null,
-                'icon' => $icon !== '' ? $icon : null
+                'icon' => null,
+                'image' => $uploadedImage,
             ]);
+            if (!$created) {
+                throw new RuntimeException('Unable to save the category.');
+            }
 
             header('Location: ' . BASE_URL . '/admin/categories.php');
             exit;
-        } catch (PDOException $e) {
-            $errors[] = 'Unable to save the category. Please check the details and try again.';
+        } catch (Throwable $e) {
+            CategoryImage::delete($uploadedImage);
+            error_log('Category create failed: ' . $e->getMessage());
+            $errors[] = $e instanceof RuntimeException ? $e->getMessage() : 'Unable to save the category. Please check the details and try again.';
         }
     }
 }
@@ -82,7 +92,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         </div>
     <?php endif; ?>
 
-    <form method="POST" class="admin-form">
+    <form method="POST" class="admin-form" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8') ?>">
         <div class="mb-3">
             <label for="name" class="form-label">Category Name *</label>
             <input
@@ -124,16 +135,9 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         </div>
 
         <div class="mb-4">
-            <label for="icon" class="form-label">Icon (optional)</label>
-            <input
-                type="text"
-                id="icon"
-                name="icon"
-                class="form-control"
-                maxlength="100"
-                placeholder="Example: bi bi-stars"
-                value="<?= htmlspecialchars($icon) ?>"
-            >
+            <label for="category-image" class="form-label">Category image (optional)</label>
+            <input type="file" id="category-image" name="image" class="form-control" accept="image/jpeg,image/png,image/webp">
+            <div class="form-text">JPG, PNG, or WebP. Maximum 3 MB.</div>
         </div>
 
         <button type="submit" class="btn btn-primary">
