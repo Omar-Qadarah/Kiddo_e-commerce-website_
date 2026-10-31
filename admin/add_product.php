@@ -4,6 +4,7 @@ require_once __DIR__ . "/../classes/Product.php";
 require_once __DIR__ . "/../classes/ProductImage.php";
 
 $product = new Product($pdo);
+$imageModel = new ProductImage($pdo);
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -36,18 +37,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             "is_active" => $is_active
         ];
 
+        $uploadedImages = [];
         try {
-            $created = $product->create($data);
+            $uploadedImages = $imageModel->uploadMany($_FILES['images'] ?? []);
+            $data['image'] = $uploadedImages[0] ?? '';
 
-            if ($created) {
-                header("Location: products.php");
-                exit;
+            $pdo->beginTransaction();
+            if (!$product->create($data)) {
+                throw new RuntimeException('Failed to add product.');
             }
-
-            $message = "Failed to add product.";
+            $productId = (int) $pdo->lastInsertId();
+            foreach (array_slice($uploadedImages, 1) as $path) {
+                if (!$imageModel->saveForProduct($productId, $path, $name)) {
+                    throw new RuntimeException('Could not save all product images.');
+                }
+            }
+            $pdo->commit();
+            header("Location: products.php");
+            exit;
         } catch (Throwable $e) {
-            $message = "Could not save the product. Please check the database fields.";
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $imageModel->deleteUploaded($uploadedImages);
+            $message = "Could not save the product or its images. Please check the fields and try again.";
         }
+
     }
 }
 
@@ -119,8 +134,9 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="image">Product Image</label>
-                <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                <label class="form-label" for="images">Product Images</label>
+                <input class="form-control" type="file" id="images" name="images[]" accept="image/jpeg,image/png,image/webp" multiple>
+                <div class="form-text">Select multiple JPG, PNG, or WebP images. Maximum 3 MB each.</div>
             </div>
 
             <div class="form-check mb-4">
