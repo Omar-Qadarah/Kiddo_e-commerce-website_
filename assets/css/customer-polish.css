@@ -403,3 +403,18 @@ html { scroll-padding-top:100px; }
  .details-reviews .review-form .btn { min-height:44px; }
 }
 @media(max-width:389px) { .details .details-buy .details-add { flex:1 1 100%; } }
+
+/* Give carousel cards the same hover clearance as ordinary product grids. */
+#new-arrivals .new-arrivals-track {
+    width:calc(100% + 24px);
+    max-width:none;
+    padding:12px 12px 24px;
+    margin:-10px -12px -12px;
+    scroll-padding-inline:12px;
+}
+
+/* A focused sticky-header search must not trigger caret scroll correction. */
+html:has(.site-header .header-search input:focus) {
+    scroll-padding-top:0;
+    scroll-behavior:auto;
+}

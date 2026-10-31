@@ -10,6 +10,7 @@
 // Page files: assets/css/toys-page.css (+ storefront.css), assets/js/storefront.js
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/ToyCatalog.php';
+require_once __DIR__ . '/../classes/SearchHistory.php';
 require_once __DIR__ . '/../includes/shop_pagination.php';
 require_once __DIR__ . '/../includes/age_cards.php';
 
@@ -112,6 +113,19 @@ $catalogFilters = [
 ];
 $totalToys = $catalog->countFilteredToys($catalogFilters);
 $pagination = shopPagination($totalToys);
+
+// Record real searches without changing the results page or its layout.
+$searchUserId = (int) ($_SESSION['user_id'] ?? 0);
+$requestedSearchPage = filter_var($_GET['page'] ?? 1, FILTER_VALIDATE_INT);
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET'
+    && $searchUserId > 0
+    && $filters['q'] !== ''
+    && $pagination['page'] === 1
+    && $requestedSearchPage === 1) {
+    $historyModel = new SearchHistory($pdo);
+    $historyModel->addSearch($searchUserId, $filters['q'], $totalToys);
+}
+
 $toys = $catalog->getFilteredToys($catalogFilters, SHOP_PAGE_SIZE, $pagination['offset']);
 $extraImages = $catalog->getImagePathsForToys(array_column($toys, 'id'));
 
