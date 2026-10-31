@@ -234,7 +234,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
                         <option value="<?= $key ?>" <?= $filters['sort'] === $key ? 'selected' : '' ?>><?= $label ?></option>
                         <?php endforeach; ?>
                     </select>
-                    <button class="btn btn-outline" type="submit">Sort</button>
+                    <a class="btn btn-outline" href="<?= htmlspecialchars(toysUrl($filters, ['sort' => 'newest'])) ?>">Reset</a>
+                    <noscript><button class="btn btn-outline" type="submit">Apply sort</button></noscript>
                 </form>
             </div>
 
@@ -268,6 +269,9 @@ require_once __DIR__ . '/../includes/shop_header.php';
     const syncSidebar = () => { sidebar.open = !mobile.matches; };
     syncSidebar();
     mobile.addEventListener('change', syncSidebar);
+    document.getElementById('filter-sort').addEventListener('change', function () {
+        this.form.requestSubmit();
+    });
 })();
 </script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

@@ -176,3 +176,14 @@ body { line-height: 1.55; }
     .site-header .header-search { width: min(100%, 570px); max-width: 570px; justify-self: center; }
     .site-header .header-actions { justify-self: end; }
 }
+
+/* Age circles keep their links; remove the extra heading gap. */
+#shop-by-age.shop-section { padding-top:24px; }
+#shop-by-age .section-head { margin-bottom:20px; }
+
+/* Consistent left-aligned pricing, with a quieter compact cart action. */
+.toy-grid .toy-card-foot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px 10px; width:100%; text-align:left; }
+.toy-grid .toy-card-foot .toy-price { margin:0; margin-right:auto; justify-content:flex-start; text-align:left; flex-wrap:wrap; gap:4px 7px; }
+.toy-grid .toy-card-foot .toy-price strong { text-align:left; }
+.toy-grid .toy-card-cart button { height:40px; min-height:40px; padding:8px 14px; border-radius:10px; font-size:13px; line-height:1.4; }
+@media(max-width:600px) { .toy-grid .toy-card-cart button { height:44px; min-height:44px; } }
