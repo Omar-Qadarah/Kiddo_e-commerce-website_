@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/category_visuals.php';
+
 // Small helpers shared by the storefront pages (landing, toys, toy details).
 
 // Turns a saved path like "uploads/products/a.png" into a URL.
@@ -28,7 +30,7 @@ function shopToyImages(array $toy, array $extraPaths = []): array
         }
     }
 
-    return $urls ? array_keys($urls) : [shopImageUrl('')];
+    return $urls ? array_keys($urls) : [shopCategoryIllustration($toy['category_name'] ?? '')];
 }
 
 // Price after the active discount.

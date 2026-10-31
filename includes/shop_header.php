@@ -55,6 +55,14 @@ function shopAsset(string $folder, string $file): string
 <?php foreach ($pageScripts as $script): ?>
     <script src="<?= htmlspecialchars(shopAsset('js', $script)) ?>" defer></script>
 <?php endforeach; ?>
+<link href="<?= BASE_URL ?>/assets/css/storefront-ux.css?v=<?= filemtime(__DIR__ . '/../assets/css/storefront-ux.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/store-design.css?v=<?= filemtime(__DIR__ . '/../assets/css/store-design.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/customer-polish.css?v=<?= filemtime(__DIR__ . '/../assets/css/customer-polish.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/customer-motion.css?v=<?= filemtime(__DIR__ . '/../assets/css/customer-motion.css') ?>" rel="stylesheet">
+<script src="<?= BASE_URL ?>/assets/js/customer-motion.js?v=<?= filemtime(__DIR__ . '/../assets/js/customer-motion.js') ?>" defer></script>
+<?php if (!empty($catalogLayout)): ?>
+<link href="<?= shopAsset('css', 'catalog-browsing.css') ?>" rel="stylesheet">
+<?php endif; ?>
 </head>
 <body>
 
