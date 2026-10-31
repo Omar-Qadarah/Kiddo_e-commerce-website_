@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Product.php';
 require_once __DIR__ . '/../classes/ProductImage.php';
 
@@ -25,9 +26,56 @@ if (!$item) {
 }
 
 $categories = $product->getCategories();
+$existingImages = $imageModel->getByProductId($id);
+$mainImagePath = trim((string) ($item['image'] ?? ''));
+$galleryImages = [];
+if ($mainImagePath !== '') {
+    $galleryImages[] = ['path' => $mainImagePath, 'id' => null, 'is_main' => true];
+}
+foreach ($existingImages as $existingImage) {
+    $imagePath = (string) $existingImage['image_path'];
+    if ($imagePath !== $mainImagePath) {
+        $galleryImages[] = ['path' => $imagePath, 'id' => (int) $existingImage['image_id'], 'is_main' => false];
+    }
+}
 $error = '';
+$success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    checkCsrf();
+    if (isset($_POST['delete_main_image']) || isset($_POST['delete_image_id'])) {
+        try {
+            $deleted = false;
+            if (($_POST['delete_main_image'] ?? '') === '1') {
+                $deleted = $imageModel->deleteProductImage($id, null, true);
+            } else {
+                $imageId = filter_var($_POST['delete_image_id'] ?? null, FILTER_VALIDATE_INT);
+                $deleted = $imageId !== false && $imageId > 0 && $imageModel->deleteProductImage($id, (int) $imageId);
+            }
+            if ($deleted) {
+                $success = 'Image deleted successfully.';
+            } else {
+                $error = 'That image could not be found for this product.';
+            }
+        } catch (Throwable $e) {
+            error_log('Product image delete failed: ' . $e->getMessage());
+            $error = 'Could not delete this image. Please try again.';
+        }
+
+        $item = $product->getById($id);
+        $existingImages = $imageModel->getByProductId($id);
+        $mainImagePath = trim((string) ($item['image'] ?? ''));
+        $galleryImages = [];
+        if ($mainImagePath !== '') {
+            $galleryImages[] = ['path' => $mainImagePath, 'id' => null, 'is_main' => true];
+        }
+        foreach ($existingImages as $existingImage) {
+            $imagePath = (string) $existingImage['image_path'];
+            if ($imagePath !== $mainImagePath) {
+                $galleryImages[] = ['path' => $imagePath, 'id' => (int) $existingImage['image_id'], 'is_main' => false];
+            }
+        }
+    } else {
     $name = trim($_POST['name'] ?? '');
     $description = trim($_POST['description'] ?? '');
     $instructions = trim($_POST['instructions'] ?? '');
@@ -55,8 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ) {
         $error = 'Please check all fields and enter valid values.';
     } else {
+        $uploadedImages = [];
         try {
-            $newImage = $imageModel->upload($_FILES['image'] ?? []);
+            $uploadedImages = $imageModel->uploadMany($_FILES['images'] ?? []);
+            $hasExistingImage = trim((string) ($item['image'] ?? '')) !== '' || !empty($existingImages);
+            $mainImage = trim((string) ($item['image'] ?? '')) !== ''
+                ? $item['image']
+                : (!$hasExistingImage ? ($uploadedImages[0] ?? '') : '');
 
             $data = [
                 'category_id' => $categoryId,
@@ -68,22 +121,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'gender' => $gender,
                 'min_age' => (int)$minAge,
                 'max_age' => (int)$maxAge,
-                'image' => $newImage ?? ($item['image'] ?? ''),
+                'image' => $mainImage,
                 'is_active' => $active
             ];
 
-            if ($product->update($id, $data)) {
-                if ($newImage !== null) {
-                    $imageModel->saveForProduct($id, $newImage, $name);
-                }
-
-                header('Location: products.php');
-                exit;
+            $imagesToSave = $hasExistingImage ? $uploadedImages : array_slice($uploadedImages, 1);
+            $pdo->beginTransaction();
+            if (!$product->update($id, $data)) {
+                throw new RuntimeException('Could not update the product.');
             }
-
-            $error = 'Could not update the product.';
+            foreach ($imagesToSave as $path) {
+                if (!$imageModel->saveForProduct($id, $path, $name)) {
+                    throw new RuntimeException('Could not save all product images.');
+                }
+            }
+            $pdo->commit();
+            header('Location: products.php');
+            exit;
         } catch (Throwable $e) {
-            $error = $e->getMessage();
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
+            $imageModel->deleteUploaded($uploadedImages);
+            $error = 'Could not save the product or its images. Please check the fields and try again.';
         }
     }
 
@@ -99,6 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'max_age' => $maxAge,
         'is_active' => $active
     ]);
+    }
 }
 $pageTitle = 'Edit Product';
 $activePage = 'products';
@@ -120,8 +181,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         <?php if ($error !== ''): ?>
             <div class="alert alert-danger" role="alert"><?= h($error) ?></div>
         <?php endif; ?>
+        <?php if ($success !== ''): ?>
+            <div class="alert alert-success" role="status"><?= h($success) ?></div>
+        <?php endif; ?>
 
         <form method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?= h($_SESSION['csrf_token'] ?? '') ?>">
 
             <div class="row g-3">
                 <div class="col-md-6">
@@ -143,14 +208,14 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="image">Replace Product Image</label>
-                        <input class="form-control" type="file" id="image" name="image"
-                               accept="image/jpeg,image/png,image/webp">
-                        <p class="form-text">JPG, PNG or WEBP. Maximum 3 MB.</p>
-
-                        <?php if (!empty($item['image'])): ?>
-                            <p class="form-text">Current image: <?= h($item['image']) ?></p>
-                        <?php endif; ?>
+                        <label class="form-label" for="images">Add Product Images</label>
+                        <input class="form-control" type="file" id="images" name="images[]"
+                               accept="image/jpeg,image/png,image/webp" multiple>
+                        <p class="form-text">Select one or more JPG, PNG, or WebP images. Maximum 3 MB each. Existing images are kept.</p>
+                        <div class="d-flex justify-content-start gap-2 flex-wrap align-items-center product-upload-actions mt-3">
+                            <a class="btn btn-light" href="products.php">Cancel</a>
+                            <button class="btn btn-primary" type="submit">Update Product</button>
+                        </div>
                     </div>
                 </div>
 
@@ -217,10 +282,20 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 </div>
             </div>
 
-            <div class="d-flex gap-2 flex-wrap align-items-center">
-                <a class="btn btn-light" href="products.php">Cancel</a>
-                <button class="btn btn-primary" type="submit">Update Product</button>
-            </div>
+            <?php if (!empty($galleryImages)): ?>
+                <div class="d-flex flex-wrap gap-2 mt-3" aria-label="Current product images">
+                    <?php foreach ($galleryImages as $galleryImage): ?>
+                        <div class="product-image-thumb">
+                            <img src="<?= h(BASE_URL . '/' . ltrim($galleryImage['path'], '/')) ?>" alt="Current product image" width="88" height="88">
+                            <?php if ($galleryImage['is_main']): ?>
+                                <button type="submit" name="delete_main_image" value="1" class="product-image-remove" formnovalidate aria-label="Delete main product image" title="Delete image">×</button>
+                            <?php else: ?>
+                                <button type="submit" name="delete_image_id" value="<?= (int) $galleryImage['id'] ?>" class="product-image-remove" formnovalidate aria-label="Delete product image" title="Delete image">×</button>
+                            <?php endif; ?>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
 
         </form>
     </div>
