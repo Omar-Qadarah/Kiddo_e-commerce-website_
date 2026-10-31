@@ -85,6 +85,14 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <span class="details-circle">
                     <img src="<?= htmlspecialchars($images[0]) ?>" alt="<?= htmlspecialchars($toy['name']) ?>" data-gallery-main>
                 </span>
+                <?php if (count($images) > 1): ?>
+                    <button type="button" class="card-arrow is-prev" data-gallery-step="-1" aria-label="Previous picture">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button type="button" class="card-arrow is-next" data-gallery-step="1" aria-label="Next picture">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                <?php endif; ?>
             </div>
 
             <?php if (count($images) > 1): ?>
@@ -179,13 +187,13 @@ require_once __DIR__ . '/../includes/shop_header.php';
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
         <?php foreach ($recommendedToys as $recToy): 
             $recPrice = (float) $recToy['price'];
-            $recImg = !empty($recToy['image']) ? BASE_URL . '/uploads/products/' . basename($recToy['image']) : BASE_URL . '/assets/images/toy-placeholder.svg';
+            $recImg = shopImageUrl($recToy['image'] ?? '');
         ?>
             <div style="background: #ffffff; border: 1px solid #edf0f5; border-radius: 18px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 14px rgba(0,0,0,0.02); transition: transform 0.2s ease;">
                 <div>
                     <a href="<?= BASE_URL ?>/products/details.php?id=<?= (int) $recToy['id'] ?>" style="text-decoration: none; display: block;">
-                        <div style="background: #fafbfc; border-radius: 12px; height: 160px; display: flex; align-items: center; justify-content: center; padding: 12px; margin-bottom: 12px; border: 1px solid #f1f2f6;">
-                            <img src="<?= htmlspecialchars($recImg) ?>" alt="<?= htmlspecialchars($recToy['name']) ?>" style="max-height: 100%; max-width: 100%; object-fit: contain;" onerror="this.src='<?= BASE_URL ?>/assets/images/toy-placeholder.svg';">
+                        <div style="background: #fafbfc; border-radius: 12px; height: 160px; display: flex; align-items: center; justify-content: center; padding: 0; overflow: hidden; margin-bottom: 12px; border: 1px solid #f1f2f6;">
+                            <img src="<?= htmlspecialchars($recImg) ?>" alt="<?= htmlspecialchars($recToy['name']) ?>" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='<?= BASE_URL ?>/assets/images/toy-placeholder.svg';">
                         </div>
                         <span style="display: inline-block; font-size: 0.75rem; font-weight: 700; color: #6c5ce7; background: #ede9fe; padding: 3px 10px; border-radius: 12px; margin-bottom: 6px;">
                             <?= htmlspecialchars($recToy['category_name'] ?? 'Toy') ?>

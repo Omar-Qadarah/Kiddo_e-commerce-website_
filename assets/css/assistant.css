@@ -181,7 +181,7 @@
     height: 68px;
     border-radius: 10px;
     background: #f4faf6;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .shopping-chat__product-details { display: grid; min-width: 0; gap: .18rem; }

@@ -126,6 +126,9 @@ require_once __DIR__ . '/../includes/shop_header.php';
             </nav>
             <h1><?= htmlspecialchars($heading) ?></h1>
             <p><?= htmlspecialchars($subtitle) ?></p>
+            <?php if (!empty($activeCategory['image'])): ?>
+                <img class="agecat-hero-pic" src="<?= BASE_URL . '/' . htmlspecialchars($activeCategory['image']) ?>" alt="<?= htmlspecialchars($typeName) ?>">
+            <?php endif; ?>
         </section>
 
         <div class="toys-content">
@@ -142,7 +145,9 @@ require_once __DIR__ . '/../includes/shop_header.php';
                         <a class="agecat-card agecat-<?= $card['color'] ?>"
                            href="<?= htmlspecialchars(ageToysUrl($key, $categorySlug)) ?>">
                             <div class="agecat-top">
-                                <span class="agecat-pic" aria-hidden="true"><?= $card['emoji'] ?></span>
+                                <span class="agecat-pic" aria-hidden="true">
+                                    <img src="<?= BASE_URL . '/' . htmlspecialchars($card['image']) ?>" alt="" loading="lazy">
+                                </span>
                                 <span class="agecat-range"><?= ageCardRange($card) ?> <small>years</small></span>
                             </div>
                             <div class="agecat-body">

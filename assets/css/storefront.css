@@ -164,24 +164,20 @@
 .tint-mint   { --tint: #E2F8F4; --ring: #C4EFE7; }
 .tint-blue   { --tint: #E7F0FF; --ring: #CFE0FF; }
 
-/* white circle with a thick soft ring, like the reference */
+/* the product photo fills the whole frame */
 .toy-card-circle {
-    position: relative;
+    position: absolute;
+    inset: 0;
     display: grid;
-    place-items: center;
-    width: 64%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
     background: var(--white);
-    box-shadow: 0 0 0 26px var(--ring);
     overflow: hidden;
 }
 
 .toy-card-circle img {
     grid-area: 1 / 1;
-    width: 72%;
-    height: 72%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     opacity: 0;
     transition: opacity .25s;
 }
@@ -247,6 +243,7 @@
 .card-arrow.is-next { right: 10px; }
 
 .card-dots {
+    display: none; /* only the arrows switch the photos */
     position: absolute;
     left: 50%;
     bottom: 14px;
@@ -433,10 +430,6 @@
 
     .toy-card {
         padding: 8px;
-    }
-
-    .toy-card-circle {
-        box-shadow: 0 0 0 14px var(--ring);
     }
 
     .toy-card-body {

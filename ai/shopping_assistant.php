@@ -116,9 +116,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET' && isset($_GET['action']) && $_
 
     $cards = [];
     foreach ($suggestions as $item) {
-        $img = !empty($item['image']) && file_exists(__DIR__ . '/../uploads/products/' . basename($item['image']))
-            ? BASE_URL . '/uploads/products/' . basename($item['image'])
-            : BASE_URL . '/assets/images/toy-placeholder.svg';
+        $img = shopImageUrl($item['image'] ?? '');
 
         $cards[] = [
             'id' => (int)$item['id'],

@@ -43,6 +43,7 @@
     border-radius: var(--radius-lg);
     background: var(--tint);
     box-shadow: var(--shadow-sm);
+    overflow: hidden;
 }
 
 .details-main-image .toy-badge {
@@ -51,22 +52,29 @@
     font-size: 1rem;
 }
 
+/* the product photo fills the whole frame */
 .details-circle {
-    display: grid;
-    place-items: center;
-    width: 56%;
-    aspect-ratio: 1 / 1;
-    border-radius: 50%;
+    position: absolute;
+    inset: 0;
     background: var(--white);
-    box-shadow: 0 0 0 44px var(--ring);
-    overflow: hidden;
 }
 
 .details-circle img {
-    width: 74%;
-    height: 74%;
-    object-fit: contain;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
+
+/* bigger ‹ › arrows on the big picture (base style: storefront.css) */
+.details-main-image .card-arrow {
+    width: 46px;
+    height: 46px;
+    margin-top: -23px;
+}
+
+.details-main-image .card-arrow.is-prev { left: 16px; }
+.details-main-image .card-arrow.is-next { right: 16px; }
 
 .details-thumbs {
     display: flex;
@@ -80,7 +88,8 @@
     place-items: center;
     width: 88px;
     height: 88px;
-    padding: 8px;
+    padding: 0;
+    overflow: hidden;
     border: 3px solid transparent;
     border-radius: 18px;
     background: var(--tint, var(--primary-50));
@@ -91,7 +100,7 @@
 .details-thumb img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .details-thumb:hover,
@@ -470,8 +479,10 @@
         gap: 2rem;
     }
 
-    .details-circle {
-        box-shadow: 0 0 0 26px var(--ring);
+    .details-main-image .card-arrow {
+        width: 38px;
+        height: 38px;
+        margin-top: -19px;
     }
 }
 

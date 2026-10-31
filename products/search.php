@@ -481,7 +481,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php foreach ($products as $prod): ?>
                             <div class="product-item">
                                 <div class="product-img-wrap">
-                                    <img src="<?= htmlspecialchars(!empty($prod['image']) ? $prod['image'] : 'assets/images/default.png', ENT_QUOTES, 'UTF-8') ?>" 
+                                    <img src="<?= htmlspecialchars(BASE_URL . '/' . (!empty($prod['image']) ? $prod['image'] : 'assets/images/toy-placeholder.svg'), ENT_QUOTES, 'UTF-8') ?>" 
                                          alt="<?= htmlspecialchars($prod['name'], ENT_QUOTES, 'UTF-8') ?>"
                                          loading="lazy">
                                 </div>

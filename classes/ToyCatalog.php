@@ -80,11 +80,11 @@ class ToyCatalog
     // Categories with the number of active toys in each one (sidebar).
     public function getCategoriesWithToyCount(): array
     {
-        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon,
+        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon, c.image,
                        COUNT(p.id) AS toy_count
                 FROM categories c
                 LEFT JOIN products p ON p.category_id = c.id AND p.is_active = 1
-                GROUP BY c.id, c.name, c.slug, c.description, c.icon
+                GROUP BY c.id, c.name, c.slug, c.description, c.icon, c.image
                 ORDER BY c.name ASC";
 
         return $this->pdo->query($sql)->fetchAll();
