@@ -98,6 +98,14 @@
             input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
         };
         input.addEventListener('input', resizeMessageBox);
+        // Enter sends; Shift+Enter keeps a manual newline. Text still wraps naturally.
+        input.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' || event.shiftKey || event.isComposing || event.keyCode === 229) return;
+            event.preventDefault();
+            if (event.repeat || !input.value.trim() || form.dataset.sending === 'true') return;
+            form.requestSubmit();
+        });
+
 
         if (history.length) {
             messages.replaceChildren();
