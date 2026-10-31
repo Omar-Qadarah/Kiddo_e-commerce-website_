@@ -40,11 +40,6 @@
 .toys-content .agecat-hint { margin: 20px 0 0; padding: 12px 16px; font-size: 14px; }
 body:has(.toys-layout) .site-footer { margin-top: 32px; }
 body:has(.toys-layout) .footer-grid { padding-block: 24px 20px; gap: 24px; }
-/* A narrow reserved edge keeps the floating launcher off browsing controls. */
-body:has(.toys-layout) .shopping-chat { right: max(8px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); }
-body:has(.toys-layout) .shopping-chat__launcher { width: 48px; min-height: 48px; height: 48px; flex-direction: column; justify-content: center; gap: 0; padding: 3px; }
-body:has(.toys-layout) .shopping-chat__icon { width: 26px; height: 26px; flex: 0 0 26px; }
-body:has(.toys-layout) .shopping-chat__launcher-label { font-size: 9px; line-height: 12px; padding: 0; }
 @media(max-width: 1279px) { .toys-content .toy-grid, .search-wrapper .products-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media(max-width: 1050px) { .toys-content .toy-grid, .search-wrapper .products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media(max-width: 820px) {
@@ -63,7 +58,6 @@ body:has(.toys-layout) .shopping-chat__launcher-label { font-size: 9px; line-hei
     .toys-layout .toys-hero h1 { font-size: 28px; }
     .toys-layout .filter-field { min-width: 100%; }
     .toys-content .agecat-chip { padding-inline: 12px; }
-    body:has(.toys-layout) .shopping-chat { right: max(4px, env(safe-area-inset-right)); }
 }
 
 /* Toys: compact age navigation replaces the large discovery cards and dropdown. */
