@@ -7,15 +7,18 @@
 // Page files: assets/css/landing.css (+ storefront.css), assets/js/storefront.js
 require_once __DIR__ . '/includes/init.php';
 require_once __DIR__ . '/classes/ToyCatalog.php';
+require_once __DIR__ . '/includes/age_cards.php';
 
 $catalog     = new ToyCatalog($pdo);
-$ageGroups   = $catalog->getAgeGroupsWithToyCount();
+$ageGroups = [];
+foreach ($ageCards as $slug => $card) $ageGroups[] = ['slug'=>$slug,'name'=>$card['title'],'description'=>$card['text'],'min_age'=>$card['min'],'max_age'=>$card['max'],'image'=>$card['image'],'toy_count'=>$card['count']];
 $discounted  = $catalog->getDiscountedToys(4);
 $newArrivals = $catalog->getNewArrivals(4);
+$categories = $catalog->getShopCategories();
 
 // "Toys for ages 3 to 12" — taken from the age groups the admin saved.
 $minAge = $ageGroups ? min(array_map('intval', array_column($ageGroups, 'min_age'))) : 3;
-$maxAge = $ageGroups ? max(array_map('intval', array_column($ageGroups, 'max_age'))) : 12;
+$maxAge = 12;
 
 // Look of each age card, in order (used when the age group has no picture).
 $ageLooks = [
@@ -36,7 +39,6 @@ require_once __DIR__ . '/includes/shop_header.php';
 <section class="hero">
     <div class="container hero-grid">
         <div class="hero-text">
-            <span class="hero-eyebrow">Toys for ages <?= $minAge ?> to <?= $maxAge ?></span>
             <h1>Find toys that make your kids <span>smile!</span></h1>
             <p>
                 Kiddo's hand-picks toys by age and by what children <strong>love</strong> — art, puzzles,
@@ -46,6 +48,7 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <a class="btn btn-pink" href="<?= BASE_URL ?>/products/index.php">Explore Now</a>
                 <a class="btn hero-btn-light" href="#shop-by-age">Shop by age</a>
             </div>
+
         </div>
 
         <div class="hero-art" aria-hidden="true">
@@ -112,6 +115,11 @@ require_once __DIR__ . '/includes/shop_header.php';
     </div>
 </section>
 
+<section class="store-promises container" aria-label="Shopping at Kiddo's">
+    <div><span aria-hidden="true">↗</span><strong>Delivered across Jordan</strong><small>Playtime, brought to your door</small></div>
+    <div><span aria-hidden="true">✓</span><strong>Cash on delivery</strong><small>Pay when your order arrives</small></div>
+    <div><span aria-hidden="true">♡</span><strong>Play for every stage</strong><small>Discover toys by age and interest</small></div>
+</section>
 <!-- ============ Shop by age ============ -->
 <?php if (!empty($ageGroups)): ?>
 <section class="shop-section" id="shop-by-age">
@@ -119,37 +127,15 @@ require_once __DIR__ . '/includes/shop_header.php';
         <div class="section-head is-center">
             <span class="eyebrow">Shop by age</span>
             <h2>Which stage is your little one at?</h2>
-            <p>Every stage is filled with toys that are safe, fun and just challenging enough.</p>
         </div>
 
-        <div class="age-grid">
+        <div class="age-grid age-circles">
             <?php foreach ($ageGroups as $i => $group): ?>
-                <?php
-                $look  = $ageLooks[$i % count($ageLooks)];
-                $count = (int) $group['toy_count'];
-                ?>
-                <a class="age-card age-<?= $look['color'] ?>"
-                   href="<?= BASE_URL ?>/products/index.php?age=<?= urlencode($group['slug']) ?>">
-                    <div class="age-card-top">
-                        <span class="age-card-pic">
-                            <?php if (!empty($group['image'])): ?>
-                                <img src="<?= htmlspecialchars(shopImageUrl($group['image'])) ?>" alt="" loading="lazy">
-                            <?php else: ?>
-                                <span aria-hidden="true"><?= $look['emoji'] ?></span>
-                            <?php endif; ?>
-                        </span>
-                        <span class="age-card-range"><?= (int) $group['min_age'] ?>–<?= (int) $group['max_age'] ?></span>
-                    </div>
-                    <div class="age-card-body">
-                        <h3><?= htmlspecialchars($group['name']) ?></h3>
-                        <p><?= htmlspecialchars($group['description']) ?></p>
-                        <div class="age-card-foot">
-                            <span><?= $count ?> <?= $count === 1 ? 'toy' : 'toys' ?></span>
-                            <span class="age-card-go" aria-hidden="true">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                            </span>
-                        </div>
-                    </div>
+                <?php $look = $ageLooks[$i % count($ageLooks)]; ?>
+                <a class="age-circle age-<?= $look['color'] ?>" href="<?= BASE_URL ?>/products/index.php?age=<?= urlencode($group['slug']) ?>" aria-label="<?= htmlspecialchars('Shop ages ' . $group['name']) ?>">
+                    <span class="age-circle-number"><?= (int)$group['min_age'] ?><?= (int)$group['max_age'] >= 99 ? '+' : '–' . (int)$group['max_age'] ?></span>
+                    <span class="age-circle-years">Years</span>
+                    <span class="age-circle-label"><?= htmlspecialchars($group['name']) ?></span>
                 </a>
             <?php endforeach; ?>
         </div>
@@ -224,6 +210,16 @@ require_once __DIR__ . '/includes/shop_header.php';
     </div>
 </section>
 
+
+
+<?php if ($categories): ?>
+<section class="shop-section home-categories">
+    <div class="container">
+        <div class="section-head"><div><span class="eyebrow">Follow their curiosity</span><h2>What do they love?</h2></div><a class="see-all" href="<?= BASE_URL ?>/products/categories.php">Explore categories →</a></div>
+        <?php $allHomeCategories = $categories; $categories = array_slice($categories, 0, 8); require __DIR__ . '/includes/category_grid.php'; $categories = $allHomeCategories; ?>
+    </div>
+</section>
+<?php endif; ?>
 <!-- ============ Discounts ============ -->
 <?php if (!empty($discounted)): ?>
 <section class="shop-section" id="discounts">
@@ -233,11 +229,11 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <span class="eyebrow">Discounts</span>
                 <h2>Happy prices this week</h2>
             </div>
-            <a class="see-all" href="<?= BASE_URL ?>/products/index.php">See all toys →</a>
+            <a class="see-all" href="<?= BASE_URL ?>/products/index.php?offers=1">Shop all offers →</a>
         </div>
 
         <div class="toy-grid">
-            <?php $cardMode = 'landing'; ?>
+            <?php $cardMode = 'shop'; ?>
             <?php foreach ($discounted as $toy): ?>
                 <?php $cardImages = null; ?>
                 <?php require __DIR__ . '/includes/toy_card.php'; ?>
@@ -260,7 +256,7 @@ require_once __DIR__ . '/includes/shop_header.php';
 
         <?php if (!empty($newArrivals)): ?>
             <div class="toy-grid">
-                <?php $cardMode = 'landing'; ?>
+                <?php $cardMode = 'shop'; ?>
                 <?php foreach ($newArrivals as $toy): ?>
                     <?php $cardImages = null; ?>
                     <?php require __DIR__ . '/includes/toy_card.php'; ?>

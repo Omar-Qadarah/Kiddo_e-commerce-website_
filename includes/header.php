@@ -21,9 +21,10 @@ $activePage = $activePage ?? '';
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
 
         <link href="<?= BASE_URL ?>/assets/css/style.css?v=<?= filemtime(__DIR__ . '/../assets/css/style.css') ?>" rel="stylesheet">
-        <link href="<?= BASE_URL ?>/assets/css/assistant.css?v=<?= filemtime(__DIR__ . '/../assets/css/assistant.css') ?>" rel="stylesheet">
+        <link href="<?= BASE_URL ?>/assets/css/storefront.css?v=<?= filemtime(__DIR__ . '/../assets/css/storefront.css') ?>" rel="stylesheet">
+    <link href="<?= BASE_URL ?>/assets/css/assistant.css?v=<?= filemtime(__DIR__ . '/../assets/css/assistant.css') ?>" rel="stylesheet">
 <?php if (in_array($activePage, ['login', 'register', 'logout'], true)): ?>
-    <link href="<?= BASE_URL ?>/assets/css/auth.css" rel="stylesheet">
+    <link href="<?= BASE_URL ?>/assets/css/auth.css?v=<?= filemtime(__DIR__ . '/../assets/css/auth.css') ?>" rel="stylesheet">
 <?php endif; ?>
 <?php // Page-only files: a page sets e.g. $pageStyles = ['toys.css', 'home.css'] before including this header. ?>
 <?php // A full https:// link (e.g. the Bootstrap Icons CDN the admin already uses) is linked as-is. ?>
@@ -37,6 +38,11 @@ $activePage = $activePage ?? '';
 <?php foreach ($pageScripts ?? [] as $jsFile): ?>
     <script src="<?= BASE_URL ?>/assets/js/<?= $jsFile ?>?v=<?= filemtime(__DIR__ . '/../assets/js/' . $jsFile) ?>" defer></script>
 <?php endforeach; ?>
+<link href="<?= BASE_URL ?>/assets/css/storefront-ux.css?v=<?= filemtime(__DIR__ . '/../assets/css/storefront-ux.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/store-design.css?v=<?= filemtime(__DIR__ . '/../assets/css/store-design.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/customer-polish.css?v=<?= filemtime(__DIR__ . '/../assets/css/customer-polish.css') ?>" rel="stylesheet">
+<link href="<?= BASE_URL ?>/assets/css/customer-motion.css?v=<?= filemtime(__DIR__ . '/../assets/css/customer-motion.css') ?>" rel="stylesheet">
+<script src="<?= BASE_URL ?>/assets/js/customer-motion.js?v=<?= filemtime(__DIR__ . '/../assets/js/customer-motion.js') ?>" defer></script>
 </head>
 <body>
 

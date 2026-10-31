@@ -1,0 +1,54 @@
+/* Customer-only motion: no dimensions, routes or interaction handlers are changed. */
+:root { --motion-fast:150ms; --motion-normal:220ms; --motion-panel:280ms; --motion-ease:cubic-bezier(.2,.7,.2,1); --motion-shadow:0 8px 24px #39226610; }
+.btn,.icon-link,.qty-btn,.cart-qty button,.cart-remove,.kiddo-btn-save,.kiddo-btn-review,.age-carousel-arrow,.promo-arrow,.details-thumb,.shop-pagination a,.shopping-chat__launcher {
+    transition: transform var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) ease,color var(--motion-fast) ease,border-color var(--motion-fast) ease,box-shadow var(--motion-normal) ease;
+}
+.btn:not(:disabled):active,.icon-link:active,.qty-btn:not(:disabled):active,.cart-qty button:not(:disabled):active,.cart-remove:active,.kiddo-btn-save:active,.kiddo-btn-review:active,.age-carousel-arrow:not(:disabled):active,.promo-arrow:active,.shop-pagination a:active,.shopping-chat__launcher:active { transform:scale(.98); }
+.btn:disabled,.qty-btn:disabled,.cart-qty button:disabled,.age-carousel-arrow:disabled { transform:none; }
+.header-search button { transition:background-color var(--motion-fast) ease,transform var(--motion-fast) ease; }
+.header-search button:active { transform:translateY(-50%) scale(.96); }
+.header-search input,.filter-field input,.filter-field select,.auth-card input,.checkout-card input,.checkout-card textarea,.kiddo-control { transition:border-color var(--motion-fast) ease,background-color var(--motion-fast) ease,box-shadow var(--motion-normal) ease; }
+.auth-card input:user-invalid,.checkout-card input:user-invalid { border-color:#c64865; }
+.shop-nav a,.cat-link,.cat-icon,.account-menu__dropdown > a,.search-suggestions a,.drawer-account-link { transition:background-color var(--motion-fast) ease,color var(--motion-fast) ease,border-color var(--motion-fast) ease; }
+.shop-nav a::after { transition:opacity var(--motion-fast) ease,transform var(--motion-normal) var(--motion-ease); }
+.shop-nav a:not(.is-active)::after { content:''; position:absolute; bottom:2px; left:12px; right:12px; height:2px; background:currentColor; border-radius:2px; transform:scaleX(0); transform-origin:center; opacity:0; }
+.shop-nav a:focus-visible::after { transform:scaleX(1); opacity:1; }
+.toy-grid .toy-card,.category-discovery-card,.age-circles .age-circle,.order-card { transition:transform var(--motion-normal) var(--motion-ease),box-shadow var(--motion-normal) ease,border-color var(--motion-fast) ease; }
+.toy-card-circle img,.category-art img { transition:opacity var(--motion-normal) ease,transform var(--motion-normal) var(--motion-ease); }
+.category-card-arrow { transition:transform var(--motion-normal) var(--motion-ease); }
+.account-menu__chevron,.browse-filter-summary span { transition:transform var(--motion-normal) var(--motion-ease); }
+.account-menu[open] .account-menu__dropdown,.nav-categories[open] .nav-category-panel,.search-suggestions:not([hidden]),.shopping-chat__panel:not([hidden]) { animation:shop-panel-in var(--motion-normal) var(--motion-ease); }
+.auth-card { animation:shop-enter var(--motion-panel) var(--motion-ease); }
+.hero-text,.hero-art { animation:shop-enter var(--motion-panel) var(--motion-ease); }
+.auth-errors,.auth-success,.details-flash,.cart-flash,.kiddo-form-alert { animation:shop-feedback var(--motion-normal) ease-out; }
+.cart-empty,.toys-empty,.details-missing { animation:shop-feedback var(--motion-normal) ease-out; }
+.kiddo-modal-bg[style*="flex"] { animation:shop-feedback var(--motion-fast) ease-out; }
+.kiddo-modal-bg[style*="flex"] .kiddo-modal-window { animation:shop-panel-in var(--motion-panel) var(--motion-ease); }
+.drawer { transition:transform var(--motion-panel) var(--motion-ease); }
+.drawer-backdrop { transition:opacity var(--motion-normal) ease; }
+@keyframes shop-enter { from { opacity:.92; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+@keyframes shop-panel-in { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+@keyframes shop-feedback { from { opacity:.6; } to { opacity:1; } }
+@media(hover:hover) and (pointer:fine) {
+    .btn:not(:disabled):hover,.icon-link:hover,.kiddo-btn-save:hover,.kiddo-btn-review:hover { transform:translateY(-1px); }
+    .toy-grid .toy-card:hover,.category-discovery-card:hover { transform:translateY(-3px); box-shadow:var(--motion-shadow); }
+    .toy-card:hover .toy-card-circle img.is-shown { transform:scale(1.025); }
+    .category-discovery-card:hover .category-art img { transform:scale(1.025); }
+    .category-discovery-card:hover .category-card-arrow { transform:translate(2px,-2px); }
+    .age-circles .age-circle:hover { transform:translateY(-3px); box-shadow:var(--motion-shadow); }
+    .shop-nav a:hover::after { transform:scaleX(1); opacity:1; }
+    .shop-pagination a:not([aria-current]):hover { background:var(--primary-100); border-color:var(--primary); }
+    .shopping-chat__launcher:hover { transform:translateY(-1px); }
+    .btn:not(:disabled):active,.icon-link:active,.kiddo-btn-save:active,.kiddo-btn-review:active,.shopping-chat__launcher:active { transform:scale(.98); }
+}
+@media(hover:none) { .toy-grid .toy-card:hover,.category-discovery-card:hover,.age-circles .age-circle:hover,.btn:hover,.icon-link:hover,.shopping-chat__launcher:hover { transform:none; } }
+@media(prefers-reduced-motion:reduce) {
+    html { scroll-behavior:auto !important; }
+    *,*::before,*::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+    .toy-grid .toy-card:hover,.category-discovery-card:hover,.age-circles .age-circle:hover,.btn:hover,.btn:active,.icon-link:hover,.icon-link:active,.shopping-chat__launcher:hover,.shopping-chat__launcher:active,.qty-btn:active,.cart-qty button:active { transform:none !important; }
+    .toy-card:hover .toy-card-circle img.is-shown,.category-discovery-card:hover .category-art img,.category-discovery-card:hover .category-card-arrow { transform:none !important; }
+}
+@media(prefers-reduced-motion:reduce) {
+    .header-search button:active { transform:translateY(-50%) !important; }
+    .cart-remove:active,.kiddo-btn-save:active,.kiddo-btn-review:active,.age-carousel-arrow:active,.promo-arrow:active,.shop-pagination a:active { transform:none !important; }
+}

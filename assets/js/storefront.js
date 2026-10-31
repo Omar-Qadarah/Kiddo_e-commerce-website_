@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var names = slider.querySelectorAll('[data-slide-name]');
         var current = 0;
         var timer = null;
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         function show(index) {
             slides[current].classList.remove('is-active');
@@ -51,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function restart() {
             clearInterval(timer);
+            if (reducedMotion.matches || document.hidden) return;
             timer = setInterval(function () { show(current + 1); }, 6000);
         }
 
@@ -70,6 +72,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        reducedMotion.addEventListener('change', restart);
+        document.addEventListener('visibilitychange', restart);
         restart();
     });
 

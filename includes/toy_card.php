@@ -35,6 +35,9 @@ $tint         = $tints[(int) $toy['category_id'] % count($tints)];
             <?php endforeach; ?>
         </span>
 
+        <?php if (str_contains($images[0], '/assets/images/categories/')): ?>
+            <span class="toy-image-note">Category illustration</span>
+        <?php endif; ?>
         <?php if ($isShopCard): ?>
             <span class="toy-age"><?= (int) $toy['min_age'] ?>–<?= (int) $toy['max_age'] ?> yrs</span>
         <?php endif; ?>
