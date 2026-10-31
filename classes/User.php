@@ -6,12 +6,15 @@ class User{
         $this->con = $con;
     }
 
-    public function createUser($first_name, $last_name, $email, $password, $phone = null, $birth_date = null) {
+    public function createUser($first_name, $last_name, $email, $password, $phone = null, $birth_date = null, $role = 'customer') {
+    if (!in_array($role, ['customer', 'admin'], true)) {
+        return false;
+    }
     try {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO users (first_name, last_name, email, password_hash, phone, birth_date) 
-                VALUES (:first_name, :last_name, :email, :password_hash, :phone, :birth_date)";
+        $sql = "INSERT INTO users (first_name, last_name, email, password_hash, phone, birth_date, role)
+                VALUES (:first_name, :last_name, :email, :password_hash, :phone, :birth_date, :role)";
 
         $stmt = $this->con->prepare($sql);
 
@@ -21,7 +24,8 @@ class User{
             ':email'         => $email,
             ':password_hash' => $password_hash,
             ':phone'         => $phone,
-            ':birth_date'    => $birth_date
+            ':birth_date'    => $birth_date,
+            ':role'          => $role
         ]);
     } catch (PDOException $e) {
         if ($e->getCode() == 23000) {
@@ -86,13 +90,17 @@ class User{
 
  }
 
- public function updateUser($id, $first_name, $last_name, $phone = null, $birth_date = null){
+ public function updateUser($id, $first_name, $last_name, $phone = null, $birth_date = null, $role = 'customer'){
+   if (!in_array($role, ['customer', 'admin'], true)) {
+       return false;
+   }
    try {
             $sql = "UPDATE users 
                     SET first_name = :first_name, 
                         last_name  = :last_name, 
                         phone      = :phone, 
-                        birth_date = :birth_date 
+                        birth_date = :birth_date,
+                        role       = :role
                         WHERE id = :id AND is_active = 1";
 
             $stmt = $this->con->prepare($sql);
@@ -102,7 +110,8 @@ class User{
                 ':first_name' => $first_name,
                 ':last_name'  => $last_name,
                 ':phone'      => $phone,
-                ':birth_date' => $birth_date
+                ':birth_date' => $birth_date,
+                ':role'       => $role
             ]);
         } catch (PDOException $e) {
             return false;
