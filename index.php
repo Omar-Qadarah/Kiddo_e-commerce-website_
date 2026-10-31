@@ -125,7 +125,7 @@ require_once __DIR__ . '/includes/shop_header.php';
 <section class="shop-section" id="shop-by-age">
     <div class="container">
         <div class="section-head is-center">
-            <span class="eyebrow">Shop by age</span>
+
             <h2>Which stage is your little one at?</h2>
         </div>
 
