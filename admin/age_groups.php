@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/AgeGroup.php';
 

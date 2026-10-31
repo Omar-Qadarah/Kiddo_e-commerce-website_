@@ -1,19 +1,25 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin_auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { checkCsrf(); }
 require_once __DIR__ . '/../classes/User.php';
 
 $db = $pdo; 
 
 $userObj = new User($db);
 
-if (isset($_GET['action']) && $_GET['action'] === 'delete' && isset($_GET['id'])) {
-    $userObj->deleteUser((int)$_GET['id']);
-    header("Location: users.php");
+$errorMsg = null;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'delete_user') {
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    if ($id) {
+        $userObj->deleteUser($id);
+    }
+    header('Location: users.php');
     exit;
 }
 
-$errorMsg = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'create_user') {
     $first_name = trim($_POST['first_name']);
     $last_name  = trim($_POST['last_name']);
@@ -22,10 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $phone      = !empty($_POST['phone']) ? trim($_POST['phone']) : null;
     $role       = $_POST['role'] ?? 'customer';
 
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if (!in_array($role, ['customer', 'admin'], true)) {
+        $errorMsg = 'Please select a valid user role.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errorMsg = "Invalid email format";
     } else {
-        $result = $userObj->createUser($first_name, $last_name, $email, $password, $phone, null);
+        $result = $userObj->createUser($first_name, $last_name, $email, $password, $phone, null, $role);
         if ($result === true) {
             header("Location: users.php");
             exit;
@@ -36,14 +44,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'edit_user') {
-    $id         = (int)$_POST['id'];
-    $first_name = trim($_POST['first_name']);
-    $last_name  = trim($_POST['last_name']);
+    $id         = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+    $first_name = trim($_POST['first_name'] ?? '');
+    $last_name  = trim($_POST['last_name'] ?? '');
     $phone      = !empty($_POST['phone']) ? trim($_POST['phone']) : null;
-    
-    $userObj->updateUser($id, $first_name, $last_name, $phone);
-    header("Location: users.php");
-    exit;
+    $role       = $_POST['role'] ?? '';
+    $currentAdminId = (int) ($_SESSION['user_id'] ?? ($_SESSION['user']['id'] ?? 0));
+
+    if (!$id || !in_array($role, ['customer', 'admin'], true)) {
+        $errorMsg = 'Please provide a valid user and role.';
+    } elseif ($id === $currentAdminId && $role !== 'admin') {
+        $errorMsg = 'You cannot remove your own administrator role.';
+    } elseif ($userObj->updateUser($id, $first_name, $last_name, $phone, null, $role)) {
+        header('Location: users.php');
+        exit;
+    } else {
+        $errorMsg = 'Failed to update the user.';
+    }
 }
 
 require_once __DIR__ . '/../classes/AdminTable.php';
@@ -78,6 +95,11 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 .users-page .modal-header { margin-bottom: 20px; display : flex; justify-content: space-between; }
 </style>
 <div class="users-page">
+<form id="delete-user-form" action="users.php" method="POST" hidden>
+    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+    <input type="hidden" name="action" value="delete_user">
+    <input type="hidden" name="id" id="delete-user-id" value="">
+</form>
 <?php if ($errorMsg !== null): ?>
 <div class="alert alert-danger" role="alert"><?= htmlspecialchars($errorMsg, ENT_QUOTES, 'UTF-8') ?></div>
 <?php endif; ?>
@@ -143,6 +165,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <button class="btn btn-light" onclick="closeModal('addModal')">&times;</button>
             </div>
             <form action="users.php" method="POST">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="action" value="create_user">
                 <div class="mb-3">
                     <label class="form-label">First Name</label>
@@ -185,6 +208,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <button class="btn btn-light" onclick="closeModal('editModal')">&times;</button>
             </div>
             <form action="users.php" method="POST">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
                 <input type="hidden" name="action" value="edit_user">
                 <input type="hidden" name="id" id="edit-id">
                 <div class="mb-3">
@@ -238,7 +262,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     row.style.transition = 'opacity 0.3s ease';
                     row.style.opacity = '0';
                     setTimeout(() => {
-                        window.location.href = 'users.php?action=delete&id=' + userId;
+                        document.getElementById('delete-user-id').value = userId;
+                        document.getElementById('delete-user-form').submit();
                     }, 300);
                 }
             }, 'Delete user?');

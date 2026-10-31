@@ -1,6 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin_auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { checkCsrf(); }
 require_once __DIR__ . '/../classes/AgeGroup.php';
 
 $ageGroupModel = new AgeGroup($pdo);
