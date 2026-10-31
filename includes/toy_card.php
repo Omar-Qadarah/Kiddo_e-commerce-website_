@@ -1,13 +1,13 @@
 <?php
-// One toy card, used by the landing page and the toys page.
-// Expects:
-//   $toy         a row from ToyCatalog (getDiscountedToys, getNewArrivals, getFilteredToys ...)
-//   $cardImages  (optional) list of image URLs; 2 or more -> ‹ › arrows on the image
-//   $cardMode    'landing' -> image, name, description, rating, price only
-//                'shop'    -> + category · gender, stock and "Add to cart" (toys page)
-// "How to play" is never shown on cards; it lives on products/details.php.
-// The name link is stretched over the whole card (CSS), so a click anywhere
-// opens the details page; the arrows and the cart button sit above it.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 $cardMode     = $cardMode ?? 'landing';
 $isShopCard   = $cardMode === 'shop';

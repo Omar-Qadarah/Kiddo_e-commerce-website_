@@ -18,7 +18,7 @@ $activePage = 'age_groups';
 require_once __DIR__ . '/../includes/admin/layout_start.php';
 ?>
 
-<!-- Success message -->
+ 
 <?php if (isset($_SESSION['age_group_success'])): ?>
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= htmlspecialchars($_SESSION['age_group_success']) ?>
@@ -27,7 +27,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     <?php unset($_SESSION['age_group_success']); ?>
 <?php endif; ?>
 
-<!-- Error message -->
+ 
 <?php if (isset($_SESSION['age_group_error'])): ?>
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= htmlspecialchars($_SESSION['age_group_error']) ?>
@@ -37,7 +37,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endif; ?>
 
 
-<!-- Page Header -->
+ 
 <div class="admin-page-header">
     <div>
         <h1>Age Groups</h1>
@@ -51,7 +51,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </div>
 
 
-<!-- Age Groups Table -->
+ 
 <?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card">
     <div class="table-responsive">
@@ -114,11 +114,11 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             <td>
                                 <div class="admin-actions">
 
-                                    <!-- Open Edit Modal -->
+                                     
                                     <button type="button" class="btn admin-action-btn admin-action-edit" data-bs-toggle="modal"
                                         data-bs-target="#editAgeGroupModal<?= (int) $ageGroup['id'] ?>" title="Edit age group" aria-label="Edit age group"><i class="bi bi-pencil" aria-hidden="true"></i></button>
 
-                                    <!-- Open Delete Modal -->
+                                     
                                     <button type="button" class="btn admin-action-btn admin-action-delete" data-bs-toggle="modal"
                                         data-bs-target="#deleteAgeGroupModal<?= (int) $ageGroup['id'] ?>" title="Delete age group" aria-label="Delete age group"><i class="bi bi-trash" aria-hidden="true"></i></button>
 
@@ -136,9 +136,9 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 </div>
 
 
-<!-- ================================================== -->
-<!-- EDIT MODALS: Keep these OUTSIDE the table -->
-<!-- ================================================== -->
+ 
+ 
+ 
 
 <?php foreach ($ageGroups as $ageGroup): ?>
 

@@ -1,8 +1,9 @@
 <?php
-// Cart page: shows the toys in the cart, lets the customer
-// change quantities or remove toys, then go to checkout.
+ 
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../classes/Cart.php';
+require_once __DIR__ . '/../includes/csrf.php';
 
 $cart     = new Cart($pdo);
 $details  = $cart->getDetails();
@@ -10,7 +11,7 @@ $items    = $details['items'];
 $subtotal = $details['subtotal'];
 $suggestions = $cart->getSuggestions();
 
-// Show the message once, then forget it
+ 
 $flash = $_SESSION['cart_flash'] ?? null;
 unset($_SESSION['cart_flash']);
 
@@ -21,7 +22,10 @@ require_once __DIR__ . '/../includes/shop_header.php';
 ?>
 
 <section class="container cart-page">
-    <h1>Your cart</h1>
+    <div class="cart-heading">
+        <h1>Your cart</h1>
+
+    </div>
 
     <?php if ($flash): ?>
         <p class="cart-flash is-<?= $flash['type'] ?>"><?= htmlspecialchars($flash['message']) ?></p>
@@ -77,6 +81,10 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <p><span>Subtotal</span> <strong><?= shopMoney($subtotal) ?></strong></p>
                 <p class="cart-note">Delivery fee is added at checkout. Cash on delivery.</p>
                 <a class="btn btn-primary btn-block" href="<?= BASE_URL ?>/checkout/index.php">Checkout</a>
+                <form action="<?= BASE_URL ?>/cart/clear.php" method="post" id="clear-cart-form">
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                <button class="btn btn-outline btn-block cart-clear" type="button" id="open-clear-cart">Clear cart</button>
+            </form>
             </aside>
         </div>
     <?php endif; ?>
@@ -98,4 +106,26 @@ require_once __DIR__ . '/../includes/shop_header.php';
     <?php endif; ?>
 </section>
 
+<dialog class="cart-clear-dialog" id="clear-cart-dialog" aria-labelledby="clear-cart-title" aria-describedby="clear-cart-description">
+    <h2 id="clear-cart-title">Clear your cart?</h2>
+    <p id="clear-cart-description">All items will be removed from your cart. You can always add your favorites again.</p>
+    <div class="cart-clear-dialog-actions">
+        <button class="btn btn-outline" type="button" id="cancel-clear-cart" autofocus>Cancel</button>
+        <button class="btn" type="submit" form="clear-cart-form" id="confirm-clear-cart">Clear cart</button>
+    </div>
+</dialog>
+<script>
+(function () {
+    var dialog = document.getElementById('clear-cart-dialog');
+    var open = document.getElementById('open-clear-cart');
+    if (!open) return;
+    open.addEventListener('click', function () { dialog.showModal(); });
+    document.getElementById('cancel-clear-cart').addEventListener('click', function () { dialog.close(); });
+    dialog.addEventListener('click', function (event) {
+        if (event.target !== dialog) return;
+        var bounds = dialog.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) dialog.close();
+    });
+})();
+</script>
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>

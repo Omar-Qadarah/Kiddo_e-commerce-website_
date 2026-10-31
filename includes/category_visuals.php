@@ -1,5 +1,5 @@
 <?php
-// Consistent local illustrations, chosen from the actual category name.
+ 
 function shopCategoryIllustration(string $name): string
 {
     $name = strtolower($name);
@@ -20,8 +20,8 @@ function shopCategoryIllustration(string $name): string
     return BASE_URL . '/assets/images/categories/shared.svg';
 }
 
-// Returns only user-uploaded category artwork. Empty values stay imageless
-// instead of being replaced with one of the old preset illustrations.
+ 
+ 
 function shopCategoryImageUrl(?string $path): string
 {
     $filename = basename(trim((string) $path));

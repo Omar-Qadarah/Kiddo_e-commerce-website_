@@ -1,33 +1,33 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Oct 31, 2026 at 08:13 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+ SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT  ;
+ SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS  ;
+ SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION  ;
+ SET NAMES utf8mb4  ;
 
---
--- Database: `kiddos`
---
+ 
+ 
+ 
 CREATE DATABASE IF NOT EXISTS `kiddos` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `kiddos`;
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `admin_action_usage`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `admin_action_usage` (
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE IF NOT EXISTS `admin_action_usage` (
   PRIMARY KEY (`user_id`,`page`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `admin_action_usage`
---
+ 
+ 
+ 
 
 INSERT INTO `admin_action_usage` (`user_id`, `page`, `visits`) VALUES
 (1, 'orders', 8),
@@ -60,11 +60,11 @@ INSERT INTO `admin_action_usage` (`user_id`, `page`, `visits`) VALUES
 (7, 'reviews.php', 1),
 (7, 'users.php', 1);
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `age_groups`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `age_groups` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -79,9 +79,9 @@ CREATE TABLE IF NOT EXISTS `age_groups` (
   UNIQUE KEY `uq_age_groups_slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `age_groups`
---
+ 
+ 
+ 
 
 INSERT INTO `age_groups` (`id`, `name`, `slug`, `description`, `min_age`, `max_age`, `image`, `sort_order`) VALUES
 (20, 'Infants', 'infants', 'Soft rattle toys, teethers, and plush companions for babies', 0, 1, 'uploads/age-groups/cc7c3a9b3519d003b5fe2ae0e9519521.png', 1),
@@ -91,11 +91,11 @@ INSERT INTO `age_groups` (`id`, `name`, `slug`, `description`, `min_age`, `max_a
 (24, 'Kids', 'kids', 'qwerty', 7, 10, 'uploads/age-groups/40113439db5ef86f33fb74902823e431.webp', 4),
 (25, 'qwertyu', 'qwerty', 'qwertyu', 16, 17, 'uploads/age-groups/42aa57edff9f67ae10410e0e192b9080.jpg', 6);
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `categories`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -110,9 +110,9 @@ CREATE TABLE IF NOT EXISTS `categories` (
   UNIQUE KEY `uq_categories_slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `categories`
---
+ 
+ 
+ 
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `image`, `created_at`) VALUES
 (20, 'Educational Toys', 'educational-toys', 'Learning and skill-building toys for smart kids', 'fa-graduation-cap', 'uploads/categories/educational-toys.jpg', '2026-10-29 10:31:18'),
@@ -120,11 +120,11 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `image`, 
 (22, 'Plush & Soft Toys', 'plush-soft-toys', 'Cuddly stuffed animals and soft companions', 'fa-heart', 'uploads/categories/plush-soft-toys.jpg', '2026-10-29 10:31:18'),
 (23, 'Active Play & Ride-ons', 'active-play-ride-ons', 'Safe push cars and toddler scooters', 'fa-child', 'uploads/categories/active-play-ride-ons.jpg', '2026-10-29 10:31:18');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `discounts`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `discounts` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -141,9 +141,9 @@ CREATE TABLE IF NOT EXISTS `discounts` (
   KEY `idx_discounts_category` (`category_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `discounts`
---
+ 
+ 
+ 
 
 INSERT INTO `discounts` (`id`, `title`, `percentage`, `product_id`, `category_id`, `starts_at`, `ends_at`, `is_active`, `created_at`) VALUES
 (20, 'Baby Essentials Sale', 15.00, NULL, 20, '2026-09-01', '2026-09-30', 1, '2026-10-29 10:31:18'),
@@ -155,11 +155,11 @@ INSERT INTO `discounts` (`id`, `title`, `percentage`, `product_id`, `category_id
 (27, 'RC Racing Deal', 12.00, 182, NULL, '2026-10-20', '2026-11-30', 1, '2026-10-31 22:01:16'),
 (28, 'Plush Friends Promo', 10.00, 144, NULL, '2026-10-20', '2026-12-15', 1, '2026-10-31 22:01:16');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `images`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `images` (
   `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -173,9 +173,9 @@ CREATE TABLE IF NOT EXISTS `images` (
   KEY `idx_images_product` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `images`
---
+ 
+ 
+ 
 
 INSERT INTO `images` (`image_id`, `product_id`, `image_path`, `alt_text`, `is_primary`, `sort_order`, `created_at`) VALUES
 (62, 59, 'uploads/products/product_6ae5e22f12d423.77618926.webp', 'Junior Bowling Game Set', 1, 0, '2026-10-31 15:42:23'),
@@ -440,11 +440,11 @@ INSERT INTO `images` (`image_id`, `product_id`, `image_path`, `alt_text`, `is_pr
 (323, 54, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-1.jpg', 'Soft Foam Play Tunnel - main photo', 1, 0, '2026-10-31 22:01:16'),
 (324, 54, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-2.jpg', 'Soft Foam Play Tunnel - second photo', 0, 1, '2026-10-31 22:01:16');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `orders`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -467,9 +467,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `idx_orders_created` (`created_at`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `orders`
---
+ 
+ 
+ 
 
 INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `birthday_discount`, `delivery_fee`, `total`, `child_birth_date`, `phone`, `address_text`, `latitude`, `longitude`, `status`, `created_at`, `updated_at`) VALUES
 (1, 2, 68.98, 0.00, 2.00, 70.98, '2018-04-10', '+962791111111', 'Amman, Jubaiha, Main Street', 31.9539000, 35.9106000, 'placed', '2026-10-29 10:31:18', '2026-10-29 10:31:18'),
@@ -483,11 +483,11 @@ INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `birthday_discount`, `deliver
 (9, 5, 153.89, 0.00, 2.00, 155.89, NULL, '0792345678', 'ضصثقفغ', 0.0000000, 0.0000000, 'placed', '2026-10-31 00:04:44', '2026-10-31 00:04:44'),
 (10, 5, 51.27, 0.00, 2.00, 53.27, NULL, '0792345678', 'ضصثقفغ', 0.0000000, 0.0000000, 'placed', '2026-10-31 00:07:32', '2026-10-31 00:07:32');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `order_items`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `order_items` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -502,9 +502,9 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   KEY `idx_order_items_product` (`product_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `order_items`
---
+ 
+ 
+ 
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `unit_price`, `quantity`, `line_total`) VALUES
 (1, 1, NULL, 'Wooden Alphabet & Number Puzzle Board', 18.99, 1, 18.99),
@@ -520,11 +520,11 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `unit
 (11, 9, 33, 'Wooden Pull Along Duck', 13.99, 11, 153.89),
 (12, 10, 20, 'Wooden Alphabet & Number Puzzle Board', 17.09, 3, 51.27);
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `products`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -545,9 +545,9 @@ CREATE TABLE IF NOT EXISTS `products` (
   KEY `idx_products_filters` (`category_id`,`gender`,`min_age`,`max_age`)
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `products`
---
+ 
+ 
+ 
 
 INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `instructions`, `price`, `stock`, `gender`, `min_age`, `max_age`, `image`, `is_active`, `created_at`, `updated_at`) VALUES
 (20, 20, 'Wooden Alphabet & Number Puzzle Board', 'Colorful wooden puzzle pieces helping kids learn letters and numbers early.', 'Store in a dry place. Recommended for supervised play.', 18.99, 57, 'unisex', 3, 6, 'assets/images/products/educational-toys/wooden-alphabet-and-number-puzzle-board-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
@@ -684,11 +684,11 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `instruction
 (198, 23, 'Police Patrol Car', 'Friendly police car with rolling wheels and rounded edges for little hands.', 'Wipe clean with a damp cloth.', 9.00, 35, 'boys', 2, 6, 'assets/images/products/boys-toys/police-patrol-car-1.jpg', 1, '2026-10-06 12:14:00', '2026-10-06 12:14:00'),
 (199, 23, 'Die-Cast Cars Collection', 'Metal toy cars with free-rolling wheels and classic designs.', 'Small parts may come loose: check cars regularly.', 12.00, 40, 'boys', 3, 10, 'assets/images/products/boys-toys/die-cast-cars-collection-1.jpg', 1, '2026-10-06 19:27:00', '2026-10-06 19:27:00');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `reviews`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -703,9 +703,9 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   KEY `idx_reviews_user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `reviews`
---
+ 
+ 
+ 
 
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_visible`, `created_at`) VALUES
 (20, 20, 1, 5, 'Great for my preschooler learning letters!', 0, '2026-10-29 10:31:18'),
@@ -730,11 +730,11 @@ INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_v
 (39, 153, 1, 5, 'Turned her corner into a reading nook. Very cute.', 1, '2026-10-25 08:00:00'),
 (40, 109, 4, 4, 'Turns smoothly, my son solved it after watching the beginner guide.', 1, '2026-10-26 01:00:00');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `search_history`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `search_history` (
   `search_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -747,9 +747,9 @@ CREATE TABLE IF NOT EXISTS `search_history` (
   KEY `idx_search_term` (`search_term`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `search_history`
---
+ 
+ 
+ 
 
 INSERT INTO `search_history` (`search_id`, `user_id`, `search_term`, `results_count`, `searched_at`) VALUES
 (1, 2, 'puzzle', 1, '2026-10-29 10:31:18'),
@@ -758,11 +758,11 @@ INSERT INTO `search_history` (`search_id`, `user_id`, `search_term`, `results_co
 (21, 3, 'rattle', 1, '2026-10-29 10:31:18'),
 (53, 4, 'Junior Bowling Game Set', 1, '2026-10-30 20:28:07');
 
--- --------------------------------------------------------
+ 
 
---
--- Table structure for table `users`
---
+ 
+ 
+ 
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -782,9 +782,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `uq_users_google_id` (`google_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `users`
---
+ 
+ 
+ 
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password_hash`, `google_id`, `profile_image`, `birth_date`, `phone`, `role`, `is_active`, `created_at`) VALUES
 (1, 'Omar', 'Saleh', 'omar@kiddo.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '+962791111111', 'customer', 1, '2026-10-29 10:31:18'),
@@ -795,62 +795,62 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password_hash`, 
 (6, 'omer', 'nael', 'qw@qw.com', '$2y$10$Sh73uvQ7PrJVF9nLV./.ueiEY7rpJ.7Ybt9dRz6nVc7l5BPZmg4qu', NULL, NULL, NULL, NULL, 'customer', 0, '2026-10-30 22:34:09'),
 (7, 'omar', 'qad', 'omarss@naelss.com', '$2y$10$bQvxQlVjRB7JEiLDHE9lku0ewYlp6DhrEXaL2xM4MCuSoOLtGtqIW', NULL, NULL, '2026-10-31', '0791234567', 'admin', 0, '2026-10-31 02:37:56');
 
---
--- Constraints for dumped tables
---
+ 
+ 
+ 
 
---
--- Constraints for table `admin_action_usage`
---
+ 
+ 
+ 
 ALTER TABLE `admin_action_usage`
   ADD CONSTRAINT `fk_admin_action_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `discounts`
---
+ 
+ 
+ 
 ALTER TABLE `discounts`
   ADD CONSTRAINT `fk_discounts_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_discounts_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `images`
---
+ 
+ 
+ 
 ALTER TABLE `images`
   ADD CONSTRAINT `fk_images_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `orders`
---
+ 
+ 
+ 
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `order_items`
---
+ 
+ 
+ 
 ALTER TABLE `order_items`
   ADD CONSTRAINT `fk_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_items_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
---
--- Constraints for table `products`
---
+ 
+ 
+ 
 ALTER TABLE `products`
   ADD CONSTRAINT `fk_products_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
 
---
--- Constraints for table `reviews`
---
+ 
+ 
+ 
 ALTER TABLE `reviews`
   ADD CONSTRAINT `fk_reviews_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_reviews_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Constraints for table `search_history`
---
+ 
+ 
+ 
 ALTER TABLE `search_history`
   ADD CONSTRAINT `fk_search_history_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+ SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT  ;
+ SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS  ;
+ SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION  ;

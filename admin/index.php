@@ -15,7 +15,7 @@ foreach ($recentOrders as $recentOrder) {
 }
 
 
-// Seven calendar days in the application's Asia/Amman timezone, including today.
+ 
 $today = new DateTime('today');
 $firstDay = (clone $today)->modify('-6 days');
 $tomorrow = (clone $today)->modify('+1 day');
@@ -24,7 +24,7 @@ $dailyRows = $dashboard->getDailyRevenue(
     $tomorrow->format('Y-m-d')
 );
 
-// Start with zero values so dates without orders still appear.
+ 
 $days = [];
 for ($i = 0; $i < 7; $i++) {
     $date = (clone $firstDay)->modify('+' . $i . ' days')->format('Y-m-d');

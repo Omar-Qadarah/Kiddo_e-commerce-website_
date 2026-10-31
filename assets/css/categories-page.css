@@ -1,12 +1,12 @@
-/* ==========================================================================
-   Kiddo's — categories page (products/categories.php)
-   Loaded AFTER toys-page.css, which already styles the layout, the
-   "Toy types" sidebar, the heading and the empty state.
-   This file only adds the age cards (agecat-*) and the results row.
-   Every class here starts with "agecat" so nothing touches other pages.
-   ========================================================================== */
+ 
 
-/* ---------- Section heading ---------- */
+
+
+
+
+
+
+ 
 .agecat-head {
     margin-bottom: 1.4rem;
 }
@@ -29,10 +29,10 @@
     font-size: clamp(1.4rem, 2.4vw, 1.8rem);
 }
 
-/* ---------- Age cards (same look as the landing page "Shop by age") ---------- */
+ 
 .agecat-grid {
     display: grid;
-    /* 5 cards (0–3 … 12+) in one row on wide screens */
+     
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 1.3rem;
 }
@@ -61,7 +61,7 @@
     outline-offset: 3px;
 }
 
-/* the chosen age card */
+ 
 .agecat-card.is-active {
     border-color: var(--age);
     box-shadow: 0 10px 26px color-mix(in srgb, var(--age) 30%, transparent);
@@ -93,7 +93,7 @@
     overflow: hidden;
 }
 
-/* the age photo fills the whole top of the card */
+ 
 .agecat-pic img {
     width: 100%;
     height: 100%;
@@ -105,7 +105,7 @@
     transform: scale(1.05);
 }
 
-/* "0–3 years" bubble sitting on the edge */
+ 
 .agecat-range {
     position: absolute;
     left: 18px;
@@ -169,7 +169,7 @@
     transform: translateX(3px);
 }
 
-/* ---------- Results (products/age_toys.php) ---------- */
+ 
 .agecat-results {
     scroll-margin-top: calc(var(--header-h) + 1rem);
     padding-bottom: 1rem;
@@ -184,7 +184,7 @@
     margin: 2rem 0 1.2rem;
 }
 
-/* toys-page.css gives .result-count its own margin; here the row handles it */
+ 
 .agecat-results-head .result-count {
     margin: 0;
 }
@@ -204,7 +204,7 @@
     margin-right: .3rem;
 }
 
-/* "Other ages" chips on products/age_toys.php */
+ 
 .agecat-switch {
     display: flex;
     flex-wrap: wrap;
@@ -230,7 +230,7 @@
     color: var(--white);
 }
 
-/* ---------- Responsive ---------- */
+ 
 @media (max-width: 1280px) {
     .agecat-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -265,8 +265,8 @@
     }
 }
 
-/* ---------- Category picture in the heading ---------- */
-/* Shown only when a toy type with a saved image is chosen. */
+ 
+ 
 .toys-hero:has(.agecat-hero-pic) {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;

@@ -103,7 +103,7 @@ class Discount
         return $statement->execute([$is_active, $id]);
     }
 
-    // Used by both the add and edit pages. Returns all validation errors.
+     
     public function validate($title, $percentage, $product_id, $category_id, $starts_at, $ends_at)
     {
         $errors = [];
@@ -136,7 +136,7 @@ class Discount
             $errors[] = 'End date must not be before start date.';
         }
 
-        // A discount targets either one product or one category.
+         
         if (($product_id === '' && $category_id === '') ||
             ($product_id !== '' && $category_id !== '')) {
             $errors[] = 'Choose either a product or a category, not both.';

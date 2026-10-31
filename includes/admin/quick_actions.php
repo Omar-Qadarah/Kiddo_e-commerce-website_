@@ -1,5 +1,5 @@
 <?php
-// Only these existing admin destinations can be counted or displayed.
+ 
 function getAdminQuickActions()
 {
     return [
@@ -23,7 +23,7 @@ function recordAdminPageVisit($pdo)
     if (!$userId || ($_SERVER['REQUEST_METHOD'] ?? '') !== 'GET' || !isset($actions[$page])) {
         return;
     }
-    // Check the database role, including pages that have no separate admin guard.
+     
     $statement = $pdo->prepare("SELECT id FROM users WHERE id = ? AND role = 'admin' AND is_active = 1");
     $statement->execute([$userId]);
     if (!$statement->fetchColumn()) {
@@ -44,7 +44,7 @@ function getMostUsedAdminActions($pdo, $userId)
             $counts[$row['page']] = (int) $row['visits'];
         }
     }
-    // Equal counts retain the default order (PHP 8 stable sorting).
+     
     arsort($counts);
     $topActions = [];
     foreach (array_slice(array_keys($counts), 0, 3) as $page) {

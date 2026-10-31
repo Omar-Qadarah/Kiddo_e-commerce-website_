@@ -31,7 +31,7 @@ if (!$toy) {
     exit;
 }
 
-// Presentation fallback only: skip missing local image files on this page.
+ 
 $detailsImageUrls = function (array $product, array $extra = []): array {
     $urls = array_filter(shopToyImages($product, $extra), function ($url) {
         if (!str_starts_with($url, BASE_URL . '/')) return true;
@@ -62,17 +62,17 @@ foreach ($recommendedRows as $recommendedRow) {
     }
 }
 
-// Message from cart/add.php, shown once
+ 
 $cartFlash = $_SESSION['cart_flash'] ?? null;
 unset($_SESSION['cart_flash']);
 
-// ---------- Write a review ----------
-// Same login check as the navbar: auth/login.php puts the user id in the session.
+ 
+ 
 $reviewUserId    = (int) ($_SESSION['user_id'] ?? 0);
 $isLoggedIn      = $reviewUserId > 0;
 $alreadyReviewed = $isLoggedIn && (new Review($pdo))->hasReviewed($reviewUserId, (int) $toy['id']);
 
-// Message from products/add_review.php, shown once (+ what the user typed on an error)
+ 
 $reviewFlash = $_SESSION['review_flash'] ?? null;
 unset($_SESSION['review_flash']);
 $oldRating  = (string) ($reviewFlash['old']['rating'] ?? '');
@@ -223,7 +223,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
         </ul>
     <?php endif; ?>
 
-    <!-- ============ Write a review ============ -->
+     
     <div class="review-form-box">
         <?php if (!$isLoggedIn): ?>
             <div class="review-login">
@@ -240,7 +240,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
 
                 <fieldset class="star-input">
                     <legend>Your rating</legend>
-                    <!-- 5 → 1 in the HTML so the CSS can colour the stars before the checked one -->
+                     
                     <div class="star-row">
                     <?php for ($star = 5; $star >= 1; $star--): ?>
                         <input type="radio" id="star-<?= $star ?>" name="rating" value="<?= $star ?>"

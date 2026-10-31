@@ -1,4 +1,4 @@
-// Navigation only. Existing form submissions, routes and CRUD remain unchanged.
+ 
 (() => {
  const sidebar=document.getElementById('admin-navigation');
  const toggle=document.querySelector('.admin-nav-toggle');

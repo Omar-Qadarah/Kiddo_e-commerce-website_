@@ -1,10 +1,10 @@
 <?php
-// Landing page (index.php)
-// Sections: hero, shop by age, promo slider, discounts, new arrivals,
-// then the existing footer (includes/footer.php).
-// Toy cards here show only: image, name, description, rating and price.
-// Clicking a toy opens products/details.php?id=<id>.
-// Page files: assets/css/landing.css (+ storefront.css), assets/js/storefront.js
+ 
+ 
+ 
+ 
+ 
+ 
 require_once __DIR__ . '/includes/init.php';
 require_once __DIR__ . '/classes/ToyCatalog.php';
 require_once __DIR__ . '/includes/age_cards.php';
@@ -16,11 +16,11 @@ $discounted  = $catalog->getDiscountedToys(4);
 $newArrivals = $catalog->getNewArrivals(12);
 $categories = $catalog->getShopCategories();
 
-// "Toys for ages 3 to 12" — taken from the age groups the admin saved.
+ 
 $minAge = $ageGroups ? min(array_map('intval', array_column($ageGroups, 'min_age'))) : 3;
 $maxAge = 12;
 
-// Look of each age card, in order (used when the age group has no picture).
+ 
 $ageLooks = [
     ['color' => 'blue',   'emoji' => '🧸'],
     ['color' => 'green',  'emoji' => '🖍️'],
@@ -35,7 +35,7 @@ $pageStyles = ['landing.css'];
 require_once __DIR__ . '/includes/shop_header.php';
 ?>
 
-<!-- ============ Hero ============ -->
+ 
 <section class="hero">
     <div class="container hero-grid">
         <div class="hero-text">
@@ -54,21 +54,21 @@ require_once __DIR__ . '/includes/shop_header.php';
         <div class="hero-art" aria-hidden="true">
             <svg viewBox="0 0 460 420" width="460" height="420">
                 <circle cx="250" cy="215" r="180" fill="#8F75F7"/>
-                <!-- paper plane -->
+                 
                 <path d="M392 52 L330 96 L352 104 Z" fill="#fff"/>
                 <path d="M392 52 L352 104 L356 128 Z" fill="#E4DCFF"/>
                 <path d="M330 96 C300 110 285 118 268 132" stroke="#fff" stroke-width="2.5" stroke-dasharray="5 7" fill="none"/>
-                <!-- balloons -->
+                 
                 <path d="M152 112 C160 170 170 210 192 252" stroke="#fff" stroke-width="2.5" fill="none"/>
                 <path d="M110 150 C118 200 140 230 180 262" stroke="#fff" stroke-width="2.5" fill="none"/>
                 <ellipse cx="150" cy="82" rx="34" ry="42" fill="#FF5C93"/>
                 <ellipse cx="140" cy="70" rx="8" ry="12" fill="#FF9EC0"/>
                 <ellipse cx="108" cy="124" rx="30" ry="37" fill="#FFC93D"/>
                 <ellipse cx="99" cy="113" rx="7" ry="10" fill="#FFE29A"/>
-                <!-- stars -->
+                 
                 <path d="M392 175 l7 14 15 2 -11 10 3 15 -14 -7 -14 7 3 -15 -11 -10 15 -2z" fill="#FFC93D"/>
                 <path d="M70 262 l5 10 11 1 -8 7 2 11 -10 -5 -10 5 2 -11 -8 -7 11 -1z" fill="#fff" opacity=".9"/>
-                <!-- teddy -->
+                 
                 <g class="hero-teddy">
                 <circle cx="215" cy="122" r="30" fill="#B97A45"/>
                 <circle cx="215" cy="122" r="17" fill="#F2C9A0"/>
@@ -91,11 +91,11 @@ require_once __DIR__ . '/includes/shop_header.php';
                 <ellipse cx="200" cy="330" rx="26" ry="20" fill="#B97A45"/>
                 <ellipse cx="360" cy="330" rx="26" ry="20" fill="#B97A45"/>
                 </g>
-                <!-- ball -->
+                 
                 <circle cx="168" cy="352" r="40" fill="#FFC93D"/>
                 <path d="M148 318 C178 340 178 368 152 388" stroke="#E8457C" stroke-width="9" fill="none"/>
                 <path d="M130 345 C150 352 180 352 206 344" stroke="#FF8FA8" stroke-width="7" fill="none"/>
-                <!-- K I D blocks -->
+                 
                 <g font-family="Georgia, serif" font-weight="700" font-size="34" fill="#fff" text-anchor="middle">
                     <rect x="350" y="252" width="56" height="56" rx="10" fill="#FF7A45" transform="rotate(-8 378 280)"/>
                     <text x="378" y="292" transform="rotate(-8 378 280)">K</text>
@@ -107,7 +107,7 @@ require_once __DIR__ . '/includes/shop_header.php';
             </svg>
         </div>
     </div>
-    <!-- smooth layered waves at the bottom edge -->
+     
     <div class="hero-clouds" aria-hidden="true">
         <svg viewBox="0 0 1440 120" preserveAspectRatio="none" focusable="false">
             <path class="hero-wave-back" d="M0 58 C 180 104 360 104 540 74 C 720 44 900 18 1080 38 C 1260 58 1350 88 1440 70 L1440 120 L0 120 Z"/>
@@ -122,7 +122,7 @@ require_once __DIR__ . '/includes/shop_header.php';
     <div><span aria-hidden="true">✓</span><strong>Cash on delivery</strong><small>Pay when your order arrives</small></div>
     <div><span aria-hidden="true">♡</span><strong>Play for every stage</strong><small>Discover toys by age and interest</small></div>
 </section>
-<!-- ============ Shop by age ============ -->
+ 
 <?php if (!empty($ageGroups)): ?>
 <section class="shop-section" id="shop-by-age">
     <div class="container">
@@ -145,11 +145,11 @@ require_once __DIR__ . '/includes/shop_header.php';
 </section>
 <?php endif; ?>
 
-<!-- ============ Promo slider ============ -->
+ 
 <section class="shop-section">
     <div class="container">
         <div class="promo" data-slider>
-            <!-- Names: click one to open its card. The active name follows the auto-rotation too. -->
+             
             <div class="promo-names" role="tablist" aria-label="Offers">
                 <?php foreach (['New toys', 'Discounts', 'Cash on delivery', 'Birthday surprise'] as $i => $name): ?>
                     <button type="button" role="tab" class="promo-name promo-name-<?= ['purple', 'pink', 'green', 'orange'][$i] ?> <?= $i === 0 ? 'is-on' : '' ?>"
@@ -214,7 +214,7 @@ require_once __DIR__ . '/includes/shop_header.php';
 
 
 
-<!-- ============ Discounts ============ -->
+ 
 <?php if (!empty($discounted)): ?>
 <section class="shop-section" id="discounts">
     <div class="container">
@@ -237,7 +237,7 @@ require_once __DIR__ . '/includes/shop_header.php';
 </section>
 <?php endif; ?>
 
-<!-- ============ New arrivals ============ -->
+ 
 <section class="shop-section new-arrivals-section" id="new-arrivals">
     <div class="container">
         <div class="new-arrivals-heading">

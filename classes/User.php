@@ -131,7 +131,7 @@ class User{
     }
 
 
-    /** Look up a Google identity without exposing inactive accounts to login. */
+     
     public function getUserByGoogleId(string $googleId): ?array
     {
         $statement = $this->con->prepare('SELECT * FROM users WHERE google_id = ? LIMIT 1');
@@ -140,7 +140,7 @@ class User{
         return $user ?: null;
     }
 
-    /** Link a verified Google identity to an existing email while preserving role and account data. */
+     
     public function linkGoogleAccount(int $userId, string $googleId): bool
     {
         $statement = $this->con->prepare(
@@ -149,7 +149,7 @@ class User{
         return $statement->execute([':google_id' => $googleId, ':id' => $userId]) && $statement->rowCount() === 1;
     }
 
-    /** Create a customer account for a verified Google identity. The schema supplies role=customer. */
+     
     public function createGoogleUser(string $firstName, string $lastName, string $email, string $googleId): ?array
     {
         $statement = $this->con->prepare(
@@ -170,7 +170,7 @@ class User{
         $user = $statement->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
     }
-    // Login needs the password hash, role and active status.
+     
     public function getUserByEmail($email)
     {
         $statement = $this->con->prepare('SELECT * FROM users WHERE email = ?');

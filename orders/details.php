@@ -1,5 +1,5 @@
 <?php
-// One order of the logged-in customer: status, toys and totals.
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../classes/Order.php';
@@ -8,7 +8,7 @@ $orderModel = new Order($pdo);
 $orderId    = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 $order      = $orderId ? $orderModel->getCustomerOrder($orderId, (int) $currentUserId) : null;
 
-// Not found, or not this customer's order
+ 
 if (!$order) {
     header('Location: ' . BASE_URL . '/orders/index.php');
     exit;
@@ -16,11 +16,11 @@ if (!$order) {
 
 $items = $orderModel->getOrderItems($orderId);
 
-// Thank-you message after checkout, shown once
+ 
 $flash = $_SESSION['order_flash'] ?? null;
 unset($_SESSION['order_flash']);
 
-// How far the order got: placed, shipped, delivered
+ 
 $steps   = Order::TRACKING_STATUSES;
 $reached = array_search($order['status'], $steps);
 

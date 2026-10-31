@@ -27,14 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $maxAge = trim($_POST['max_age'] ?? '');
     $sortOrder = trim($_POST['sort_order'] ?? '0');
 
-    // Validate name
+     
     if ($name === '') {
         $errors[] = 'Age group name is required.';
     } elseif (mb_strlen($name) > 100) {
         $errors[] = 'Age group name must not exceed 100 characters.';
     }
 
-    // Validate slug
+     
     if ($slug === '') {
         $errors[] = 'Slug is required.';
     } elseif (!preg_match('/^[a-z0-9]+(?:-[a-z0-9]+)*$/', $slug)) {
@@ -43,28 +43,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'This slug already exists.';
     }
 
-    // Validate description
+     
     if ($description === '') {
         $errors[] = 'Description is required.';
     } elseif (mb_strlen($description) > 255) {
         $errors[] = 'Description must not exceed 255 characters.';
     }
 
-    // Validate minimum age
+     
     $minAgeValue = filter_var($minAge, FILTER_VALIDATE_INT);
 
     if ($minAge === '' || $minAgeValue === false || $minAgeValue < 0) {
         $errors[] = 'Minimum age must be a non-negative whole number.';
     }
 
-    // Validate maximum age
+     
     $maxAgeValue = filter_var($maxAge, FILTER_VALIDATE_INT);
 
     if ($maxAge === '' || $maxAgeValue === false || $maxAgeValue < 0) {
         $errors[] = 'Maximum age must be a non-negative whole number.';
     }
 
-    // Validate age range
+     
     if (
         $minAgeValue !== false &&
         $maxAgeValue !== false &&
@@ -75,14 +75,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errors[] = 'Minimum age cannot be greater than maximum age.';
     }
 
-    // Validate sort order
+     
     $sortOrderValue = filter_var($sortOrder, FILTER_VALIDATE_INT);
 
     if ($sortOrderValue === false || $sortOrderValue < 0) {
         $errors[] = 'Sort order must be a non-negative whole number.';
     }
 
-    // Validate optional image upload
+     
     $imagePath = null;
 
     if (
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // Save uploaded image and create the age group
+     
     if (empty($errors)) {
 
         $uploadDirectory = __DIR__ . '/../uploads/age-groups/';

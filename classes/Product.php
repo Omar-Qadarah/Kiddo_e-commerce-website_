@@ -9,7 +9,7 @@ class Product
         $this->pdo = $pdo;
     }
 
-    // عرض جميع المنتجات مع اسم التصنيف
+     
     public function getAll(): array
     {
         $sql = "SELECT products.*, categories.name AS category_name
@@ -21,7 +21,7 @@ class Product
         return $this->pdo->query($sql)->fetchAll();
     }
 
-    // جلب منتج واحد
+     
     public function getById(int $id): array|false
     {
         $stmt = $this->pdo->prepare(
@@ -33,7 +33,7 @@ class Product
         return $stmt->fetch();
     }
 
-    // جلب التصنيفات للقائمة المنسدلة
+     
     public function getCategories(): array
     {
         return $this->pdo
@@ -41,7 +41,7 @@ class Product
             ->fetchAll();
     }
 
-    // إضافة منتج
+     
     public function create(array $data): bool
     {
         $sql = "INSERT INTO products
@@ -66,7 +66,7 @@ class Product
         ]);
     }
 
-    // تعديل منتج
+     
     public function update(int $id, array $data): bool
     {
         $sql = "UPDATE products SET
@@ -93,7 +93,7 @@ class Product
         ]);
     }
 
-    // حذف منتج
+     
     public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare(
@@ -103,33 +103,33 @@ class Product
         return $stmt->execute([$id]);
     }
 
-    // ---------- Home page (storefront) ----------
+     
 
-    // Toys that have an active discount today, biggest discount first.
+     
     public function getDiscountedToys(int $limit = 4): array
     {
         return $this->getToyCards('d.best_pct IS NOT NULL', 'd.best_pct DESC, p.id DESC', $limit);
     }
 
-    // Newest visible toys first.
+     
     public function getNewArrivals(int $limit = 4): array
     {
         return $this->getToyCards('1 = 1', 'p.created_at DESC, p.id DESC', $limit);
     }
 
-    // One visible toy for its details page (products/details.php),
-    // with the same rating / discount / image fields as the cards.
+     
+     
     public function getToyDetails(int $id): array|false
     {
         $rows = $this->getToyCards('p.id = :id', 'p.id', 1, ['id' => $id]);
         return $rows[0] ?? false;
     }
 
-    // One query for every toy card on the storefront:
-    // - avg_rating / review_count come from visible reviews only
-    // - discount_pct is the best discount running today, set either on the
-    //   toy itself or on its category (same rule the admin Discounts page uses)
-    // - image falls back to the primary row in the images table
+     
+     
+     
+     
+     
     private function getToyCards(string $where, string $orderBy, int $limit, array $params = []): array
     {
         $sql = "SELECT p.id, p.name, p.description, p.instructions, p.price, p.stock,
@@ -166,7 +166,7 @@ class Product
                 ORDER BY {$orderBy}
                 LIMIT :limit";
 
-        // PHP's date (Asia/Amman from config.php), not the database clock.
+         
         $today = date('Y-m-d');
 
         $stmt = $this->pdo->prepare($sql);
@@ -181,9 +181,9 @@ class Product
         return $stmt->fetchAll();
     }
 
-    // Toys page (products/index.php): every visible toy that matches the filters.
-    // $filters = ['category' => slug, 'age' => age group slug, 'gender' => boys|girls|unisex]
-    // Boys / Girls also include unisex toys, because those suit everyone.
+     
+     
+     
     public function getFilteredToys(array $filters): array
     {
         $where  = ['1 = 1'];
@@ -195,7 +195,7 @@ class Product
         }
 
         if (!empty($filters['age'])) {
-            // the toy's age range overlaps the chosen age group
+             
             $where[] = 'EXISTS (SELECT 1 FROM age_groups g
                                 WHERE g.slug = :age
                                   AND p.min_age <= g.max_age

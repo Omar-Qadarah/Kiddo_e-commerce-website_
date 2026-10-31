@@ -1,5 +1,5 @@
 <?php
-// My orders: every order of the logged-in customer, newest first.
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../classes/Order.php';

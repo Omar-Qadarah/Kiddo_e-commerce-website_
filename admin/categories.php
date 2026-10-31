@@ -131,7 +131,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             <td>
                                 <div class="admin-actions">
 
-                                    <!-- Edit button opens the modal -->
+                                     
                                     <button
                                         type="button"
                                         class="btn admin-action-btn admin-action-edit"

@@ -1,10 +1,10 @@
-/* ==========================================================================
-   Kiddo's — storefront styles (landing, toys and toy details pages)
-   Loaded after style.css and reuses its tokens (--primary, --ink, ...).
-   Holds: the one-row navbar, toy cards, stars and section headings.
-   ========================================================================== */
+ 
 
-/* ---------- Navbar: logo far left, links on the same row ---------- */
+
+
+
+
+ 
 .shop-header-row {
     display: flex;
     align-items: center;
@@ -38,7 +38,7 @@
     color: var(--primary);
 }
 
-/* small bar under the active link */
+ 
 .shop-nav a.is-active::after {
     content: "";
     position: absolute;
@@ -54,7 +54,7 @@
     max-width: 440px;
 }
 
-/* "Welcome, Rima!" — large and easy to see */
+ 
 .shop-welcome {
     font: 700 1.2rem/1.2 var(--font-head);
     color: var(--ink);
@@ -72,7 +72,7 @@
     padding: .3rem 0 .5rem;
 }
 
-/* ---------- Section headings ---------- */
+ 
 .shop-section {
     padding: 4.5rem 0 0;
 }
@@ -121,7 +121,7 @@
     text-decoration: underline;
 }
 
-/* ---------- Toy grid + card ---------- */
+ 
 .toy-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -144,7 +144,7 @@
     box-shadow: var(--shadow);
 }
 
-/* soft color behind the picture (same color for the same category) */
+ 
 .toy-card-media {
     --tint: #FFF3E2;
     --ring: #FFE3C2;
@@ -164,7 +164,7 @@
 .tint-mint   { --tint: #E2F8F4; --ring: #C4EFE7; }
 .tint-blue   { --tint: #E7F0FF; --ring: #CFE0FF; }
 
-/* the product photo fills the whole frame */
+ 
 .toy-card-circle {
     position: absolute;
     inset: 0;
@@ -211,7 +211,7 @@
     font-weight: 800;
 }
 
-/* ‹ › arrows on the sides of the picture */
+ 
 .card-arrow {
     position: absolute;
     top: 50%;
@@ -243,7 +243,7 @@
 .card-arrow.is-next { right: 10px; }
 
 .card-dots {
-    display: none; /* only the arrows switch the photos */
+    display: none;  
     position: absolute;
     left: 50%;
     bottom: 14px;
@@ -288,7 +288,7 @@
     font-size: 1.2rem;
 }
 
-/* the whole card opens the toy */
+ 
 .toy-card-link::after {
     content: "";
     position: absolute;
@@ -319,7 +319,7 @@
     color: var(--muted);
 }
 
-/* five stars filled by --rating (0–5) */
+ 
 .stars {
     --pct: calc(var(--rating, 0) / 5 * 100%);
     display: inline-block;
@@ -373,7 +373,7 @@
     color: var(--pink);
 }
 
-/* the cart button is clickable above the stretched link */
+ 
 .toy-card-cart {
     position: relative;
     z-index: 2;
@@ -387,7 +387,7 @@
     box-shadow: none;
 }
 
-/* ---------- Responsive ---------- */
+ 
 @media (max-width: 1100px) {
     .shop-header-row {
         gap: .8rem;

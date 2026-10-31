@@ -1,6 +1,6 @@
 <?php
-// Storefront layout start. Every customer page includes this after setting
-// $pageTitle and $activePage (same convention as the admin layout).
+ 
+ 
 require_once __DIR__ . '/init.php';
 
 $pageTitle  = $pageTitle ?? 'Toys that grow little minds';
@@ -26,8 +26,8 @@ $activePage = $activePage ?? '';
 <?php if (in_array($activePage, ['login', 'register', 'logout'], true)): ?>
     <link href="<?= BASE_URL ?>/assets/css/auth.css?v=<?= filemtime(__DIR__ . '/../assets/css/auth.css') ?>" rel="stylesheet">
 <?php endif; ?>
-<?php // Page-only files: a page sets e.g. $pageStyles = ['toys.css', 'home.css'] before including this header. ?>
-<?php // A full https:// link (e.g. the Bootstrap Icons CDN the admin already uses) is linked as-is. ?>
+<?php  ?>
+<?php  ?>
 <?php foreach ($pageStyles ?? [] as $cssFile): ?>
 <?php if (str_starts_with($cssFile, 'https://')): ?>
     <link href="<?= htmlspecialchars($cssFile) ?>" rel="stylesheet">

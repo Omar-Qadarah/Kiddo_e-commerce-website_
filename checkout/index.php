@@ -1,5 +1,5 @@
 <?php
-// Checkout page: phone, address and the order summary. Login is required.
+ 
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/auth_check.php';
 require_once __DIR__ . '/../classes/Cart.php';
@@ -8,7 +8,7 @@ require_once __DIR__ . '/../classes/Order.php';
 $cart    = new Cart($pdo);
 $details = $cart->getDetails();
 
-// Nothing to buy, back to the cart
+ 
 if (empty($details['items'])) {
     header('Location: ' . BASE_URL . '/cart/index.php');
     exit;
@@ -16,12 +16,12 @@ if (empty($details['items'])) {
 
 $total = round($details['subtotal'] + Order::DELIVERY_FEE, 2);
 
-// Errors and typed values sent back by place_order.php
+ 
 $errors = $_SESSION['checkout_errors'] ?? [];
 $old    = $_SESSION['checkout_old'] ?? [];
 unset($_SESSION['checkout_errors'], $_SESSION['checkout_old']);
 
-// The customer, to show who is ordering and fill the phone
+ 
 $stmt = $pdo->prepare('SELECT first_name, email, phone FROM users WHERE id = ?');
 $stmt->execute([$currentUserId]);
 $customer = $stmt->fetch();

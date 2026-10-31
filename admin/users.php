@@ -81,7 +81,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 
 <style>
-/* Keep the existing Users modal functions, scoped to this page only. */
+ 
 .users-page .modal-overlay {
     display: none; position: fixed; inset: 0; z-index: 1100;
     padding: 20px; background: rgba(30, 24, 64, .4);

@@ -9,7 +9,7 @@ class ProductImage
         $this->pdo = $pdo;
     }
 
-    // رفع صورة المنتج
+     
     public function upload(array $file): ?string
     {
         if (
@@ -64,7 +64,7 @@ class ProductImage
         return 'uploads/products/' . $fileName;
     }
 
-    // Upload a multiple-file input and remove partial uploads if one fails.
+     
     public function uploadMany(array $files): array
     {
         if (!isset($files['name']) || !is_array($files['name'])) {
@@ -111,7 +111,7 @@ class ProductImage
         }
     }
 
-    // ربط الصورة بالمنتج في جدول images
+     
     public function saveForProduct(
         int $productId,
         string $path,
@@ -142,8 +142,8 @@ class ProductImage
         ]);
     }
 
-    // Delete one secondary image, or replace the main image with the next
-    // available gallery image before removing its file from disk.
+     
+     
     public function deleteProductImage(int $productId, ?int $imageId = null, bool $deleteMain = false): bool
     {
         $deletedPath = '';
@@ -229,7 +229,7 @@ class ProductImage
         return true;
     }
 
-    // عرض صور منتج معين
+     
     public function getByProductId(int $productId): array
     {
         $stmt = $this->pdo->prepare(
@@ -243,8 +243,8 @@ class ProductImage
         return $stmt->fetchAll();
     }
 
-    // All images of several products in one query (for the Toys page cards).
-    // Returns [product_id => ['uploads/products/a.png', ...], ...]
+     
+     
     public function getPathsForProducts(array $productIds): array
     {
         $productIds = array_values(array_unique(array_map('intval', $productIds)));

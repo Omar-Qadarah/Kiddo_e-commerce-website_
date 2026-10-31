@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
-    // Reject unexpected arrays, then trim text fields only (not passwords).
+     
     if (!is_string($first_name)) {
         $errors[] = 'Invalid first_name value.';
         $first_name = '';
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (empty($errors)) {
         try {
-            // createUser hashes the password. The database default role is customer.
+             
             $result = $userModel->createUser($first_name, $last_name, $email, $password);
             if ($result === true) {
                 $newUser = $userModel->getUserByEmail($email);

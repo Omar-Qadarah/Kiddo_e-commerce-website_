@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
-  <!-- Shown when a toy has no picture yet -->
+   
   <rect x="40" y="86" width="120" height="84" rx="12" fill="#7B5CF5"/>
   <rect x="32" y="64" width="136" height="32" rx="10" fill="#9C84FA"/>
   <rect x="90" y="64" width="20" height="106" fill="#FFC93D"/>

@@ -1,8 +1,8 @@
-// Kiddo's storefront scripts (landing, toys and toy details pages).
-// Every part only runs when its HTML exists on the page.
+ 
+ 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ---------- New arrivals: scroll the product carousel ----------
+     
     document.querySelectorAll('[data-new-arrivals-carousel]').forEach(function (carousel) {
         var track = carousel.querySelector('[data-new-arrivals-track]');
         var previous = document.querySelector('[data-new-arrivals-prev]');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(updateControls);
     });
 
-    // ---------- Toy card arrows: browse a toy's pictures without opening it ----------
+     
     document.querySelectorAll('[data-card-gallery]').forEach(function (media) {
         var images = media.querySelectorAll('.toy-card-circle img');
         var dots = media.querySelectorAll('.card-dots span');
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         media.querySelectorAll('[data-card-step]').forEach(function (arrow) {
             arrow.addEventListener('click', function (event) {
-                // the card itself is a link, so stop the click from opening it
+                 
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -50,11 +50,11 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ---------- Landing page promo slider ----------
+     
     document.querySelectorAll('[data-slider]').forEach(function (slider) {
         var slides = slider.querySelectorAll('.promo-slide');
         var dots = slider.querySelectorAll('[data-slide-to]');
-        // names above the slider (each card has its own background colour)
+         
         var names = slider.querySelectorAll('[data-slide-name]');
         var current = 0;
         var timer = null;
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function () {
             slides[current].classList.add('is-active');
             dots[current].classList.add('is-on');
 
-            // the active name follows the card (also when it rotates by itself)
+             
             names.forEach(function (name, i) {
                 name.classList.toggle('is-on', i === current);
                 name.setAttribute('aria-selected', i === current ? 'true' : 'false');
@@ -101,14 +101,14 @@ document.addEventListener('DOMContentLoaded', function () {
         restart();
     });
 
-    // ---------- Toys page: apply a filter as soon as it changes ----------
+     
     document.querySelectorAll('[data-filter-form] select').forEach(function (select) {
         select.addEventListener('change', function () {
             select.form.submit();
         });
     });
 
-    // ---------- Toy details: thumbnails switch the big picture ----------
+     
     document.querySelectorAll('[data-gallery]').forEach(function (gallery) {
         var mainImage = gallery.querySelector('[data-gallery-main]');
         var thumbs = gallery.querySelectorAll('[data-gallery-thumb]');
@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
-        // ‹ › arrows on the big picture: open the previous / next thumbnail
+         
         gallery.querySelectorAll('[data-gallery-step]').forEach(function (arrow) {
             arrow.addEventListener('click', function () {
                 var current = 0;
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ---------- Toy details: quantity − / + ----------
+     
     document.querySelectorAll('[data-qty]').forEach(function (box) {
         var input = box.querySelector('input');
         var min = parseInt(input.min, 10) || 1;
@@ -162,4 +162,54 @@ document.addEventListener('DOMContentLoaded', function () {
             setValue(parseInt(input.value, 10));
         });
     });
+});
+
+ document.addEventListener('submit', async function (event) {
+    var form = event.target;
+    if (!(form instanceof HTMLFormElement) || !new URL(form.action).pathname.endsWith('/cart/add.php')) return;
+    event.preventDefault();
+    if (form.dataset.adding === 'true') return;
+    form.dataset.adding = 'true';
+    var button = form.querySelector('button[type="submit"], button:not([type])');
+    if (button) button.disabled = true;
+    function notify(message, success) {
+        var toast = document.getElementById('cart-notification');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'cart-notification';
+            toast.setAttribute('role', 'status');
+            toast.setAttribute('aria-live', 'polite');
+            document.body.appendChild(toast);
+        }
+        clearTimeout(toast.hideTimer);
+        toast.textContent = message;
+        toast.style.backgroundColor = success ? '#16834a' : '#b42332';
+        toast.hidden = false;
+        toast.hideTimer = setTimeout(function () { toast.hidden = true; }, 3500);
+    }
+    try {
+        var response = await fetch(form.action, {
+            method: 'POST', body: new FormData(form),
+            headers: {'X-Requested-With': 'XMLHttpRequest'}, credentials: 'same-origin'
+        });
+        if (!response.ok) throw new Error('Unable to add item. Please refresh and try again.');
+        var result = await response.json();
+        if (result.success) {
+            document.querySelectorAll('a[aria-label="Shopping cart"]').forEach(function (link) {
+                var badge = link.querySelector('.badge-count');
+                if (!badge) {
+                    badge = document.createElement('span');
+                    badge.className = 'badge-count';
+                    link.appendChild(badge);
+                }
+                badge.textContent = result.count;
+            });
+        }
+        notify(result.message, result.success);
+    } catch (error) {
+        notify('Unable to add item. Please refresh and try again.', false);
+    } finally {
+        delete form.dataset.adding;
+        if (button) button.disabled = false;
+    }
 });

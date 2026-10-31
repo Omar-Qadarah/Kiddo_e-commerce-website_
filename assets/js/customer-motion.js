@@ -1,4 +1,4 @@
-// Progressive enhancement: sections are NEVER hidden in CSS or waiting for JS.
+ 
 (() => {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
     if (!('IntersectionObserver' in window) || !Element.prototype.animate) return;

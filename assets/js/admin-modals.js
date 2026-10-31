@@ -1,4 +1,4 @@
-/* Shared frontend only: existing routes, form fields and PHP handlers stay in use. */
+ 
 (() => {
     const editElement = document.getElementById('adminEditDialog');
     const deleteElement = document.getElementById('adminDeleteDialog');
@@ -10,7 +10,7 @@
     let opener = null;
     let pendingDelete = null;
     let loadNumber = 0;
-    // Reuse existing add/edit endpoints and their existing success redirects.
+     
     const formPages = {
         'edit_product.php': { title: 'Edit Product', list: 'products.php', size: 'product' },
         'edit_discount.php': { title: 'Edit Discount', list: 'discounts.php' },
@@ -20,7 +20,7 @@
         'add_discount.php': { title: 'Add Discount', list: 'discounts.php' }
     };
 
-    // Reuse the existing Users fields and IDs inside the same Bootstrap modal system.
+     
     document.querySelectorAll('.users-page .modal-overlay').forEach(element => {
         element.className = 'modal fade admin-dialog';
         element.tabIndex = -1;
@@ -54,7 +54,7 @@
         document.body.append(element);
     });
 
-    // Existing category / age-group dialogs keep their IDs, fields and submit targets.
+     
     document.querySelectorAll('.modal:not(#adminEditDialog):not(#adminDeleteDialog)').forEach(element => {
         element.classList.add('admin-dialog');
         element.querySelector('.modal-dialog')?.classList.add('modal-dialog-centered', 'modal-dialog-scrollable');
@@ -98,7 +98,7 @@
     });
     deleteElement.addEventListener('hidden.bs.modal', () => { pendingDelete = null; });
 
-    // Preserve form submitter name/value (e.g. action=delete), CSRF and native validation.
+     
     document.addEventListener('submit', event => {
         const button = event.submitter;
         const form = event.target;

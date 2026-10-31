@@ -1,4 +1,4 @@
-/* Cart page (cart/index.php). Colors and fonts come from style.css */
+ 
 
 .cart-page {
     padding: 2.5rem 0 4rem;
@@ -10,7 +10,7 @@
     margin-bottom: 1.5rem;
 }
 
-/* Message after update or remove */
+ 
 .cart-flash {
     padding: .8rem 1rem;
     margin-bottom: 1.5rem;
@@ -28,7 +28,7 @@
     color: var(--pink-dark);
 }
 
-/* Empty cart */
+ 
 .cart-empty {
     padding: 3rem 1rem;
     text-align: center;
@@ -42,7 +42,7 @@
     color: var(--muted);
 }
 
-/* Toys list on the left, summary on the right */
+ 
 .cart-layout {
     display: grid;
     grid-template-columns: 1fr 320px;
@@ -59,7 +59,7 @@
     list-style: none;
 }
 
-/* One toy row */
+ 
 .cart-item {
     display: grid;
     grid-template-columns: 80px 1fr auto auto auto;
@@ -101,7 +101,7 @@
     color: var(--muted);
 }
 
-/* Quantity stepper: each button sends the new quantity */
+ 
 .cart-qty {
     display: flex;
     align-items: center;
@@ -147,7 +147,7 @@
     color: var(--ink);
 }
 
-/* Trash icon button */
+ 
 .cart-remove {
     display: grid;
     place-items: center;
@@ -166,7 +166,7 @@
     background: var(--pink);
 }
 
-/* Summary box */
+ 
 .cart-summary {
     padding: 1.5rem;
     background: var(--white);
@@ -194,7 +194,7 @@
     color: var(--muted);
 }
 
-/* ---------- Checkout page ---------- */
+ 
 .checkout-card {
     padding: 1.5rem;
     background: var(--white);
@@ -266,14 +266,14 @@
     color: var(--muted);
 }
 
-/* Tablet: summary goes under the list */
+ 
 @media (max-width: 900px) {
     .cart-layout {
         grid-template-columns: 1fr;
     }
 }
 
-/* Phone: image on the left, everything else stacked */
+ 
 @media (max-width: 640px) {
     .cart-item {
         grid-template-columns: 64px 1fr;
@@ -289,7 +289,7 @@
         text-align: left;
     }
 }
-/* ---------- Orders pages ---------- */
+ 
 .order-steps {
     display: flex;
     gap: .5rem;
@@ -367,7 +367,7 @@
 }
 
 
-/* ---------- Suggestions under the cart ---------- */
+ 
 .cart-suggestions {
     margin-top: 3.5rem;
 }
@@ -378,3 +378,39 @@
     font-size: 1.6rem;
     color: var(--ink);
 }
+.cart-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+}
+.cart-page .cart-heading h1 { margin: 0; }
+.cart-heading form { margin: 0; }
+.cart-heading .cart-clear {
+    min-height: 40px;
+    padding: 8px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.cart-summary > form { margin: 12px 0 0; }
+.cart-summary .cart-clear { width: 100%; min-height: 40px; padding: 8px 16px; font-size: 14px; }
+
+.cart-clear-dialog {
+    width: min(440px, calc(100vw - 32px));
+    box-sizing: border-box;
+    padding: 26px;
+    border: 1px solid #e9e2ff;
+    border-radius: 22px;
+    color: #211a43;
+    background: #fff;
+    box-shadow: 0 20px 70px #211a4333;
+}
+.cart-clear-dialog::backdrop { background: #211a4355; }
+.cart-clear-dialog h2 { font-size: 24px; margin: 0 0 12px; }
+.cart-clear-dialog p { margin: 0; line-height: 1.6; color: #747089; }
+.cart-clear-dialog-actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+.cart-clear-dialog-actions .btn { min-height: 42px; padding: 10px 18px; font-size: 14px; }
+#confirm-clear-cart { background: #dc3545; color: #fff; border: 1px solid #dc3545; }
+#confirm-clear-cart:hover { background: #bd2635; }
