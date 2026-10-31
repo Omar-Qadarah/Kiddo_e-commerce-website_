@@ -1,0 +1,414 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1770" viewBox="0 0 1440 1770" fill="none">
+<title>Kiddo's - Toys</title>
+<rect id="Page background" x="0" y="0" width="1440" height="1770" rx="0" fill="#F5F5F5"/>
+<g id="Header">
+<rect x="0" y="0" width="1440" height="72" rx="0" fill="#FFFFFF"/>
+<line x1="0" y1="72" x2="1440" y2="72" stroke="#CFCFCF" stroke-width="1" stroke-linecap="round"/>
+<g id="Logo">
+<rect x="120" y="18" width="36" height="36" rx="9.0" fill="#BDBDBD"/>
+<text x="138.0" y="43.92" font-family="Inter, Arial, sans-serif" font-size="21.599999999999998" font-weight="800" fill="#222222" text-anchor="middle">K</text>
+<text x="166" y="43.92" font-family="Inter, Arial, sans-serif" font-size="22.32" font-weight="800" fill="#222222" text-anchor="start">KIDDO'S</text>
+</g>
+<text x="300" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Home</text>
+<text x="368.4" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Categories</text>
+<text x="488.4" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Toys</text>
+<rect x="488.4" y="52" width="40.4" height="3" rx="1.5" fill="#BDBDBD"/>
+<text x="556.8" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Offers</text>
+<rect x="640" y="14" width="280" height="44" rx="22" fill="#EBEBEB"/>
+<text x="662" y="41" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#777777" text-anchor="start">Search toys by name...</text>
+<circle cx="896" cy="36" r="16" fill="#BDBDBD"/>
+<circle cx="894.5" cy="34.5" r="5" fill="none" stroke="#222222" stroke-width="2"/>
+<line x1="898" y1="38" x2="902" y2="42" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M952 26 h4 l3 12 h12 l3 -9 h-17" fill="none" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="962" cy="43" r="1.8" fill="#222222"/>
+<circle cx="971" cy="43" r="1.8" fill="#222222"/>
+<rect x="1130" y="20" width="84" height="36" rx="18.0" fill="#FFFFFF" stroke="#BDBDBD" stroke-width="1.5"/>
+<text x="1172.0" y="42.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Login</text>
+<rect x="1226" y="20" width="94" height="36" rx="18.0" fill="#BDBDBD"/>
+<text x="1273.0" y="42.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Register</text>
+</g>
+<text x="368" y="120" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Showing 1–12 of 133 toys</text>
+<text x="1086" y="124" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Sort by</text>
+<rect x="1132" y="104" width="130" height="36" rx="10" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="1146" y="127" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="start">Newest first</text>
+<rect x="1272" y="104" width="48" height="36" rx="18.0" fill="#FFFFFF" stroke="#BDBDBD" stroke-width="1.5"/>
+<text x="1296.0" y="126.2" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#222222" text-anchor="middle">Reset</text>
+<g id="Filters sidebar">
+<rect x="120" y="150" width="220" height="450" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="140" y="184" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#222222" text-anchor="start">Filters</text>
+<text x="140" y="212" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#777777" text-anchor="start">Category</text>
+<rect x="140" y="220" width="180" height="38" rx="10" fill="#EBEBEB"/>
+<text x="154" y="243" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="start">All categories</text>
+<path d="M300 237 l4 4 l4 -4" fill="none" stroke="#777777" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="140" y="280" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#777777" text-anchor="start">Age</text>
+<rect x="140" y="288" width="180" height="38" rx="10" fill="#EBEBEB"/>
+<text x="154" y="311" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="start">All ages</text>
+<path d="M300 305 l4 4 l4 -4" fill="none" stroke="#777777" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="140" y="348" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#777777" text-anchor="start">Gender</text>
+<rect x="140" y="356" width="180" height="38" rx="10" fill="#EBEBEB"/>
+<text x="154" y="379" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="start">All</text>
+<path d="M300 373 l4 4 l4 -4" fill="none" stroke="#777777" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="140" y="416" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#777777" text-anchor="start">Price</text>
+<rect x="140" y="424" width="180" height="38" rx="10" fill="#EBEBEB"/>
+<text x="154" y="447" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="start">Any price</text>
+<path d="M300 441 l4 4 l4 -4" fill="none" stroke="#777777" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="140" y="484" width="180" height="40" rx="20.0" fill="#BDBDBD"/>
+<text x="230.0" y="508.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Apply filters</text>
+</g>
+<g id="Clear all">
+<rect x="140" y="536" width="180" height="40" rx="20.0" fill="#FFFFFF" stroke="#BDBDBD" stroke-width="1.5"/>
+<text x="230.0" y="560.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Clear all</text>
+</g>
+<g id="Product card - Junior Bowling Game Set">
+<rect x="368" y="150" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="380" y="162" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="388" y1="170" x2="571" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="571" y1="170" x2="388" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<rect x="388" y="170" width="50" height="24" rx="12" fill="#9E9E9E"/>
+<text x="413" y="186" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#222222" text-anchor="middle">-10%</text>
+<text x="382" y="358" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Junior Bowling Game Set</text>
+<polygon points="386.0,388.5 387.5,392.0 391.2,392.3 388.4,394.8 389.2,398.4 386.0,396.5 382.8,398.4 383.6,394.8 380.8,392.3 384.5,392.0" fill="#999999"/>
+<polygon points="399.0,388.5 400.5,392.0 404.2,392.3 401.4,394.8 402.2,398.4 399.0,396.5 395.8,398.4 396.6,394.8 393.8,392.3 397.5,392.0" fill="#999999"/>
+<polygon points="412.0,388.5 413.5,392.0 417.2,392.3 414.4,394.8 415.2,398.4 412.0,396.5 408.8,398.4 409.6,394.8 406.8,392.3 410.5,392.0" fill="#999999"/>
+<polygon points="425.0,388.5 426.5,392.0 430.2,392.3 427.4,394.8 428.2,398.4 425.0,396.5 421.8,398.4 422.6,394.8 419.8,392.3 423.5,392.0" fill="#999999"/>
+<polygon points="438.0,388.5 439.5,392.0 443.2,392.3 440.4,394.8 441.2,398.4 438.0,396.5 434.8,398.4 435.6,394.8 432.8,392.3 436.5,392.0" fill="#D9D9D9"/>
+<text x="450" y="398" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">4 (1)</text>
+<text x="382" y="426" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">16.65 JOD</text>
+<text x="577" y="398" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="end">18.50 JOD</text>
+<line x1="521.2" y1="394" x2="577" y2="394" stroke="#777777" stroke-width="1" stroke-linecap="round"/>
+<text x="577" y="426" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">23 in stock</text>
+<rect x="382" y="440" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="479.5" y="464.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Soft Foam Building Blocks Set">
+<rect x="611" y="150" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="623" y="162" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="631" y1="170" x2="814" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="814" y1="170" x2="631" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="625" y="358" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Soft Foam Building</text>
+<text x="625" y="376" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Blocks Set</text>
+<polygon points="629.0,388.5 630.5,392.0 634.2,392.3 631.4,394.8 632.2,398.4 629.0,396.5 625.8,398.4 626.6,394.8 623.8,392.3 627.5,392.0" fill="#D9D9D9"/>
+<polygon points="642.0,388.5 643.5,392.0 647.2,392.3 644.4,394.8 645.2,398.4 642.0,396.5 638.8,398.4 639.6,394.8 636.8,392.3 640.5,392.0" fill="#D9D9D9"/>
+<polygon points="655.0,388.5 656.5,392.0 660.2,392.3 657.4,394.8 658.2,398.4 655.0,396.5 651.8,398.4 652.6,394.8 649.8,392.3 653.5,392.0" fill="#D9D9D9"/>
+<polygon points="668.0,388.5 669.5,392.0 673.2,392.3 670.4,394.8 671.2,398.4 668.0,396.5 664.8,398.4 665.6,394.8 662.8,392.3 666.5,392.0" fill="#D9D9D9"/>
+<polygon points="681.0,388.5 682.5,392.0 686.2,392.3 683.4,394.8 684.2,398.4 681.0,396.5 677.8,398.4 678.6,394.8 675.8,392.3 679.5,392.0" fill="#D9D9D9"/>
+<text x="693" y="398" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="625" y="426" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">54.99 JOD</text>
+<text x="820" y="426" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">8 in stock</text>
+<rect x="625" y="440" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="722.5" y="464.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Ride-On Fire Truck Push Car">
+<rect x="854" y="150" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="866" y="162" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="874" y1="170" x2="1057" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1057" y1="170" x2="874" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="868" y="358" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Ride-On Fire Truck Push</text>
+<text x="868" y="376" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Car</text>
+<polygon points="872.0,388.5 873.5,392.0 877.2,392.3 874.4,394.8 875.2,398.4 872.0,396.5 868.8,398.4 869.6,394.8 866.8,392.3 870.5,392.0" fill="#D9D9D9"/>
+<polygon points="885.0,388.5 886.5,392.0 890.2,392.3 887.4,394.8 888.2,398.4 885.0,396.5 881.8,398.4 882.6,394.8 879.8,392.3 883.5,392.0" fill="#D9D9D9"/>
+<polygon points="898.0,388.5 899.5,392.0 903.2,392.3 900.4,394.8 901.2,398.4 898.0,396.5 894.8,398.4 895.6,394.8 892.8,392.3 896.5,392.0" fill="#D9D9D9"/>
+<polygon points="911.0,388.5 912.5,392.0 916.2,392.3 913.4,394.8 914.2,398.4 911.0,396.5 907.8,398.4 908.6,394.8 905.8,392.3 909.5,392.0" fill="#D9D9D9"/>
+<polygon points="924.0,388.5 925.5,392.0 929.2,392.3 926.4,394.8 927.2,398.4 924.0,396.5 920.8,398.4 921.6,394.8 918.8,392.3 922.5,392.0" fill="#D9D9D9"/>
+<text x="936" y="398" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="868" y="426" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">49.99 JOD</text>
+<text x="1063" y="426" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">9 in stock</text>
+<rect x="868" y="440" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="965.5" y="464.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Activity Tummy Time Water Mat">
+<rect x="1097" y="150" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="1109" y="162" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="1117" y1="170" x2="1300" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1300" y1="170" x2="1117" y2="324" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="1111" y="358" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Activity Tummy Time</text>
+<text x="1111" y="376" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Water Mat</text>
+<polygon points="1115.0,388.5 1116.5,392.0 1120.2,392.3 1117.4,394.8 1118.2,398.4 1115.0,396.5 1111.8,398.4 1112.6,394.8 1109.8,392.3 1113.5,392.0" fill="#D9D9D9"/>
+<polygon points="1128.0,388.5 1129.5,392.0 1133.2,392.3 1130.4,394.8 1131.2,398.4 1128.0,396.5 1124.8,398.4 1125.6,394.8 1122.8,392.3 1126.5,392.0" fill="#D9D9D9"/>
+<polygon points="1141.0,388.5 1142.5,392.0 1146.2,392.3 1143.4,394.8 1144.2,398.4 1141.0,396.5 1137.8,398.4 1138.6,394.8 1135.8,392.3 1139.5,392.0" fill="#D9D9D9"/>
+<polygon points="1154.0,388.5 1155.5,392.0 1159.2,392.3 1156.4,394.8 1157.2,398.4 1154.0,396.5 1150.8,398.4 1151.6,394.8 1148.8,392.3 1152.5,392.0" fill="#D9D9D9"/>
+<polygon points="1167.0,388.5 1168.5,392.0 1172.2,392.3 1169.4,394.8 1170.2,398.4 1167.0,396.5 1163.8,398.4 1164.6,394.8 1161.8,392.3 1165.5,392.0" fill="#D9D9D9"/>
+<text x="1179" y="398" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="1111" y="426" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">11.99 JOD</text>
+<text x="1306" y="426" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">40 in stock</text>
+<rect x="1111" y="440" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="1208.5" y="464.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Junior Basketball Hoop Set">
+<rect x="368" y="512" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="380" y="524" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="388" y1="532" x2="571" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="571" y1="532" x2="388" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<text x="382" y="720" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Junior Basketball Hoop</text>
+<text x="382" y="738" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Set</text>
+<polygon points="386.0,750.5 387.5,754.0 391.2,754.3 388.4,756.8 389.2,760.4 386.0,758.5 382.8,760.4 383.6,756.8 380.8,754.3 384.5,754.0" fill="#D9D9D9"/>
+<polygon points="399.0,750.5 400.5,754.0 404.2,754.3 401.4,756.8 402.2,760.4 399.0,758.5 395.8,760.4 396.6,756.8 393.8,754.3 397.5,754.0" fill="#D9D9D9"/>
+<polygon points="412.0,750.5 413.5,754.0 417.2,754.3 414.4,756.8 415.2,760.4 412.0,758.5 408.8,760.4 409.6,756.8 406.8,754.3 410.5,754.0" fill="#D9D9D9"/>
+<polygon points="425.0,750.5 426.5,754.0 430.2,754.3 427.4,756.8 428.2,760.4 425.0,758.5 421.8,760.4 422.6,756.8 419.8,754.3 423.5,754.0" fill="#D9D9D9"/>
+<polygon points="438.0,750.5 439.5,754.0 443.2,754.3 440.4,756.8 441.2,760.4 438.0,758.5 434.8,760.4 435.6,756.8 432.8,754.3 436.5,754.0" fill="#D9D9D9"/>
+<text x="450" y="760" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="382" y="788" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">38.50 JOD</text>
+<text x="577" y="788" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">14 in stock</text>
+<rect x="382" y="802" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="479.5" y="826.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Soft Foam Play Tunnel">
+<rect x="611" y="512" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="623" y="524" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="631" y1="532" x2="814" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="814" y1="532" x2="631" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="641" cy="609.0" r="12" fill="#FFFFFF"/>
+<circle cx="804" cy="609.0" r="12" fill="#FFFFFF"/>
+<text x="625" y="720" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Soft Foam Play Tunnel</text>
+<polygon points="629.0,750.5 630.5,754.0 634.2,754.3 631.4,756.8 632.2,760.4 629.0,758.5 625.8,760.4 626.6,756.8 623.8,754.3 627.5,754.0" fill="#D9D9D9"/>
+<polygon points="642.0,750.5 643.5,754.0 647.2,754.3 644.4,756.8 645.2,760.4 642.0,758.5 638.8,760.4 639.6,756.8 636.8,754.3 640.5,754.0" fill="#D9D9D9"/>
+<polygon points="655.0,750.5 656.5,754.0 660.2,754.3 657.4,756.8 658.2,760.4 655.0,758.5 651.8,760.4 652.6,756.8 649.8,754.3 653.5,754.0" fill="#D9D9D9"/>
+<polygon points="668.0,750.5 669.5,754.0 673.2,754.3 670.4,756.8 671.2,760.4 668.0,758.5 664.8,760.4 665.6,756.8 662.8,754.3 666.5,754.0" fill="#D9D9D9"/>
+<polygon points="681.0,750.5 682.5,754.0 686.2,754.3 683.4,756.8 684.2,760.4 681.0,758.5 677.8,760.4 678.6,756.8 675.8,754.3 679.5,754.0" fill="#D9D9D9"/>
+<text x="693" y="760" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="625" y="788" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">27.99 JOD</text>
+<text x="820" y="788" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">18 in stock</text>
+<rect x="625" y="802" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="722.5" y="826.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Toddler Balance Bike">
+<rect x="854" y="512" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="866" y="524" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="874" y1="532" x2="1057" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1057" y1="532" x2="874" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="884" cy="609.0" r="12" fill="#FFFFFF"/>
+<circle cx="1047" cy="609.0" r="12" fill="#FFFFFF"/>
+<text x="868" y="720" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Toddler Balance Bike</text>
+<polygon points="872.0,750.5 873.5,754.0 877.2,754.3 874.4,756.8 875.2,760.4 872.0,758.5 868.8,760.4 869.6,756.8 866.8,754.3 870.5,754.0" fill="#D9D9D9"/>
+<polygon points="885.0,750.5 886.5,754.0 890.2,754.3 887.4,756.8 888.2,760.4 885.0,758.5 881.8,760.4 882.6,756.8 879.8,754.3 883.5,754.0" fill="#D9D9D9"/>
+<polygon points="898.0,750.5 899.5,754.0 903.2,754.3 900.4,756.8 901.2,760.4 898.0,758.5 894.8,760.4 895.6,756.8 892.8,754.3 896.5,754.0" fill="#D9D9D9"/>
+<polygon points="911.0,750.5 912.5,754.0 916.2,754.3 913.4,756.8 914.2,760.4 911.0,758.5 907.8,760.4 908.6,756.8 905.8,754.3 909.5,754.0" fill="#D9D9D9"/>
+<polygon points="924.0,750.5 925.5,754.0 929.2,754.3 926.4,756.8 927.2,760.4 924.0,758.5 920.8,760.4 921.6,756.8 918.8,754.3 922.5,754.0" fill="#D9D9D9"/>
+<text x="936" y="760" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="868" y="788" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">65.00 JOD</text>
+<text x="1063" y="788" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">12 in stock</text>
+<rect x="868" y="802" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="965.5" y="826.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Inflatable Hopper Bouncy Animal">
+<rect x="1097" y="512" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="1109" y="524" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="1117" y1="532" x2="1300" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1300" y1="532" x2="1117" y2="686" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="1127" cy="609.0" r="12" fill="#FFFFFF"/>
+<circle cx="1290" cy="609.0" r="12" fill="#FFFFFF"/>
+<text x="1111" y="720" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Inflatable Hopper</text>
+<text x="1111" y="738" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Bouncy Animal</text>
+<polygon points="1115.0,750.5 1116.5,754.0 1120.2,754.3 1117.4,756.8 1118.2,760.4 1115.0,758.5 1111.8,760.4 1112.6,756.8 1109.8,754.3 1113.5,754.0" fill="#D9D9D9"/>
+<polygon points="1128.0,750.5 1129.5,754.0 1133.2,754.3 1130.4,756.8 1131.2,760.4 1128.0,758.5 1124.8,760.4 1125.6,756.8 1122.8,754.3 1126.5,754.0" fill="#D9D9D9"/>
+<polygon points="1141.0,750.5 1142.5,754.0 1146.2,754.3 1143.4,756.8 1144.2,760.4 1141.0,758.5 1137.8,760.4 1138.6,756.8 1135.8,754.3 1139.5,754.0" fill="#D9D9D9"/>
+<polygon points="1154.0,750.5 1155.5,754.0 1159.2,754.3 1156.4,756.8 1157.2,760.4 1154.0,758.5 1150.8,760.4 1151.6,756.8 1148.8,754.3 1152.5,754.0" fill="#D9D9D9"/>
+<polygon points="1167.0,750.5 1168.5,754.0 1172.2,754.3 1169.4,756.8 1170.2,760.4 1167.0,758.5 1163.8,760.4 1164.6,756.8 1161.8,754.3 1165.5,754.0" fill="#D9D9D9"/>
+<text x="1179" y="760" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="1111" y="788" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">24.50 JOD</text>
+<text x="1306" y="788" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">20 in stock</text>
+<rect x="1111" y="802" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="1208.5" y="826.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - 3-Wheel Lean-to-Steer Scooter">
+<rect x="368" y="874" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="380" y="886" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="388" y1="894" x2="571" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="571" y1="894" x2="388" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="398" cy="971.0" r="12" fill="#FFFFFF"/>
+<circle cx="561" cy="971.0" r="12" fill="#FFFFFF"/>
+<text x="382" y="1082" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">3-Wheel Lean-to-Steer</text>
+<text x="382" y="1100" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Scooter</text>
+<polygon points="386.0,1112.5 387.5,1116.0 391.2,1116.3 388.4,1118.8 389.2,1122.4 386.0,1120.5 382.8,1122.4 383.6,1118.8 380.8,1116.3 384.5,1116.0" fill="#D9D9D9"/>
+<polygon points="399.0,1112.5 400.5,1116.0 404.2,1116.3 401.4,1118.8 402.2,1122.4 399.0,1120.5 395.8,1122.4 396.6,1118.8 393.8,1116.3 397.5,1116.0" fill="#D9D9D9"/>
+<polygon points="412.0,1112.5 413.5,1116.0 417.2,1116.3 414.4,1118.8 415.2,1122.4 412.0,1120.5 408.8,1122.4 409.6,1118.8 406.8,1116.3 410.5,1116.0" fill="#D9D9D9"/>
+<polygon points="425.0,1112.5 426.5,1116.0 430.2,1116.3 427.4,1118.8 428.2,1122.4 425.0,1120.5 421.8,1122.4 422.6,1118.8 419.8,1116.3 423.5,1116.0" fill="#D9D9D9"/>
+<polygon points="438.0,1112.5 439.5,1116.0 443.2,1116.3 440.4,1118.8 441.2,1122.4 438.0,1120.5 434.8,1122.4 435.6,1118.8 432.8,1116.3 436.5,1116.0" fill="#D9D9D9"/>
+<text x="450" y="1122" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="382" y="1150" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">59.99 JOD</text>
+<text x="577" y="1150" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">10 in stock</text>
+<rect x="382" y="1164" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="479.5" y="1188.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Toddler Push Along Walker">
+<rect x="611" y="874" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="623" y="886" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="631" y1="894" x2="814" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="814" y1="894" x2="631" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="641" cy="971.0" r="12" fill="#FFFFFF"/>
+<circle cx="804" cy="971.0" r="12" fill="#FFFFFF"/>
+<text x="625" y="1082" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Toddler Push Along</text>
+<text x="625" y="1100" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Walker</text>
+<polygon points="629.0,1112.5 630.5,1116.0 634.2,1116.3 631.4,1118.8 632.2,1122.4 629.0,1120.5 625.8,1122.4 626.6,1118.8 623.8,1116.3 627.5,1116.0" fill="#D9D9D9"/>
+<polygon points="642.0,1112.5 643.5,1116.0 647.2,1116.3 644.4,1118.8 645.2,1122.4 642.0,1120.5 638.8,1122.4 639.6,1118.8 636.8,1116.3 640.5,1116.0" fill="#D9D9D9"/>
+<polygon points="655.0,1112.5 656.5,1116.0 660.2,1116.3 657.4,1118.8 658.2,1122.4 655.0,1120.5 651.8,1122.4 652.6,1118.8 649.8,1116.3 653.5,1116.0" fill="#D9D9D9"/>
+<polygon points="668.0,1112.5 669.5,1116.0 673.2,1116.3 670.4,1118.8 671.2,1122.4 668.0,1120.5 664.8,1122.4 665.6,1118.8 662.8,1116.3 666.5,1116.0" fill="#D9D9D9"/>
+<polygon points="681.0,1112.5 682.5,1116.0 686.2,1116.3 683.4,1118.8 684.2,1122.4 681.0,1120.5 677.8,1122.4 678.6,1118.8 675.8,1116.3 679.5,1116.0" fill="#D9D9D9"/>
+<text x="693" y="1122" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="625" y="1150" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">45.00 JOD</text>
+<text x="820" y="1150" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">15 in stock</text>
+<rect x="625" y="1164" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="722.5" y="1188.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Weighted Dinosaur Plush">
+<rect x="854" y="874" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="866" y="886" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="874" y1="894" x2="1057" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1057" y1="894" x2="874" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="884" cy="971.0" r="12" fill="#FFFFFF"/>
+<circle cx="1047" cy="971.0" r="12" fill="#FFFFFF"/>
+<text x="868" y="1082" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Weighted Dinosaur Plush</text>
+<polygon points="872.0,1112.5 873.5,1116.0 877.2,1116.3 874.4,1118.8 875.2,1122.4 872.0,1120.5 868.8,1122.4 869.6,1118.8 866.8,1116.3 870.5,1116.0" fill="#D9D9D9"/>
+<polygon points="885.0,1112.5 886.5,1116.0 890.2,1116.3 887.4,1118.8 888.2,1122.4 885.0,1120.5 881.8,1122.4 882.6,1118.8 879.8,1116.3 883.5,1116.0" fill="#D9D9D9"/>
+<polygon points="898.0,1112.5 899.5,1116.0 903.2,1116.3 900.4,1118.8 901.2,1122.4 898.0,1120.5 894.8,1122.4 895.6,1118.8 892.8,1116.3 896.5,1116.0" fill="#D9D9D9"/>
+<polygon points="911.0,1112.5 912.5,1116.0 916.2,1116.3 913.4,1118.8 914.2,1122.4 911.0,1120.5 907.8,1122.4 908.6,1118.8 905.8,1116.3 909.5,1116.0" fill="#D9D9D9"/>
+<polygon points="924.0,1112.5 925.5,1116.0 929.2,1116.3 926.4,1118.8 927.2,1122.4 924.0,1120.5 920.8,1122.4 921.6,1118.8 918.8,1116.3 922.5,1116.0" fill="#D9D9D9"/>
+<text x="936" y="1122" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="868" y="1150" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">26.50 JOD</text>
+<text x="1063" y="1150" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">15 in stock</text>
+<rect x="868" y="1164" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="965.5" y="1188.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Product card - Plush Unicorn Pillow">
+<rect x="1097" y="874" width="223" height="342" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<g id="Product image">
+<rect x="1109" y="886" width="199" height="170" rx="12" fill="#E3E3E3"/>
+<line x1="1117" y1="894" x2="1300" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+<line x1="1300" y1="894" x2="1117" y2="1048" stroke="#BDBDBD" stroke-width="1" stroke-linecap="round"/>
+</g>
+<circle cx="1127" cy="971.0" r="12" fill="#FFFFFF"/>
+<circle cx="1290" cy="971.0" r="12" fill="#FFFFFF"/>
+<text x="1111" y="1082" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Plush Unicorn Pillow</text>
+<polygon points="1115.0,1112.5 1116.5,1116.0 1120.2,1116.3 1117.4,1118.8 1118.2,1122.4 1115.0,1120.5 1111.8,1122.4 1112.6,1118.8 1109.8,1116.3 1113.5,1116.0" fill="#D9D9D9"/>
+<polygon points="1128.0,1112.5 1129.5,1116.0 1133.2,1116.3 1130.4,1118.8 1131.2,1122.4 1128.0,1120.5 1124.8,1122.4 1125.6,1118.8 1122.8,1116.3 1126.5,1116.0" fill="#D9D9D9"/>
+<polygon points="1141.0,1112.5 1142.5,1116.0 1146.2,1116.3 1143.4,1118.8 1144.2,1122.4 1141.0,1120.5 1137.8,1122.4 1138.6,1118.8 1135.8,1116.3 1139.5,1116.0" fill="#D9D9D9"/>
+<polygon points="1154.0,1112.5 1155.5,1116.0 1159.2,1116.3 1156.4,1118.8 1157.2,1122.4 1154.0,1120.5 1150.8,1122.4 1151.6,1118.8 1148.8,1116.3 1152.5,1116.0" fill="#D9D9D9"/>
+<polygon points="1167.0,1112.5 1168.5,1116.0 1172.2,1116.3 1169.4,1118.8 1170.2,1122.4 1167.0,1120.5 1163.8,1122.4 1164.6,1118.8 1161.8,1116.3 1165.5,1116.0" fill="#D9D9D9"/>
+<text x="1179" y="1122" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">No reviews yet</text>
+<text x="1111" y="1150" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="800" fill="#222222" text-anchor="start">21.99 JOD</text>
+<text x="1306" y="1150" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#555555" text-anchor="end">20 in stock</text>
+<rect x="1111" y="1164" width="195" height="40" rx="10" fill="#BDBDBD"/>
+<text x="1208.5" y="1188.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Add to cart</text>
+</g>
+<g id="Pagination">
+<line x1="368" y1="1256" x2="1320" y2="1256" stroke="#CFCFCF" stroke-width="1" stroke-linecap="round"/>
+<rect x="640" y="1278" width="76" height="34" rx="8" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="678.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#777777" text-anchor="middle">← Previous</text>
+<rect x="724" y="1278" width="34" height="34" rx="8" fill="#BDBDBD"/>
+<text x="741.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">1</text>
+<rect x="766" y="1278" width="34" height="34" rx="8" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="783.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#222222" text-anchor="middle">2</text>
+<rect x="808" y="1278" width="34" height="34" rx="8" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="825.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#222222" text-anchor="middle">3</text>
+<text x="867" y="1298" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#777777" text-anchor="middle">…</text>
+<rect x="892" y="1278" width="34" height="34" rx="8" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="909.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#222222" text-anchor="middle">12</text>
+<rect x="934" y="1278" width="76" height="34" rx="8" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="972.0" y="1300" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="600" fill="#222222" text-anchor="middle">Next →</text>
+<text x="844" y="1338" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="middle">Page 1 of 12</text>
+</g>
+<g id="Footer">
+<rect x="0" y="1488" width="1440" height="282" rx="0" fill="#BDBDBD"/>
+<circle cx="14" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="42" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="70" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="98" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="126" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="154" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="182" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="210" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="238" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="266" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="294" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="322" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="350" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="378" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="406" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="434" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="462" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="490" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="518" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="546" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="574" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="602" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="630" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="658" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="686" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="714" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="742" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="770" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="798" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="826" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="854" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="882" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="910" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="938" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="966" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="994" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1022" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1050" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1078" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1106" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1134" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1162" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1190" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1218" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1246" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1274" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1302" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1330" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1358" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1386" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1414" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1442" cy="1488" r="14" fill="#BDBDBD"/>
+<circle cx="1470" cy="1488" r="14" fill="#BDBDBD"/>
+<g id="Logo">
+<rect x="120" y="1524" width="38" height="38" rx="9.5" fill="#FFFFFF"/>
+<text x="139.0" y="1551.36" font-family="Inter, Arial, sans-serif" font-size="22.8" font-weight="800" fill="#555" text-anchor="middle">K</text>
+<text x="168" y="1551.36" font-family="Inter, Arial, sans-serif" font-size="23.56" font-weight="800" fill="#222" text-anchor="start">KIDDO'S</text>
+</g>
+<text x="120" y="1592" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Toys that grow little minds.</text>
+<text x="120" y="1616" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">Thoughtful toys for every stage of childhood,</text>
+<text x="120" y="1636" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">delivered across Jordan.</text>
+<text x="560" y="1540" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#222222" text-anchor="start">Contact us</text>
+<text x="560" y="1572" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">+962 6 000 0000</text>
+<text x="560" y="1600" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">care@kiddos.jo</text>
+<circle cx="572" cy="1638" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<circle cx="608" cy="1638" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<circle cx="644" cy="1638" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<text x="900" y="1540" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#222222" text-anchor="start">Payment</text>
+<rect x="900" y="1556" width="420" height="64" rx="12" fill="#FFFFFF"/>
+<rect x="916" y="1572" width="32" height="32" rx="8" fill="#EBEBEB"/>
+<text x="964" y="1585" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Cash on Delivery</text>
+<text x="964" y="1603" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Pay when your order arrives</text>
+<line x1="0" y1="1706" x2="1440" y2="1706" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
+<text x="720.0" y="1740" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="middle">© 2026 Kiddo's All rights reserved</text>
+</g>
+<g id="Ask Kiddo chat button">
+<rect x="1170" y="1690" width="160" height="52" rx="26" fill="#BDBDBD"/>
+<circle cx="1204" cy="1716" r="14" fill="#FFFFFF"/>
+<text x="1232" y="1721" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Ask Kiddo</text>
+</g>
+</svg>

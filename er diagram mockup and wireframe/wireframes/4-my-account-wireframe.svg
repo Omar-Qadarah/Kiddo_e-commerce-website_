@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1240" viewBox="0 0 1440 1240" fill="none">
+<title>Kiddo's - My Account</title>
+<rect id="Page background" x="0" y="0" width="1440" height="1240" rx="0" fill="#F5F5F5"/>
+<g id="Header">
+<rect x="0" y="0" width="1440" height="72" rx="0" fill="#FFFFFF"/>
+<line x1="0" y1="72" x2="1440" y2="72" stroke="#CFCFCF" stroke-width="1" stroke-linecap="round"/>
+<g id="Logo">
+<rect x="120" y="18" width="36" height="36" rx="9.0" fill="#BDBDBD"/>
+<text x="138.0" y="43.92" font-family="Inter, Arial, sans-serif" font-size="21.599999999999998" font-weight="800" fill="#222222" text-anchor="middle">K</text>
+<text x="166" y="43.92" font-family="Inter, Arial, sans-serif" font-size="22.32" font-weight="800" fill="#222222" text-anchor="start">KIDDO'S</text>
+</g>
+<text x="300" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Home</text>
+<text x="368.4" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Categories</text>
+<text x="488.4" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Toys</text>
+<text x="556.8" y="41" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Offers</text>
+<rect x="640" y="14" width="280" height="44" rx="22" fill="#EBEBEB"/>
+<text x="662" y="41" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#777777" text-anchor="start">Search toys by name...</text>
+<circle cx="896" cy="36" r="16" fill="#BDBDBD"/>
+<circle cx="894.5" cy="34.5" r="5" fill="none" stroke="#222222" stroke-width="2"/>
+<line x1="898" y1="38" x2="902" y2="42" stroke="#222222" stroke-width="2" stroke-linecap="round"/>
+<path d="M952 26 h4 l3 12 h12 l3 -9 h-17" fill="none" stroke="#222222" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="962" cy="43" r="1.8" fill="#222222"/>
+<circle cx="971" cy="43" r="1.8" fill="#222222"/>
+<circle cx="975" cy="24" r="10" fill="#9E9E9E"/>
+<text x="975" y="28" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#222222" text-anchor="middle">12</text>
+<rect x="1010" y="22" width="1" height="28" rx="0" fill="#CFCFCF"/>
+<circle cx="1050" cy="36" r="20" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="1050" y="41" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="#222222" text-anchor="middle">SM</text>
+<path d="M1078 34 l5 5 l5 -5" fill="none" stroke="#777777" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+<g id="Account navigation">
+<rect x="120" y="110" width="240" height="190" rx="16" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<rect x="132" y="126" width="216" height="42" rx="12" fill="#BDBDBD"/>
+<rect x="142" y="130" width="34" height="34" rx="10" fill="#FFFFFF" fill-opacity="0.25"/>
+<text x="188" y="152" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">My Profile</text>
+<rect x="142" y="182" width="34" height="34" rx="10" fill="#EBEBEB"/>
+<text x="188" y="204" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">My Reviews</text>
+<rect x="142" y="234" width="34" height="34" rx="10" fill="#EBEBEB"/>
+<text x="188" y="256" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">My Orders</text>
+</g>
+<g id="Account header">
+<rect x="384" y="110" width="936" height="110" rx="20" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="408" y="146" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="700" fill="#777777" text-anchor="start">YOUR ACCOUNT</text>
+<text x="408" y="178" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800" fill="#222222" text-anchor="start">My Account</text>
+<text x="408" y="200" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Manage your profile, orders, and reviews in one place.</text>
+<circle cx="1020" cy="165" r="26" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="1020" y="170" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="800" fill="#222222" text-anchor="middle">SM</text>
+<text x="1056" y="160" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Saleh Musleh</text>
+<text x="1056" y="180" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">saleh.musleh@gmail.com</text>
+</g>
+<g id="Personal information form">
+<rect x="384" y="240" width="936" height="650" rx="20" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="408" y="282" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800" fill="#222222" text-anchor="start">Personal Information</text>
+<text x="408" y="306" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Manage your account details and contact information.</text>
+<rect x="408" y="326" width="888" height="112" rx="14" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<circle cx="466" cy="382" r="32" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1"/>
+<text x="466" y="388" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800" fill="#222222" text-anchor="middle">SM</text>
+<text x="518" y="362" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Profile photo</text>
+<rect x="518" y="372" width="104" height="34" rx="8" fill="#FFFFFF"/>
+<text x="570" y="394" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="700" fill="#222222" text-anchor="middle">Choose File</text>
+<text x="636" y="394" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">No file chosen</text>
+<text x="518" y="424" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">JPG, PNG, or WebP · up to 3 MB</text>
+<text x="408" y="478" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">First name</text>
+<rect x="408" y="488" width="436" height="44" rx="10" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="422" y="516" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#222222" text-anchor="start">Saleh</text>
+<text x="860" y="478" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Last name</text>
+<rect x="860" y="488" width="436" height="44" rx="10" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="874" y="516" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#222222" text-anchor="start">Musleh</text>
+<text x="408" y="566" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Email address</text>
+<rect x="408" y="576" width="888" height="44" rx="10" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="422" y="604" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#222222" text-anchor="start">saleh.musleh@gmail.com</text>
+<text x="408" y="654" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Phone number</text>
+<rect x="408" y="664" width="888" height="44" rx="10" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="422" y="692" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#222222" text-anchor="start">0785667789</text>
+<text x="408" y="742" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Child's birth date</text>
+<rect x="408" y="752" width="888" height="44" rx="10" fill="#EBEBEB" stroke="#CFCFCF" stroke-width="1"/>
+<text x="422" y="780" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#222222" text-anchor="start">09/30/2026</text>
+<rect x="1264" y="766" width="14" height="14" rx="2" fill="none" stroke="#222222" stroke-width="1.6"/>
+<text x="408" y="818" font-family="Inter, Arial, sans-serif" font-size="11" font-weight="400" fill="#777777" text-anchor="start">Used for birthday discounts.</text>
+</g>
+<rect x="1166" y="830" width="130" height="44" rx="12" fill="#BDBDBD"/>
+<text x="1231.0" y="856.55" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="middle">Save changes</text>
+<g id="Footer">
+<rect x="0" y="958" width="1440" height="282" rx="0" fill="#BDBDBD"/>
+<circle cx="14" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="42" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="70" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="98" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="126" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="154" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="182" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="210" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="238" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="266" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="294" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="322" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="350" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="378" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="406" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="434" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="462" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="490" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="518" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="546" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="574" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="602" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="630" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="658" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="686" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="714" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="742" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="770" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="798" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="826" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="854" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="882" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="910" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="938" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="966" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="994" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1022" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1050" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1078" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1106" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1134" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1162" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1190" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1218" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1246" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1274" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1302" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1330" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1358" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1386" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1414" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1442" cy="958" r="14" fill="#BDBDBD"/>
+<circle cx="1470" cy="958" r="14" fill="#BDBDBD"/>
+<g id="Logo">
+<rect x="120" y="994" width="38" height="38" rx="9.5" fill="#FFFFFF"/>
+<text x="139.0" y="1021.36" font-family="Inter, Arial, sans-serif" font-size="22.8" font-weight="800" fill="#555" text-anchor="middle">K</text>
+<text x="168" y="1021.36" font-family="Inter, Arial, sans-serif" font-size="23.56" font-weight="800" fill="#222" text-anchor="start">KIDDO'S</text>
+</g>
+<text x="120" y="1062" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Toys that grow little minds.</text>
+<text x="120" y="1086" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">Thoughtful toys for every stage of childhood,</text>
+<text x="120" y="1106" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">delivered across Jordan.</text>
+<text x="560" y="1010" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#222222" text-anchor="start">Contact us</text>
+<text x="560" y="1042" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">+962 6 000 0000</text>
+<text x="560" y="1070" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="400" fill="#222222" text-anchor="start">care@kiddos.jo</text>
+<circle cx="572" cy="1108" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<circle cx="608" cy="1108" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<circle cx="644" cy="1108" r="15" fill="#FFFFFF" fill-opacity="0.18"/>
+<text x="900" y="1010" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#222222" text-anchor="start">Payment</text>
+<rect x="900" y="1026" width="420" height="64" rx="12" fill="#FFFFFF"/>
+<rect x="916" y="1042" width="32" height="32" rx="8" fill="#EBEBEB"/>
+<text x="964" y="1055" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#222222" text-anchor="start">Cash on Delivery</text>
+<text x="964" y="1073" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#777777" text-anchor="start">Pay when your order arrives</text>
+<line x1="0" y1="1176" x2="1440" y2="1176" stroke="#FFFFFF" stroke-width="1" stroke-linecap="round"/>
+<text x="720.0" y="1210" font-family="Inter, Arial, sans-serif" font-size="12" font-weight="400" fill="#222222" text-anchor="middle">© 2026 Kiddo's All rights reserved</text>
+</g>
+<g id="Ask Kiddo chat button">
+<rect x="1170" y="1160" width="160" height="52" rx="26" fill="#BDBDBD"/>
+<circle cx="1204" cy="1186" r="14" fill="#FFFFFF"/>
+<text x="1232" y="1191" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#222222" text-anchor="start">Ask Kiddo</text>
+</g>
+</svg>
