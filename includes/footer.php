@@ -1,7 +1,9 @@
 
 <?php
 // Age groups for the "Shop by age" links
-$footerAges = $pdo->query('SELECT name, slug FROM age_groups ORDER BY sort_order, min_age')->fetchAll();
+require_once __DIR__ . '/age_cards.php';
+$footerAges = [];
+foreach ($ageCards as $slug => $age) $footerAges[] = ['slug'=>$slug, 'name'=>ageCardRange($age).' Years'];
 ?></main>
 
 <footer class="site-footer">
@@ -11,7 +13,7 @@ $footerAges = $pdo->query('SELECT name, slug FROM age_groups ORDER BY sort_order
                 <img src="<?= BASE_URL ?>/assets/images/kiddos-logo-white.png" alt="Kiddo's" width="167" height="40">
             </a>
             <p class="footer-tagline">Toys that grow little minds.</p>
-            <p>Hand-picked toys for ages 3 to 12, delivered with love across Jordan.</p>
+            <p>Thoughtful toys for every stage of childhood, delivered across Jordan.</p>
         </div>
 
         <div>
@@ -87,7 +89,7 @@ if (empty($_SESSION['shopping_assistant_csrf'])) {
         </div>
         <form class="shopping-chat__form" id="shopping-chat-form">
             <label class="sr-only" for="shopping-chat-input">Your message</label>
-            <input id="shopping-chat-input" name="message" type="text" maxlength="1000" autocomplete="off" placeholder="Ask about toys&#8230;" required>
+            <textarea id="shopping-chat-input" name="message" rows="1" wrap="soft" maxlength="1000" autocomplete="off" placeholder="Ask about toys&#8230;" required></textarea>
             <button type="submit" aria-label="Send message">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 21 3l-6.5 18-3.2-7.3L3 11.5Zm8.3 2.2L21 3"/></svg>
             </button>
@@ -106,5 +108,6 @@ if (empty($_SESSION['shopping_assistant_csrf'])) {
 </div>
 <script src="<?= BASE_URL ?>/assets/js/shopping-assistant.js?v=<?= filemtime(__DIR__ . '/../assets/js/shopping-assistant.js') ?>" defer></script>
 
+<script src="<?= BASE_URL ?>/assets/js/storefront-ux.js?v=<?= filemtime(__DIR__ . '/../assets/js/storefront-ux.js') ?>" defer></script>
 </body>
 </html>

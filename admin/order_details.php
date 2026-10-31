@@ -42,6 +42,7 @@ $badgeClasses = [
     'placed'    => 'bg-warning text-dark',
     'shipped'   => 'bg-info text-dark',
     'delivered' => 'bg-success',
+    'cancelled' => 'bg-danger',
 ];
 
 $pageTitle = 'Order #' . (int) $order['id'];
@@ -167,10 +168,37 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     </button>
                 </form>
             <?php else: ?>
-                <p class="text-success mb-0">
-                    <i class="bi bi-check-circle-fill"></i>
-                    This order is complete.
-                </p>
+                <?php if ($order['status'] === 'cancelled'): ?>
+                    <p class="text-danger mb-0"><i class="bi bi-x-circle-fill"></i> This order was cancelled.</p>
+                <?php else: ?>
+                    <p class="text-success mb-0"><i class="bi bi-check-circle-fill"></i> This order is complete.</p>
+                <?php endif; ?>
+            <?php endif; ?>
+            <?php if (in_array($order['status'], ['placed', 'shipped'], true)): ?>
+                <?php $cancelModalId = 'cancelOrderModal' . (int) $order['id']; ?>
+                <button type="button" class="btn btn-outline-danger w-100 mt-3" data-bs-toggle="modal" data-bs-target="#<?= $cancelModalId ?>">
+                    <i class="bi bi-x-circle"></i> Cancel order
+                </button>
+                <div class="modal fade" id="<?= $cancelModalId ?>" tabindex="-1" aria-labelledby="<?= $cancelModalId ?>Label" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-sm">
+                        <div class="modal-content border-0 rounded-4 shadow">
+                            <form action="<?= BASE_URL ?>/admin/update_order_status.php" method="POST">
+                                <div class="modal-body text-center p-4">
+                                    <div class="mb-3 text-danger"><i class="bi bi-exclamation-triangle display-4"></i></div>
+                                    <h5 class="fw-bold" id="<?= $cancelModalId ?>Label">Cancel Order?</h5>
+                                    <p class="text-secondary mb-4">Cancel this order and return its items to stock?</p>
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <input type="hidden" name="id" value="<?= (int) $order['id'] ?>">
+                                    <input type="hidden" name="action" value="cancel">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Keep Order</button>
+                                        <button type="submit" class="btn btn-danger"><i class="bi bi-x-circle"></i> Yes, Cancel</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
         </div>
 

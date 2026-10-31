@@ -75,4 +75,4 @@ require_once __DIR__ . '/../includes/header.php';
 <button class="btn btn-primary" type="submit">Login</button>
 </form><?php if (GoogleAuth::isConfigured()): ?><p class="auth-google-separator">or</p><a class="btn btn-outline google-auth-button" href="<?= BASE_URL ?>/auth/google_start.php">Continue with Google</a><?php endif; ?><p>New here? <a href="register.php">Create an account</a></p>
 </div></section>
-<?php require_once __DIR__ . '/../includes/footer.php'; ?>
+<?php require_once __DIR__ . '/../includes/auth_end.php'; ?>

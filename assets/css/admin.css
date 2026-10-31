@@ -288,7 +288,7 @@
 /* Summary cards that also act as filters (orders page) */
 .status-cards {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 12px;
     margin-bottom: 16px;
 }
@@ -595,7 +595,9 @@
 
 @media (max-width: 768px) {
     .status-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(120px, 1fr));
+        overflow-x: auto;
+        padding: 2px 2px 8px;
     }
 
     .admin-sidebar {
@@ -1166,3 +1168,11 @@
     .dashboard-page .dashboard-lower-grid:has(.dashboard-recent-summary) > .admin-card { align-self: start; }
     .dashboard-recent-summary { margin-top: 12px; }
 }
+/* Uploaded category artwork in the categories table and edit modal. */
+.category-admin-thumb { display: inline-block; width: 56px; height: 48px; object-fit: cover; border-radius: 10px; border: 1px solid var(--admin-border, #e8e6f0); background: #fff; vertical-align: middle; }
+.category-image-current { display: flex; align-items: center; gap: .4rem; }
+.product-image-thumb { position: relative; width: 88px; height: 88px; }
+.product-image-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; border: 1px solid var(--admin-border, #e8e6f0); border-radius: 10px; }
+.product-image-remove { position: absolute; top: 3px; right: 3px; display: grid; place-items: center; width: 19px; height: 19px; padding: 0; border: 1px solid #fff; border-radius: 50%; background: #d92d20; color: #fff; font: 700 14px/1 Arial, sans-serif; box-shadow: 0 1px 4px #0003; cursor: pointer; }
+.product-image-remove:hover { background: #b42318; }
+.admin-body .admin-dialog .admin-remote-footer.product-upload-actions { justify-content: flex-start; padding-top: 0; margin-top: 12px; border-top: 0; }

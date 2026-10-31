@@ -97,7 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                   last_name = :last_name,
                                   email = :email,
                                   phone = :phone,
-                                  birth_date = :birth_date
+                                  birth_date = :birth_date,
+                                  profile_image = COALESCE(:profile_image, profile_image)
                               WHERE id = :id";
                 $updateStmt = $pdo->prepare($updateSql);
                 $updateStmt->execute([
@@ -106,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     ':email'      => $email,
                     ':phone'      => !empty($phone) ? $phone : null,
                     ':birth_date' => !empty($birthDate) ? $birthDate : null,
+                    ':profile_image' => $newProfileImage,
                     ':id'         => $userId,
                 ]);
 
@@ -155,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-$userStmt = $pdo->prepare("SELECT id, first_name, last_name, email, phone, birth_date, created_at FROM users WHERE id = ?");
+$userStmt = $pdo->prepare("SELECT id, first_name, last_name, email, phone, birth_date, profile_image, created_at FROM users WHERE id = ?");
 $userStmt->execute([$userId]);
 $user = $userStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -195,7 +197,7 @@ $myReviewsStmt = $pdo->prepare("SELECT r.*, p.name AS product_name, p.image AS p
 $myReviewsStmt->execute([$userId]);
 $myReviews = $myReviewsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$profileImageUrl = accountProfileImageUrl($userId);
+$profileImageUrl = accountProfileImageUrl($userId, (string) ($user['profile_image'] ?? ''));
 $profileInitials = accountUserInitials(trim($user['first_name'] . ' ' . $user['last_name']));
 $activeAccountTab = 'profile';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_review') {
@@ -294,7 +296,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                                 <span class="text-muted small ms-2"><?= date('M j, Y', strtotime($ord['created_at'])) ?></span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                <span class="kiddo-badge <?= $ord['status'] === 'delivered' ? 'badge-status-completed' : 'badge-status-placed' ?>">
+                                <span class="kiddo-badge <?= $ord['status'] === 'delivered' ? 'badge-status-completed' : ($ord['status'] === 'cancelled' ? 'badge-status-cancelled' : 'badge-status-placed') ?>">
                                     <?= ucfirst(htmlspecialchars($ord['status'], ENT_QUOTES, 'UTF-8')) ?>
                                 </span>
                                 <span class="fw-bold text-dark"><?= number_format((float)$ord['total'], 2) ?> JOD</span>
@@ -334,6 +336,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
                                             </button>
                                         <?php elseif ($alreadyReviewed): ?>
                                             <span class="kiddo-badge-subtle">Reviewed</span>
+                                        <?php elseif ($ord['status'] === 'cancelled'): ?>
+                                            <span class="kiddo-badge-subtle">Order cancelled</span>
                                         <?php elseif ($ord['status'] !== 'delivered'): ?>
                                             <span class="kiddo-badge-subtle">Awaiting Delivery</span>
                                         <?php endif; ?>

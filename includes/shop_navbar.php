@@ -4,6 +4,9 @@
 // then search, cart and the account area on the right.
 // It reuses the classes of assets/css/style.css (brand, header-search,
 // icon-link, drawer ...) and adds its own in assets/css/storefront.css.
+require_once __DIR__ . '/csrf.php';
+require_once __DIR__ . '/../classes/ToyCatalog.php';
+$navigationCategories = (new ToyCatalog($pdo))->getShopCategories();
 $activePage = $activePage ?? '';
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
@@ -15,8 +18,8 @@ $searchTerm = is_string($_GET['q'] ?? null) ? $_GET['q'] : ''; // text only (a b
 // key => [label, path from the project root]
 $shopNavLinks = [
     'home'       => ['Home', '/index.php'],
-    'categories' => ['Categories', '/products/categories.php'],
     'toys'       => ['Toys', '/products/index.php'],
+    'offers' => ['Offers', '/products/index.php?offers=1'],
 ];
 ?>
 <!-- Keeps the mobile menu open/closed state. Toggled by the labels below, no JS. -->
@@ -36,17 +39,28 @@ $shopNavLinks = [
             <ul>
                 <?php foreach ($shopNavLinks as $key => [$label, $path]): ?>
                     <li>
-                        <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>"
-                           <?= $activePage === $key ? 'aria-current="page"' : '' ?>><?= $label ?></a>
+                        <?php if ($key === 'categories'): ?>
+                        <details class="nav-categories" data-navigation-menu>
+                            <summary class="<?= $activePage === 'categories' ? 'is-active' : '' ?>">Categories <span aria-hidden="true">⌄</span></summary>
+                            <div class="nav-category-panel">
+                                <a class="nav-category-all" href="<?= BASE_URL ?>/products/categories.php">Explore all categories →</a>
+                                <?php foreach ($navigationCategories as $navCategory): ?>
+                                <a href="<?= BASE_URL ?>/products/index.php?category=<?= urlencode($navCategory['slug']) ?>"><?= htmlspecialchars($navCategory['name']) ?></a>
+                                <?php endforeach; ?>
+                            </div>
+                        </details>
+                        <?php else: ?>
+                        <a href="<?= BASE_URL . $path ?>" class="<?= $activePage === $key ? 'is-active' : '' ?>" <?= $activePage === $key ? 'aria-current="page"' : '' ?>><?= $label ?></a>
+                        <?php endif; ?>
                     </li>
                 <?php endforeach; ?>
             </ul>
         </nav>
 
-        <!-- Toy name -> that toy's page, otherwise a "Not found" message (products/find.php) -->
-        <form class="header-search" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
+        <!-- Partial search opens the shared catalog and keeps filter/pagination support. -->
+        <form class="header-search" data-suggestions="<?= BASE_URL ?>/products/suggestions.php" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
             <label class="sr-only" for="site-search">Search toys by name</label>
-            <input id="site-search" type="search" name="q" maxlength="60"
+            <input id="site-search" type="search" autocomplete="off" aria-controls="search-suggestions" aria-expanded="false" name="q" maxlength="60"
                    placeholder="Search toys by name…"
                    value="<?= htmlspecialchars((string) $searchTerm) ?>">
             <button type="submit" aria-label="Search">
@@ -54,6 +68,7 @@ $shopNavLinks = [
                     <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
                 </svg>
             </button>
+            <div id="search-suggestions" class="search-suggestions" hidden></div>
         </form>
 
         <div class="header-actions">

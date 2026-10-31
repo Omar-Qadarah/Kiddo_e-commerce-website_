@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin_auth.php';
+require_once __DIR__ . '/../includes/csrf.php';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { checkCsrf(); }
 require_once __DIR__ . '/../classes/AgeGroup.php';
 
 $ageGroupModel = new AgeGroup($pdo);
@@ -210,7 +213,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-card p-4">
     <form method="POST"
-          action="<?= BASE_URL ?>/admin/edit_age_group.php?id=<?= (int) $id ?>"
+          action="<?= BASE_URL ?>
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">/admin/edit_age_group.php?id=<?= (int) $id ?>"
           enctype="multipart/form-data">
 
         <div class="mb-3">

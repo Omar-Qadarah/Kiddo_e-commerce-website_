@@ -81,7 +81,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <td><?= htmlspecialchars((string) $row['created_at'], ENT_QUOTES, 'UTF-8') ?></td>
 <td><span class="badge <?= $row['is_visible'] ? 'bg-success' : 'bg-secondary' ?>"><?= $row['is_visible'] ? 'Visible' : 'Hidden' ?></span></td>
 <td><form method="post" class="admin-actions">
-<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) $_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">">
 <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
 <?php if ($row['is_visible']): ?>
 <button class="btn admin-action-btn admin-action-toggle" name="action" value="hide" title="Hide review" aria-label="Hide review"><i class="bi bi-eye-slash" aria-hidden="true"></i></button>

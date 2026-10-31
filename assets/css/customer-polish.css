@@ -1,0 +1,178 @@
+/* Final customer-only polish. Loaded by customer layouts, never admin layouts. */
+:root {
+    --shop-content: 1280px;
+    --shop-control: 42px;
+    --shop-radius: 16px;
+    --shop-gap: 24px;
+    --shop-border: var(--line);
+}
+.container, .site-header .container { width: min(var(--shop-content),calc(100% - 48px)); }
+body { line-height: 1.55; }
+.site-header .shop-header-row { gap: 16px; }
+.site-header .shop-nav a { font-size: 14px; }
+.site-header .header-search input { min-height: 42px; font-size: 14px; }
+.site-header .header-actions { gap: 12px; }
+.shop-section { padding-top: 40px; }
+.section-head, #shop-by-age .section-head { margin-bottom: 24px; }
+.section-head h2 { font-size: clamp(26px,2.5vw,32px); line-height: 1.2; }
+.section-head .eyebrow, .browse-eyebrow { font-size: 12px; margin-bottom: 8px; }
+.hero .hero-text h1 { font-size: clamp(36px,4vw,56px); line-height: 1.12; }
+.hero .hero-text p { font-size: 16px; line-height: 1.65; max-width: 54ch; }
+.hero-actions .btn { min-height: 44px; padding: 12px 24px; font-size: 15px; }
+.btn:not(.btn-sm) { font-size: 14px; line-height: 1.3; }
+.btn-primary { box-shadow: 0 4px 12px #7b5cf518; }
+.btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible { outline: 3px solid #b8a4f4; outline-offset: 3px; }
+.toys-layout { max-width: var(--shop-content); gap: 24px; }
+.toys-layout .cat-link { font-size: 13px; line-height: 1.35; gap: 8px; }
+.toys-layout .cat-count { font-size: 12px; margin-left: auto; font-variant-numeric: tabular-nums; }
+.toys-layout .cat-name { overflow-wrap: anywhere; }
+.toys-layout .filter-field label { font-size: 12px; letter-spacing: .04em; }
+.toys-layout .filter-field input, .toys-layout .filter-field select { min-height: var(--shop-control); height: var(--shop-control); font-size: 13px; }
+.toys-layout .filter-actions .btn { min-height: var(--shop-control); height: var(--shop-control); font-size: 14px; }
+.toys-content .result-count { font-size: 14px; margin: 20px 0 16px; }
+.toy-grid, .toys-content .toy-grid { gap: 20px; align-items: stretch; }
+.toy-grid .toy-card { border-radius: var(--shop-radius); }
+.toy-grid .toy-card-body { grid-template-rows: 32px 46px 40px 34px 1fr auto; gap: 8px; padding: 16px; }
+.toy-grid .toy-card-cat { font-size: 12px; line-height: 16px; letter-spacing: 0; }
+.toy-grid .toy-card-name { font-size: 17px; line-height: 23px; min-height: 46px; }
+.toy-grid .toy-card-desc { font-size: 14px; line-height: 20px; min-height: 40px; max-height: 40px; }
+.toy-grid .toy-rating, .toy-grid .toy-stock { font-size: 12px; line-height: 16px; }
+.toy-grid .toy-card-cart button { height: var(--shop-control); min-height: var(--shop-control); font-size: 14px; }
+.toy-grid .toy-age { font-size: 12px; }
+.toy-grid .toy-image-note { font-size: 10px; max-width: 55%; line-height: 12px; }
+.category-discovery { padding-block: 32px 40px; }
+.category-discovery h1 { font-size: clamp(30px,3vw,38px); line-height: 1.2; margin-bottom: 24px; }
+.category-discovery-grid { gap: 20px; }
+.category-discovery-card { padding: 20px; border-radius: var(--shop-radius); }
+.category-card-copy { min-height: 70px; gap: 8px; }
+.category-card-copy strong { font-size: 17px; line-height: 1.35; }
+.category-card-copy small { font-size: 13px; }
+.age-circle-label { font-size: 12px; line-height: 1.3; }
+.promo-text h2 { font-size: clamp(26px,3vw,36px); line-height: 1.2; }
+.promo-text p { font-size: 15px; line-height: 1.6; max-width: 52ch; }
+.promo-names { gap: 8px; }
+.details, .cart-page { padding-top: 32px; padding-bottom: 40px; }
+.details .details-info h1, .cart-page > h1 { font-size: clamp(28px,3vw,36px); line-height: 1.2; margin-bottom: 20px; }
+.details .details-desc, .details .how-to-play p { font-size: 15px; line-height: 1.65; }
+.details .details-grid { gap: 32px; }
+.details .details-buy { gap: 12px; }
+.details .details-buy .btn { min-height: var(--shop-control); font-size: 15px; }
+.cart-layout { grid-template-columns: minmax(0,1fr) 320px; gap: 24px; }
+.cart-item, .cart-summary, .checkout-card { border: 1px solid var(--shop-border); border-radius: var(--shop-radius); box-shadow: none; }
+.cart-item { gap: 16px; }
+.cart-item-info { min-width: 0; }
+.cart-item-info a { font-size: 15px; line-height: 1.4; overflow-wrap: anywhere; }
+.cart-summary, .checkout-card { padding: 24px; }
+.cart-summary h2, .checkout-card h2 { font-size: 22px; line-height: 1.3; margin-bottom: 16px; }
+.cart-summary .btn { min-height: var(--shop-control); padding: 12px 16px; border-radius: 12px; }
+.checkout-card label { display:block; font-size:14px; margin-bottom:8px; }
+.checkout-card input, .profile-form input:not([type=checkbox]):not([type=radio]):not([type=file]) { min-height: var(--shop-control); padding: 10px 12px; border: 1px solid var(--shop-border); border-radius: 10px; font: 400 15px/1.4 var(--font-body); }
+.checkout-card textarea, .profile-form textarea { padding:12px; border-radius:10px; font:400 15px/1.5 var(--font-body); }
+.checkout-card .field-hint, .cart-note { font-size: 13px; line-height: 1.5; }
+.cart-empty { padding: 32px 24px; border:1px solid var(--shop-border); border-radius:var(--shop-radius); box-shadow:none; }
+.order-card { padding:20px 24px; gap:16px; border:1px solid var(--shop-border); border-radius:var(--shop-radius); box-shadow:none; font-size:14px; }
+.order-steps { gap:8px; font-size:13px; }
+.kiddo-account-layout .toys-main { background:transparent; }
+.kiddo-account-wrapper { padding:0 0 32px; }
+.kiddo-account-container { width:100%; max-width:100%; }
+.kiddo-account-hero { padding:24px; margin-bottom:24px; gap:16px; }
+.kiddo-page-title { font-size:30px; line-height:1.2; }
+.kiddo-subtitle, .profile-section-desc { font-size:14px; line-height:1.5; }
+.kiddo-card, .profile-form-wrapper { padding:24px; border-radius:var(--shop-radius); box-shadow:none; }
+.kiddo-card.p-5 { padding:32px 24px; }
+.profile-section-title { font-size:22px; line-height:1.3; }
+.profile-form { gap:16px; }
+.kiddo-btn-save, .kiddo-btn-review { min-height:var(--shop-control); padding:10px 16px; font-size:14px; border-radius:10px; }
+.auth-section { width:min(480px,calc(100% - 32px)); }
+.auth-card h1 { font-size:24px; line-height:1.25; }
+.auth-card button { box-shadow:none; }
+.auth-card .auth-errors, .auth-card .auth-success { font-size:14px; line-height:1.5; margin-block:12px; }
+.site-footer { margin-top:40px; }
+.site-footer .footer-grid { gap:24px; padding-block:32px 24px; }
+.site-footer .footer-grid p, .site-footer .footer-grid ul { font-size:14px; line-height:1.6; }
+.shop-pagination { gap:12px; }
+.shop-pagination nav a, .shop-pagination nav span { font-size:13px; }
+@media(max-width:1100px) { .site-header .shop-header-row { gap:12px; } .cart-layout { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:820px) {
+    .kiddo-account-layout .kiddo-account-main { display:block; }
+    .kiddo-account-hero { flex-wrap:wrap; }
+    .toys-layout .cat-name { overflow-wrap:normal; }
+}
+@media(max-width:600px) {
+    .container, .site-header .container { width:calc(100% - 32px); }
+    .auth-section { width:calc(100% - 32px); }
+    .shop-section { padding-top:32px; }
+    .section-head, #shop-by-age .section-head { margin-bottom:20px; }
+    .section-head h2 { font-size:26px; }
+    .hero .hero-text h1 { font-size:36px; }
+    .category-discovery-card { padding:14px; }
+    .category-card-copy { min-height:76px; }
+    .category-card-copy strong { font-size:15px; }
+    .category-card-copy small { font-size:12px; }
+    .details, .cart-page { padding-top:24px; padding-bottom:32px; }
+    .details .details-info h1, .cart-page > h1 { font-size:28px; }
+    .cart-item { grid-template-columns:64px minmax(0,1fr); gap:12px; padding:16px; }
+    .cart-summary, .checkout-card, .kiddo-card, .profile-form-wrapper, .kiddo-account-hero { padding:20px; }
+    .kiddo-page-title { font-size:28px; }
+    .kiddo-account-container { width:100%; }
+    .kiddo-product-row { flex-wrap:wrap; gap:12px; }
+    .kiddo-product-row > div:first-child { flex:1 1 100%; }
+    .auth-card h1 { font-size:22px; }
+    .order-card { gap:12px; padding:16px; }
+}
+@media(prefers-reduced-motion:reduce) { .toy-card:hover,.category-discovery-card:hover { transform:none; } }
+/* Keep upload controls inside the profile card's grid tracks. */
+.profile-form { min-width:0; grid-template-columns:minmax(0,1fr); }
+.profile-photo-field, .profile-photo-control, .profile-fields-grid, .kiddo-form-group { min-width:0; max-width:100%; }
+.profile-photo-control input[type=file] { width:100%; min-width:0; }
+.cart-item .cart-qty { justify-self:start; width:max-content; }
+
+/* Shared image-first product cards with price, stock and a direct cart action. */
+.toy-grid .toy-card { display:flex; flex-direction:column; min-width:0; overflow:hidden; padding:0; border:1px solid #eceaf2; border-radius:14px; background:#fff; box-shadow:0 2px 8px #29203c08; }
+.toy-grid .toy-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px #29203c12; }
+.toy-grid .toy-card-media { width:100%; height:auto; aspect-ratio:1 / 1; border-radius:13px 13px 0 0; background:#fff; }
+.toy-grid .toy-card-circle { width:100%; height:100%; border-radius:0; background:transparent; box-shadow:none; }
+.toy-grid .toy-card-circle img { width:100%; height:100%; box-sizing:border-box; padding:8px; object-fit:contain; }
+.toy-grid .toy-card-body { display:flex; flex-direction:column; gap:7px; padding:12px; }
+.toy-grid .toy-card-cat, .toy-grid .toy-card-desc, .toy-grid .toy-age { display:none; }
+.toy-grid .toy-card-name { min-height:38px; margin:0; font-size:15px; line-height:1.35; }
+.toy-grid .toy-card-link::after { border-radius:14px; }
+.toy-grid .toy-rating { display:flex; align-items:center; min-height:18px; gap:5px; margin:0; color:#f5bf30; font-size:12px; }
+.toy-grid .toy-rating-text { color:#85818c; font-size:11px; }
+.toy-grid .toy-card-foot { display:flex; align-items:center; justify-content:space-between; gap:8px; margin:0; padding:0; }
+.toy-grid .toy-price { display:flex; align-items:baseline; gap:7px; }
+.toy-grid .toy-price strong { color:#262344; font-size:20px; font-weight:800; line-height:1.2; }
+.toy-grid .toy-price del { color:#918d9d; font-size:12px; }
+.toy-grid .toy-stock { flex:0 0 auto; color:#19b879; font-size:13px; font-weight:800; white-space:nowrap; }
+.toy-grid .toy-stock.is-out { color:#e34f66; }
+.toy-grid .toy-card-cart { position:relative; z-index:2; width:100%; margin:2px 0 0; }
+.toy-grid .toy-card-cart button { width:100%; min-height:50px; height:50px; border:0; border-radius:12px; background:#7957f5; color:#fff; font-size:14px; font-weight:800; box-shadow:none; }
+.toy-grid .toy-card-cart button:hover:not(:disabled) { background:#6846e6; }
+@media (max-width: 600px) {
+    .toy-grid .toy-card-body { padding:10px; }
+    .toy-grid .toy-card-name { font-size:14px; }
+    .toy-grid .toy-price strong { font-size:17px; }
+    .toy-grid .toy-stock { font-size:11px; }
+    .toy-grid .toy-card-cart button { min-height:44px; height:44px; }
+}
+
+.details-recommendations { margin-top:48px; margin-bottom:24px; }
+.details-recommendations-heading { margin-bottom:20px; }
+.details-recommendations-heading h2 { margin:0 0 4px; color:#2f2c38; font-size:24px; font-weight:800; }
+.details-recommendations-heading p { margin:0; color:#777281; font-size:14px; }
+.store-promises { justify-items: center; }
+
+/* Keep the brand and links together, center search in the remaining space,
+   and anchor the account controls at the right edge. */
+@media (min-width: 1101px) {
+    .site-header .container.shop-header-row {
+        width: min(1680px, calc(100% - 48px));
+        grid-template-columns: auto auto minmax(280px, 1fr) auto;
+        column-gap: clamp(16px, 1.8vw, 26px);
+    }
+    .site-header .brand { justify-self: start; }
+    .site-header .shop-nav { justify-self: start; }
+    .site-header .shop-nav a { font-size: 15px; padding-inline: 14px; }
+    .site-header .header-search { width: min(100%, 570px); max-width: 570px; justify-self: center; }
+    .site-header .header-actions { justify-self: end; }
+}

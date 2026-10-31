@@ -24,7 +24,18 @@ if (!$id || $id < 1) {
 
 $orderModel = new Order($pdo);
 
-if (!is_string($newStatus) || !in_array($newStatus, Order::STATUSES, true)) {
+if (($_POST['action'] ?? '') === 'cancel') {
+    try {
+        if ($orderModel->cancelOrder($id)) {
+            $_SESSION['order_success'] = 'Order cancelled and returned to stock.';
+        } else {
+            $_SESSION['order_error'] = 'Only placed or shipped orders can be cancelled.';
+        }
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        $_SESSION['order_error'] = 'Unable to cancel the order. Please try again.';
+    }
+} elseif (!is_string($newStatus) || !in_array($newStatus, Order::STATUSES, true)) {
     $_SESSION['order_error'] = 'Invalid status.';
 } else {
     try {
@@ -40,5 +51,9 @@ if (!is_string($newStatus) || !in_array($newStatus, Order::STATUSES, true)) {
 }
 
 // Post / Redirect / Get: refreshing the page will not resubmit the form
-header('Location: ' . BASE_URL . '/admin/order_details.php?id=' . $id);
+if (($_POST['action'] ?? '') === 'cancel' && ($_POST['return_to'] ?? '') === 'orders') {
+    header('Location: ' . BASE_URL . '/admin/orders.php');
+} else {
+    header('Location: ' . BASE_URL . '/admin/order_details.php?id=' . $id);
+}
 exit;

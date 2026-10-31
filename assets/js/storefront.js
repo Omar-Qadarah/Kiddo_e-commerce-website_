@@ -2,6 +2,30 @@
 // Every part only runs when its HTML exists on the page.
 document.addEventListener('DOMContentLoaded', function () {
 
+    // ---------- New arrivals: scroll the product carousel ----------
+    document.querySelectorAll('[data-new-arrivals-carousel]').forEach(function (carousel) {
+        var track = carousel.querySelector('[data-new-arrivals-track]');
+        var previous = document.querySelector('[data-new-arrivals-prev]');
+        var next = document.querySelector('[data-new-arrivals-next]');
+        if (!track || !previous || !next) return;
+
+        function updateControls() {
+            var maxScroll = track.scrollWidth - track.clientWidth;
+            previous.disabled = track.scrollLeft <= 2;
+            next.disabled = maxScroll <= 2 || track.scrollLeft >= maxScroll - 2;
+        }
+
+        previous.addEventListener('click', function () {
+            track.scrollBy({ left: -track.clientWidth * 0.85, behavior: 'smooth' });
+        });
+        next.addEventListener('click', function () {
+            track.scrollBy({ left: track.clientWidth * 0.85, behavior: 'smooth' });
+        });
+        track.addEventListener('scroll', updateControls, { passive: true });
+        window.addEventListener('resize', updateControls);
+        requestAnimationFrame(updateControls);
+    });
+
     // ---------- Toy card arrows: browse a toy's pictures without opening it ----------
     document.querySelectorAll('[data-card-gallery]').forEach(function (media) {
         var images = media.querySelectorAll('.toy-card-circle img');
@@ -34,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var names = slider.querySelectorAll('[data-slide-name]');
         var current = 0;
         var timer = null;
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
         function show(index) {
             slides[current].classList.remove('is-active');
@@ -51,6 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         function restart() {
             clearInterval(timer);
+            if (reducedMotion.matches || document.hidden) return;
             timer = setInterval(function () { show(current + 1); }, 6000);
         }
 
@@ -70,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 
+        reducedMotion.addEventListener('change', restart);
+        document.addEventListener('visibilitychange', restart);
         restart();
     });
 

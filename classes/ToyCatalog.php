@@ -6,7 +6,6 @@
 class ToyCatalog
 {
     private PDO $pdo;
-
     // Columns every toy card needs: the toy, its category, the best active
     // discount (product or category discount) and the visible reviews summary.
     private const CARD_SELECT = "
@@ -37,6 +36,19 @@ class ToyCatalog
     public function __construct(PDO $pdo)
     {
         $this->pdo = $pdo;
+    }
+
+    public function getShopCategories(): array
+    {
+        return $this->getCategoriesWithToyCount();
+    }
+    public function getToysByIds(array $ids): array
+    {
+        $ids = array_values(array_unique(array_map('intval', $ids)));
+        if (!$ids) return [];
+        $stmt = $this->pdo->prepare(self::CARD_SELECT . ' AND p.id IN (' . implode(',', array_fill(0,count($ids),'?')) . ')');
+        $stmt->execute($ids);
+        return array_column($stmt->fetchAll(), null, 'id');
     }
 
     // ---------- Landing page ----------
@@ -90,19 +102,53 @@ class ToyCatalog
         return $this->pdo->query($sql)->fetchAll();
     }
 
+    // Categories represented in the Offers view. Count only active toys that
+    // currently receive a product or category discount, using the same date
+    // rules as CARD_SELECT so the sidebar matches the offer results.
+    public function getCategoriesWithDiscountedToyCount(): array
+    {
+        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon, c.image,
+                       COUNT(p.id) AS toy_count
+                FROM categories c
+                INNER JOIN products p ON p.category_id = c.id AND p.is_active = 1
+                WHERE EXISTS (
+                    SELECT 1
+                    FROM discounts d
+                    WHERE d.is_active = 1
+                      AND (d.product_id = p.id OR d.category_id = p.category_id)
+                      AND (d.starts_at IS NULL OR d.starts_at <= CURDATE())
+                      AND (d.ends_at IS NULL OR d.ends_at >= CURDATE())
+                      AND d.percentage > 0
+                )
+                GROUP BY c.id, c.name, c.slug, c.description, c.icon, c.image
+                ORDER BY c.name ASC";
+
+        return $this->pdo->query($sql)->fetchAll();
+    }
+
     // Toys that match the chosen filters. Every filter is optional:
     //   category => category slug
     //   age      => ['min_age' => .., 'max_age' => ..] of the chosen age group
     //   gender   => girls | boys | unisex
     //   price    => ['min' => .. or null, 'max' => .. or null] in JOD,
     //               checked against the price after discount (the price on the card)
-    public function getFilteredToys(array $filters): array
+    private function filteredQuery(array $filters): array
     {
         $sql    = self::CARD_SELECT;
         $params = [];
 
+        if (!empty($filters['q'])) {
+            $words = preg_split('/\s+/u', trim($filters['q']), -1, PREG_SPLIT_NO_EMPTY);
+            foreach (array_slice($words ?: [], 0, 8) as $i => $word) {
+                $sql .= " AND (LOWER(p.name) LIKE LOWER(:word_name_$i) OR LOWER(c.name) LIKE LOWER(:word_category_$i) OR LOWER(p.description) LIKE LOWER(:word_description_$i))";
+                $like = '%' . addcslashes($word, '%_\\') . '%';
+                $params["word_name_$i"] = $like;
+                $params["word_category_$i"] = $like;
+                $params["word_description_$i"] = $like;
+            }
+        }
         if (!empty($filters['category'])) {
-            $sql .= " AND c.slug = :category";
+            $sql .= ' AND c.slug = :category';
             $params['category'] = $filters['category'];
         }
 
@@ -117,31 +163,61 @@ class ToyCatalog
             $params['gender'] = $filters['gender'];
         }
 
+        if (!empty($filters['stock'])) {
+            $sql .= " AND p.stock > 0";
+        }
+
         // Price: the discount is calculated inside CARD_SELECT, so the query is
         // wrapped (like getDiscountedToys) to filter on the final price.
         // min is included, max is not: 10-25 means 10.00 up to 24.99.
+        // Final price is also used for sorting, so offers and price filters agree.
+        $sql = "SELECT * FROM (" . $sql . ") AS toys WHERE 1 = 1";
+        $finalPrice = "ROUND(toys.price * (1 - toys.discount_pct / 100), 2)";
         if (!empty($filters['price'])) {
-            $finalPrice = "ROUND(toys.price * (1 - toys.discount_pct / 100), 2)";
-            $sql = "SELECT * FROM (" . $sql . ") AS toys WHERE 1 = 1";
-
             if ($filters['price']['min'] !== null) {
                 $sql .= " AND $finalPrice >= :price_min";
                 $params['price_min'] = (float) $filters['price']['min'];
             }
-
             if ($filters['price']['max'] !== null) {
                 $sql .= " AND $finalPrice < :price_max";
                 $params['price_max'] = (float) $filters['price']['max'];
             }
-
-            $sql .= " ORDER BY toys.created_at DESC, toys.id DESC";
-        } else {
-            $sql .= " ORDER BY p.created_at DESC, p.id DESC";
         }
+        if (!empty($filters['offers'])) $sql .= " AND toys.discount_pct > 0";
+        $sorts = [
+            'newest' => 'toys.created_at DESC, toys.id DESC',
+            'price_asc' => "$finalPrice ASC, toys.id DESC",
+            'price_desc' => "$finalPrice DESC, toys.id DESC",
+            'name_asc' => 'toys.name ASC, toys.id DESC',
+        ];
+        $sql .= ' ORDER BY ' . ($sorts[$filters['sort'] ?? 'newest'] ?? $sorts['newest']);
 
-        $stmt = $this->pdo->prepare($sql);
+        return [$sql, $params];
+    }
+
+    public function countFilteredToys(array $filters): int
+    {
+        [$sql, $params] = $this->filteredQuery($filters);
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM ($sql) AS matching_toys");
         $stmt->execute($params);
+        return (int) $stmt->fetchColumn();
+    }
 
+    public function getFilteredToys(array $filters, ?int $limit = null, int $offset = 0): array
+    {
+        [$sql, $params] = $this->filteredQuery($filters);
+        if ($limit !== null) {
+            $sql .= " LIMIT :page_limit OFFSET :page_offset";
+        }
+        $stmt = $this->pdo->prepare($sql);
+        foreach ($params as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+        if ($limit !== null) {
+            $stmt->bindValue(':page_limit', max(1, $limit), PDO::PARAM_INT);
+            $stmt->bindValue(':page_offset', max(0, $offset), PDO::PARAM_INT);
+        }
+        $stmt->execute();
         return $stmt->fetchAll();
     }
 

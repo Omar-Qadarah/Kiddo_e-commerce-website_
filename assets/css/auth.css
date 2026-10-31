@@ -16,3 +16,31 @@
 
 .auth-google-separator { text-align: center; color: #777; margin: 12px 0; }
 .google-auth-button { display: block; box-sizing: border-box; width: 100%; text-align: center; text-decoration: none !important; margin: 12px 0; }
+
+/* Shared, compact authentication layout; form names and handlers are unchanged. */
+.auth-section { width: min(100% - 32px,480px); padding-top: 32px; padding-bottom: 32px; }
+.auth-card { width: 100%; max-width: 480px; padding: 24px 28px; border-radius: 18px; box-shadow: 0 8px 24px #4b2fc40c; }
+.auth-card h1 { font-size: 24px; line-height: 1.2; margin: 0 0 8px; }
+.auth-card > p { font-size: 14px; line-height: 1.5; margin: 8px 0 16px; }
+.auth-card label { font-size: 13px; margin: 12px 0 5px; }
+.auth-card input { height: 42px; padding: 10px 12px; font-size: 14px; border-color: #e3ddef; }
+.auth-card button { height: 42px; min-height: 42px; margin: 18px 0 12px; padding: 8px 16px; border-radius: 10px; font-size: 14px; }
+.auth-card .google-auth-button { min-height: 42px; margin: 10px 0; padding: 10px 14px; border-radius: 10px; font-size: 14px; }
+.auth-card .auth-hint { margin: 8px 0 0; font-size: 12px; }
+@media(max-width:600px) { .auth-section { padding-block:24px; } .auth-card { padding:22px 20px; } .auth-card h1 { font-size:22px; } }
+
+/* Playful decoration stays behind the authentication forms only. */
+body:has(.auth-section) main {
+    min-height:calc(100dvh - var(--header-h, 84px));
+    background-color:#f7f3ff;
+    background-image:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%221200%22%20height%3D%22760%22%20viewBox%3D%220%200%201200%20760%22%3E%0A%3Cg%20fill%3D%22none%22%20stroke-width%3D%224%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%20opacity%3D%22.65%22%3E%0A%3Cg%20stroke%3D%22%23c3adf5%22%20transform%3D%22translate%28110%20100%29%20rotate%28-12%29%22%3E%3Crect%20width%3D%2270%22%20height%3D%2270%22%20rx%3D%2216%22%20fill%3D%22%23ede5ff%22/%3E%3Cpath%20d%3D%22M22%2049%2035%2020%2048%2049M27%2039h16%22/%3E%3C/g%3E%0A%3Cg%20stroke%3D%22%23f2bb8c%22%20transform%3D%22translate%281000%2080%29%20rotate%2814%29%22%3E%3Cpath%20d%3D%22m40%200%2012%2025%2028%204-20%2020%205%2028-25-14-25%2014%205-28L0%2029l28-4Z%22%20fill%3D%22%23fff1d8%22/%3E%3C/g%3E%0A%3Cg%20stroke%3D%22%239ed6d0%22%20transform%3D%22translate%28210%20330%29%22%3E%3Ccircle%20r%3D%2243%22%20fill%3D%22%23e1f5f1%22/%3E%3Cpath%20d%3D%22M-37-21c34%205%2049%2028%2053%2060M-38%2020C-7-7%2020-19%2039-16%22/%3E%3C/g%3E%0A%3Cg%20stroke%3D%22%23e9afc8%22%20transform%3D%22translate%281000%20360%29%20rotate%28-12%29%22%3E%3Cpath%20d%3D%22M0%200%2040-45%2080%200%2040%2055Z%22%20fill%3D%22%23fce4ef%22/%3E%3Cpath%20d%3D%22M40-45V55M0%200h80M40%2055q-20%2025%200%2040t0%2040%22/%3E%3C/g%3E%0A%3Cg%20stroke%3D%22%23c4b2ef%22%20transform%3D%22translate%28130%20600%29%20rotate%2812%29%22%3E%3Crect%20width%3D%2276%22%20height%3D%2265%22%20rx%3D%2212%22%20fill%3D%22%23eee8fc%22/%3E%3Cpath%20d%3D%22M0%2022h76M38%200v65M38%200C7-37%203-5%2038%200c31-37%2035-5%200%200%22/%3E%3C/g%3E%0A%3Cg%20stroke%3D%22%239fc8ed%22%20transform%3D%22translate%28980%20640%29%22%3E%3Cpath%20d%3D%22M-60%2010a24%2024%200%200%201%2018-40%2034%2034%200%200%201%2064-7%2025%2025%200%201%201%2025%2047Z%22%20fill%3D%22%23e4f1ff%22/%3E%3C/g%3E%0A%3C/g%3E%3Cg%20fill%3D%22%23d7c7f7%22%3E%3Ccircle%20cx%3D%2270%22%20cy%3D%22290%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22330%22%20cy%3D%22170%22%20r%3D%224%22/%3E%3Ccircle%20cx%3D%221090%22%20cy%3D%22550%22%20r%3D%225%22/%3E%3Ccircle%20cx%3D%22860%22%20cy%3D%22180%22%20r%3D%224%22/%3E%3C/g%3E%0A%3Cg%20fill%3D%22%23f6d899%22%3E%3Ccircle%20cx%3D%22290%22%20cy%3D%22610%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%221100%22%20cy%3D%22250%22%20r%3D%226%22/%3E%3Ccircle%20cx%3D%22880%22%20cy%3D%22490%22%20r%3D%224%22/%3E%3C/g%3E%0A%3C/svg%3E"), linear-gradient(145deg,#f6f1ff,#fff8f1 55%,#eef8ff);
+    background-position:center top;
+    background-size:1200px 760px,100% 100%;
+    background-repeat:repeat-y,no-repeat;
+}
+body:has(.auth-section) .auth-section { position:relative; padding-top:40px; padding-bottom:48px; }
+body:has(.auth-section) .auth-card { background:#fff; box-shadow:0 12px 40px #6243ad12; }
+@media(max-width:600px) {
+    body:has(.auth-section) main { background-size:760px 540px,100% 100%; }
+    body:has(.auth-section) .auth-section { padding-top:28px; padding-bottom:32px; }
+}
