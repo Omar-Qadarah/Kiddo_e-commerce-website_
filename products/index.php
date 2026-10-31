@@ -15,7 +15,10 @@ require_once __DIR__ . '/../includes/age_cards.php';
 
 $catalog       = new ToyCatalog($pdo);
 
-$categories = $catalog->getShopCategories();
+$isOffersPage = ($_GET['offers'] ?? '') === '1';
+$categories = $isOffersPage
+    ? $catalog->getCategoriesWithDiscountedToyCount()
+    : $catalog->getShopCategories();
 $ageGroups  = $storeAgeGroups;
 $genders    = ['girls' => 'Girls', 'boys' => 'Boys', 'unisex' => 'Unisex'];
 
@@ -78,7 +81,7 @@ $sortLabels = ['newest' => 'Newest first', 'price_asc' => 'Price: low to high', 
 $sortKey = is_string($_GET['sort'] ?? null) ? $_GET['sort'] : '';
 if (isset($sortLabels[$sortKey])) $filters['sort'] = $sortKey;
 $filters['stock'] = ''; // Availability checkbox was removed from the customer UI.
-$filters['offers'] = ($_GET['offers'] ?? '') === '1' ? '1' : '';
+$filters['offers'] = $isOffersPage ? '1' : '';
 
 // Toys page link that keeps the other filters.
 function toysUrl(array $filters, array $change = []): string

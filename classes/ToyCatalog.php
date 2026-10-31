@@ -102,6 +102,30 @@ class ToyCatalog
         return $this->pdo->query($sql)->fetchAll();
     }
 
+    // Categories represented in the Offers view. Count only active toys that
+    // currently receive a product or category discount, using the same date
+    // rules as CARD_SELECT so the sidebar matches the offer results.
+    public function getCategoriesWithDiscountedToyCount(): array
+    {
+        $sql = "SELECT c.id, c.name, c.slug, c.description, c.icon,
+                       COUNT(p.id) AS toy_count
+                FROM categories c
+                INNER JOIN products p ON p.category_id = c.id AND p.is_active = 1
+                WHERE EXISTS (
+                    SELECT 1
+                    FROM discounts d
+                    WHERE d.is_active = 1
+                      AND (d.product_id = p.id OR d.category_id = p.category_id)
+                      AND (d.starts_at IS NULL OR d.starts_at <= CURDATE())
+                      AND (d.ends_at IS NULL OR d.ends_at >= CURDATE())
+                      AND d.percentage > 0
+                )
+                GROUP BY c.id, c.name, c.slug, c.description, c.icon
+                ORDER BY c.name ASC";
+
+        return $this->pdo->query($sql)->fetchAll();
+    }
+
     // Toys that match the chosen filters. Every filter is optional:
     //   category => category slug
     //   age      => ['min_age' => .., 'max_age' => ..] of the chosen age group
