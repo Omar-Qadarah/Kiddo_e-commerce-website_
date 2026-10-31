@@ -12,16 +12,15 @@ if (!empty($_GET['category']) && is_string($_GET['category'])) {
 }
 $catalog = new ToyCatalog($pdo);
 $categories = $catalog->getShopCategories();
-$pageTitle = 'Explore by interest';
+$pageTitle = 'Categories';
 $activePage = 'categories';
 $pageStyles = ['landing.css'];
 require __DIR__ . '/../includes/shop_header.php';
 ?>
-<section class="container category-discovery">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><a href="<?= BASE_URL ?>/index.php">Home</a><span>/</span><span aria-current="page">Categories</span></nav>
-    <span class="browse-eyebrow">Follow their curiosity</span>
-    <h1>A little of what they love</h1>
-    <p>From first discoveries to big adventures, find a world of play for every interest.</p>
+<section class="container category-discovery category-hub">
+    <span class="browse-eyebrow">Shop by category</span>
+    <h1>Find the perfect toy</h1>
+
     <?php require __DIR__ . '/../includes/category_grid.php'; ?>
     <?php if (!$categories): ?><p>New toy collections are on their way. <a href="<?= BASE_URL ?>/products/index.php">Explore all toys</a></p><?php endif; ?>
 </section>

@@ -144,9 +144,9 @@ require_once __DIR__ . '/../includes/shop_header.php';
 <div class="toys-layout toys-pill-page catalog-page">
     <!-- ============ Full-height sidebar on the left ============ -->
     <details class="catalog-sidebar" open>
-        <summary>Filters &amp; categories <span aria-hidden="true">⌄</span></summary>
+        <summary>Filters <span aria-hidden="true">⌄</span></summary>
         <div class="catalog-sidebar-content">
-    <?php $categoryUrl = fn($slug) => toysUrl($filters, ['category' => $slug]); require __DIR__ . '/../includes/shop_category_sidebar.php'; ?>
+
             <section class="catalog-filters" aria-labelledby="catalog-filter-title">
                 <h2 id="catalog-filter-title">Filters</h2>
             <form class="filter-bar" action="<?= htmlspecialchars(strtok(toysUrl([]), '?')) ?>" method="get" data-filter-form>
@@ -251,7 +251,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
             <?php else: ?>
                 <div class="toys-empty">
                     <span aria-hidden="true">🧸</span>
-                    <h2><?= $filters['q'] !== '' ? 'No toys found for “' . htmlspecialchars($filters['q']) . '”' : 'No toys match these filters' ?></h2>
+                    <h2><?= $filters['q'] !== '' ? 'No toys found for “' . htmlspecialchars($filters['q']) . '”' : ($activeCategory && !$filters['age'] && !$filters['gender'] && !$filters['price'] && !$filters['offers'] ? 'No toys are available in this category yet.' : 'No toys match these filters') ?></h2>
                     <p>Check your spelling, try fewer words, or remove a filter.</p><a class="btn btn-outline" href="<?= BASE_URL ?>/products/categories.php">Browse categories</a>
                     <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php<?= $filters['offers'] ? '?offers=1' : '' ?>">Clear filters</a>
                 </div>

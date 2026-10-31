@@ -6,7 +6,7 @@
             <?php if (!empty($category['image'])): ?>
                 <img src="<?= htmlspecialchars(shopCategoryImageUrl($category['image']), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>" width="160" height="120" loading="lazy">
             <?php else: ?>
-                <span class="category-art-empty" aria-hidden="true">🧸</span>
+                <img src="<?= htmlspecialchars(shopCategoryIllustration($category['name']), ENT_QUOTES, 'UTF-8') ?>" alt="" width="160" height="120" loading="lazy">
             <?php endif; ?>
         </span>
         <span class="category-card-copy"><strong><?= htmlspecialchars($category['name']) ?></strong><small><?= (int) $category['toy_count'] ?> toys to discover</small></span>

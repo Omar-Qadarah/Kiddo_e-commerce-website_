@@ -1,10 +1,4 @@
-
-<?php
-// Age groups for the "Shop by age" links
-require_once __DIR__ . '/age_cards.php';
-$footerAges = [];
-foreach ($ageCards as $slug => $age) $footerAges[] = ['slug'=>$slug, 'name'=>ageCardRange($age).' Years'];
-?></main>
+</main>
 
 <footer class="site-footer">
     <div class="container footer-grid">
@@ -14,16 +8,6 @@ foreach ($ageCards as $slug => $age) $footerAges[] = ['slug'=>$slug, 'name'=>age
             </a>
             <p class="footer-tagline">Toys that grow little minds.</p>
             <p>Thoughtful toys for every stage of childhood, delivered across Jordan.</p>
-        </div>
-
-        <div>
-            <h3>Shop by age</h3>
-            <ul>
-                <?php foreach ($footerAges as $age): ?>
-                    <li><a href="<?= BASE_URL ?>/products/index.php?age=<?= urlencode($age['slug']) ?>"><?= htmlspecialchars($age['name']) ?></a></li>
-                <?php endforeach; ?>
-                <li><a href="<?= BASE_URL ?>/products/index.php">All toys</a></li>
-            </ul>
         </div>
 
         <div>
@@ -61,7 +45,7 @@ foreach ($ageCards as $slug => $age) $footerAges[] = ['slug'=>$slug, 'name'=>age
 
     <div class="footer-bottom">
         <div class="container">
-            <span>&copy; <?= date('Y') ?> Kiddo's. All rights reserved.</span>
+            <span>&copy; <?= date('Y') ?> Kiddo's All rights reserved</span>
         </div>
     </div>
 </footer>
