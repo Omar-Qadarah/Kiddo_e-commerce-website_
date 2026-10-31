@@ -153,9 +153,15 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <?php foreach (['q', 'sort'] as $key): if ($filters[$key] === '') continue; ?>
                     <input type="hidden" name="<?= $key ?>" value="<?= htmlspecialchars($filters[$key]) ?>">
                 <?php endforeach; ?>
-                <?php if ($filters['category'] !== ''): ?>
-                    <input type="hidden" name="category" value="<?= htmlspecialchars($filters['category']) ?>">
-                <?php endif; ?>
+                <div class="filter-field">
+                    <label for="filter-category">Category</label>
+                    <select id="filter-category" name="category">
+                        <option value="">All categories</option>
+                        <?php foreach ($categories as $category): ?>
+                        <option value="<?= htmlspecialchars($category['slug']) ?>" <?= $filters['category'] === $category['slug'] ? 'selected' : '' ?>><?= htmlspecialchars($category['name']) ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
                 <div class="filter-field">
                     <label for="filter-age">Age</label>
