@@ -225,3 +225,88 @@ body { line-height: 1.55; }
 .site-footer .footer-bottom .container { padding-block:12px; font-size:12px; gap:0; }
 @media(max-width:760px) { .site-footer .footer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; } .site-footer .footer-brand { grid-column:1/-1; } }
 @media(max-width:440px) { .site-footer .footer-grid { grid-template-columns:minmax(0,1fr); gap:20px; } }
+
+/* Responsive finishing pass. No admin styles or business logic. */
+.toy-grid .toy-card-media { position:relative; flex:none; min-height:0; }
+.toy-grid .toy-card-media .toy-card-circle { position:absolute; inset:0; width:100%; height:100%; }
+.toy-grid .toy-card-media .toy-card-circle img { position:absolute; inset:0; display:block; }
+.toy-grid .toy-card-body { flex:1; min-width:0; }
+.toy-grid .toy-card-cart { margin-top:auto; padding-top:4px; }
+.details-grid > *, .cart-layout > *, .profile-fields-grid > * { min-width:0; }
+.details-thumbs { max-width:100%; overflow-x:auto; }
+.details-thumbs > * { flex-shrink:0; }
+.kiddo-modal-window { max-height:calc(100dvh - 32px); overflow-y:auto; }
+.order-card { overflow-wrap:anywhere; }
+html { scroll-padding-top:100px; }
+@media(max-width:1100px) {
+ .site-header .menu-btn { min-width:40px; min-height:44px; cursor:pointer; }
+ .drawer { max-width:calc(100vw - 40px); max-height:100dvh; overflow-y:auto; }
+ .drawer-close { display:grid; place-items:center; min-width:44px; min-height:44px; cursor:pointer; }
+ .drawer-links a { min-height:44px; }
+ .account-menu__panel { max-width:calc(100vw - 32px); }
+ .details .details-grid { grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:24px; }
+}
+@media(max-width:820px) {
+ .details .details-grid { grid-template-columns:minmax(0,1fr); }
+ .details .details-main-image { max-width:520px; margin-inline:auto; width:100%; }
+ .cart-layout { grid-template-columns:minmax(0,1fr); }
+ .cart-summary { position:static; }
+ .hero .hero-grid { height:auto; min-height:0; }
+ .hero .hero-text { min-width:0; }
+ .hero .hero-text h1 { font-size:clamp(30px,5vw,40px); line-height:1.15; }
+ .hero .hero-art { max-width:320px; margin-inline:auto; }
+ .new-arrivals-heading { flex-wrap:wrap; gap:12px; }
+ .shopping-chat__panel { width:min(360px,calc(100vw - 24px)); max-height:calc(100dvh - 100px); }
+}
+@media(max-width:600px) {
+ html { scroll-padding-top:136px; }
+ .site-header .shop-header-row { grid-template-columns:40px minmax(0,1fr) auto; padding-block:8px; gap:8px; }
+ .site-header .header-actions .icon-link { width:40px; height:44px; }
+ .site-header .header-search button { width:40px; height:40px; }
+ .site-header .header-search input { height:44px; font-size:16px; padding-right:52px; }
+ .search-suggestions { max-height:40dvh; overflow-y:auto; }
+ .hero .hero-grid { padding-top:32px; padding-bottom:48px; }
+ .hero .hero-text h1 { margin-top:0; font-size:32px; line-height:1.16; }
+ .hero .hero-text p { font-size:15px; line-height:1.65; }
+ .hero-actions { display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+ .hero-actions .btn { min-height:44px; padding:12px 18px; }
+ .shop-section { padding-top:28px; }
+ .section-head { flex-wrap:wrap; gap:12px; }
+ .section-head h2 { font-size:26px; }
+ .toy-grid .toy-card-media { aspect-ratio:1; max-height:260px; }
+ .toy-grid .toy-card-name { overflow-wrap:anywhere; }
+ .toy-grid .toy-rating { flex-wrap:wrap; gap:3px; }
+ .toy-grid .toy-card-foot .toy-stock { margin-left:0; text-align:left; }
+ .toy-grid .toy-price strong { font-size:17px; }
+ .toy-grid .toy-card-cart button { min-height:44px; height:auto; padding:10px; }
+ .age-circles .age-circle { width:136px; }
+ .age-circle-number { font-size:36px; }.age-circle-years { font-size:24px; }
+ .shopping-chat { right:12px; bottom:calc(12px + env(safe-area-inset-bottom)); }
+ .shopping-chat .shopping-chat__launcher { width:48px; height:48px; min-width:48px; padding:10px; border-radius:50%; }
+ .shopping-chat .shopping-chat__launcher-label { display:none; }
+ .shopping-chat .shopping-chat__icon { width:28px; height:28px; }
+ .shopping-chat__panel { right:0; bottom:60px; }
+ .details .details-buy { flex-wrap:wrap; gap:12px; }
+ .details .details-info h1 { font-size:28px; }
+ .cart-item { grid-template-columns:64px minmax(0,1fr); }
+ .cart-item .cart-qty { max-width:100%; }
+ .checkout-card :is(input,textarea,select), .profile-form :is(input,textarea,select) { max-width:100%; font-size:16px; }
+ body:has(.auth-section) .auth-card input { height:44px; font-size:16px; }
+ .shop-pagination nav { flex-wrap:wrap; justify-content:center; }
+ .site-footer { padding-bottom:44px; }
+}
+@media(min-width:390px) and (max-width:600px) {
+ body .toy-grid, body .catalog-page .toys-content .toy-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+ .toy-grid .toy-card-body { padding:10px; gap:6px; }
+ .toy-grid .toy-card-name { font-size:14px; min-height:38px; }
+ .toy-grid .toy-card-foot { align-items:flex-start; }
+}
+@media(max-width:389px) {
+ body .toy-grid, body .catalog-page .toys-content .toy-grid { grid-template-columns:minmax(0,1fr); }
+ #new-arrivals .new-arrivals-track { grid-auto-columns:82%; }
+ .hero-actions .btn { flex:1 1 100%; }
+}
+@media(max-width:600px) {
+ #shop-by-age .age-carousel-track { grid-template-columns:none; grid-auto-columns:calc((100% - 12px)/2); gap:12px; overflow-anchor:none; }
+ #shop-by-age .age-circle { justify-self:center; max-width:100%; }
+}

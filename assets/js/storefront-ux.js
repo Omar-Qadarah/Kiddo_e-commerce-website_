@@ -43,6 +43,7 @@ document.querySelectorAll('.age-grid, .agecat-grid').forEach(track => {
     track.addEventListener('scroll', update, {passive: true});
     new ResizeObserver(update).observe(track);
     update();
+    track.scrollLeft = 0; // Start with the youngest age groups on a new page.
 });
 
 document.addEventListener('click', event => {
@@ -94,3 +95,22 @@ document.querySelectorAll('[data-suggestions]').forEach(form => {
     form.addEventListener('keydown',event=>{if(event.key==='Escape')close();if(event.key==='ArrowDown'&&!list.hidden){event.preventDefault();list.querySelector('a')?.focus();}});
     document.addEventListener('click',event=>{if(!form.contains(event.target))close();});
 });
+
+// Keyboard support for the existing checkbox-driven customer drawer.
+(() => {
+ const state=document.getElementById('nav-toggle');
+ const open=document.querySelector('label.menu-btn');
+ const close=document.querySelector('label.drawer-close');
+ const drawer=document.querySelector('aside.drawer');
+ if(!state||!open||!close||!drawer)return;
+ [open,close].forEach(control=>{
+  control.tabIndex=0;control.setAttribute('role','button');
+  control.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();control.click();}});
+ });
+ open.setAttribute('aria-controls','customer-navigation');drawer.id='customer-navigation';
+ const sync=()=>open.setAttribute('aria-expanded',String(state.checked));
+ state.addEventListener('change',sync);sync();
+ drawer.addEventListener('click',event=>{if(event.target.closest('a[href]')){state.checked=false;sync();}});
+ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&state.checked){state.checked=false;sync();open.focus();}});
+ matchMedia('(min-width:1101px)').addEventListener('change',event=>{if(event.matches){state.checked=false;sync();}});
+})();
