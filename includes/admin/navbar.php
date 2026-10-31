@@ -1,5 +1,6 @@
 
 <header class="admin-navbar">
+    <button class="admin-nav-toggle" type="button" aria-label="Open navigation" aria-controls="admin-navigation" aria-expanded="false"><i class="bi bi-list" aria-hidden="true"></i></button>
     <div class="navbar-page-info">
         <span class="navbar-eyebrow">KIDDO'S ADMINISTRATION</span>
     </div>

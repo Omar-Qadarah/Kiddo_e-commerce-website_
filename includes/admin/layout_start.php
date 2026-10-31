@@ -26,6 +26,8 @@ $activePage = $activePage ?? 'dashboard';
 
 
     <link href="<?= BASE_URL ?>/assets/css/admin.css?v=<?= filemtime(__DIR__ . '/../../assets/css/admin.css') ?>" rel="stylesheet">
+    <link href="<?= BASE_URL ?>/assets/css/admin-polish.css?v=<?= filemtime(__DIR__ . '/../../assets/css/admin-polish.css') ?>" rel="stylesheet">
+    <script src="<?= BASE_URL ?>/assets/js/admin-navigation.js?v=<?= filemtime(__DIR__ . '/../../assets/js/admin-navigation.js') ?>" defer></script>
 </head>
 
 <body class="admin-body">
@@ -33,6 +35,7 @@ $activePage = $activePage ?? 'dashboard';
     <div class="admin-wrapper">
 
         <?php require __DIR__ . '/sidebar.php'; ?>
+        <button class="admin-drawer-overlay" type="button" aria-label="Close navigation" tabindex="-1" hidden></button>
 
         <div class="admin-main">
 
