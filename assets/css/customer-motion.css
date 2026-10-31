@@ -1,5 +1,5 @@
 /* Customer-only motion: no dimensions, routes or interaction handlers are changed. */
-:root { --motion-fast:150ms; --motion-normal:220ms; --motion-panel:280ms; --motion-ease:cubic-bezier(.2,.7,.2,1); --motion-shadow:0 8px 24px #39226610; }
+:root { --motion-fast:150ms; --motion-normal:220ms; --motion-panel:280ms; --motion-ease:cubic-bezier(.2,.7,.2,1); --motion-shadow:0 8px 24px #39226610; --motion-card-glow:0 0 0 2px #7957f533,0 12px 30px #7957f538; }
 .btn,.icon-link,.qty-btn,.cart-qty button,.cart-remove,.kiddo-btn-save,.kiddo-btn-review,.age-carousel-arrow,.promo-arrow,.details-thumb,.shop-pagination a,.shopping-chat__launcher {
     transition: transform var(--motion-fast) var(--motion-ease),background-color var(--motion-fast) ease,color var(--motion-fast) ease,border-color var(--motion-fast) ease,box-shadow var(--motion-normal) ease;
 }
@@ -31,7 +31,7 @@
 @keyframes shop-feedback { from { opacity:.6; } to { opacity:1; } }
 @media(hover:hover) and (pointer:fine) {
     .btn:not(:disabled):hover,.icon-link:hover,.kiddo-btn-save:hover,.kiddo-btn-review:hover { transform:translateY(-1px); }
-    .toy-grid .toy-card:hover,.category-discovery-card:hover { transform:translateY(-3px); box-shadow:var(--motion-shadow); }
+    .toy-grid .toy-card:hover,.category-discovery-card:hover { transform:translateY(-3px); border-color:#9f86ff; box-shadow:var(--motion-card-glow); }
     .toy-card:hover .toy-card-circle img.is-shown { transform:scale(1.025); }
     .category-discovery-card:hover .category-art img { transform:scale(1.025); }
     .category-discovery-card:hover .category-card-arrow { transform:translate(2px,-2px); }
