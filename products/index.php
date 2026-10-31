@@ -15,7 +15,7 @@ require_once __DIR__ . '/../includes/age_cards.php';
 
 $catalog       = new ToyCatalog($pdo);
 
-$categories = $catalog->getCategoriesWithToyCount();
+$categories = $catalog->getShopCategories();
 $ageGroups  = $storeAgeGroups;
 $genders    = ['girls' => 'Girls', 'boys' => 'Boys', 'unisex' => 'Unisex'];
 
@@ -29,7 +29,7 @@ $priceRanges = [
 ];
 
 // ---------- Read the filters (only values that really exist are used) ----------
-$filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => '', 'q' => is_string($_GET['q'] ?? null) ? mb_substr(trim($_GET['q']), 0, 60) : '', 'sort' => 'newest', 'stock' => '', 'offers' => ''];
+$filters        = ['category' => '', 'age' => '', 'gender' => '', 'price' => '', 'q' => is_string($_GET['q'] ?? null) ? mb_substr(preg_replace('/\s+/u', ' ', trim($_GET['q'])), 0, 60) : '', 'sort' => 'newest', 'stock' => '', 'offers' => ''];
 $activeCategory = null;
 $activeAge      = null;
 $activePrice    = null;
@@ -42,6 +42,12 @@ foreach ($categories as $category) {
     }
 }
 
+if (!$activeCategory && $categorySlug !== '') {
+    foreach ($catalog->getCategoriesWithToyCount() as $oldCategory) {
+        if ($oldCategory['slug'] === $categorySlug) { $activeCategory = $oldCategory; $filters['category'] = $categorySlug; break; }
+    }
+}
+
 $ageSlug = is_string($_GET['age'] ?? null) ? $_GET['age'] : '';
 foreach ($ageGroups as $group) {
     if ($group['slug'] === $ageSlug) {
@@ -51,7 +57,7 @@ foreach ($ageGroups as $group) {
 }
 
 // Compact age buttons reuse the existing age-card ranges. Legacy database age links still work.
-$requestedAge = $ageCards[$ageSlug] ?? $legacyAgeCards[$ageSlug] ?? null;
+$requestedAge = $ageCards[$ageSlug] ?? null;
 if ($requestedAge) {
     $activeAge = ['min_age' => $requestedAge['min'], 'max_age' => $requestedAge['max']];
     $filters['age'] = $ageSlug;
@@ -71,7 +77,7 @@ if (isset($priceRanges[$priceKey])) {
 $sortLabels = ['newest' => 'Newest first', 'price_asc' => 'Price: low to high', 'price_desc' => 'Price: high to low', 'name_asc' => 'Name: A–Z'];
 $sortKey = is_string($_GET['sort'] ?? null) ? $_GET['sort'] : '';
 if (isset($sortLabels[$sortKey])) $filters['sort'] = $sortKey;
-$filters['stock'] = ($_GET['stock'] ?? '') === '1' ? '1' : '';
+$filters['stock'] = ''; // Availability checkbox was removed from the customer UI.
 $filters['offers'] = ($_GET['offers'] ?? '') === '1' ? '1' : '';
 
 // Toys page link that keeps the other filters.
@@ -136,29 +142,6 @@ require_once __DIR__ . '/../includes/shop_header.php';
     <?php $categoryUrl = fn($slug) => toysUrl($filters, ['category' => $slug]); require __DIR__ . '/../includes/shop_category_sidebar.php'; ?>
 
     <div class="toys-main">
-        <!-- ============ Heading ============ -->
-        <section class="toys-hero">
-            <nav class="breadcrumb" aria-label="Breadcrumb">
-                <a href="<?= BASE_URL ?>/index.php">Home</a>
-                <span aria-hidden="true">/</span>
-                <a href="<?= BASE_URL ?>/products/index.php">Toys</a>
-                <span aria-hidden="true">/</span>
-                <span aria-current="page"><?= htmlspecialchars($activeCategory ? $activeCategory['name'] : ($filters['offers'] ? 'Offers' : 'Browse')) ?></span>
-            </nav>
-            <span class="browse-eyebrow">A world of play</span>
-                <h1><?= htmlspecialchars($heading) ?></h1>
-                <p><?= htmlspecialchars($subtitle) ?></p>
-            <nav class="agecat-switch toys-age-switch" aria-label="Shop by age">
-                <a class="agecat-chip agecat-purple <?= !$activeAge ? 'is-active' : '' ?>" href="<?= htmlspecialchars(toysUrl($filters, ['age' => ''])) ?>" <?= !$activeAge ? 'aria-current="page"' : '' ?>>All ages</a>
-                <?php foreach ($ageCards as $key => $ageCard): ?>
-                    <?php $selectedAge = $filters['age'] === $key; ?>
-                    <a class="agecat-chip agecat-<?= $ageCard['color'] ?> <?= $selectedAge ? 'is-active' : '' ?>"
-                       href="<?= htmlspecialchars(toysUrl($filters, ['age' => $selectedAge ? '' : $key])) ?>"
-                       <?= $selectedAge ? 'aria-current="page"' : '' ?>><?= htmlspecialchars($ageCard['title']) ?> · <?= ageCardRange($ageCard) ?></a>
-                <?php endforeach; ?>
-            </nav>
-        </section>
-
         <div class="toys-content">
             <!-- ============ Filters ============ -->
             <details class="browse-filter-panel" open>
@@ -172,7 +155,19 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <input type="hidden" name="category" value="<?= htmlspecialchars($filters['category']) ?>">
                 <?php endif; ?>
 
-                <input type="hidden" name="age" value="<?= htmlspecialchars($filters['age']) ?>">
+                <div class="filter-field">
+                    <label for="filter-age">Age</label>
+                    <select id="filter-age" name="age">
+                        <option value="">All ages</option>
+                        <?php foreach ($ageCards as $key => $ageCard): ?>
+                        <option value="<?= htmlspecialchars($key) ?>" <?= $filters['age'] === $key ? 'selected' : '' ?>><?= htmlspecialchars($ageCard['title']) ?> (<?= ageCardRange($ageCard) ?> Years)</option>
+                        <?php endforeach; ?>
+                        <?php if ($activeAge && !isset($ageCards[$filters['age']])): ?>
+                        <option value="<?= htmlspecialchars($filters['age']) ?>" selected><?= (int)$activeAge['min_age'] ?>–<?= (int)$activeAge['max_age'] ?> Years</option>
+                        <?php endif; ?>
+                    </select>
+                </div>
+                <?php if ($filters['offers']): ?><input type="hidden" name="offers" value="1"><?php endif; ?>
 
                 <div class="filter-field">
                     <label for="filter-gender">Gender</label>
@@ -202,12 +197,10 @@ require_once __DIR__ . '/../includes/shop_header.php';
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="filter-toggles">
-                    <label><input type="checkbox" name="stock" value="1" <?= $filters['stock'] ? 'checked' : '' ?>> In stock</label>
-                    <label><input type="checkbox" name="offers" value="1" <?= $filters['offers'] ? 'checked' : '' ?>> On offer</label>
+                <div class="filter-actions">
+                    <button class="btn btn-primary browse-apply" type="submit">Apply</button>
+                    <a class="btn btn-outline" href="<?= BASE_URL ?>/products/index.php<?= $filters['offers'] ? '?offers=1' : '' ?>">Reset filters</a>
                 </div>
-                <button class="btn btn-primary browse-apply" type="submit">Apply</button>
-                <a class="btn btn-outline" href="<?= BASE_URL ?>/products/index.php">Reset filters</a>
             </form>
             </details>
 
@@ -220,7 +213,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     'price' => $activePrice['label'] ?? '',
                     'q' => $filters['q'] !== '' ? 'Search: ' . $filters['q'] : '',
                     'stock' => $filters['stock'] ? 'In stock' : '',
-                    'offers' => $filters['offers'] ? 'On offer' : '',
+                    'offers' => '', // Offers is page context, not a removable customer checkbox.
                 ];
                 foreach ($chipLabels as $key => $label): if ($label === '') continue; ?>
                     <a href="<?= htmlspecialchars(toysUrl($filters, [$key => ''])) ?>" aria-label="<?= htmlspecialchars('Remove filter: ' . $label) ?>"><?= htmlspecialchars($label) ?> <span aria-hidden="true">×</span></a>
@@ -242,8 +235,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
             <?php else: ?>
                 <div class="toys-empty">
                     <span aria-hidden="true">🧸</span>
-                    <h2>No toys match these filters</h2>
-                    <p>Try another age, price or toy type, or start again.</p>
+                    <h2><?= $filters['q'] !== '' ? 'No toys found for “' . htmlspecialchars($filters['q']) . '”' : 'No toys match these filters' ?></h2>
+                    <p>Check your spelling, try fewer words, or remove a filter.</p><a class="btn btn-outline" href="<?= BASE_URL ?>/products/categories.php">Browse categories</a>
                     <a class="btn btn-primary" href="<?= BASE_URL ?>/products/index.php">Show all toys</a>
                 </div>
             <?php endif; ?>

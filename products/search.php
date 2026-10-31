@@ -3,6 +3,8 @@
 require_once __DIR__ . '/../includes/init.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/SearchHistory.php';
+require_once __DIR__ . '/../classes/ToyCatalog.php';
+require_once __DIR__ . '/../includes/age_cards.php';
 require_once __DIR__ . '/../includes/shop_pagination.php';
 require_once __DIR__ . '/../includes/shop_functions.php';
 
@@ -42,7 +44,8 @@ $sort = $_GET['sort'] ?? 'newest';
 $orderBy = $allowedSorts[$sort] ?? 'p.created_at DESC';
 
 $categoriesStmt = $pdo->query("SELECT id, name FROM categories ORDER BY name ASC");
-$categories = $categoriesStmt->fetchAll(PDO::FETCH_ASSOC);
+$categories = (new ToyCatalog($pdo))->getShopCategories();
+$shopCategory = is_string($_GET['category'] ?? null) && isset(ToyCatalog::shopCollections()[$_GET['category']]) ? $_GET['category'] : '';
 
 $ageGroupsStmt = $pdo->query("SELECT id, name, min_age, max_age FROM age_groups ORDER BY sort_order ASC");
 $ageGroups = $ageGroupsStmt->fetchAll(PDO::FETCH_ASSOC);
@@ -51,17 +54,24 @@ $sql = "SELECT p.id, p.category_id, p.name, p.description, p.price, p.stock,
                p.gender, p.min_age, p.max_age, p.image, c.name AS category_name
         FROM products p
         LEFT JOIN categories c ON p.category_id = c.id
-        WHERE p.is_active = 1";
+        WHERE p.is_active = 1 AND c.slug <> 'kids-gaming' AND LOWER(p.name) NOT REGEXP 'game console|game controller|headphones|digital camera|walkie-talkie'";
 
 $params = [];
 
 if ($searchTerm !== '') {
-    $sql .= " AND (LOWER(p.name) LIKE LOWER(:search_name) OR LOWER(p.description) LIKE LOWER(:search_desc))";
-    $params[':search_name'] = "%{$searchTerm}%";
-    $params[':search_desc'] = "%{$searchTerm}%";
+    $words = preg_split('/\s+/u', trim($searchTerm), -1, PREG_SPLIT_NO_EMPTY);
+    foreach (array_slice($words ?: [],0,8) as $i => $word) {
+        $sql .= " AND (LOWER(p.name) LIKE LOWER(:word_name_$i) OR LOWER(p.description) LIKE LOWER(:word_desc_$i))";
+        $like = '%' . addcslashes($word, '%_\\') . '%';
+        $params[":word_name_$i"] = $like;
+        $params[":word_desc_$i"] = $like;
+    }
 }
 
-if ($categoryId) {
+if ($shopCategory !== '') {
+    $sql .= ' AND (' . ToyCatalog::collectionExpression() . ') = :shop_category';
+    $params[':shop_category'] = $shopCategory;
+} elseif ($categoryId) {
     $sql .= " AND p.category_id = :cat_id";
     $params[':cat_id'] = $categoryId;
 }
@@ -81,7 +91,8 @@ if ($maxPrice !== false && $maxPrice !== null && $maxPrice > 0) {
     $params[':max_price'] = $maxPrice;
 }
 
-if ($ageGroupId) {
+$shopAge = is_string($_GET['age_group'] ?? null) ? ($ageCards[$_GET['age_group']] ?? null) : null;
+if ($ageGroupId || $shopAge) {
     $selectedAge = null;
     foreach ($ageGroups as $ag) {
         if ((int)$ag['id'] === $ageGroupId) {
@@ -90,6 +101,7 @@ if ($ageGroupId) {
         }
     }
 
+    if ($shopAge) $selectedAge = ['min_age'=>$shopAge['min'],'max_age'=>$shopAge['max']];
     if ($selectedAge) {
         $sql .= " AND (p.min_age <= :ag_max AND p.max_age >= :ag_min)";
         $params[':ag_min'] = (int)$selectedAge['min_age'];
@@ -108,6 +120,9 @@ $stmt->bindValue(':page_limit', SHOP_PAGE_SIZE, PDO::PARAM_INT);
 $stmt->bindValue(':page_offset', $pagination['offset'], PDO::PARAM_INT);
 $stmt->execute();
 $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$catalog = new ToyCatalog($pdo);
+$cardRows = $catalog->getToysByIds(array_column($products,'id'));
+$cardExtraImages = $catalog->getImagePathsForToys(array_column($products,'id'));
 
 if ($userId > 0 && $searchTerm !== '' && $pagination['page'] === 1) {
     $historyModel->addSearch($userId, $searchTerm, $resultsCount);
@@ -425,7 +440,7 @@ require_once __DIR__ . '/../includes/header.php';
                             <select name="category" class="filter-select">
                                 <option value="">All Categories</option>
                                 <?php foreach ($categories as $cat): ?>
-                                    <option value="<?= $cat['id'] ?>" <?= $categoryId === (int)$cat['id'] ? 'selected' : '' ?>>
+                                    <option value="<?= htmlspecialchars($cat['slug']) ?>" <?= $shopCategory === $cat['slug'] ? 'selected' : '' ?>>
                                         <?= htmlspecialchars($cat['name'], ENT_QUOTES, 'UTF-8') ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -436,10 +451,8 @@ require_once __DIR__ . '/../includes/header.php';
                             <label class="filter-heading">Age Group</label>
                             <select name="age_group" class="filter-select">
                                 <option value="">All Ages</option>
-                                <?php foreach ($ageGroups as $ag): ?>
-                                    <option value="<?= $ag['id'] ?>" <?= $ageGroupId === (int)$ag['id'] ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($ag['name'], ENT_QUOTES, 'UTF-8') ?> (<?= $ag['min_age'] ?>-<?= $ag['max_age'] ?> yrs)
-                                    </option>
+                                <?php foreach ($ageCards as $slug => $ag): ?>
+                                    <option value="<?= htmlspecialchars($slug) ?>" <?= ($_GET['age_group'] ?? '') === $slug ? 'selected' : '' ?>><?= ageCardRange($ag) ?> Years</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
@@ -485,26 +498,13 @@ require_once __DIR__ . '/../includes/header.php';
                         <a href="search.php" class="search-chip">Clear All Filters</a>
                     </div>
                 <?php else: ?>
-                    <div class="products-grid">
-                        <?php foreach ($products as $prod): ?>
-                            <div class="product-item">
-                                <div class="product-img-wrap">
-                                    <img src="<?= htmlspecialchars(shopToyImages($prod)[0], ENT_QUOTES, 'UTF-8') ?>" 
-                                         alt="<?= htmlspecialchars($prod['name'], ENT_QUOTES, 'UTF-8') ?>"
-                                         loading="lazy">
-                                </div>
-                                <div class="product-details">
-                                    <span class="product-cat"><?= htmlspecialchars($prod['category_name'] ?? 'Toy', ENT_QUOTES, 'UTF-8') ?></span>
-                                    <h6 class="product-title" title="<?= htmlspecialchars($prod['name'], ENT_QUOTES, 'UTF-8') ?>">
-                                        <?= htmlspecialchars($prod['name'], ENT_QUOTES, 'UTF-8') ?>
-                                    </h6>
-                                    <div class="product-footer">
-                                        <span class="product-price"><?= number_format((float)$prod['price'], 2) ?> JOD</span>
-                                        <a href="details.php?id=<?= (int)$prod['id'] ?>" class="btn-view-product">View</a>
-                                    </div>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                    <div class="toy-grid">
+                        <?php $cardMode = 'shop'; foreach ($products as $prod):
+                            $toy = $cardRows[(int)$prod['id']] ?? null;
+                            if (!$toy) continue;
+                            $cardImages = shopToyImages($toy, $cardExtraImages[(int)$toy['id']] ?? []);
+                            require __DIR__ . '/../includes/toy_card.php';
+                        endforeach; ?>
                     </div>
                 <?php endif; ?>
                 <?php renderShopPagination($pagination, $_GET); ?>

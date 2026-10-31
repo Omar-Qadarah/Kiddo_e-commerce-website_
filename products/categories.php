@@ -11,7 +11,7 @@ if (!empty($_GET['category']) && is_string($_GET['category'])) {
     exit;
 }
 $catalog = new ToyCatalog($pdo);
-$categories = $catalog->getCategoriesWithToyCount();
+$categories = $catalog->getShopCategories();
 $pageTitle = 'Explore by interest';
 $activePage = 'categories';
 $pageStyles = ['landing.css'];

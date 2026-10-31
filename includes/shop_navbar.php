@@ -5,7 +5,8 @@
 // It reuses the classes of assets/css/style.css (brand, header-search,
 // icon-link, drawer ...) and adds its own in assets/css/storefront.css.
 require_once __DIR__ . '/csrf.php';
-$navigationCategories = $pdo->query('SELECT name, slug FROM categories ORDER BY name')->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . '/../classes/ToyCatalog.php';
+$navigationCategories = (new ToyCatalog($pdo))->getShopCategories();
 $activePage = $activePage ?? '';
 $isLoggedIn = !empty($_SESSION['user_id']);
 $userName   = trim((string) ($_SESSION['user_name'] ?? ''));
@@ -57,9 +58,9 @@ $shopNavLinks = [
         </nav>
 
         <!-- Partial search opens the shared catalog and keeps filter/pagination support. -->
-        <form class="header-search" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
+        <form class="header-search" data-suggestions="<?= BASE_URL ?>/products/suggestions.php" action="<?= BASE_URL ?>/products/find.php" method="get" role="search">
             <label class="sr-only" for="site-search">Search toys by name</label>
-            <input id="site-search" type="search" name="q" maxlength="60"
+            <input id="site-search" type="search" autocomplete="off" aria-controls="search-suggestions" aria-expanded="false" name="q" maxlength="60"
                    placeholder="Search toys by name…"
                    value="<?= htmlspecialchars((string) $searchTerm) ?>">
             <button type="submit" aria-label="Search">
@@ -67,6 +68,7 @@ $shopNavLinks = [
                     <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
                 </svg>
             </button>
+            <div id="search-suggestions" class="search-suggestions" hidden></div>
         </form>
 
         <div class="header-actions">

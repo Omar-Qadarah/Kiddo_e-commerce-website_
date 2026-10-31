@@ -68,3 +68,29 @@ document.querySelectorAll('.browse-filter-panel').forEach(panel => {
     sync();
     mobile.addEventListener('change', sync);
 });
+
+// Small, cancellable search suggestions. Enter always keeps the normal results form.
+document.querySelectorAll('[data-suggestions]').forEach(form => {
+    const input = form.querySelector('input[type="search"]');
+    const list = form.querySelector('.search-suggestions');
+    let timer, controller;
+    const close = () => {list.hidden = true; input.setAttribute('aria-expanded','false');};
+    input.addEventListener('input', () => {
+        clearTimeout(timer); controller?.abort(); close();
+        const query = input.value.trim(); if(query.length < 2) return;
+        timer = setTimeout(async () => {
+            controller = new AbortController();
+            try {
+                const response = await fetch(form.dataset.suggestions+'?q='+encodeURIComponent(query),{signal:controller.signal});
+                if(!response.ok) return;
+                const items = await response.json();
+                if(input.value.trim() !== query || !Array.isArray(items)) return;
+                list.replaceChildren();
+                items.forEach(item => {const link=document.createElement('a');link.href=item.url;link.textContent=item.name;list.append(link);});
+                list.hidden = items.length === 0; input.setAttribute('aria-expanded',String(!list.hidden));
+            } catch(error) { close(); }
+        },250);
+    });
+    form.addEventListener('keydown',event=>{if(event.key==='Escape')close();if(event.key==='ArrowDown'&&!list.hidden){event.preventDefault();list.querySelector('a')?.focus();}});
+    document.addEventListener('click',event=>{if(!form.contains(event.target))close();});
+});

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/AgeGroup.php';
 
 $ageGroupModel = new AgeGroup($pdo);
@@ -302,6 +303,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     </button>
 
                     <form action="<?= BASE_URL ?>/admin/delete_age_group.php" method="POST">
+                        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                         <input type="hidden" name="id" value="<?= (int) $ageGroup['id'] ?>">
 
                         <button type="submit" class="btn btn-danger">
