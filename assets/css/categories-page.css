@@ -84,15 +84,25 @@
 }
 
 .agecat-pic {
+    position: absolute;
+    inset: 0;
     display: grid;
     place-items: center;
-    width: 96px;
-    height: 96px;
-    border: 3px dashed color-mix(in srgb, var(--age) 45%, transparent);
-    border-radius: 50%;
-    background: var(--white);
     font-size: 3rem;
     line-height: 1;
+    overflow: hidden;
+}
+
+/* the age photo fills the whole top of the card */
+.agecat-pic img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s;
+}
+
+.agecat-card:hover .agecat-pic img {
+    transform: scale(1.05);
 }
 
 /* "0–3 years" bubble sitting on the edge */
@@ -252,5 +262,35 @@
 
     .agecat-card:hover {
         transform: none;
+    }
+}
+
+/* ---------- Category picture in the heading ---------- */
+/* Shown only when a toy type with a saved image is chosen. */
+.toys-hero:has(.agecat-hero-pic) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 2rem;
+    align-items: center;
+}
+
+.toys-hero:has(.agecat-hero-pic) > :not(.agecat-hero-pic) {
+    grid-column: 1;
+}
+
+.agecat-hero-pic {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    width: 170px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 24px;
+    border: 4px solid #fff;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .08);
+}
+
+@media (max-width: 820px) {
+    .agecat-hero-pic {
+        display: none;
     }
 }
