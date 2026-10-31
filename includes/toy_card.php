@@ -86,15 +86,12 @@ $tint         = $tints[(int) $toy['category_id'] % count($tints)];
                     <del><?= shopMoney($price) ?></del>
                 <?php endif; ?>
             </span>
-            <?php if ($isShopCard): ?>
-                <span class="toy-stock <?= $stock > 0 ? '' : 'is-out' ?>">
+            <span class="toy-stock <?= $stock > 0 ? '' : 'is-out' ?>">
                     <?= $stock > 0 ? $stock . ' in stock' : 'Out of stock' ?>
                 </span>
-            <?php endif; ?>
         </div>
 
-        <?php if ($isShopCard): ?>
-            <form class="toy-card-cart" action="<?= BASE_URL ?>/cart/add.php" method="post">
+        <form class="toy-card-cart" action="<?= BASE_URL ?>/cart/add.php" method="post">
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                 <input type="hidden" name="product_id" value="<?= (int) $toy['id'] ?>">
                 <input type="hidden" name="quantity" value="1">
@@ -105,6 +102,5 @@ $tint         = $tints[(int) $toy['category_id'] % count($tints)];
                     <?= $stock > 0 ? 'Add to cart' : 'Out of stock' ?>
                 </button>
             </form>
-        <?php endif; ?>
     </div>
 </article>

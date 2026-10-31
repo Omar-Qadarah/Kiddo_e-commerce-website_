@@ -84,8 +84,8 @@ a:focus-visible, summary:focus-visible { outline: 3px solid #bba8ff; outline-off
 .toy-grid .toy-card { overflow: hidden; padding: 0; border: 1px solid var(--store-line); border-radius: 18px; box-shadow: none; }
 .toy-grid .toy-card:hover { box-shadow: 0 10px 26px #38205b0b; transform: translateY(-3px); }
 .toy-grid .toy-card-media { height: 184px; border-radius: 0; margin: 0; }
-.toy-grid .toy-card-circle { width: 80%; height: 150px; background: #ffffffb8; border-radius: 14px; box-shadow: none; }
-.toy-grid .toy-card-circle img { width: 90%; height: 90%; }
+.toy-grid .toy-card-circle { width: 100%; height: 100%; background: transparent; border-radius: 0; box-shadow: none; }
+.toy-grid .toy-card-circle img { width: 100%; height: 100%; object-fit: contain; }
 .toy-grid .toy-card-body { display: grid; grid-template-rows: 30px 44px 36px 32px 1fr auto; padding: 14px; gap: 8px; }
 .toy-grid .toy-card-cat { font-size: 10px; line-height: 15px; letter-spacing: .03em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .toy-grid .toy-card-name { font: 800 16px/22px var(--font-body); min-height: 44px; margin: 0; }

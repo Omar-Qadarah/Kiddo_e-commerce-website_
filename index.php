@@ -13,7 +13,7 @@ $catalog     = new ToyCatalog($pdo);
 $ageGroups = [];
 foreach ($ageCards as $slug => $card) $ageGroups[] = ['slug'=>$slug,'name'=>$card['title'],'description'=>$card['text'],'min_age'=>$card['min'],'max_age'=>$card['max'],'image'=>$card['image'],'toy_count'=>$card['count']];
 $discounted  = $catalog->getDiscountedToys(4);
-$newArrivals = $catalog->getNewArrivals(4);
+$newArrivals = $catalog->getNewArrivals(12);
 $categories = $catalog->getShopCategories();
 
 // "Toys for ages 3 to 12" — taken from the age groups the admin saved.
@@ -244,28 +244,39 @@ require_once __DIR__ . '/includes/shop_header.php';
 <?php endif; ?>
 
 <!-- ============ New arrivals ============ -->
-<section class="shop-section" id="new-arrivals">
+<section class="shop-section new-arrivals-section" id="new-arrivals">
     <div class="container">
-        <div class="section-head">
+        <div class="new-arrivals-heading">
             <div>
                 <span class="eyebrow">Fresh on the shelf</span>
                 <h2>New arrivals</h2>
             </div>
-            <a class="see-all" href="<?= BASE_URL ?>/products/index.php">Browse everything →</a>
+            <div class="new-arrivals-actions">
+                <a class="see-all" href="<?= BASE_URL ?>/products/index.php">Browse everything</a>
+                <div class="new-arrivals-controls" role="group" aria-label="New arrivals carousel controls">
+                    <button type="button" data-new-arrivals-prev aria-label="Show previous new arrivals" disabled>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+                    </button>
+                    <button type="button" data-new-arrivals-next aria-label="Show more new arrivals">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
 
         <?php if (!empty($newArrivals)): ?>
-            <div class="toy-grid">
-                <?php $cardMode = 'shop'; ?>
-                <?php foreach ($newArrivals as $toy): ?>
-                    <?php $cardImages = null; ?>
-                    <?php require __DIR__ . '/includes/toy_card.php'; ?>
-                <?php endforeach; ?>
+            <div class="new-arrivals-carousel" data-new-arrivals-carousel>
+                <div class="toy-grid new-arrivals-track" data-new-arrivals-track tabindex="0" aria-label="New toy arrivals">
+                    <?php $cardMode = 'shop'; ?>
+                    <?php foreach ($newArrivals as $toy): ?>
+                        <?php $cardImages = null; ?>
+                        <?php require __DIR__ . '/includes/toy_card.php'; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
         <?php else: ?>
             <p class="landing-empty">New toys are on their way — check back soon!</p>
         <?php endif; ?>
     </div>
 </section>
-
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
