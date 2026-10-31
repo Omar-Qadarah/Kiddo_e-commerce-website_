@@ -1,5 +1,6 @@
 
-<aside class="admin-sidebar">
+<aside class="admin-sidebar" id="admin-navigation" aria-label="Admin navigation">
+    <button class="admin-nav-close" type="button" aria-label="Close navigation"><i class="bi bi-x-lg" aria-hidden="true"></i></button>
     <div class="sidebar-brand">
         <a href="<?= BASE_URL ?>/admin/index.php">
             <span class="brand-icon">K</span>

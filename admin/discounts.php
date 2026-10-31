@@ -71,7 +71,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <td><span class="badge <?= $row['is_active'] ? 'bg-success' : 'bg-secondary' ?>"><?= $row['is_active'] ? 'Active' : 'Inactive' ?></span></td>
 <td><div class="admin-actions"><a class="btn admin-action-btn admin-action-edit" href="edit_discount.php?id=<?= (int) $row['id'] ?>" title="Edit discount" aria-label="Edit discount"><i class="bi bi-pencil" aria-hidden="true"></i></a>
 <form method="post" class="admin-actions">
-<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">">
+<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
 <input type="hidden" name="id" value="<?= (int) $row['id'] ?>">
 <button class="btn admin-action-btn admin-action-toggle" name="action" value="<?= $row['is_active'] ? 'deactivate' : 'activate' ?>" title="<?= $row['is_active'] ? 'Deactivate discount' : 'Activate discount' ?>" aria-label="<?= $row['is_active'] ? 'Deactivate discount' : 'Activate discount' ?>"><i class="bi bi-<?= $row['is_active'] ? 'eye-slash' : 'eye' ?>" aria-hidden="true"></i></button>
 <button class="btn admin-action-btn admin-action-delete" name="action" value="delete" title="Delete discount" aria-label="Delete discount"><i class="bi bi-trash" aria-hidden="true"></i></button>

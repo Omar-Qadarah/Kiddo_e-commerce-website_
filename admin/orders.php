@@ -127,6 +127,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                 </div>
                             </td>
                             <td>
+                                <div class="order-row-actions">
                                 <a href="<?= BASE_URL ?>/admin/order_details.php?id=<?= (int) $order['id'] ?>"
                                    class="btn admin-action-btn admin-action-toggle" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i></a>
                                 <?php if (in_array($order['status'], ['placed', 'shipped'], true)): ?>
@@ -155,6 +156,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                         </div>
                                     </div>
                                 <?php endif; ?>
+                                </div>
                             </td>
                         </tr>
                     <?php endforeach; ?>
