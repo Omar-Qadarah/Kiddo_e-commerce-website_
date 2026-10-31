@@ -312,6 +312,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(120) NOT NULL,
   `password_hash` varchar(255) DEFAULT NULL,
   `google_id` varchar(64) DEFAULT NULL,
+  `profile_image` varchar(255) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `phone` varchar(20) DEFAULT NULL,
   `role` enum('customer','admin') NOT NULL DEFAULT 'customer',

@@ -97,7 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                                   last_name = :last_name,
                                   email = :email,
                                   phone = :phone,
-                                  birth_date = :birth_date
+                                  birth_date = :birth_date,
+                                  profile_image = COALESCE(:profile_image, profile_image)
                               WHERE id = :id";
                 $updateStmt = $pdo->prepare($updateSql);
                 $updateStmt->execute([
@@ -106,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                     ':email'      => $email,
                     ':phone'      => !empty($phone) ? $phone : null,
                     ':birth_date' => !empty($birthDate) ? $birthDate : null,
+                    ':profile_image' => $newProfileImage,
                     ':id'         => $userId,
                 ]);
 
@@ -155,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     }
 }
 
-$userStmt = $pdo->prepare("SELECT id, first_name, last_name, email, phone, birth_date, created_at FROM users WHERE id = ?");
+$userStmt = $pdo->prepare("SELECT id, first_name, last_name, email, phone, birth_date, profile_image, created_at FROM users WHERE id = ?");
 $userStmt->execute([$userId]);
 $user = $userStmt->fetch(PDO::FETCH_ASSOC);
 
@@ -195,7 +197,7 @@ $myReviewsStmt = $pdo->prepare("SELECT r.*, p.name AS product_name, p.image AS p
 $myReviewsStmt->execute([$userId]);
 $myReviews = $myReviewsStmt->fetchAll(PDO::FETCH_ASSOC);
 
-$profileImageUrl = accountProfileImageUrl($userId);
+$profileImageUrl = accountProfileImageUrl($userId, (string) ($user['profile_image'] ?? ''));
 $profileInitials = accountUserInitials(trim($user['first_name'] . ' ' . $user['last_name']));
 $activeAccountTab = 'profile';
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && ($_POST['action'] ?? '') === 'submit_review') {
