@@ -142,19 +142,26 @@
         const submit = form.querySelector('[type="submit"]');
         if (new URL(url).pathname.endsWith('/add_discount.php')) submit.textContent = 'Add Discount';
         let footer = submit.closest('.d-flex');
+        const keepFooterInPlace = !!footer?.classList.contains('product-upload-actions');
         if (!footer || footer === form) {
             footer = document.createElement('div');
             const cancel = form.querySelector('[data-bs-dismiss="modal"]');
             if (cancel) footer.append(cancel);
             footer.append(submit);
         }
-        footer.className = 'admin-remote-footer';
+        if (keepFooterInPlace) footer.classList.add('admin-remote-footer');
+        else footer.className = 'admin-remote-footer';
         const cancelButton = footer.querySelector('[data-bs-dismiss="modal"]');
         if (cancelButton) footer.prepend(cancelButton);
         const fields = document.createElement('div');
         fields.className = 'admin-remote-fields';
-        [...form.children].filter(child => child !== footer).forEach(child => fields.append(child));
-        form.append(fields, footer);
+        if (keepFooterInPlace) {
+            [...form.children].forEach(child => fields.append(child));
+            form.append(fields);
+        } else {
+            [...form.children].filter(child => child !== footer).forEach(child => fields.append(child));
+            form.append(fields, footer);
+        }
         if (/\/(add|edit)_discount\.php/.test(url)) fields.classList.add('admin-discount-fields');
         editBody.append(form);
         editUrl = url;

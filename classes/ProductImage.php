@@ -64,23 +64,169 @@ class ProductImage
         return 'uploads/products/' . $fileName;
     }
 
+    // Upload a multiple-file input and remove partial uploads if one fails.
+    public function uploadMany(array $files): array
+    {
+        if (!isset($files['name']) || !is_array($files['name'])) {
+            return [];
+        }
+
+        $uploaded = [];
+        try {
+            foreach (array_keys($files['name']) as $index) {
+                $error = (int) ($files['error'][$index] ?? UPLOAD_ERR_NO_FILE);
+                if ($error === UPLOAD_ERR_NO_FILE) {
+                    continue;
+                }
+                $path = $this->upload([
+                    'name' => $files['name'][$index] ?? '',
+                    'type' => $files['type'][$index] ?? '',
+                    'tmp_name' => $files['tmp_name'][$index] ?? '',
+                    'error' => $error,
+                    'size' => (int) ($files['size'][$index] ?? 0),
+                ]);
+                if ($path !== null) {
+                    $uploaded[] = $path;
+                }
+            }
+        } catch (Throwable $error) {
+            $this->deleteUploaded($uploaded);
+            throw $error;
+        }
+
+        return $uploaded;
+    }
+
+    public function deleteUploaded(array $paths): void
+    {
+        $folder = dirname(__DIR__) . '/uploads/products/';
+        foreach ($paths as $path) {
+            if (!is_string($path) || !str_starts_with($path, 'uploads/products/')) {
+                continue;
+            }
+            $file = $folder . basename($path);
+            if (is_file($file)) {
+                @unlink($file);
+            }
+        }
+    }
+
     // ربط الصورة بالمنتج في جدول images
     public function saveForProduct(
         int $productId,
         string $path,
         ?string $altText = null
     ): bool {
+        $existingCountStmt = $this->pdo->prepare('SELECT COUNT(*) FROM images WHERE product_id = ?');
+        $existingCountStmt->execute([$productId]);
+        $existingCount = (int) $existingCountStmt->fetchColumn();
+
+        $productImageStmt = $this->pdo->prepare('SELECT image FROM products WHERE id = ?');
+        $productImageStmt->execute([$productId]);
+        $hasLegacyPrimary = trim((string) $productImageStmt->fetchColumn()) !== '';
+        $isPrimary = $existingCount === 0 && !$hasLegacyPrimary ? 1 : 0;
+        $sortOrder = $existingCount + ($hasLegacyPrimary ? 1 : 0);
+
         $stmt = $this->pdo->prepare(
             "INSERT INTO images
-            (product_id, image_path, alt_text, is_primary)
-            VALUES (?, ?, ?, 1)"
+            (product_id, image_path, alt_text, is_primary, sort_order)
+            VALUES (?, ?, ?, ?, ?)"
         );
 
         return $stmt->execute([
             $productId,
             $path,
-            $altText
+            $altText,
+            $isPrimary,
+            $sortOrder,
         ]);
+    }
+
+    // Delete one secondary image, or replace the main image with the next
+    // available gallery image before removing its file from disk.
+    public function deleteProductImage(int $productId, ?int $imageId = null, bool $deleteMain = false): bool
+    {
+        $deletedPath = '';
+        $this->pdo->beginTransaction();
+        try {
+            if ($deleteMain) {
+                $mainStmt = $this->pdo->prepare('SELECT image FROM products WHERE id = ? FOR UPDATE');
+                $mainStmt->execute([$productId]);
+                $deletedPath = trim((string) $mainStmt->fetchColumn());
+                if ($deletedPath === '') {
+                    $this->pdo->rollBack();
+                    return false;
+                }
+
+                $nextStmt = $this->pdo->prepare(
+                    'SELECT image_id, image_path FROM images
+                     WHERE product_id = ? AND image_path <> ?
+                     ORDER BY is_primary DESC, sort_order ASC, image_id ASC
+                     LIMIT 1 FOR UPDATE'
+                );
+                $nextStmt->execute([$productId, $deletedPath]);
+                $nextImage = $nextStmt->fetch(PDO::FETCH_ASSOC) ?: null;
+
+                $updateMain = $this->pdo->prepare('UPDATE products SET image = ? WHERE id = ?');
+                $updateMain->execute([$nextImage['image_path'] ?? '', $productId]);
+                $deleteRows = $this->pdo->prepare('DELETE FROM images WHERE product_id = ? AND image_path = ?');
+                $deleteRows->execute([$productId, $deletedPath]);
+                $clearPrimary = $this->pdo->prepare('UPDATE images SET is_primary = 0 WHERE product_id = ?');
+                $clearPrimary->execute([$productId]);
+                if ($nextImage) {
+                    $setPrimary = $this->pdo->prepare('UPDATE images SET is_primary = 1, sort_order = 0 WHERE image_id = ? AND product_id = ?');
+                    $setPrimary->execute([(int) $nextImage['image_id'], $productId]);
+                }
+            } else {
+                if ($imageId === null || $imageId < 1) {
+                    $this->pdo->rollBack();
+                    return false;
+                }
+                $imageStmt = $this->pdo->prepare('SELECT image_path, is_primary FROM images WHERE image_id = ? AND product_id = ? FOR UPDATE');
+                $imageStmt->execute([$imageId, $productId]);
+                $image = $imageStmt->fetch(PDO::FETCH_ASSOC);
+                if (!$image) {
+                    $this->pdo->rollBack();
+                    return false;
+                }
+                $deletedPath = (string) $image['image_path'];
+                $deleteStmt = $this->pdo->prepare('DELETE FROM images WHERE image_id = ? AND product_id = ?');
+                $deleteStmt->execute([$imageId, $productId]);
+
+                if ((int) $image['is_primary'] === 1) {
+                    $mainStmt = $this->pdo->prepare('SELECT image FROM products WHERE id = ? FOR UPDATE');
+                    $mainStmt->execute([$productId]);
+                    if (trim((string) $mainStmt->fetchColumn()) === '') {
+                        $nextStmt = $this->pdo->prepare('SELECT image_id FROM images WHERE product_id = ? ORDER BY sort_order ASC, image_id ASC LIMIT 1 FOR UPDATE');
+                        $nextStmt->execute([$productId]);
+                        $nextId = $nextStmt->fetchColumn();
+                        if ($nextId) {
+                            $clearPrimary = $this->pdo->prepare('UPDATE images SET is_primary = 0 WHERE product_id = ?');
+                            $clearPrimary->execute([$productId]);
+                            $setPrimary = $this->pdo->prepare('UPDATE images SET is_primary = 1 WHERE image_id = ? AND product_id = ?');
+                            $setPrimary->execute([(int) $nextId, $productId]);
+                        }
+                    }
+                }
+            }
+
+            $this->pdo->commit();
+        } catch (Throwable $error) {
+            if ($this->pdo->inTransaction()) {
+                $this->pdo->rollBack();
+            }
+            throw $error;
+        }
+
+        if ($deletedPath !== '') {
+            $imageRefs = $this->pdo->prepare('SELECT (SELECT COUNT(*) FROM products WHERE image = ?) + (SELECT COUNT(*) FROM images WHERE image_path = ?)');
+            $imageRefs->execute([$deletedPath, $deletedPath]);
+            if ((int) $imageRefs->fetchColumn() === 0) {
+                $this->deleteUploaded([$deletedPath]);
+            }
+        }
+
+        return true;
     }
 
     // عرض صور منتج معين
