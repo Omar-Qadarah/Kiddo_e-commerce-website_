@@ -90,9 +90,7 @@ require_once __DIR__ . '/../includes/shop_header.php';
                 <?php if ($hasDiscount): ?>
                     <span class="toy-badge">-<?= rtrim(rtrim(number_format((float) $toy['discount_pct'], 2), '0'), '.') ?>%</span>
                 <?php endif; ?>
-                <span class="details-circle">
-                    <img src="<?= htmlspecialchars($images[0]) ?>" alt="<?= htmlspecialchars($toy['name']) ?>" data-gallery-main>
-                </span>
+                <img class="details-main-photo" src="<?= htmlspecialchars($images[0]) ?>" alt="<?= htmlspecialchars($toy['name']) ?>" data-gallery-main>
             </div>
 
             <?php if (count($images) > 1): ?>

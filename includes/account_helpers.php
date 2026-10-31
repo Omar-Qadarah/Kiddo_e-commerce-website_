@@ -12,23 +12,29 @@ function accountUserInitials(string $name): string
     return $initials !== '' ? $initials : 'K';
 }
 
-function accountProfileImageUrl(int $userId): ?string
+function accountProfileImageUrl(int $userId, ?string $imageName = null): ?string
 {
     if ($userId <= 0) {
         return null;
     }
 
+    if ($imageName === null) {
+        global $pdo;
+        if (!($pdo instanceof PDO)) {
+            return null;
+        }
+        $statement = $pdo->prepare('SELECT profile_image FROM users WHERE id = ? LIMIT 1');
+        $statement->execute([$userId]);
+        $imageName = (string) ($statement->fetchColumn() ?: '');
+    }
+
+    if (!preg_match('/^user_' . $userId . '_[a-f0-9]{16}\.(?:jpg|png|webp)$/', $imageName)) {
+        return null;
+    }
     $profileDirectory = __DIR__ . '/../uploads/profiles';
-    $images = glob($profileDirectory . '/user_' . $userId . '_*.{jpg,jpeg,png,webp}', GLOB_BRACE) ?: [];
-    if (!$images) {
+    if (!is_file($profileDirectory . DIRECTORY_SEPARATOR . $imageName)) {
         return null;
     }
 
-    usort($images, static fn(string $left, string $right): int => filemtime($right) <=> filemtime($left));
-    $image = $images[0];
-    if (!is_file($image)) {
-        return null;
-    }
-
-    return BASE_URL . '/uploads/profiles/' . rawurlencode(basename($image));
+    return BASE_URL . '/uploads/profiles/' . rawurlencode($imageName);
 }
