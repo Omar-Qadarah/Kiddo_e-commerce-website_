@@ -93,6 +93,12 @@
             }
         };
 
+        const resizeMessageBox = () => {
+            input.style.height = 'auto';
+            input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
+        };
+        input.addEventListener('input', resizeMessageBox);
+
         if (history.length) {
             messages.replaceChildren();
             history.forEach((turn) => {
@@ -125,6 +131,7 @@
 
             appendMessage(message, 'user');
             input.value = '';
+            resizeMessageBox();
             form.dataset.sending = 'true';
             const sendButton = form.querySelector('button[type="submit"]');
             sendButton.disabled = true;
