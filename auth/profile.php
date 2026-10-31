@@ -311,8 +311,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
                                 $alreadyReviewed = $reviewModel->hasReviewed($userId, $it['product_id']);
                                 
                                 $imgName = !empty($it['image']) ? basename($it['image']) : '';
-                                $productImg = !empty($imgName) && file_exists(__DIR__ . '/../uploads/products/' . $imgName)
-                                    ? '../uploads/products/' . $imgName 
+                                $productImg = !empty($it['image'])
+                                    ? '../' . ltrim($it['image'], '/')
                                     : '../assets/images/toy-placeholder.svg';
                             ?>
                                 <div class="kiddo-product-row">
@@ -366,8 +366,8 @@ require_once __DIR__ . '/../includes/shop_header.php';
                     <div class="reviews-container">
                         <?php foreach ($myReviews as $rev): 
                             $rImgName = !empty($rev['product_image']) ? basename($rev['product_image']) : '';
-                            $revImg = !empty($rImgName) && file_exists(__DIR__ . '/../uploads/products/' . $rImgName)
-                                ? '../uploads/products/' . $rImgName 
+                            $revImg = !empty($rev['product_image'])
+                                ? '../' . ltrim($rev['product_image'], '/')
                                 : '../assets/images/toy-placeholder.svg';
                         ?>
                             <div class="review-entry-box">

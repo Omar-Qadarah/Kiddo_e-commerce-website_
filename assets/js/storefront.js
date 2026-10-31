@@ -124,6 +124,22 @@ document.addEventListener('DOMContentLoaded', function () {
                 thumb.setAttribute('aria-pressed', 'true');
             });
         });
+
+        // ‹ › arrows on the big picture: open the previous / next thumbnail
+        gallery.querySelectorAll('[data-gallery-step]').forEach(function (arrow) {
+            arrow.addEventListener('click', function () {
+                var current = 0;
+                thumbs.forEach(function (thumb, index) {
+                    if (thumb.classList.contains('is-active')) {
+                        current = index;
+                    }
+                });
+
+                var step = parseInt(arrow.getAttribute('data-gallery-step'), 10);
+                var next = (current + step + thumbs.length) % thumbs.length;
+                thumbs[next].click();
+            });
+        });
     });
 
     // ---------- Toy details: quantity − / + ----------

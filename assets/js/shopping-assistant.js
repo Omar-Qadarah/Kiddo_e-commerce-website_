@@ -204,8 +204,8 @@
                         <div class="checkout-addon-bump" style="background:#fffdfa; border:1.5px dashed #f39c12; border-radius:14px; padding:16px; margin:20px 0;">
                             <div style="display:flex; align-items:center; justify-content:space-between; gap:14px;">
                                 <div style="display:flex; align-items:center; gap:12px;">
-                                    <div style="width:54px; height:54px; background:#ffffff; border-radius:10px; border:1px solid #f1f2f6; display:flex; align-items:center; justify-content:center; padding:4px;">
-                                        <img src="${item.image}" alt="${item.name}" style="max-width:100%; max-height:100%; object-fit:contain;">
+                                    <div style="width:54px; height:54px; background:#ffffff; border-radius:10px; border:1px solid #f1f2f6; display:flex; align-items:center; justify-content:center; padding:0; overflow:hidden;">
+                                        <img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;">
                                     </div>
                                     <div>
                                         <span style="font-size:0.72rem; font-weight:800; color:#d35400; text-transform:uppercase; letter-spacing:0.5px;">Recommended Add-on</span>
@@ -238,8 +238,8 @@
                             <div style="background:#ffffff; border:1px solid #edf0f5; border-radius:14px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:0 2px 8px rgba(0,0,0,0.02);">
                                 <div>
                                     <a href="${item.url}" style="text-decoration:none;">
-                                        <div style="height:140px; display:flex; align-items:center; justify-content:center; background:#fafbfc; border-radius:10px; margin-bottom:10px; padding:8px; border:1px solid #f8f9fa;">
-                                            <img src="${item.image}" alt="${item.name}" style="max-height:100%; max-width:100%; object-fit:contain;">
+                                        <div style="height:140px; display:flex; align-items:center; justify-content:center; background:#fafbfc; border-radius:10px; margin-bottom:10px; padding:0; overflow:hidden; border:1px solid #f8f9fa;">
+                                            <img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;">
                                         </div>
                                         <span style="font-size:0.72rem; color:#6c5ce7; font-weight:700; background:#ede9fe; padding:2px 8px; border-radius:8px;">${item.category}</span>
                                         <h5 style="font-size:0.9rem; font-weight:700; color:#2d3436; margin:6px 0 8px 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${item.name}">${item.name}</h5>
@@ -274,8 +274,8 @@
                             <div style="background:#ffffff; border:1px solid #edf0f5; border-radius:14px; padding:14px; display:flex; flex-direction:column; justify-content:space-between;">
                                 <div>
                                     <a href="${item.url}" style="text-decoration:none;">
-                                        <div style="height:140px; display:flex; align-items:center; justify-content:center; background:#fafbfc; border-radius:10px; margin-bottom:10px; padding:8px;">
-                                            <img src="${item.image}" alt="${item.name}" style="max-height:100%; max-width:100%; object-fit:contain;">
+                                        <div style="height:140px; display:flex; align-items:center; justify-content:center; background:#fafbfc; border-radius:10px; margin-bottom:10px; padding:0; overflow:hidden;">
+                                            <img src="${item.image}" alt="${item.name}" style="width:100%; height:100%; object-fit:cover;">
                                         </div>
                                         <span style="font-size:0.72rem; color:#6c5ce7; font-weight:700;">${item.category}</span>
                                         <h5 style="font-size:0.9rem; font-weight:700; color:#2d3436; margin:4px 0 8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${item.name}</h5>
