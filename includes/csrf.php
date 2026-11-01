@@ -6,7 +6,7 @@ if (empty($_SESSION['csrf_token'])) {
 function checkCsrf()
 {
     $token = $_POST['csrf_token'] ?? '';
-    if (!is_string($token) || $token === '' || !is_string($_SESSION['csrf_token'] ?? null) || !hash_equals($_SESSION['csrf_token'], $token)) {
+    if (!is_string($token) || !hash_equals($_SESSION['csrf_token'], $token)) {
         http_response_code(403);
         exit('Invalid form token. Reload the page and try again.');
     }

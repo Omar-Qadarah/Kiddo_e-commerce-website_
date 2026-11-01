@@ -147,7 +147,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             $errors[] = 'Only verified buyers with a delivered order can review this product.';
         } else {
             if ($reviewModel->createReview($productId, $userId, $rating, $comment)) {
-                $_SESSION['success_message'] = 'Thank you! Your review is awaiting admin approval.';
+                $_SESSION['success_message'] = 'Thank you! Your review has been submitted successfully.';
                 header('Location: profile.php');
                 exit;
             } else {

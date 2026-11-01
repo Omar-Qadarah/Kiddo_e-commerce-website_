@@ -16,11 +16,7 @@ function shopImageUrl(?string $path): string
         return $path;
     }
 
-    $relative = ltrim($path, '/');
-    if (!is_file(dirname(__DIR__) . '/' . $relative)) {
-        return BASE_URL . '/assets/images/toy-placeholder.svg';
-    }
-    return BASE_URL . '/' . $relative;
+    return BASE_URL . '/' . ltrim($path, '/');
 }
 
  

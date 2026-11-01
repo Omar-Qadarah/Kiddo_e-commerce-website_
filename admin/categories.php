@@ -78,7 +78,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Name</th>
                     <th>Slug</th>
                     <th>Description</th>
@@ -99,10 +99,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
                 <?php else: ?>
 
-                    <?php foreach ($categories as $rowIndex => $category): ?>
+                    <?php foreach ($categories as $category): ?>
 
                         <tr>
-                            <td><?= (int) $pagination['start'] + $rowIndex ?></td>
+                            <td>
+                                <?= (int) $category['id'] ?>
+                            </td>
 
                             <td>
                                 <?= htmlspecialchars($category['name']) ?>
@@ -119,7 +121,11 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                             </td>
 
                             <td>
-                                <img class="category-admin-thumb" src="<?= htmlspecialchars(CategoryImage::url($category['image'] ?? null), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <?php if (!empty($category['image'])): ?>
+                                    <img class="category-admin-thumb" src="<?= htmlspecialchars(CategoryImage::url($category['image']), ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($category['name'], ENT_QUOTES, 'UTF-8') ?>">
+                                <?php else: ?>
+                                    —
+                                <?php endif; ?>
                             </td>
 
                             <td>
@@ -154,7 +160,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
     </div><?php require __DIR__ . '/../includes/admin/table_pagination.php'; ?>
 
 
-    <?php foreach ($categories as $rowIndex => $category): ?>
+    <?php foreach ($categories as $category): ?>
 
         <div
             class="modal fade"
@@ -313,7 +319,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
         </div>
 
     <?php endforeach; ?>
-    <?php foreach ($categories as $rowIndex => $category): ?>
+    <?php foreach ($categories as $category): ?>
 
         <div
             class="modal fade"

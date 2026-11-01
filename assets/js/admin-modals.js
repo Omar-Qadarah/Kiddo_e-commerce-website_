@@ -108,10 +108,7 @@
         const cells = button.closest('tr')?.querySelectorAll('td');
         const name = cells?.[1]?.textContent.trim();
         const detail = name ? ' “' + name + '”' : '';
-        const message = form.action.includes('delete_product.php')
-            ? 'Remove' + detail + ' from the catalog? Its data and previous orders will be kept.'
-            : 'Are you sure you want to delete' + detail + '? This action cannot be undone.';
-        window.confirmAdminDelete(message, () => {
+        window.confirmAdminDelete('Are you sure you want to delete' + detail + '? This action cannot be undone.', () => {
             form.dataset.deleteConfirmed = 'yes';
             form.requestSubmit(button);
             delete form.dataset.deleteConfirmed;

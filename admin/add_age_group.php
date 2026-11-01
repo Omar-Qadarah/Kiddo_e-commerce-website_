@@ -105,11 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $finfo = new finfo(FILEINFO_MIME_TYPE);
             $mimeType = $finfo->file($file['tmp_name']);
 
-            $imageInfo = @getimagesize($file['tmp_name']);
-        if (!$imageInfo || $imageInfo[0] > 4000 || $imageInfo[1] > 4000) {
-            $errors[] = 'Use a valid image up to 4000 x 4000 pixels.';
-        }
-        if (!isset($allowedTypes[$mimeType])) {
+            if (!isset($allowedTypes[$mimeType])) {
                 $errors[] = 'Only JPG, PNG, and WEBP images are allowed.';
             } else {
                 $imageExtension = $allowedTypes[$mimeType];
