@@ -69,3 +69,5 @@ function shopAsset(string $folder, string $file): string
 <?php require __DIR__ . '/shop_navbar.php'; ?>
 
 <main>
+
+<script src="<?= BASE_URL ?>/assets/js/image-validation.js?v=<?= filemtime(__DIR__ . '/../assets/js/image-validation.js') ?>" defer></script>

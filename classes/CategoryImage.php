@@ -56,8 +56,8 @@ final class CategoryImage
     public static function url(?string $path): string
     {
         $filename = basename((string) $path);
-        if ($filename === '' || $filename === '.' || $filename === '..') {
-            return '';
+        if ($filename === '' || !is_file(__DIR__ . '/../uploads/categories/' . $filename)) {
+            return BASE_URL . '/assets/images/toy-placeholder.svg';
         }
 
         return BASE_URL . '/uploads/categories/' . rawurlencode($filename);

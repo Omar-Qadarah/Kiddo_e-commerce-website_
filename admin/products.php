@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/shop_functions.php';
 require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Product.php';
@@ -56,15 +57,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <?php foreach ($products as $item): ?>
                     <tr>
                         <td>
-                            <?php if (!empty($item['image'])): ?>
-                                <img
-                                    class="rounded border object-fit-cover" width="64" height="64"
-                                    src="../<?= h($item['image']) ?>"
-                                    alt="<?= h($item['name']) ?>"
-                                >
-                            <?php else: ?>
-                                <div class="text-muted small">No image</div>
-                            <?php endif; ?>
+                            <img class="rounded border object-fit-cover" width="64" height="64" src="<?= h(shopImageUrl($item['image'] ?? null)) ?>" alt="<?= h($item['name']) ?>">
                         </td>
 
                         <td><?= h($item['name']) ?></td>

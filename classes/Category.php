@@ -25,7 +25,7 @@ class Category
     
     public function getById(int $id): array|false
     {
-        $sql = "SELECT id, name, slug, description, icon, image, created_at
+        $sql = "SELECT id, name, slug, description, icon, image
                 FROM categories
                 WHERE id = :id";
 
@@ -153,4 +153,4 @@ class Category
 
         return $stmt->fetchAll();
     }
-}
+}

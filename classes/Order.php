@@ -38,7 +38,7 @@ class Order
             $params[] = $status;
         }
 
-        $sql .= " ORDER BY o.created_at DESC";      
+        $sql .= " ORDER BY (o.status = 'delivered') DESC, o.created_at DESC";      
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
