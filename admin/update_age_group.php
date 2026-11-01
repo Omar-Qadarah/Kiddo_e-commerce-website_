@@ -108,10 +108,6 @@ if (
             'image/webp' => 'webp'
         ];
 
-        $imageInfo = @getimagesize($_FILES['image']['tmp_name']);
-        if (!$imageInfo || $imageInfo[0] > 4000 || $imageInfo[1] > 4000) {
-            $errors[] = 'Use a valid image up to 4000 x 4000 pixels.';
-        }
         if (!isset($allowedTypes[$mimeType])) {
             $errors[] = 'Only JPG, PNG, and WEBP images are allowed.';
         } else {

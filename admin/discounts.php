@@ -58,10 +58,10 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <?php require __DIR__ . '/../includes/admin/table_toolbar.php'; ?>
 <div class="admin-card"><div class="table-responsive"><table class="table admin-table align-middle admin-table-consistent admin-table-discounts"><thead><tr>
-<th>#</th><th>Title</th><th>Percentage</th><th>Product</th><th>Category</th>
+<th>ID</th><th>Title</th><th>Percentage</th><th>Product</th><th>Category</th>
 <th>Start</th><th>End</th><th>Status</th><th>Actions</th></tr></thead><tbody>
-<?php foreach ($discounts as $rowIndex => $row): ?><tr>
-<td><?= (int) $pagination['start'] + $rowIndex ?></td>
+<?php foreach ($discounts as $row): ?><tr>
+<td><?= htmlspecialchars((string) ($row['id'] ?? '-') , ENT_QUOTES, 'UTF-8') ?></td>
 <td><?= htmlspecialchars((string) ($row['title'] ?? '-') , ENT_QUOTES, 'UTF-8') ?></td>
 <td><?= htmlspecialchars((string) ($row['percentage'] ?? '-') , ENT_QUOTES, 'UTF-8') ?>%</td>
 <td><?= htmlspecialchars((string) ($row['product_name'] ?? '-') , ENT_QUOTES, 'UTF-8') ?></td>

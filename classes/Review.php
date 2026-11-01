@@ -133,7 +133,7 @@ class Review
         }
 
         $sql = "INSERT INTO reviews (product_id, user_id, rating, comment, is_visible, created_at) 
-                VALUES (?, ?, ?, ?, 0, NOW())";
+                VALUES (?, ?, ?, ?, 1, NOW())";
         $stmt = $this->pdo->prepare($sql);
         return $stmt->execute([$productId, $userId, $rating, $comment]);
     }
