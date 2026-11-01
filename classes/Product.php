@@ -16,7 +16,6 @@ class Product
                 FROM products
                 INNER JOIN categories
                 ON products.category_id = categories.id
-                WHERE products.deleted_at IS NULL
                 ORDER BY products.id DESC";
 
         return $this->pdo->query($sql)->fetchAll();
@@ -26,7 +25,7 @@ class Product
     public function getById(int $id): array|false
     {
         $stmt = $this->pdo->prepare(
-            "SELECT * FROM products WHERE id = ? AND deleted_at IS NULL"
+            "SELECT * FROM products WHERE id = ?"
         );
 
         $stmt->execute([$id]);
@@ -98,7 +97,7 @@ class Product
     public function delete(int $id): bool
     {
         $stmt = $this->pdo->prepare(
-            "UPDATE products SET is_active = 0, deleted_at = NOW() WHERE id = ? AND deleted_at IS NULL"
+            "DELETE FROM products WHERE id = ?"
         );
 
         return $stmt->execute([$id]);
@@ -215,4 +214,4 @@ class Product
 
         return $this->getToyCards(implode(' AND ', $where), 'p.created_at DESC, p.id DESC', 500, $params);
     }
-}
+}

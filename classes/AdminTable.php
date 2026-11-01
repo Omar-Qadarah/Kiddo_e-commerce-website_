@@ -24,7 +24,6 @@ class AdminTable
             case 'products':
                 $select = 'p.*, c.name AS category_name';
                 $from = 'products p INNER JOIN categories c ON c.id = p.category_id';
-                $where[] = 'p.deleted_at IS NULL';
                 $order = 'p.id DESC';
                 $searchColumns = ['p.name'];
                 $category = isset($request['category_id']) && is_string($request['category_id']) && ctype_digit($request['category_id']) ? $request['category_id'] : '';
@@ -42,8 +41,8 @@ class AdminTable
             case 'orders':
                 $select = 'o.id, o.total, o.status, o.created_at, u.first_name, u.last_name';
                 $from = 'orders o JOIN users u ON o.user_id = u.id';
-                $order = "(o.status = 'delivered') DESC, o.created_at DESC, o.id DESC";
-                $searchColumns = ["CONCAT('ORD-', UPPER(SUBSTRING(SHA2(CONCAT('kiddo-order:', o.id), 256), 1, 10)))", "CONCAT(u.first_name, ' ', u.last_name)"];
+                $order = 'o.created_at DESC, o.id DESC';
+                $searchColumns = ['CAST(o.id AS CHAR)', "CONCAT(u.first_name, ' ', u.last_name)"];
                 $status = isset($request['status']) && is_string($request['status']) && in_array($request['status'], ['placed', 'shipped', 'delivered', 'cancelled'], true) ? $request['status'] : '';
                 if ($status !== '') { $where[] = 'o.status = ?'; $params[] = $status; }
                 $query['status'] = $status;

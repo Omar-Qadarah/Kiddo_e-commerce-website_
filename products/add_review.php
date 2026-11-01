@@ -75,10 +75,10 @@ if (!$userCheck->fetch()) {
     try {
         $insert = $pdo->prepare(
             'INSERT INTO reviews (product_id, user_id, rating, comment, is_visible, created_at)
-             VALUES (?, ?, ?, ?, 0, NOW())'
+             VALUES (?, ?, ?, ?, 1, NOW())'
         );
         $insert->execute([$productId, $userId, (int) $rating, $comment]);
-        reviewFlash('success', 'Thank you! Your review is awaiting admin approval.');
+        reviewFlash('success', 'Thank you! Your review was added.');
     } catch (PDOException $e) {
         error_log('Add review failed: ' . $e->getMessage());
         reviewFlash('error', 'Sorry, your review could not be saved. Please try again.', $old);
