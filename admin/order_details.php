@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin/reference.php';
 require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/Order.php';
@@ -45,7 +46,7 @@ $badgeClasses = [
     'cancelled' => 'bg-danger',
 ];
 
-$pageTitle = 'Order #' . (int) $order['id'];
+$pageTitle = 'Order ' . adminOrderReference((int) $order['id']);
 $activePage = 'orders';
 
 require_once __DIR__ . '/../includes/admin/layout_start.php';
@@ -71,7 +72,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <div class="admin-page-header">
     <div>
-        <h1>Order #<?= (int) $order['id'] ?></h1>
+        <h1>Order <?= adminOrderReference((int) $order['id']) ?></h1>
         <p>Placed on <?= htmlspecialchars(date('d M Y, g:i A', strtotime($order['created_at']))) ?></p>
     </div>
     <a href="<?= BASE_URL ?>/admin/orders.php" class="btn btn-light">
