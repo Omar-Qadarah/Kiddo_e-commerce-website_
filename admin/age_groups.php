@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
-require_once __DIR__ . '/../includes/shop_functions.php';
 require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../includes/csrf.php';
 require_once __DIR__ . '/../classes/AgeGroup.php';
@@ -60,7 +59,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th>ID</th>
                     <th>Image</th>
                     <th>Name</th>
                     <th>Slug</th>
@@ -82,13 +81,19 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
                 <?php else: ?>
 
-                    <?php foreach ($ageGroups as $rowIndex => $ageGroup): ?>
+                    <?php foreach ($ageGroups as $ageGroup): ?>
 
                         <tr>
-                            <td><?= (int) $pagination['start'] + $rowIndex ?></td>
+                            <td><?= (int) $ageGroup['id'] ?></td>
 
                             <td>
-                                <img src="<?= htmlspecialchars(shopImageUrl($ageGroup['image'] ?? null)) ?>" alt="<?= htmlspecialchars($ageGroup['name']) ?>" width="55" height="55" style="object-fit:cover;border-radius:8px">
+                                <?php if (!empty($ageGroup['image'])): ?>
+                                    <img src="<?= BASE_URL ?>/<?= htmlspecialchars($ageGroup['image']) ?>"
+                                        alt="<?= htmlspecialchars($ageGroup['name']) ?>" width="55" height="55"
+                                        style="object-fit: cover; border-radius: 8px;">
+                                <?php else: ?>
+                                    <span class="text-secondary">No image</span>
+                                <?php endif; ?>
                             </td>
 
                             <td><?= htmlspecialchars($ageGroup['name']) ?></td>
@@ -135,7 +140,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
  
  
 
-<?php foreach ($ageGroups as $rowIndex => $ageGroup): ?>
+<?php foreach ($ageGroups as $ageGroup): ?>
 
     <div class="modal fade" id="editAgeGroupModal<?= (int) $ageGroup['id'] ?>" tabindex="-1"
         aria-labelledby="editAgeGroupLabel<?= (int) $ageGroup['id'] ?>" aria-hidden="true">
@@ -269,7 +274,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 
 <?php endforeach; ?>
 
-<?php foreach ($ageGroups as $rowIndex => $ageGroup): ?>
+<?php foreach ($ageGroups as $ageGroup): ?>
 
     <div class="modal fade" id="deleteAgeGroupModal<?= (int) $ageGroup['id'] ?>" tabindex="-1"
         aria-labelledby="deleteAgeGroupLabel<?= (int) $ageGroup['id'] ?>" aria-hidden="true">

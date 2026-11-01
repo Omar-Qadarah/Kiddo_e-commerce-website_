@@ -1,7 +1,6 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
-require_once __DIR__ . '/../includes/admin/reference.php';
 require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../classes/Order.php';
 
@@ -113,7 +112,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                 <?php else: ?>
                     <?php foreach ($orders as $order): ?>
                         <tr>
-                            <td><?= adminOrderReference((int) $order['id']) ?></td>
+                            <td>#<?= (int) $order['id'] ?></td>
                             <td><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name']) ?></td>
                             <td><?= number_format((float) $order['total'], 2) ?> JD</td>
                             <td>
@@ -142,7 +141,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                                                     <div class="modal-body text-center p-4">
                                                         <div class="mb-3 text-danger"><i class="bi bi-exclamation-triangle display-4"></i></div>
                                                         <h5 class="fw-bold" id="<?= $cancelModalId ?>Label">Cancel Order?</h5>
-                                                        <p class="text-secondary mb-4">Cancel order <strong><?= adminOrderReference((int) $order['id']) ?></strong> and return its items to stock?</p>
+                                                        <p class="text-secondary mb-4">Cancel order <strong>#<?= (int) $order['id'] ?></strong> and return its items to stock?</p>
                                                         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                                         <input type="hidden" name="id" value="<?= (int) $order['id'] ?>">
                                                         <input type="hidden" name="action" value="cancel">

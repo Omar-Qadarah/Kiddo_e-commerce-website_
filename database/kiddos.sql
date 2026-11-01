@@ -541,7 +541,6 @@ CREATE TABLE IF NOT EXISTS `products` (
   `is_active` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   `updated_at` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `deleted_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_products_filters` (`category_id`,`gender`,`min_age`,`max_age`)
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -697,7 +696,7 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `user_id` int(10) UNSIGNED NOT NULL,
   `rating` tinyint(3) UNSIGNED NOT NULL,
   `comment` varchar(500) DEFAULT NULL,
-  `is_visible` tinyint(1) NOT NULL DEFAULT 0,
+  `is_visible` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_review_once` (`product_id`,`user_id`),
