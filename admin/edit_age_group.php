@@ -111,6 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 'image/webp' => 'webp'
             ];
 
+            $imageInfo = @getimagesize($_FILES['image']['tmp_name']);
+            if (!$imageInfo || $imageInfo[0] > 4000 || $imageInfo[1] > 4000) {
+                $errors[] = 'Use a valid image up to 4000 x 4000 pixels.';
+            }
             if (!isset($allowedTypes[$mimeType])) {
                 $errors[] = 'Only JPG, PNG, and WEBP images are allowed.';
             } else {
@@ -212,10 +216,8 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
 <?php endif; ?>
 
 <div class="admin-card p-4">
-    <form method="POST"
-          action="<?= BASE_URL ?>
-<input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">/admin/edit_age_group.php?id=<?= (int) $id ?>"
-          enctype="multipart/form-data">
+    <form method="POST" action="<?= BASE_URL ?>/admin/edit_age_group.php?id=<?= (int) $id ?>" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars((string) ($_SESSION['csrf_token'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
 
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
@@ -271,7 +273,7 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                      width="120" height="120"
                      style="object-fit: cover; border-radius: 8px;">
             <?php else: ?>
-                <p class="text-secondary">No image uploaded.</p>
+                <img src="<?= BASE_URL ?>/assets/images/toy-placeholder.svg" alt="Default toy image" width="120" height="120">
             <?php endif; ?>
         </div>
 
