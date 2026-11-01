@@ -39,6 +39,6 @@ $activePage = $activePage ?? 'dashboard';
 
         <div class="admin-main">
 
-            <?php require __DIR__ . '/navbar.php'; ?>
+            <button class="admin-nav-toggle <?= $activePage === 'dashboard' ? 'dashboard-menu-toggle' : 'management-menu-toggle' ?>" type="button" aria-label="Open navigation" aria-controls="admin-navigation" aria-expanded="false"><i class="bi bi-list" aria-hidden="true"></i></button>
 
             <main class="admin-content">
