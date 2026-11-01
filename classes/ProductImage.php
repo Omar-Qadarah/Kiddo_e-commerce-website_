@@ -27,7 +27,12 @@ class ProductImage
             throw new RuntimeException("Image must be under 3 MB.");
         }
 
-        $info = getimagesize($file['tmp_name']);
+        $temporaryFile = (string) ($file['tmp_name'] ?? '');
+        if (!is_uploaded_file($temporaryFile)) {
+            throw new RuntimeException('Invalid uploaded file.');
+        }
+        $info = @getimagesize($temporaryFile);
+        $mime = (new finfo(FILEINFO_MIME_TYPE))->file($temporaryFile);
 
         if ($info === false) {
             throw new RuntimeException("Invalid image.");
@@ -39,10 +44,14 @@ class ProductImage
             IMAGETYPE_WEBP => 'webp'
         ];
 
-        if (!isset($types[$info[2]])) {
+        if (!isset($types[$info[2]]) || ($info['mime'] ?? '') !== $mime) {
             throw new RuntimeException(
                 "Only JPG, PNG and WEBP are allowed."
             );
+        }
+
+        if ($info[0] > 4000 || $info[1] > 4000) {
+            throw new RuntimeException('Image dimensions must be 4000 x 4000 pixels or smaller.');
         }
 
         $folder = dirname(__DIR__) . '/uploads/products/';
@@ -266,4 +275,4 @@ class ProductImage
         }
         return $grouped;
     }
-}
+}

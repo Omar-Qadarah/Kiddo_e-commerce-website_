@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../includes/init.php';
+require_once __DIR__ . '/../includes/admin/reference.php';
 require_once __DIR__ . '/../includes/admin_auth.php';
 require_once __DIR__ . '/../classes/Dashboard.php';
 
@@ -143,12 +144,12 @@ require_once __DIR__ . '/../includes/admin/layout_start.php';
                     <tbody>
                         <?php foreach ($recentOrders as $order): ?>
                             <tr>
-                                <td class="fw-bold">#<?= (int) $order['id'] ?></td>
+                                <td class="fw-bold"><?= adminOrderReference((int) $order['id']) ?></td>
                                 <td><?= htmlspecialchars($order['first_name'] . ' ' . $order['last_name'], ENT_QUOTES, 'UTF-8') ?></td>
                                 <td><?= date('d M Y', strtotime($order['created_at'])) ?></td>
                                 <td class="text-nowrap"><?= number_format((float) $order['total'], 2) ?> JOD</td>
                                 <td><span class="badge <?= $statusColors[$order['status']] ?? 'bg-secondary' ?>"><?= htmlspecialchars(ucfirst($order['status']), ENT_QUOTES, 'UTF-8') ?></span></td>
-                                <td><a class="btn admin-action-btn admin-action-toggle" href="order_details.php?id=<?= (int) $order['id'] ?>" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden"> order #<?= (int) $order['id'] ?></span></a></td>
+                                <td><a class="btn admin-action-btn admin-action-toggle" href="order_details.php?id=<?= (int) $order['id'] ?>" title="View order" aria-label="View order"><i class="bi bi-eye" aria-hidden="true"></i><span class="visually-hidden"> order <?= adminOrderReference((int) $order['id']) ?></span></a></td>
                             </tr>
                         <?php endforeach; ?>
                         <?php if (empty($recentOrders)): ?>
