@@ -25,8 +25,8 @@ function shopCategoryIllustration(string $name): string
 function shopCategoryImageUrl(?string $path): string
 {
     $filename = basename(trim((string) $path));
-    if ($filename === '' || $filename === '.' || $filename === '..') {
-        return '';
+    if ($filename === '' || !is_file(__DIR__ . '/../uploads/categories/' . $filename)) {
+        return BASE_URL . '/assets/images/toy-placeholder.svg';
     }
 
     return BASE_URL . '/uploads/categories/' . rawurlencode($filename);
