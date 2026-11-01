@@ -196,3 +196,10 @@
     line-height: 1;
 }
 .admin-body .admin-sidebar .sidebar-bottom .sidebar-link > i::before { display: block; line-height: 1; }
+
+.admin-body :is(input, select, textarea):focus,
+.admin-body :is(input, select, textarea):focus-visible {
+    border-color: var(--admin-primary);
+    outline: none;
+    box-shadow: none;
+}

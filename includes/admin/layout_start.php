@@ -19,6 +19,8 @@ $activePage = $activePage ?? 'dashboard';
         <?= htmlspecialchars(APP_NAME) ?> Admin
     </title>
 
+    <link rel="icon" type="image/png" href="<?= BASE_URL ?>/assets/images/kiddos-icon.png">
+
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -39,6 +41,6 @@ $activePage = $activePage ?? 'dashboard';
 
         <div class="admin-main">
 
-            <?php require __DIR__ . '/navbar.php'; ?>
+            <button class="admin-nav-toggle <?= $activePage === 'dashboard' ? 'dashboard-menu-toggle' : 'management-menu-toggle' ?>" type="button" aria-label="Open navigation" aria-controls="admin-navigation" aria-expanded="false"><i class="bi bi-list" aria-hidden="true"></i></button>
 
             <main class="admin-content">
