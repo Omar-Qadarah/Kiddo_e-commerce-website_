@@ -401,6 +401,8 @@ html { scroll-padding-top:100px; }
  .details-reviews .review-form-box { padding:16px; }
  .details-reviews .review-form textarea { font-size:16px; }
  .details-reviews .review-form .btn { min-height:44px; }
+ .store-promises,.promo-names,.age-carousel-arrow{display: none;}
+ 
 }
 @media(max-width:389px) { .details .details-buy .details-add { flex:1 1 100%; } }
 

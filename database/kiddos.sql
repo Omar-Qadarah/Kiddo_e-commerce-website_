@@ -1,33 +1,33 @@
- 
- 
- 
- 
- 
- 
- 
- 
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Nov 02, 2026 at 10:23 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
 
- SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT  ;
- SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS  ;
- SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION  ;
- SET NAMES utf8mb4  ;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
- 
- 
- 
+--
+-- Database: `kiddos`
+--
 CREATE DATABASE IF NOT EXISTS `kiddos` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `kiddos`;
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `admin_action_usage`
+--
 
 CREATE TABLE IF NOT EXISTS `admin_action_usage` (
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -36,22 +36,23 @@ CREATE TABLE IF NOT EXISTS `admin_action_usage` (
   PRIMARY KEY (`user_id`,`page`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `admin_action_usage`
+--
 
 INSERT INTO `admin_action_usage` (`user_id`, `page`, `visits`) VALUES
 (1, 'orders', 8),
-(2, 'add_discount.php', 2),
-(2, 'age_groups.php', 30),
-(2, 'categories.php', 17),
+(2, 'add_discount.php', 4),
+(2, 'add_product.php', 1),
+(2, 'age_groups.php', 40),
+(2, 'categories.php', 49),
 (2, 'dashboard', 45),
-(2, 'discounts.php', 35),
-(2, 'orders.php', 40),
+(2, 'discounts.php', 43),
+(2, 'orders.php', 62),
 (2, 'products', 120),
-(2, 'products.php', 66),
-(2, 'reviews.php', 6),
-(2, 'users.php', 37),
+(2, 'products.php', 79),
+(2, 'reviews.php', 15),
+(2, 'users.php', 43),
 (7, 'age_groups.php', 1),
 (7, 'categories.php', 2),
 (7, 'discounts.php', 1),
@@ -60,11 +61,11 @@ INSERT INTO `admin_action_usage` (`user_id`, `page`, `visits`) VALUES
 (7, 'reviews.php', 1),
 (7, 'users.php', 1);
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `age_groups`
+--
 
 CREATE TABLE IF NOT EXISTS `age_groups` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -79,9 +80,9 @@ CREATE TABLE IF NOT EXISTS `age_groups` (
   UNIQUE KEY `uq_age_groups_slug` (`slug`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `age_groups`
+--
 
 INSERT INTO `age_groups` (`id`, `name`, `slug`, `description`, `min_age`, `max_age`, `image`, `sort_order`) VALUES
 (20, 'Infants', 'infants', 'Soft rattle toys, teethers, and plush companions for babies', 0, 1, 'uploads/age-groups/cc7c3a9b3519d003b5fe2ae0e9519521.png', 1),
@@ -91,11 +92,11 @@ INSERT INTO `age_groups` (`id`, `name`, `slug`, `description`, `min_age`, `max_a
 (24, 'Kids', 'kids', 'qwerty', 7, 10, 'uploads/age-groups/40113439db5ef86f33fb74902823e431.webp', 4),
 (25, 'qwertyu', 'qwerty', 'qwertyu', 16, 17, 'uploads/age-groups/42aa57edff9f67ae10410e0e192b9080.jpg', 6);
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `categories`
+--
 
 CREATE TABLE IF NOT EXISTS `categories` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -108,23 +109,24 @@ CREATE TABLE IF NOT EXISTS `categories` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_categories_name` (`name`),
   UNIQUE KEY `uq_categories_slug` (`slug`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `categories`
+--
 
 INSERT INTO `categories` (`id`, `name`, `slug`, `description`, `icon`, `image`, `created_at`) VALUES
 (20, 'Educational Toys', 'educational-toys', 'Learning and skill-building toys for smart kids', 'fa-graduation-cap', 'uploads/categories/educational-toys.jpg', '2026-10-29 10:31:18'),
 (21, 'Wooden Toys', 'wooden-toys', 'Eco-friendly and durable wooden toys', 'fa-tree', 'uploads/categories/wooden-toys.jpg', '2026-10-29 01:52:41'),
 (22, 'Plush & Soft Toys', 'plush-soft-toys', 'Cuddly stuffed animals and soft companions', 'fa-heart', 'uploads/categories/plush-soft-toys.jpg', '2026-10-29 10:31:18'),
-(23, 'Active Play & Ride-ons', 'active-play-ride-ons', 'Safe push cars and toddler scooters', 'fa-child', 'uploads/categories/active-play-ride-ons.jpg', '2026-10-29 10:31:18');
+(23, 'Active Play & Ride-ons', 'active-play-ride-ons', 'Safe push cars and toddler scooters', 'fa-child', 'uploads/categories/active-play-ride-ons.jpg', '2026-10-29 10:31:18'),
+(24, 'adults', 'adults', 'qwertyu', NULL, 'uploads/categories/0400244e7d19c588b68ffcefd1248276.jpg', '2026-11-01 10:22:12');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `discounts`
+--
 
 CREATE TABLE IF NOT EXISTS `discounts` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -139,11 +141,11 @@ CREATE TABLE IF NOT EXISTS `discounts` (
   PRIMARY KEY (`id`),
   KEY `idx_discounts_product` (`product_id`),
   KEY `idx_discounts_category` (`category_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `discounts`
+--
 
 INSERT INTO `discounts` (`id`, `title`, `percentage`, `product_id`, `category_id`, `starts_at`, `ends_at`, `is_active`, `created_at`) VALUES
 (20, 'Baby Essentials Sale', 15.00, NULL, 20, '2026-09-01', '2026-09-30', 1, '2026-10-29 10:31:18'),
@@ -153,13 +155,14 @@ INSERT INTO `discounts` (`id`, `title`, `percentage`, `product_id`, `category_id
 (25, 'Microscope Special', 20.00, 105, NULL, '2026-10-20', '2026-11-30', 1, '2026-10-31 22:01:16'),
 (26, 'Teepee Tent Offer', 25.00, 153, NULL, '2026-10-20', '2026-11-30', 1, '2026-10-31 22:01:16'),
 (27, 'RC Racing Deal', 12.00, 182, NULL, '2026-10-20', '2026-11-30', 1, '2026-10-31 22:01:16'),
-(28, 'Plush Friends Promo', 10.00, 144, NULL, '2026-10-20', '2026-12-15', 1, '2026-10-31 22:01:16');
+(28, 'Plush Friends Promo', 10.00, 144, NULL, '2026-10-20', '2026-12-15', 1, '2026-10-31 22:01:16'),
+(29, 'eid', 20.00, NULL, 23, '2026-11-01', '2026-11-02', 1, '2026-11-01 10:26:16');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `images`
+--
 
 CREATE TABLE IF NOT EXISTS `images` (
   `image_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -171,11 +174,11 @@ CREATE TABLE IF NOT EXISTS `images` (
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`image_id`),
   KEY `idx_images_product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=325 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `images`
+--
 
 INSERT INTO `images` (`image_id`, `product_id`, `image_path`, `alt_text`, `is_primary`, `sort_order`, `created_at`) VALUES
 (62, 59, 'uploads/products/product_6ae5e22f12d423.77618926.webp', 'Junior Bowling Game Set', 1, 0, '2026-10-31 15:42:23'),
@@ -438,13 +441,14 @@ INSERT INTO `images` (`image_id`, `product_id`, `image_path`, `alt_text`, `is_pr
 (321, 53, 'assets/images/products/active-play-ride-ons/toddler-balance-bike-1.jpg', 'Toddler Balance Bike - main photo', 1, 0, '2026-10-31 22:01:16'),
 (322, 53, 'assets/images/products/active-play-ride-ons/toddler-balance-bike-2.jpg', 'Toddler Balance Bike - second photo', 0, 1, '2026-10-31 22:01:16'),
 (323, 54, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-1.jpg', 'Soft Foam Play Tunnel - main photo', 1, 0, '2026-10-31 22:01:16'),
-(324, 54, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-2.jpg', 'Soft Foam Play Tunnel - second photo', 0, 1, '2026-10-31 22:01:16');
+(324, 54, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-2.jpg', 'Soft Foam Play Tunnel - second photo', 0, 1, '2026-10-31 22:01:16'),
+(325, 199, 'uploads/products/product_6ae7a88b1ef636.80983129.jpg', 'Die-Cast Cars Collection', 0, 3, '2026-11-02 00:00:59');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `orders`
+--
 
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -465,11 +469,11 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `idx_orders_user` (`user_id`),
   KEY `idx_orders_status` (`status`),
   KEY `idx_orders_created` (`created_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `orders`
+--
 
 INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `birthday_discount`, `delivery_fee`, `total`, `child_birth_date`, `phone`, `address_text`, `latitude`, `longitude`, `status`, `created_at`, `updated_at`) VALUES
 (1, 2, 68.98, 0.00, 2.00, 70.98, '2018-04-10', '+962791111111', 'Amman, Jubaiha, Main Street', 31.9539000, 35.9106000, 'placed', '2026-10-29 10:31:18', '2026-10-29 10:31:18'),
@@ -481,13 +485,17 @@ INSERT INTO `orders` (`id`, `user_id`, `subtotal`, `birthday_discount`, `deliver
 (7, 4, 92.50, 0.00, 2.00, 94.50, NULL, '0791234567', 'rusaifah', 0.0000000, 0.0000000, 'cancelled', '2026-10-30 20:49:38', '2026-10-31 17:06:28'),
 (8, 5, 68.49, 0.00, 2.00, 70.49, NULL, '0792345678', 'الرصيفة', 0.0000000, 0.0000000, 'placed', '2026-10-30 23:15:40', '2026-10-30 23:15:40'),
 (9, 5, 153.89, 0.00, 2.00, 155.89, NULL, '0792345678', 'ضصثقفغ', 0.0000000, 0.0000000, 'placed', '2026-10-31 00:04:44', '2026-10-31 00:04:44'),
-(10, 5, 51.27, 0.00, 2.00, 53.27, NULL, '0792345678', 'ضصثقفغ', 0.0000000, 0.0000000, 'placed', '2026-10-31 00:07:32', '2026-10-31 00:07:32');
+(10, 5, 51.27, 0.00, 2.00, 53.27, NULL, '0792345678', 'ضصثقفغ', 0.0000000, 0.0000000, 'placed', '2026-10-31 00:07:32', '2026-10-31 00:07:32'),
+(11, 5, 33.44, 0.00, 2.00, 35.44, NULL, '0792345678', 'qwerty', 0.0000000, 0.0000000, 'delivered', '2026-10-31 23:34:09', '2026-10-31 23:37:10'),
+(12, 5, 75.59, 0.00, 2.00, 77.59, NULL, '0792345678', 'qwerty', 0.0000000, 0.0000000, 'cancelled', '2026-11-01 10:15:05', '2026-11-01 10:24:16'),
+(13, 5, 87.98, 0.00, 2.00, 89.98, NULL, '0792345678', 'قعسسشتنلغا', 0.0000000, 0.0000000, 'placed', '2026-11-01 12:21:01', '2026-11-01 12:21:01'),
+(14, 5, 39.99, 0.00, 2.00, 41.99, NULL, '0792345678', 'zarqa', 0.0000000, 0.0000000, 'shipped', '2026-11-02 11:12:36', '2026-11-02 11:13:58');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `order_items`
+--
 
 CREATE TABLE IF NOT EXISTS `order_items` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -500,11 +508,11 @@ CREATE TABLE IF NOT EXISTS `order_items` (
   PRIMARY KEY (`id`),
   KEY `idx_order_items_order` (`order_id`),
   KEY `idx_order_items_product` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `order_items`
+--
 
 INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `unit_price`, `quantity`, `line_total`) VALUES
 (1, 1, NULL, 'Wooden Alphabet & Number Puzzle Board', 18.99, 1, 18.99),
@@ -518,13 +526,18 @@ INSERT INTO `order_items` (`id`, `order_id`, `product_id`, `product_name`, `unit
 (9, 8, 57, 'Ride-On Fire Truck Push Car', 49.99, 1, 49.99),
 (10, 8, 59, 'Junior Bowling Game Set', 18.50, 1, 18.50),
 (11, 9, 33, 'Wooden Pull Along Duck', 13.99, 11, 153.89),
-(12, 10, 20, 'Wooden Alphabet & Number Puzzle Board', 17.09, 3, 51.27);
+(12, 10, 20, 'Wooden Alphabet & Number Puzzle Board', 17.09, 3, 51.27),
+(13, 11, 182, 'RC Sports Racing Car', 33.44, 1, 33.44),
+(14, 12, 105, 'Junior Explorer Microscope', 25.60, 1, 25.60),
+(15, 12, 57, 'Ride-On Fire Truck Push Car', 49.99, 1, 49.99),
+(16, 13, 58, 'Soft Foam Building Blocks Set', 43.99, 2, 87.98),
+(17, 14, 57, 'Ride-On Fire Truck Push Car', 39.99, 1, 39.99);
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `products`
+--
 
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -546,150 +559,150 @@ CREATE TABLE IF NOT EXISTS `products` (
   KEY `idx_products_filters` (`category_id`,`gender`,`min_age`,`max_age`)
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `products`
+--
 
-INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `instructions`, `price`, `stock`, `gender`, `min_age`, `max_age`, `image`, `is_active`, `created_at`, `updated_at`) VALUES
-(20, 20, 'Wooden Alphabet & Number Puzzle Board', 'Colorful wooden puzzle pieces helping kids learn letters and numbers early.', 'Store in a dry place. Recommended for supervised play.', 18.99, 57, 'unisex', 3, 6, 'assets/images/products/educational-toys/wooden-alphabet-and-number-puzzle-board-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(21, 20, 'Counting Beads Abacus', 'Traditional colorful wooden abacus for foundational math practice.', 'Wipe clean with a dry cloth.', 14.99, 45, 'unisex', 4, 7, 'assets/images/products/educational-toys/counting-beads-abacus-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(22, 20, 'Shape Sorting Cube', 'Classic wooden sorting box with geometric blocks.', 'Keep away from moisture.', 16.50, 30, 'unisex', 1, 3, 'assets/images/products/educational-toys/shape-sorting-cube-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(23, 20, 'Flash Card Learning Bundle', 'Visual cards for animals, colors, and first words.', 'Store in the included box after use.', 9.99, 50, 'unisex', 2, 5, 'assets/images/products/educational-toys/flash-card-learning-bundle-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(24, 20, 'Magnetic Spelling Board', 'Double-sided dry erase board with magnetic letters and numbers.', 'Avoid dropping on hard surfaces.', 24.99, 25, 'unisex', 4, 7, 'assets/images/products/educational-toys/magnetic-spelling-board-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(25, 20, 'Solar System Planetarium Model', 'Paint and assemble your own glow-in-the-dark solar system.', 'Adult supervision recommended during assembly.', 19.99, 20, 'unisex', 5, 7, 'assets/images/products/educational-toys/solar-system-planetarium-model-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(26, 20, 'Geo-Board Graphic Array', 'Wooden pegged board with rubber bands for learning shapes and area.', 'Do not over-stretch rubber bands.', 12.50, 35, 'unisex', 4, 7, 'assets/images/products/educational-toys/geo-board-graphic-array-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(27, 20, 'Kids Microscope Starter Kit', 'Beginner microscope with LED illumination and prepared slides.', 'Requires 2 AA batteries.', 29.99, 15, 'unisex', 6, 7, 'assets/images/products/educational-toys/kids-microscope-starter-kit-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(28, 20, 'Clock Telling Time Puzzle', 'Interactive clock puzzle to teach kids how to read analog and digital time.', 'Handle hands gently.', 15.00, 40, 'unisex', 5, 7, 'assets/images/products/educational-toys/clock-telling-time-puzzle-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(29, 20, 'Montessori Fraction Circles', 'Visual wooden math manipulation plates for basic fractions.', 'Store flat in box.', 21.00, 20, 'unisex', 5, 7, 'assets/images/products/educational-toys/montessori-fraction-circles-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(30, 21, 'Stacking Wooden Rainbow Rings', 'Classic montessori wooden stacking rings to develop color recognition and motor skills.', 'Wipe clean with a damp cloth.', 22.00, 30, 'unisex', 1, 3, 'assets/images/products/wooden-toys/stacking-wooden-rainbow-rings-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(31, 21, 'Wooden Pound a Peg Bench', 'Hand-eye coordination toy with wooden mallet and colourful pegs.', 'Inspect mallet before use.', 17.50, 25, 'unisex', 2, 4, 'assets/images/products/wooden-toys/wooden-pound-a-peg-bench-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(32, 21, 'Classic Wooden Train Set', 'Connecting wooden train cars and tracks for building railways.', 'Compatible with major wooden track brands.', 32.99, 20, 'unisex', 3, 7, 'assets/images/products/wooden-toys/wooden-train-and-station-set-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(33, 21, 'Wooden Pull Along Duck', 'Cute duck on wheels that waddles when pulled by its string.', 'Do not submerge in water.', 13.99, 29, 'unisex', 1, 3, 'assets/images/products/wooden-toys/wooden-pull-along-duck-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(34, 21, 'Natural Wooden Building Blocks', '100-piece natural finish solid wood block bucket.', 'Store in provided canvas bag.', 29.99, 50, 'unisex', 2, 7, 'assets/images/products/wooden-toys/natural-wooden-building-blocks-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(35, 21, 'Wooden Tool Bench Playset', 'Mini workbench with toy hammer, screwdriver, screws, and gears.', 'Contains small parts.', 39.99, 15, 'unisex', 3, 6, 'assets/images/products/wooden-toys/wooden-tool-bench-playset-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(36, 21, 'Wooden Kitchen Cutting Fruits', 'Wooden play food set held together with safe velcro and a wooden knife.', 'Wipe clean.', 19.50, 35, 'unisex', 2, 5, 'assets/images/products/wooden-toys/wooden-kitchen-cutting-fruits-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(37, 21, 'Wooden Lacing Beads', 'Large wooden beads with stringing laces for fine motor skills.', 'Supervise young toddlers during play.', 11.99, 40, 'unisex', 3, 5, 'assets/images/products/wooden-toys/wooden-lacing-beads-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(38, 21, 'Wooden Xylophone Musical Toy', 'Brightly colored wooden base with metal keys and two mallets.', 'Do not strike keys too hard.', 16.99, 25, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-xylophone-musical-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(39, 21, 'Wooden Noahs Ark Playset', 'Detailed ark ship with paired wooden animal figures.', 'Store in a dry location.', 34.99, 18, 'unisex', 3, 6, 'assets/images/products/wooden-toys/wooden-noahs-ark-playset-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(40, 22, 'Organic Cotton Baby Rattle Set', 'Soft, organic cotton sensory teethers and rattles designed safely for newborns.', 'Machine washable on gentle cycle. Air dry.', 14.50, 40, 'unisex', 0, 1, 'assets/images/products/plush-soft-toys/organic-cotton-baby-rattle-set-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(41, 22, 'Fluffy Teddy Bear', 'Soft hugging plush bear companion for naptime and comfort.', 'Surface wash only.', 18.00, 50, 'unisex', 0, 7, 'assets/images/products/plush-soft-toys/fluffy-teddy-bear-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(42, 22, 'Musical Lullaby Star Plush', 'Gently glows and plays soothing lullabies when squeezed.', 'Remove battery module before washing.', 22.50, 30, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/musical-lullaby-star-plush-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(43, 22, 'Soft Crinkle Cloth Book', 'High contrast sensory fabric book with animal tails sticking out.', 'Machine washable.', 10.99, 60, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/soft-crinkle-cloth-book-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(44, 22, 'Plush Puppy Activity Toy', 'Interactive soft dog with teethers, mirrors, and squeakers attached.', 'Spot clean recommended.', 20.00, 25, 'unisex', 0, 3, 'assets/images/products/plush-soft-toys/plush-puppy-activity-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(45, 22, 'Stuffed Bunny with Long Ears', 'Ultra-soft plush rabbit companion made of hypoallergenic materials.', 'Gentle machine wash.', 16.00, 45, 'unisex', 0, 7, 'assets/images/products/plush-soft-toys/stuffed-bunny-with-long-ears-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(46, 22, 'Squeaker Elephant Toy', 'Easy-to-grip soft elephant toy that makes a gentle squeak sound.', 'Wipe clean with damp cloth.', 9.50, 40, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/squeaker-elephant-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(47, 22, 'Comfy Security Blanket Lovey', 'Mini soft blanket with attached animal head for soothing babies to sleep.', 'Machine washable.', 12.00, 35, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/comfy-security-blanket-lovey-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(48, 22, 'Plush Unicorn Pillow', 'Cuddly unicorn companion that doubles as a comfortable travel pillow.', 'Spot clean only.', 21.99, 20, 'unisex', 2, 7, 'assets/images/products/plush-soft-toys/plush-unicorn-pillow-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(49, 22, 'Weighted Dinosaur Plush', 'Calming weighted plush toy to give children a comforting embrace.', 'Spot clean with mild soap.', 26.50, 15, 'unisex', 3, 7, 'assets/images/products/plush-soft-toys/weighted-dinosaur-plush-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(50, 23, 'Toddler Push Along Walker', 'Stable wooden push walker with building blocks included for early walkers.', 'Check wheel screws periodically for tightness.', 45.00, 15, 'unisex', 1, 3, 'assets/images/products/active-play-ride-ons/toddler-push-along-walker-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(51, 23, '3-Wheel Lean-to-Steer Scooter', 'Stable and safe scooter with flashing LED wheels for toddlers and young children.', 'Always wear a helmet and protective pads while riding.', 59.99, 10, 'unisex', 3, 6, 'assets/images/products/active-play-ride-ons/3-wheel-lean-to-steer-scooter-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(52, 23, 'Inflatable Hopper Bouncy Animal', 'Stable rubber jumping animal toy with easy-to-grip ears for indoor/outdoor bouncing.', 'Keep away from sharp objects.', 24.50, 20, 'unisex', 2, 5, 'assets/images/products/active-play-ride-ons/inflatable-hopper-bouncy-animal-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(53, 23, 'Toddler Balance Bike', 'No-pedal training bicycle designed to build balance and coordination early.', 'Use under direct adult supervision on flat surfaces.', 65.00, 12, 'unisex', 2, 5, 'assets/images/products/active-play-ride-ons/toddler-balance-bike-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(54, 23, 'Soft Foam Play Tunnel', 'Collapsible crawl tunnel for active indoor and outdoor motor play.', 'Wipe clean.', 27.99, 18, 'unisex', 1, 5, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16'),
-(55, 23, 'Junior Basketball Hoop Set', 'Adjustable height freestanding basketball hoop and soft ball for little kids.', 'Fill base with water or sand for stability.', 38.50, 14, 'unisex', 3, 7, 'uploads/products/product_6ae5e335cf1564.68817870.webp', 1, '2026-10-29 10:31:18', '2026-10-31 15:46:45'),
-(56, 23, 'Activity Tummy Time Water Mat', 'Inflatable water play mat to support infant motor development and core strength.', 'Empty and dry after each use.', 11.99, 40, 'unisex', 0, 1, 'uploads/products/product_6ae5e3058f8e57.43631919.webp', 1, '2026-10-29 10:31:18', '2026-10-31 15:45:57'),
-(57, 23, 'Ride-On Fire Truck Push Car', 'Foot-to-floor steering ride-on car with under-seat storage compartment.', 'Check wheel alignment regularly.', 49.99, 9, 'unisex', 1, 3, 'uploads/products/product_6ae5e28b6f4866.72016872.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 15:43:55'),
-(58, 23, 'Soft Foam Building Blocks Set', 'Large lightweight foam blocks for tumbling, building, and active play safely.', 'Spot clean with damp sponge.', 54.99, 8, 'unisex', 1, 4, 'uploads/products/product_6ae5e267756667.40629730.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 15:43:19'),
-(59, 23, 'Junior Bowling Game Set', 'Soft, lightweight pins and ball set for indoor safe bowling fun.', 'Wipe clean.', 18.50, 23, 'unisex', 2, 6, 'uploads/products/product_6ae5e22f12d423.77618926.webp', 1, '2026-10-29 10:31:18', '2026-10-31 17:06:28'),
-(101, 20, 'Rainbow Wooden Abacus', 'Classic 10-row wooden abacus with bright beads that makes counting, adding and subtracting easy to see and touch.', 'Slide the beads from left to right while counting out loud. Wipe clean with a dry cloth.', 9.50, 40, 'unisex', 3, 7, 'assets/images/products/educational-toys/rainbow-wooden-abacus-1.jpg', 1, '2026-10-01 09:13:00', '2026-10-01 09:13:00'),
-(102, 20, 'ABC Letter Blocks (28 pcs)', 'Solid wooden cubes printed with letters, numbers and pictures for first spelling, stacking and sorting games.', 'Build simple words together and say each letter as you stack it. Not for children under 18 months.', 12.00, 45, 'unisex', 2, 5, 'assets/images/products/educational-toys/abc-letter-blocks-28-pcs-1.jpg', 1, '2026-10-01 16:26:00', '2026-10-01 16:26:00'),
-(103, 20, 'Foam Alphabet & Number Shapes', 'Soft, colourful foam letters and numbers that are safe for little hands and perfect for spelling first words.', 'Use on a table or in the bath. Rinse and air dry after water play.', 6.50, 60, 'unisex', 3, 6, 'assets/images/products/educational-toys/foam-alphabet-number-shapes-1.jpg', 1, '2026-10-01 23:39:00', '2026-10-01 23:39:00'),
-(104, 20, 'Montessori Number Puzzle Board', 'Chunky wooden numbers 0-9 with a rainbow counting wheel that builds number recognition and fine motor skills.', 'Take all pieces out, then match each number to its place. Count the rainbow sections together.', 11.00, 35, 'unisex', 2, 5, 'assets/images/products/educational-toys/montessori-number-puzzle-board-1.jpg', 1, '2026-10-02 06:52:00', '2026-10-02 06:52:00'),
-(105, 20, 'Junior Explorer Microscope', 'Real-glass kids microscope with LED light and prepared slides, so young scientists can explore leaves, hair and salt crystals.', 'Start with the lowest zoom. Adult supervision required with glass slides.', 32.00, 15, 'unisex', 6, 12, 'assets/images/products/educational-toys/junior-explorer-microscope-1.jpg', 1, '2026-10-02 13:05:00', '2026-10-02 13:05:00'),
-(106, 20, 'Young Astronomer Telescope', 'Easy-to-use refractor telescope with tripod and two eyepieces for viewing the moon and distant landscapes.', 'Never look at the sun. Set the tripod on a flat surface and focus slowly.', 45.00, 10, 'unisex', 6, 12, 'assets/images/products/educational-toys/young-astronomer-telescope-1.jpg', 1, '2026-10-02 20:18:00', '2026-10-02 20:18:00'),
-(107, 20, 'Classic Desk World Globe', 'Colourful 25 cm world globe on a sturdy stand that turns geography lessons into a spin-and-discover game.', 'Spin the globe, stop it with a finger and find the country together.', 18.50, 25, 'unisex', 6, 12, 'assets/images/products/educational-toys/classic-desk-world-globe-1.jpg', 1, '2026-10-03 03:31:00', '2026-10-03 03:31:00'),
-(108, 20, 'Little Scientist Lab Kit', 'Safe chemistry set with test tubes, goggles and 20 colourful experiments explained in a picture booklet.', 'Adult supervision required. Wear the goggles and follow the booklet step by step.', 24.00, 20, 'unisex', 7, 12, 'assets/images/products/educational-toys/little-scientist-lab-kit-1.jpg', 1, '2026-10-03 10:44:00', '2026-10-03 10:44:00'),
-(109, 20, 'Speed Cube 3x3', 'Smooth-turning 3x3 puzzle cube that trains memory, patience and spatial thinking.', 'Learn the beginner method one layer at a time. Do not twist with force.', 4.50, 80, 'unisex', 7, 12, 'assets/images/products/educational-toys/speed-cube-3x3-1.jpg', 1, '2026-10-03 17:57:00', '2026-10-03 17:57:00'),
-(110, 20, 'Wooden Chess Set for Kids', 'Hand-finished wooden chess set with a folding board and a beginner rules card.', 'Learn how each piece moves first, then play short practice games.', 15.00, 30, 'unisex', 6, 12, 'assets/images/products/educational-toys/wooden-chess-set-for-kids-1.jpg', 1, '2026-10-04 00:10:00', '2026-10-04 00:10:00'),
-(111, 20, 'Rainbow Stacking Rings', 'Soft-edged stacking rings in bright colours that teach size order, colours and hand-eye coordination.', 'Show your child how to stack the rings from biggest to smallest.', 6.00, 55, 'unisex', 1, 3, 'assets/images/products/educational-toys/rainbow-stacking-rings-1.jpg', 1, '2026-10-04 07:23:00', '2026-10-04 07:23:00'),
-(112, 20, 'Wooden Shape Sorter Board', 'Colourful wooden shapes that fit onto matching pegs to learn shapes, colours and counting.', 'Name each shape and colour while your child plays.', 8.75, 40, 'unisex', 1, 3, 'assets/images/products/educational-toys/wooden-shape-sorter-board-1.jpg', 1, '2026-10-04 14:36:00', '2026-10-04 14:36:00'),
-(113, 20, 'Activity Cube Learning Center', 'Wooden activity cube with bead maze, sliding shapes and counting beads on every side.', 'Adult supervision required. Wipe clean with a dry cloth.', 27.00, 15, 'unisex', 1, 4, 'assets/images/products/educational-toys/activity-cube-learning-center-1.jpg', 1, '2026-10-04 21:49:00', '2026-10-04 21:49:00'),
-(114, 20, 'Solar System Planets Model', 'Desktop solar system model with all eight planets that helps kids learn their order and size.', 'Name the planets from the sun outwards. Keep small parts away from toddlers.', 19.00, 20, 'unisex', 6, 12, 'assets/images/products/educational-toys/solar-system-planets-model-1.jpg', 1, '2026-10-05 04:02:00', '2026-10-05 04:02:00'),
-(115, 20, 'Dinosaur Fossil Dig Kit', 'Dig out hidden dinosaur skeletons with a chisel and brush, just like a real paleontologist.', 'Dig on a tray or outdoors. Brush away the plaster gently to reveal the fossil.', 13.50, 30, 'boys', 6, 12, 'assets/images/products/educational-toys/dinosaur-fossil-dig-kit-1.jpg', 1, '2026-10-05 11:15:00', '2026-10-05 11:15:00'),
-(116, 20, 'Little Doctor Play Kit', 'Pretend doctor kit with stethoscope, thermometer and bandages for caring for teddy patients.', 'Pretend play only. Do not put items in the mouth or ears.', 13.00, 30, 'unisex', 3, 7, 'assets/images/products/educational-toys/little-doctor-play-kit-1.jpg', 1, '2026-10-05 18:28:00', '2026-10-05 18:28:00'),
-(117, 20, 'Watercolor Painting Set', 'Washable watercolour palette with brushes and a paper pad for colourful creative afternoons.', 'Cover the table before painting. Rinse brushes after use.', 10.50, 35, 'girls', 4, 10, 'assets/images/products/educational-toys/watercolor-painting-set-1.jpg', 1, '2026-10-06 01:41:00', '2026-10-06 01:41:00'),
-(118, 20, 'Kids Jigsaw Puzzle (100 pcs)', 'Thick-card jigsaw puzzle with large colourful pieces that builds patience and problem-solving skills.', 'Start with the edge pieces, then fill the middle.', 5.50, 50, 'unisex', 5, 10, 'assets/images/products/educational-toys/kids-jigsaw-puzzle-100-pcs-1.jpg', 1, '2026-10-06 08:54:00', '2026-10-06 08:54:00'),
-(119, 20, 'Nature Explorer Magnifying Glass', 'Shatter-resistant magnifying glass with a comfortable handle for exploring bugs, leaves and stones.', 'Never use it to look at the sun or to focus sunlight.', 5.00, 60, 'unisex', 4, 10, 'assets/images/products/educational-toys/nature-explorer-magnifying-glass-1.jpg', 1, '2026-10-06 15:07:00', '2026-10-06 15:07:00'),
-(120, 20, 'Color Sorting Bowls Set', 'Rainbow wooden bowls with matching pieces for sorting, counting and colour recognition.', 'Ask your child to put each piece in the bowl of the same colour.', 9.00, 40, 'unisex', 2, 5, 'assets/images/products/educational-toys/color-sorting-bowls-set-1.jpg', 1, '2026-10-06 22:20:00', '2026-10-06 22:20:00'),
-(121, 21, 'Classic Wooden Train Set', 'Wooden locomotive with wagons and track pieces that connect with magnets.', 'Build the track on the floor and connect the wagons with the magnets.', 29.00, 20, 'boys', 3, 7, 'assets/images/products/wooden-toys/classic-wooden-train-set-1.jpg', 1, '2026-10-01 10:33:00', '2026-10-01 10:33:00'),
-(122, 21, 'Wooden Rainbow Stacker', 'Seven-piece wooden rainbow for stacking, building and open-ended imaginative play.', 'Stack, balance or line up the arches. Wipe with a damp cloth.', 16.00, 30, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-rainbow-stacker-1.jpg', 1, '2026-10-01 17:46:00', '2026-10-01 17:46:00'),
-(123, 21, 'Pastel Wooden Stacking Tower', 'Smooth wooden rings in soft pastel shades on a stable base, made from sustainable wood.', 'Stack the rings by size. Check pieces regularly for damage.', 10.50, 35, 'unisex', 1, 3, 'assets/images/products/wooden-toys/pastel-wooden-stacking-tower-1.jpg', 1, '2026-10-02 00:59:00', '2026-10-02 00:59:00'),
-(124, 21, 'Three-Story Wooden Dollhouse', 'Large wooden dollhouse with balconies, stairs and open rooms ready to decorate.', 'Adult assembly required. Wipe with a dry cloth.', 75.00, 8, 'girls', 3, 9, 'assets/images/products/wooden-toys/three-story-wooden-dollhouse-1.jpg', 1, '2026-10-02 07:12:00', '2026-10-02 07:12:00'),
-(125, 21, 'Wooden Play Kitchen', 'Wooden play kitchen with oven, sink, shelves and hooks for pretend cooking adventures.', 'Adult assembly required. Keep away from damp areas.', 95.00, 6, 'girls', 3, 7, 'assets/images/products/wooden-toys/wooden-play-kitchen-1.jpg', 1, '2026-10-02 14:25:00', '2026-10-02 14:25:00'),
-(126, 21, 'Vintage Rocking Horse', 'Sturdy wooden rocking horse with smooth runners and comfortable handles.', 'Use on a flat floor. Adult supervision required for toddlers.', 58.00, 6, 'unisex', 1, 4, 'assets/images/products/wooden-toys/vintage-rocking-horse-1.jpg', 1, '2026-10-02 21:38:00', '2026-10-02 21:38:00'),
-(127, 21, 'Colorful Wooden Building Blocks', 'Painted wooden blocks in many shapes and colours for towers, bridges and houses.', 'Build on a flat floor. Put blocks back in the box after play.', 21.00, 30, 'unisex', 2, 6, 'assets/images/products/wooden-toys/colorful-wooden-building-blocks-1.jpg', 1, '2026-10-03 04:51:00', '2026-10-03 04:51:00'),
-(128, 21, 'Natural Wooden Cube Set (50 pcs)', 'Unpainted beech wood cubes that build balance, planning and creativity.', 'Wipe with a dry cloth. Do not soak in water.', 14.00, 30, 'unisex', 3, 8, 'assets/images/products/wooden-toys/natural-wooden-cube-set-50-pcs-1.jpg', 1, '2026-10-03 11:04:00', '2026-10-03 11:04:00'),
-(129, 21, 'Rainbow Wooden Xylophone', 'Bright eight-note xylophone with two mallets for first melodies.', 'Use the mallets only. Play simple songs together.', 9.00, 40, 'unisex', 1, 5, 'assets/images/products/wooden-toys/rainbow-wooden-xylophone-1.jpg', 1, '2026-10-03 18:17:00', '2026-10-03 18:17:00'),
-(130, 21, 'Wooden Pull-Along Animals', 'Cheerful wooden animals on wheels that follow little walkers on a string.', 'For walking children only. Supervise play with the string.', 8.50, 30, 'unisex', 1, 3, 'assets/images/products/wooden-toys/wooden-pull-along-animals-1.jpg', 1, '2026-10-04 01:30:00', '2026-10-04 01:30:00'),
-(131, 21, 'Wooden Bead Maze Roller Coaster', 'Classic bead maze with colourful wires that trains hand-eye coordination.', 'Slide the beads along the wires. Check the base is stable before play.', 15.50, 25, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-bead-maze-roller-coaster-1.jpg', 1, '2026-10-04 08:43:00', '2026-10-04 08:43:00'),
-(132, 21, 'Wooden Tool Box Set', 'Wooden tool box with hammer, saw, screwdriver and nuts for little builders.', 'Pretend tools only. Keep small nuts away from younger children.', 19.00, 20, 'boys', 3, 7, 'assets/images/products/wooden-toys/wooden-tool-box-set-1.jpg', 1, '2026-10-04 15:56:00', '2026-10-04 15:56:00'),
-(133, 21, 'Wooden Toy Cars Collection', 'Smooth wooden cars with rolling wheels for races, garages and road trips.', 'Roll on flat floors. Wipe clean with a dry cloth.', 12.50, 35, 'boys', 2, 6, 'assets/images/products/wooden-toys/wooden-toy-cars-collection-1.jpg', 1, '2026-10-04 22:09:00', '2026-10-04 22:09:00'),
-(134, 21, 'Wooden Biplane', 'Bright yellow wooden biplane with spinning propeller and rolling wheels.', 'Spin the propeller gently. Not suitable for outdoor wet play.', 11.00, 25, 'boys', 3, 8, 'assets/images/products/wooden-toys/wooden-biplane-1.jpg', 1, '2026-10-05 05:22:00', '2026-10-05 05:22:00'),
-(135, 21, 'Wooden Food Cutting Set', 'Wooden fruits and vegetables joined with velcro that kids slice with a wooden knife.', 'Wipe with a damp cloth. Do not soak in water.', 10.50, 35, 'girls', 2, 6, 'assets/images/products/wooden-toys/wooden-food-cutting-set-1.jpg', 1, '2026-10-05 12:35:00', '2026-10-05 12:35:00'),
-(136, 21, 'Wooden Doll Pram', 'Sturdy doll pram that little ones push around the house while caring for their dolls.', 'Use on flat floors only, away from stairs.', 34.00, 10, 'girls', 2, 5, 'assets/images/products/wooden-toys/wooden-doll-pram-1.jpg', 1, '2026-10-05 19:48:00', '2026-10-05 19:48:00'),
-(137, 21, 'Wooden Spinning Tops Set', 'Hand-painted wooden spinning tops that spin for a long time on smooth surfaces.', 'Twist the handle quickly and let go on a flat table.', 6.00, 50, 'unisex', 4, 10, 'assets/images/products/wooden-toys/wooden-spinning-tops-set-1.jpg', 1, '2026-10-06 02:01:00', '2026-10-06 02:01:00'),
-(138, 21, 'Wooden Sailboat Model', 'Classic wooden sailboat with cotton sails that floats in pools and ponds.', 'Float only under adult supervision. Dry after use.', 17.50, 15, 'boys', 4, 10, 'assets/images/products/wooden-toys/wooden-sailboat-model-1.jpg', 1, '2026-10-06 09:14:00', '2026-10-06 09:14:00'),
-(139, 21, 'Wooden Brain Teaser Puzzle', 'Interlocking wooden puzzle that challenges kids to take it apart and rebuild it.', 'Take it apart slowly and remember the order of the pieces.', 5.50, 45, 'unisex', 7, 12, 'assets/images/products/wooden-toys/wooden-brain-teaser-puzzle-1.jpg', 1, '2026-10-06 16:27:00', '2026-10-06 16:27:00'),
-(140, 21, 'Wooden Alphabet Number Cubes', 'Engraved wooden cubes with letters, numbers and pictures for learning through play.', 'Stack the cubes and read the letters together.', 10.00, 40, 'unisex', 2, 5, 'assets/images/products/wooden-toys/wooden-alphabet-number-cubes-1.jpg', 1, '2026-10-06 23:40:00', '2026-10-06 23:40:00'),
-(141, 22, 'Porcelain Princess Doll', 'Elegant collectible doll with a lace dress, bonnet and long soft hair.', 'Handle with care. Keep away from younger siblings.', 28.00, 15, 'girls', 5, 12, 'assets/images/products/girls-toys/porcelain-princess-doll-1.jpg', 1, '2026-10-01 11:53:00', '2026-10-01 11:53:00'),
-(142, 22, 'Vintage Classic Doll', 'Classic doll with blinking eyes, curly hair and a pretty tartan dress.', 'Comb the hair gently. Surface wash only.', 22.00, 15, 'girls', 4, 10, 'assets/images/products/girls-toys/vintage-classic-doll-1.jpg', 1, '2026-10-01 18:06:00', '2026-10-01 18:06:00'),
-(143, 22, 'Knitted Rag Doll', 'Soft hand-knitted rag doll with colourful yarn hair, perfect for cuddles.', 'Hand wash in cold water. Air dry.', 12.00, 25, 'girls', 1, 6, 'assets/images/products/girls-toys/knitted-rag-doll-1.jpg', 1, '2026-10-02 01:19:00', '2026-10-02 01:19:00'),
-(144, 22, 'Fluffy Unicorn Plush', 'Super-soft unicorn plush with a golden horn and a rainbow mane.', 'Surface wash only. Air dry.', 14.50, 30, 'girls', 1, 8, 'assets/images/products/girls-toys/fluffy-unicorn-plush-1.jpg', 1, '2026-10-02 08:32:00', '2026-10-02 08:32:00'),
-(145, 22, 'Sparkle Eyes Unicorn Plush', 'Pink unicorn plush with big sparkly eyes and glitter horn.', 'Surface wash only. Not for children under 12 months.', 11.00, 30, 'girls', 2, 8, 'assets/images/products/girls-toys/sparkle-eyes-unicorn-plush-1.jpg', 1, '2026-10-02 15:45:00', '2026-10-02 15:45:00'),
-(146, 22, 'Soft Bunny Plush', 'Floppy-eared bunny plush made from extra-soft fabric, safe for little ones.', 'Machine wash on gentle cycle in a laundry bag.', 10.00, 35, 'girls', 1, 6, 'assets/images/products/girls-toys/soft-bunny-plush-1.jpg', 1, '2026-10-02 22:58:00', '2026-10-02 22:58:00'),
-(147, 22, 'Love Teddy Bear Gift', 'Soft teddy bear holding a red heart, a sweet gift for birthdays and special days.', 'Surface wash only. Air dry.', 13.00, 25, 'girls', 1, 10, 'assets/images/products/girls-toys/love-teddy-bear-gift-1.jpg', 1, '2026-10-03 05:11:00', '2026-10-03 05:11:00'),
-(150, 20, 'Bead Jewelry Making Kit', 'Over 500 colourful beads and letter beads to design bracelets and necklaces.', 'Small parts: not for children under 3. Sort beads in the case after play.', 9.50, 40, 'girls', 6, 12, 'assets/images/products/girls-toys/bead-jewelry-making-kit-1.jpg', 1, '2026-10-04 02:50:00', '2026-10-04 02:50:00'),
-(151, 20, 'Friendship Bracelet Kit', 'Colourful threads and a step-by-step guide to weave friendship bracelets.', 'Follow the guide patterns from easy to hard.', 7.00, 40, 'girls', 6, 12, 'assets/images/products/girls-toys/friendship-bracelet-kit-1.jpg', 1, '2026-10-04 09:03:00', '2026-10-04 09:03:00'),
-(153, 23, 'Teepee Play Tent', 'Cosy cotton teepee with wooden poles and a window for reading corners and sleepovers.', 'Adult assembly required. Spot clean only.', 39.00, 10, 'girls', 3, 9, 'assets/images/products/girls-toys/teepee-play-tent-1.jpg', 1, '2026-10-04 23:29:00', '2026-10-04 23:29:00'),
-(157, 20, 'Rainbow Modeling Clay Kit', 'Soft, non-toxic modeling clay in rainbow colours with shaping tools.', 'Close the tubs tightly after play so the clay stays soft. Do not eat.', 7.50, 45, 'girls', 3, 8, 'assets/images/products/girls-toys/rainbow-modeling-clay-kit-1.jpg', 1, '2026-10-06 03:21:00', '2026-10-06 03:21:00'),
-(158, 20, 'Mini Grand Piano', 'Elegant mini grand piano with real-sounding keys and a matching stool.', 'Requires 2 AA batteries. Keep the volume low for small ears.', 26.00, 12, 'girls', 3, 8, 'assets/images/products/girls-toys/mini-grand-piano-1.jpg', 1, '2026-10-06 10:34:00', '2026-10-06 10:34:00'),
-(159, 20, 'Jumbo Crayons Coloring Set', 'Bright jumbo crayons that are easy to hold, for drawing and colouring adventures.', 'Use on paper only. Not for children under 3.', 5.00, 60, 'girls', 3, 8, 'assets/images/products/girls-toys/jumbo-crayons-coloring-set-1.jpg', 1, '2026-10-06 17:47:00', '2026-10-06 17:47:00'),
-(160, 22, 'Cuddly Kitty Plush', 'Fluffy purple kitty plush with soft fur and embroidered face.', 'Surface wash only. Air dry.', 9.50, 30, 'girls', 1, 8, 'assets/images/products/girls-toys/cuddly-kitty-plush-1.jpg', 1, '2026-10-07 00:00:00', '2026-10-07 00:00:00'),
-(161, 23, 'Kids Balance Bike', 'Lightweight pedal-free balance bike that helps toddlers learn steering and balance.', 'Adjust the seat so both feet touch the ground. Always wear a helmet.', 45.00, 15, 'unisex', 2, 5, 'assets/images/products/outdoor-sports/kids-balance-bike-1.jpg', 1, '2026-10-01 12:13:00', '2026-10-01 12:13:00'),
-(162, 23, 'Pink Balance Bike', 'Pedal-free balance bike in a girls\' colour with soft grips and puncture-proof tyres.', 'Adjust the seat so both feet touch the ground. Always wear a helmet.', 45.00, 12, 'girls', 2, 5, 'assets/images/products/outdoor-sports/pink-balance-bike-1.jpg', 1, '2026-10-01 19:26:00', '2026-10-01 19:26:00'),
-(163, 23, '16-inch Blue Kids Bicycle', 'Steel-frame kids bicycle with removable training wheels and front hand brake.', 'Check tyre pressure and brakes before every ride. Always wear a helmet.', 89.00, 10, 'boys', 4, 8, 'assets/images/products/outdoor-sports/16-inch-blue-kids-bicycle-1.jpg', 1, '2026-10-02 02:39:00', '2026-10-02 02:39:00'),
-(164, 23, '16-inch Pink Kids Bicycle', 'Pretty kids bicycle with training wheels, chain guard and front basket.', 'Check tyre pressure and brakes before every ride. Always wear a helmet.', 89.00, 10, 'girls', 4, 8, 'assets/images/products/outdoor-sports/16-inch-pink-kids-bicycle-1.jpg', 1, '2026-10-02 09:52:00', '2026-10-02 09:52:00'),
-(165, 23, 'Foldable Kick Scooter', 'Height-adjustable scooter with smooth wheels and rear foot brake.', 'Ride on flat, dry surfaces only. Wear a helmet and knee pads.', 35.00, 20, 'unisex', 4, 10, 'assets/images/products/outdoor-sports/foldable-kick-scooter-1.jpg', 1, '2026-10-02 16:05:00', '2026-10-02 16:05:00'),
-(166, 23, 'Pink Kids Scooter', 'Pink scooter with light-up wheels and an easy-fold frame.', 'Ride on flat, dry surfaces only. Wear a helmet and knee pads.', 38.00, 15, 'girls', 5, 10, 'assets/images/products/outdoor-sports/pink-kids-scooter-1.jpg', 1, '2026-10-02 23:18:00', '2026-10-02 23:18:00'),
-(167, 23, 'Kids Football Size 4', 'Soft-touch stitched football sized for young players.', 'Inflate to the pressure printed on the ball. Play on grass or turf.', 8.50, 60, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/kids-football-size-4-1.jpg', 1, '2026-10-03 06:31:00', '2026-10-03 06:31:00'),
-(168, 23, 'Adjustable Basketball Hoop', 'Free-standing hoop that grows with your child, with net and ball included.', 'Fill the base with sand or water before use. Do not hang on the rim.', 27.50, 18, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/adjustable-basketball-hoop-1.jpg', 1, '2026-10-03 13:44:00', '2026-10-03 13:44:00'),
-(169, 23, 'Garden Trampoline with Safety Net', 'Outdoor trampoline with padded frame and enclosure net for safe bouncing.', 'One child at a time. Adult supervision required.', 135.00, 5, 'unisex', 4, 12, 'assets/images/products/outdoor-sports/garden-trampoline-with-safety-net-1.jpg', 1, '2026-10-03 20:57:00', '2026-10-03 20:57:00'),
-(170, 23, 'Toddler Swing Seat', 'Bucket swing seat with safety belt and adjustable ropes for trees or frames.', 'Check ropes before every use. Adult supervision required.', 24.00, 15, 'unisex', 1, 4, 'assets/images/products/outdoor-sports/toddler-swing-seat-1.jpg', 1, '2026-10-04 03:10:00', '2026-10-04 03:10:00'),
-(171, 23, 'Kids Skateboard', 'Maple deck skateboard with grip tape and smooth wheels for beginners.', 'Always wear a helmet and pads. Ride away from traffic.', 29.00, 15, 'boys', 6, 12, 'assets/images/products/outdoor-sports/kids-skateboard-1.jpg', 1, '2026-10-04 10:23:00', '2026-10-04 10:23:00'),
-(172, 23, 'Rainbow Roller Skates', 'Adjustable quad roller skates with comfy padding and rainbow details.', 'Wear a helmet, knee and wrist pads. Skate on smooth ground.', 32.00, 15, 'girls', 6, 12, 'assets/images/products/outdoor-sports/rainbow-roller-skates-1.jpg', 1, '2026-10-04 17:36:00', '2026-10-04 17:36:00'),
-(173, 23, 'Rainbow Kite', 'Easy-to-fly kite with long colourful tails and 50 m string.', 'Fly in open spaces away from power lines.', 7.50, 40, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/rainbow-kite-1.jpg', 1, '2026-10-05 00:49:00', '2026-10-05 00:49:00'),
-(174, 23, 'Junior Badminton Set', 'Two lightweight rackets with shuttlecocks for backyard games.', 'Play in open areas. Replace damaged shuttlecocks.', 12.00, 30, 'unisex', 6, 12, 'assets/images/products/outdoor-sports/junior-badminton-set-1.jpg', 1, '2026-10-05 07:02:00', '2026-10-05 07:02:00'),
-(175, 23, 'Kids Bike Helmet', 'Lightweight ventilated helmet with adjustable strap for bikes and scooters.', 'Fit snugly and fasten the strap before every ride.', 16.00, 40, 'unisex', 3, 10, 'assets/images/products/outdoor-sports/kids-bike-helmet-1.jpg', 1, '2026-10-05 14:15:00', '2026-10-05 14:15:00'),
-(176, 23, 'Beach Sand Toys Set', 'Bucket, spade, rake and moulds for building sandcastles at the beach or sandbox.', 'Rinse with clean water after the beach.', 8.25, 40, 'unisex', 2, 6, 'assets/images/products/outdoor-sports/beach-sand-toys-set-1.jpg', 1, '2026-10-05 21:28:00', '2026-10-05 21:28:00'),
-(177, 23, 'Water Blaster Pump Gun', 'Pump-action water blaster with long range and easy-fill tank.', 'Do not aim at faces. Use outdoors only.', 7.50, 50, 'boys', 5, 12, 'assets/images/products/outdoor-sports/water-blaster-pump-gun-1.jpg', 1, '2026-10-06 04:41:00', '2026-10-06 04:41:00'),
-(178, 23, 'Junior Tennis Racket', 'Lightweight junior racket with a cover and two soft tennis balls.', 'Choose the right size for your child\'s height.', 14.00, 25, 'unisex', 6, 12, 'assets/images/products/outdoor-sports/junior-tennis-racket-1.jpg', 1, '2026-10-06 11:54:00', '2026-10-06 11:54:00'),
-(179, 23, 'Rainbow Hula Hoop', 'Colourful adjustable hula hoop for fitness, dance and playground games.', 'Use in open spaces away from furniture.', 5.50, 40, 'girls', 4, 12, 'assets/images/products/outdoor-sports/rainbow-hula-hoop-1.jpg', 1, '2026-10-06 18:07:00', '2026-10-06 18:07:00'),
-(180, 23, 'Giant Bubble Wand Set', 'Bubble wands with non-toxic solution for giant bubbles in the garden.', 'Use outdoors. Do not drink the solution.', 6.00, 50, 'unisex', 3, 8, 'assets/images/products/outdoor-sports/giant-bubble-wand-set-1.jpg', 1, '2026-10-07 01:20:00', '2026-10-07 01:20:00'),
-(181, 23, 'RC Off-Road Rock Crawler', 'Rugged 4x4 remote control crawler with shock absorbers and rechargeable battery.', 'Charge fully before first use. Do not drive through water.', 42.00, 15, 'boys', 6, 12, 'assets/images/products/boys-toys/rc-off-road-rock-crawler-1.jpg', 1, '2026-10-01 13:33:00', '2026-10-01 13:33:00'),
-(182, 23, 'RC Sports Racing Car', 'Fast remote control sports car with 2.4 GHz remote and LED lights.', 'Charge fully before first use. Drive on smooth surfaces.', 38.00, 15, 'boys', 6, 12, 'assets/images/products/boys-toys/rc-sports-racing-car-1.jpg', 1, '2026-10-01 20:46:00', '2026-10-01 20:46:00'),
-(183, 23, 'Monster Truck', 'Big-wheel monster truck with friction motor and strong suspension.', 'Push and release to drive. Wipe clean, do not submerge.', 16.00, 25, 'boys', 4, 10, 'assets/images/products/boys-toys/monster-truck-1.jpg', 1, '2026-10-02 03:59:00', '2026-10-02 03:59:00'),
-(184, 23, 'Toy Excavator', 'Construction excavator with moving arm and digging bucket.', 'Play in sand or on the floor. Do not pull the arm too far.', 14.50, 25, 'boys', 3, 8, 'assets/images/products/boys-toys/toy-excavator-1.jpg', 1, '2026-10-02 10:12:00', '2026-10-02 10:12:00'),
-(185, 23, 'Construction Wheel Loader', 'Heavy-duty toy wheel loader with lifting front scoop.', 'Wipe clean after sand play.', 16.50, 20, 'boys', 3, 8, 'assets/images/products/boys-toys/construction-wheel-loader-1.jpg', 1, '2026-10-02 17:25:00', '2026-10-02 17:25:00'),
-(186, 23, 'Yellow Dump Truck', 'Chunky dump truck with tipping bed for hauling sand and blocks.', 'Wipe clean after outdoor play.', 12.00, 30, 'boys', 3, 7, 'assets/images/products/boys-toys/yellow-dump-truck-1.jpg', 1, '2026-10-03 00:38:00', '2026-10-03 00:38:00'),
-(187, 20, 'Dinosaur Figures Set (12 pcs)', 'Detailed dinosaur figures in bright colours with name cards.', 'Use the cards to match each dinosaur to its name.', 15.00, 30, 'boys', 3, 9, 'assets/images/products/boys-toys/dinosaur-figures-set-12-pcs-1.jpg', 1, '2026-10-03 07:51:00', '2026-10-03 07:51:00'),
-(188, 20, 'T-Rex Dinosaur Figure', 'Realistic T-Rex figure with textured skin and posable jaw.', 'Wipe clean with a damp cloth.', 9.50, 35, 'boys', 3, 10, 'assets/images/products/boys-toys/t-rex-dinosaur-figure-1.jpg', 1, '2026-10-03 14:04:00', '2026-10-03 14:04:00'),
-(189, 20, 'Classic Tin Robot', 'Retro wind-up tin robot that walks and swings its arms.', 'Wind the key gently. Do not overwind.', 18.00, 15, 'boys', 5, 12, 'assets/images/products/boys-toys/classic-tin-robot-1.jpg', 1, '2026-10-03 21:17:00', '2026-10-03 21:17:00'),
-(190, 20, 'Retro Robot Friends Set', 'Set of retro-style robots in bright colours for display and play.', 'Keep away from water. Wipe with a dry cloth.', 22.00, 12, 'boys', 5, 12, 'assets/images/products/boys-toys/retro-robot-friends-set-1.jpg', 1, '2026-10-04 04:30:00', '2026-10-04 04:30:00'),
-(191, 23, 'Steam Train Railway Set', 'Battery-powered steam locomotive with wagons, track and station.', 'Requires 2 AA batteries. Build the track on a flat floor.', 48.00, 10, 'boys', 4, 10, 'assets/images/products/boys-toys/steam-train-railway-set-1.jpg', 1, '2026-10-04 11:43:00', '2026-10-04 11:43:00'),
-(192, 23, 'Rescue Fire Truck', 'Rescue vehicle with siren sounds, lights and rolling wheels.', 'Requires 3 AAA batteries (included). Switch off after play.', 13.50, 25, 'boys', 3, 8, 'assets/images/products/boys-toys/rescue-fire-truck-1.jpg', 1, '2026-10-04 18:56:00', '2026-10-04 18:56:00'),
-(193, 23, 'Red Biplane Toy', 'Classic red biplane with spinning propeller for high-flying adventures.', 'Spin the propeller gently. Keep away from water.', 11.50, 25, 'boys', 3, 9, 'assets/images/products/boys-toys/red-biplane-toy-1.jpg', 1, '2026-10-05 01:09:00', '2026-10-05 01:09:00'),
-(194, 20, 'Building Bricks Set (500 pcs)', 'Compatible building bricks in many colours with an ideas booklet.', 'Small parts: not for children under 3. Sort bricks by colour.', 26.00, 25, 'boys', 5, 12, 'assets/images/products/boys-toys/building-bricks-set-500-pcs-1.jpg', 1, '2026-10-05 08:22:00', '2026-10-05 08:22:00'),
-(195, 23, 'Racing Car Track Set', 'Flexible race track with curves, start line and two racing cars.', 'Build the track on the floor. Keep small parts away from toddlers.', 28.00, 20, 'boys', 4, 10, 'assets/images/products/boys-toys/racing-car-track-set-1.jpg', 1, '2026-10-05 15:35:00', '2026-10-05 15:35:00'),
-(196, 20, 'Mini Camera Drone', 'Easy-to-fly mini drone with altitude hold, one-key take-off and HD camera.', 'Fly outdoors in calm weather. Adult supervision required.', 79.00, 8, 'boys', 10, 12, 'assets/images/products/boys-toys/mini-camera-drone-1.jpg', 1, '2026-10-05 22:48:00', '2026-10-05 22:48:00'),
-(197, 21, 'Pirate Ship Model', 'Detailed wooden pirate ship model with sails and cannons.', 'Display piece. Keep away from water and dust regularly.', 35.00, 10, 'boys', 6, 12, 'assets/images/products/boys-toys/pirate-ship-model-1.jpg', 1, '2026-10-06 05:01:00', '2026-10-06 05:01:00'),
-(198, 23, 'Police Patrol Car', 'Friendly police car with rolling wheels and rounded edges for little hands.', 'Wipe clean with a damp cloth.', 9.00, 35, 'boys', 2, 6, 'assets/images/products/boys-toys/police-patrol-car-1.jpg', 1, '2026-10-06 12:14:00', '2026-10-06 12:14:00'),
-(199, 23, 'Die-Cast Cars Collection', 'Metal toy cars with free-rolling wheels and classic designs.', 'Small parts may come loose: check cars regularly.', 12.00, 40, 'boys', 3, 10, 'assets/images/products/boys-toys/die-cast-cars-collection-1.jpg', 1, '2026-10-06 19:27:00', '2026-10-06 19:27:00');
+INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `instructions`, `price`, `stock`, `gender`, `min_age`, `max_age`, `image`, `is_active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(20, 20, 'Wooden Alphabet & Number Puzzle Board', 'Colorful wooden puzzle pieces helping kids learn letters and numbers early.', 'Store in a dry place. Recommended for supervised play.', 18.99, 57, 'unisex', 3, 6, 'assets/images/products/educational-toys/wooden-alphabet-and-number-puzzle-board-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(21, 20, 'Counting Beads Abacus', 'Traditional colorful wooden abacus for foundational math practice.', 'Wipe clean with a dry cloth.', 14.99, 45, 'unisex', 4, 7, 'assets/images/products/educational-toys/counting-beads-abacus-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(22, 20, 'Shape Sorting Cube', 'Classic wooden sorting box with geometric blocks.', 'Keep away from moisture.', 16.50, 30, 'unisex', 1, 3, 'assets/images/products/educational-toys/shape-sorting-cube-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(23, 20, 'Flash Card Learning Bundle', 'Visual cards for animals, colors, and first words.', 'Store in the included box after use.', 9.99, 50, 'unisex', 2, 5, 'assets/images/products/educational-toys/flash-card-learning-bundle-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(24, 20, 'Magnetic Spelling Board', 'Double-sided dry erase board with magnetic letters and numbers.', 'Avoid dropping on hard surfaces.', 24.99, 25, 'unisex', 4, 7, 'assets/images/products/educational-toys/magnetic-spelling-board-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(25, 20, 'Solar System Planetarium Model', 'Paint and assemble your own glow-in-the-dark solar system.', 'Adult supervision recommended during assembly.', 19.99, 20, 'unisex', 5, 7, 'assets/images/products/educational-toys/solar-system-planetarium-model-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(26, 20, 'Geo-Board Graphic Array', 'Wooden pegged board with rubber bands for learning shapes and area.', 'Do not over-stretch rubber bands.', 12.50, 35, 'unisex', 4, 7, 'assets/images/products/educational-toys/geo-board-graphic-array-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(27, 20, 'Kids Microscope Starter Kit', 'Beginner microscope with LED illumination and prepared slides.', 'Requires 2 AA batteries.', 29.99, 15, 'unisex', 6, 7, 'assets/images/products/educational-toys/kids-microscope-starter-kit-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(28, 20, 'Clock Telling Time Puzzle', 'Interactive clock puzzle to teach kids how to read analog and digital time.', 'Handle hands gently.', 15.00, 40, 'unisex', 5, 7, 'assets/images/products/educational-toys/clock-telling-time-puzzle-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(29, 20, 'Montessori Fraction Circles', 'Visual wooden math manipulation plates for basic fractions.', 'Store flat in box.', 21.00, 20, 'unisex', 5, 7, 'assets/images/products/educational-toys/montessori-fraction-circles-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(30, 21, 'Stacking Wooden Rainbow Rings', 'Classic montessori wooden stacking rings to develop color recognition and motor skills.', 'Wipe clean with a damp cloth.', 22.00, 30, 'unisex', 1, 3, 'assets/images/products/wooden-toys/stacking-wooden-rainbow-rings-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(31, 21, 'Wooden Pound a Peg Bench', 'Hand-eye coordination toy with wooden mallet and colourful pegs.', 'Inspect mallet before use.', 17.50, 25, 'unisex', 2, 4, 'assets/images/products/wooden-toys/wooden-pound-a-peg-bench-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(32, 21, 'Classic Wooden Train Set', 'Connecting wooden train cars and tracks for building railways.', 'Compatible with major wooden track brands.', 32.99, 20, 'unisex', 3, 7, 'assets/images/products/wooden-toys/wooden-train-and-station-set-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(33, 21, 'Wooden Pull Along Duck', 'Cute duck on wheels that waddles when pulled by its string.', 'Do not submerge in water.', 13.99, 29, 'unisex', 1, 3, 'assets/images/products/wooden-toys/wooden-pull-along-duck-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(34, 21, 'Natural Wooden Building Blocks', '100-piece natural finish solid wood block bucket.', 'Store in provided canvas bag.', 29.99, 50, 'unisex', 2, 7, 'assets/images/products/wooden-toys/natural-wooden-building-blocks-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(35, 21, 'Wooden Tool Bench Playset', 'Mini workbench with toy hammer, screwdriver, screws, and gears.', 'Contains small parts.', 39.99, 15, 'unisex', 3, 6, 'assets/images/products/wooden-toys/wooden-tool-bench-playset-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(36, 21, 'Wooden Kitchen Cutting Fruits', 'Wooden play food set held together with safe velcro and a wooden knife.', 'Wipe clean.', 19.50, 35, 'unisex', 2, 5, 'assets/images/products/wooden-toys/wooden-kitchen-cutting-fruits-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(37, 21, 'Wooden Lacing Beads', 'Large wooden beads with stringing laces for fine motor skills.', 'Supervise young toddlers during play.', 11.99, 40, 'unisex', 3, 5, 'assets/images/products/wooden-toys/wooden-lacing-beads-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(38, 21, 'Wooden Xylophone Musical Toy', 'Brightly colored wooden base with metal keys and two mallets.', 'Do not strike keys too hard.', 16.99, 25, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-xylophone-musical-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(39, 21, 'Wooden Noahs Ark Playset', 'Detailed ark ship with paired wooden animal figures.', 'Store in a dry location.', 34.99, 18, 'unisex', 3, 6, 'assets/images/products/wooden-toys/wooden-noahs-ark-playset-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(40, 22, 'Organic Cotton Baby Rattle Set', 'Soft, organic cotton sensory teethers and rattles designed safely for newborns.', 'Machine washable on gentle cycle. Air dry.', 14.50, 40, 'unisex', 0, 1, 'assets/images/products/plush-soft-toys/organic-cotton-baby-rattle-set-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(41, 22, 'Fluffy Teddy Bear', 'Soft hugging plush bear companion for naptime and comfort.', 'Surface wash only.', 18.00, 50, 'unisex', 0, 7, 'assets/images/products/plush-soft-toys/fluffy-teddy-bear-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(42, 22, 'Musical Lullaby Star Plush', 'Gently glows and plays soothing lullabies when squeezed.', 'Remove battery module before washing.', 22.50, 30, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/musical-lullaby-star-plush-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(43, 22, 'Soft Crinkle Cloth Book', 'High contrast sensory fabric book with animal tails sticking out.', 'Machine washable.', 10.99, 60, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/soft-crinkle-cloth-book-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(44, 22, 'Plush Puppy Activity Toy', 'Interactive soft dog with teethers, mirrors, and squeakers attached.', 'Spot clean recommended.', 20.00, 25, 'unisex', 0, 3, 'assets/images/products/plush-soft-toys/plush-puppy-activity-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(45, 22, 'Stuffed Bunny with Long Ears', 'Ultra-soft plush rabbit companion made of hypoallergenic materials.', 'Gentle machine wash.', 16.00, 45, 'unisex', 0, 7, 'assets/images/products/plush-soft-toys/stuffed-bunny-with-long-ears-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(46, 22, 'Squeaker Elephant Toy', 'Easy-to-grip soft elephant toy that makes a gentle squeak sound.', 'Wipe clean with damp cloth.', 9.50, 40, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/squeaker-elephant-toy-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(47, 22, 'Comfy Security Blanket Lovey', 'Mini soft blanket with attached animal head for soothing babies to sleep.', 'Machine washable.', 12.00, 35, 'unisex', 0, 2, 'assets/images/products/plush-soft-toys/comfy-security-blanket-lovey-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(48, 22, 'Plush Unicorn Pillow', 'Cuddly unicorn companion that doubles as a comfortable travel pillow.', 'Spot clean only.', 21.99, 20, 'unisex', 2, 7, 'assets/images/products/plush-soft-toys/plush-unicorn-pillow-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(49, 22, 'Weighted Dinosaur Plush', 'Calming weighted plush toy to give children a comforting embrace.', 'Spot clean with mild soap.', 26.50, 15, 'unisex', 3, 7, 'assets/images/products/plush-soft-toys/weighted-dinosaur-plush-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(50, 23, 'Toddler Push Along Walker', 'Stable wooden push walker with building blocks included for early walkers.', 'Check wheel screws periodically for tightness.', 45.00, 15, 'unisex', 1, 3, 'assets/images/products/active-play-ride-ons/toddler-push-along-walker-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(51, 23, '3-Wheel Lean-to-Steer Scooter', 'Stable and safe scooter with flashing LED wheels for toddlers and young children.', 'Always wear a helmet and protective pads while riding.', 59.99, 10, 'unisex', 3, 6, 'assets/images/products/active-play-ride-ons/3-wheel-lean-to-steer-scooter-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(52, 23, 'Inflatable Hopper Bouncy Animal', 'Stable rubber jumping animal toy with easy-to-grip ears for indoor/outdoor bouncing.', 'Keep away from sharp objects.', 24.50, 20, 'unisex', 2, 5, 'assets/images/products/active-play-ride-ons/inflatable-hopper-bouncy-animal-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(53, 23, 'Toddler Balance Bike', 'No-pedal training bicycle designed to build balance and coordination early.', 'Use under direct adult supervision on flat surfaces.', 65.00, 12, 'unisex', 2, 5, 'assets/images/products/active-play-ride-ons/toddler-balance-bike-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(54, 23, 'Soft Foam Play Tunnel', 'Collapsible crawl tunnel for active indoor and outdoor motor play.', 'Wipe clean.', 27.99, 18, 'unisex', 1, 5, 'assets/images/products/active-play-ride-ons/soft-foam-play-tunnel-1.jpg', 1, '2026-10-29 10:31:18', '2026-10-31 22:01:16', NULL),
+(55, 23, 'Junior Basketball Hoop Set', 'Adjustable height freestanding basketball hoop and soft ball for little kids.', 'Fill base with water or sand for stability.', 38.50, 14, 'unisex', 3, 7, 'uploads/products/product_6ae5e335cf1564.68817870.webp', 1, '2026-10-29 10:31:18', '2026-10-31 15:46:45', NULL),
+(56, 23, 'Activity Tummy Time Water Mat', 'Inflatable water play mat to support infant motor development and core strength.', 'Empty and dry after each use.', 11.99, 40, 'unisex', 0, 1, 'uploads/products/product_6ae5e3058f8e57.43631919.webp', 1, '2026-10-29 10:31:18', '2026-10-31 15:45:57', NULL),
+(57, 23, 'Ride-On Fire Truck Push Car', 'Foot-to-floor steering ride-on car with under-seat storage compartment.', 'Check wheel alignment regularly.', 49.99, 8, 'unisex', 1, 3, 'uploads/products/product_6ae5e28b6f4866.72016872.jpg', 1, '2026-10-29 10:31:18', '2026-11-02 11:12:36', NULL),
+(58, 23, 'Soft Foam Building Blocks Set', 'Large lightweight foam blocks for tumbling, building, and active play safely.', 'Spot clean with damp sponge.', 54.99, 6, 'unisex', 1, 4, 'uploads/products/product_6ae5e267756667.40629730.jpg', 1, '2026-10-29 10:31:18', '2026-11-01 12:21:01', NULL),
+(59, 23, 'Junior Bowling Game Set', 'Soft, lightweight pins and ball set for indoor safe bowling fun.', 'Wipe clean.', 18.50, 23, 'unisex', 2, 6, 'uploads/products/product_6ae5e22f12d423.77618926.webp', 1, '2026-10-29 10:31:18', '2026-10-31 17:06:28', NULL),
+(101, 20, 'Rainbow Wooden Abacus', 'Classic 10-row wooden abacus with bright beads that makes counting, adding and subtracting easy to see and touch.', 'Slide the beads from left to right while counting out loud. Wipe clean with a dry cloth.', 9.50, 40, 'unisex', 3, 7, 'assets/images/products/educational-toys/rainbow-wooden-abacus-1.jpg', 1, '2026-10-01 09:13:00', '2026-10-01 09:13:00', NULL),
+(102, 20, 'ABC Letter Blocks (28 pcs)', 'Solid wooden cubes printed with letters, numbers and pictures for first spelling, stacking and sorting games.', 'Build simple words together and say each letter as you stack it. Not for children under 18 months.', 12.00, 45, 'unisex', 2, 5, 'assets/images/products/educational-toys/abc-letter-blocks-28-pcs-1.jpg', 1, '2026-10-01 16:26:00', '2026-10-01 16:26:00', NULL),
+(103, 20, 'Foam Alphabet & Number Shapes', 'Soft, colourful foam letters and numbers that are safe for little hands and perfect for spelling first words.', 'Use on a table or in the bath. Rinse and air dry after water play.', 6.50, 60, 'unisex', 3, 6, 'assets/images/products/educational-toys/foam-alphabet-number-shapes-1.jpg', 1, '2026-10-01 23:39:00', '2026-10-01 23:39:00', NULL),
+(104, 20, 'Montessori Number Puzzle Board', 'Chunky wooden numbers 0-9 with a rainbow counting wheel that builds number recognition and fine motor skills.', 'Take all pieces out, then match each number to its place. Count the rainbow sections together.', 11.00, 35, 'unisex', 2, 5, 'assets/images/products/educational-toys/montessori-number-puzzle-board-1.jpg', 1, '2026-10-02 06:52:00', '2026-10-02 06:52:00', NULL),
+(105, 20, 'Junior Explorer Microscope', 'Real-glass kids microscope with LED light and prepared slides, so young scientists can explore leaves, hair and salt crystals.', 'Start with the lowest zoom. Adult supervision required with glass slides.', 32.00, 15, 'unisex', 6, 12, 'assets/images/products/educational-toys/junior-explorer-microscope-1.jpg', 1, '2026-10-02 13:05:00', '2026-11-01 10:24:16', NULL),
+(106, 20, 'Young Astronomer Telescope', 'Easy-to-use refractor telescope with tripod and two eyepieces for viewing the moon and distant landscapes.', 'Never look at the sun. Set the tripod on a flat surface and focus slowly.', 45.00, 10, 'unisex', 6, 12, 'assets/images/products/educational-toys/young-astronomer-telescope-1.jpg', 1, '2026-10-02 20:18:00', '2026-10-02 20:18:00', NULL),
+(107, 20, 'Classic Desk World Globe', 'Colourful 25 cm world globe on a sturdy stand that turns geography lessons into a spin-and-discover game.', 'Spin the globe, stop it with a finger and find the country together.', 18.50, 25, 'unisex', 6, 12, 'assets/images/products/educational-toys/classic-desk-world-globe-1.jpg', 1, '2026-10-03 03:31:00', '2026-10-03 03:31:00', NULL),
+(108, 20, 'Little Scientist Lab Kit', 'Safe chemistry set with test tubes, goggles and 20 colourful experiments explained in a picture booklet.', 'Adult supervision required. Wear the goggles and follow the booklet step by step.', 24.00, 20, 'unisex', 7, 12, 'assets/images/products/educational-toys/little-scientist-lab-kit-1.jpg', 1, '2026-10-03 10:44:00', '2026-10-03 10:44:00', NULL),
+(109, 20, 'Speed Cube 3x3', 'Smooth-turning 3x3 puzzle cube that trains memory, patience and spatial thinking.', 'Learn the beginner method one layer at a time. Do not twist with force.', 4.50, 80, 'unisex', 7, 12, 'assets/images/products/educational-toys/speed-cube-3x3-1.jpg', 1, '2026-10-03 17:57:00', '2026-10-03 17:57:00', NULL),
+(110, 20, 'Wooden Chess Set for Kids', 'Hand-finished wooden chess set with a folding board and a beginner rules card.', 'Learn how each piece moves first, then play short practice games.', 15.00, 30, 'unisex', 6, 12, 'assets/images/products/educational-toys/wooden-chess-set-for-kids-1.jpg', 1, '2026-10-04 00:10:00', '2026-10-04 00:10:00', NULL),
+(111, 20, 'Rainbow Stacking Rings', 'Soft-edged stacking rings in bright colours that teach size order, colours and hand-eye coordination.', 'Show your child how to stack the rings from biggest to smallest.', 6.00, 55, 'unisex', 1, 3, 'assets/images/products/educational-toys/rainbow-stacking-rings-1.jpg', 1, '2026-10-04 07:23:00', '2026-10-04 07:23:00', NULL),
+(112, 20, 'Wooden Shape Sorter Board', 'Colourful wooden shapes that fit onto matching pegs to learn shapes, colours and counting.', 'Name each shape and colour while your child plays.', 8.75, 40, 'unisex', 1, 3, 'assets/images/products/educational-toys/wooden-shape-sorter-board-1.jpg', 1, '2026-10-04 14:36:00', '2026-10-04 14:36:00', NULL),
+(113, 20, 'Activity Cube Learning Center', 'Wooden activity cube with bead maze, sliding shapes and counting beads on every side.', 'Adult supervision required. Wipe clean with a dry cloth.', 27.00, 15, 'unisex', 1, 4, 'assets/images/products/educational-toys/activity-cube-learning-center-1.jpg', 1, '2026-10-04 21:49:00', '2026-10-04 21:49:00', NULL),
+(114, 20, 'Solar System Planets Model', 'Desktop solar system model with all eight planets that helps kids learn their order and size.', 'Name the planets from the sun outwards. Keep small parts away from toddlers.', 19.00, 20, 'unisex', 6, 12, 'assets/images/products/educational-toys/solar-system-planets-model-1.jpg', 1, '2026-10-05 04:02:00', '2026-10-05 04:02:00', NULL),
+(115, 20, 'Dinosaur Fossil Dig Kit', 'Dig out hidden dinosaur skeletons with a chisel and brush, just like a real paleontologist.', 'Dig on a tray or outdoors. Brush away the plaster gently to reveal the fossil.', 13.50, 30, 'boys', 6, 12, 'assets/images/products/educational-toys/dinosaur-fossil-dig-kit-1.jpg', 1, '2026-10-05 11:15:00', '2026-10-05 11:15:00', NULL),
+(116, 20, 'Little Doctor Play Kit', 'Pretend doctor kit with stethoscope, thermometer and bandages for caring for teddy patients.', 'Pretend play only. Do not put items in the mouth or ears.', 13.00, 30, 'unisex', 3, 7, 'assets/images/products/educational-toys/little-doctor-play-kit-1.jpg', 1, '2026-10-05 18:28:00', '2026-10-05 18:28:00', NULL),
+(117, 20, 'Watercolor Painting Set', 'Washable watercolour palette with brushes and a paper pad for colourful creative afternoons.', 'Cover the table before painting. Rinse brushes after use.', 10.50, 35, 'girls', 4, 10, 'assets/images/products/educational-toys/watercolor-painting-set-1.jpg', 1, '2026-10-06 01:41:00', '2026-10-06 01:41:00', NULL),
+(118, 20, 'Kids Jigsaw Puzzle (100 pcs)', 'Thick-card jigsaw puzzle with large colourful pieces that builds patience and problem-solving skills.', 'Start with the edge pieces, then fill the middle.', 5.50, 50, 'unisex', 5, 10, 'assets/images/products/educational-toys/kids-jigsaw-puzzle-100-pcs-1.jpg', 1, '2026-10-06 08:54:00', '2026-10-06 08:54:00', NULL),
+(119, 20, 'Nature Explorer Magnifying Glass', 'Shatter-resistant magnifying glass with a comfortable handle for exploring bugs, leaves and stones.', 'Never use it to look at the sun or to focus sunlight.', 5.00, 60, 'unisex', 4, 10, 'assets/images/products/educational-toys/nature-explorer-magnifying-glass-1.jpg', 1, '2026-10-06 15:07:00', '2026-10-06 15:07:00', NULL),
+(120, 20, 'Color Sorting Bowls Set', 'Rainbow wooden bowls with matching pieces for sorting, counting and colour recognition.', 'Ask your child to put each piece in the bowl of the same colour.', 9.00, 40, 'unisex', 2, 5, 'assets/images/products/educational-toys/color-sorting-bowls-set-1.jpg', 1, '2026-10-06 22:20:00', '2026-10-06 22:20:00', NULL),
+(121, 21, 'Classic Wooden Train Set', 'Wooden locomotive with wagons and track pieces that connect with magnets.', 'Build the track on the floor and connect the wagons with the magnets.', 29.00, 20, 'boys', 3, 7, 'assets/images/products/wooden-toys/classic-wooden-train-set-1.jpg', 1, '2026-10-01 10:33:00', '2026-10-01 10:33:00', NULL),
+(122, 21, 'Wooden Rainbow Stacker', 'Seven-piece wooden rainbow for stacking, building and open-ended imaginative play.', 'Stack, balance or line up the arches. Wipe with a damp cloth.', 16.00, 30, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-rainbow-stacker-1.jpg', 1, '2026-10-01 17:46:00', '2026-10-01 17:46:00', NULL),
+(123, 21, 'Pastel Wooden Stacking Tower', 'Smooth wooden rings in soft pastel shades on a stable base, made from sustainable wood.', 'Stack the rings by size. Check pieces regularly for damage.', 10.50, 35, 'unisex', 1, 3, 'assets/images/products/wooden-toys/pastel-wooden-stacking-tower-1.jpg', 1, '2026-10-02 00:59:00', '2026-10-02 00:59:00', NULL),
+(124, 21, 'Three-Story Wooden Dollhouse', 'Large wooden dollhouse with balconies, stairs and open rooms ready to decorate.', 'Adult assembly required. Wipe with a dry cloth.', 75.00, 8, 'girls', 3, 9, 'assets/images/products/wooden-toys/three-story-wooden-dollhouse-1.jpg', 1, '2026-10-02 07:12:00', '2026-10-02 07:12:00', NULL),
+(125, 21, 'Wooden Play Kitchen', 'Wooden play kitchen with oven, sink, shelves and hooks for pretend cooking adventures.', 'Adult assembly required. Keep away from damp areas.', 95.00, 6, 'girls', 3, 7, 'assets/images/products/wooden-toys/wooden-play-kitchen-1.jpg', 1, '2026-10-02 14:25:00', '2026-10-02 14:25:00', NULL),
+(126, 21, 'Vintage Rocking Horse', 'Sturdy wooden rocking horse with smooth runners and comfortable handles.', 'Use on a flat floor. Adult supervision required for toddlers.', 58.00, 6, 'unisex', 1, 4, 'assets/images/products/wooden-toys/vintage-rocking-horse-1.jpg', 1, '2026-10-02 21:38:00', '2026-10-02 21:38:00', NULL),
+(127, 21, 'Colorful Wooden Building Blocks', 'Painted wooden blocks in many shapes and colours for towers, bridges and houses.', 'Build on a flat floor. Put blocks back in the box after play.', 21.00, 30, 'unisex', 2, 6, 'assets/images/products/wooden-toys/colorful-wooden-building-blocks-1.jpg', 1, '2026-10-03 04:51:00', '2026-10-03 04:51:00', NULL),
+(128, 21, 'Natural Wooden Cube Set (50 pcs)', 'Unpainted beech wood cubes that build balance, planning and creativity.', 'Wipe with a dry cloth. Do not soak in water.', 14.00, 30, 'unisex', 3, 8, 'assets/images/products/wooden-toys/natural-wooden-cube-set-50-pcs-1.jpg', 1, '2026-10-03 11:04:00', '2026-10-03 11:04:00', NULL),
+(129, 21, 'Rainbow Wooden Xylophone', 'Bright eight-note xylophone with two mallets for first melodies.', 'Use the mallets only. Play simple songs together.', 9.00, 40, 'unisex', 1, 5, 'assets/images/products/wooden-toys/rainbow-wooden-xylophone-1.jpg', 1, '2026-10-03 18:17:00', '2026-10-03 18:17:00', NULL),
+(130, 21, 'Wooden Pull-Along Animals', 'Cheerful wooden animals on wheels that follow little walkers on a string.', 'For walking children only. Supervise play with the string.', 8.50, 30, 'unisex', 1, 3, 'assets/images/products/wooden-toys/wooden-pull-along-animals-1.jpg', 1, '2026-10-04 01:30:00', '2026-10-04 01:30:00', NULL),
+(131, 21, 'Wooden Bead Maze Roller Coaster', 'Classic bead maze with colourful wires that trains hand-eye coordination.', 'Slide the beads along the wires. Check the base is stable before play.', 15.50, 25, 'unisex', 1, 4, 'assets/images/products/wooden-toys/wooden-bead-maze-roller-coaster-1.jpg', 1, '2026-10-04 08:43:00', '2026-10-04 08:43:00', NULL),
+(132, 21, 'Wooden Tool Box Set', 'Wooden tool box with hammer, saw, screwdriver and nuts for little builders.', 'Pretend tools only. Keep small nuts away from younger children.', 19.00, 20, 'boys', 3, 7, 'assets/images/products/wooden-toys/wooden-tool-box-set-1.jpg', 1, '2026-10-04 15:56:00', '2026-10-04 15:56:00', NULL),
+(133, 21, 'Wooden Toy Cars Collection', 'Smooth wooden cars with rolling wheels for races, garages and road trips.', 'Roll on flat floors. Wipe clean with a dry cloth.', 12.50, 35, 'boys', 2, 6, 'assets/images/products/wooden-toys/wooden-toy-cars-collection-1.jpg', 1, '2026-10-04 22:09:00', '2026-10-04 22:09:00', NULL),
+(134, 21, 'Wooden Biplane', 'Bright yellow wooden biplane with spinning propeller and rolling wheels.', 'Spin the propeller gently. Not suitable for outdoor wet play.', 11.00, 25, 'boys', 3, 8, 'assets/images/products/wooden-toys/wooden-biplane-1.jpg', 1, '2026-10-05 05:22:00', '2026-10-05 05:22:00', NULL),
+(135, 21, 'Wooden Food Cutting Set', 'Wooden fruits and vegetables joined with velcro that kids slice with a wooden knife.', 'Wipe with a damp cloth. Do not soak in water.', 10.50, 35, 'girls', 2, 6, 'assets/images/products/wooden-toys/wooden-food-cutting-set-1.jpg', 1, '2026-10-05 12:35:00', '2026-10-05 12:35:00', NULL),
+(136, 21, 'Wooden Doll Pram', 'Sturdy doll pram that little ones push around the house while caring for their dolls.', 'Use on flat floors only, away from stairs.', 34.00, 10, 'girls', 2, 5, 'assets/images/products/wooden-toys/wooden-doll-pram-1.jpg', 1, '2026-10-05 19:48:00', '2026-10-05 19:48:00', NULL),
+(137, 21, 'Wooden Spinning Tops Set', 'Hand-painted wooden spinning tops that spin for a long time on smooth surfaces.', 'Twist the handle quickly and let go on a flat table.', 6.00, 50, 'unisex', 4, 10, 'assets/images/products/wooden-toys/wooden-spinning-tops-set-1.jpg', 1, '2026-10-06 02:01:00', '2026-10-06 02:01:00', NULL),
+(138, 21, 'Wooden Sailboat Model', 'Classic wooden sailboat with cotton sails that floats in pools and ponds.', 'Float only under adult supervision. Dry after use.', 17.50, 15, 'boys', 4, 10, 'assets/images/products/wooden-toys/wooden-sailboat-model-1.jpg', 1, '2026-10-06 09:14:00', '2026-10-06 09:14:00', NULL),
+(139, 21, 'Wooden Brain Teaser Puzzle', 'Interlocking wooden puzzle that challenges kids to take it apart and rebuild it.', 'Take it apart slowly and remember the order of the pieces.', 5.50, 45, 'unisex', 7, 12, 'assets/images/products/wooden-toys/wooden-brain-teaser-puzzle-1.jpg', 1, '2026-10-06 16:27:00', '2026-10-06 16:27:00', NULL),
+(140, 21, 'Wooden Alphabet Number Cubes', 'Engraved wooden cubes with letters, numbers and pictures for learning through play.', 'Stack the cubes and read the letters together.', 10.00, 40, 'unisex', 2, 5, 'assets/images/products/wooden-toys/wooden-alphabet-number-cubes-1.jpg', 1, '2026-10-06 23:40:00', '2026-10-06 23:40:00', NULL),
+(141, 22, 'Porcelain Princess Doll', 'Elegant collectible doll with a lace dress, bonnet and long soft hair.', 'Handle with care. Keep away from younger siblings.', 28.00, 15, 'girls', 5, 12, 'assets/images/products/girls-toys/porcelain-princess-doll-1.jpg', 1, '2026-10-01 11:53:00', '2026-10-01 11:53:00', NULL),
+(142, 22, 'Vintage Classic Doll', 'Classic doll with blinking eyes, curly hair and a pretty tartan dress.', 'Comb the hair gently. Surface wash only.', 22.00, 15, 'girls', 4, 10, 'assets/images/products/girls-toys/vintage-classic-doll-1.jpg', 1, '2026-10-01 18:06:00', '2026-10-01 18:06:00', NULL),
+(143, 22, 'Knitted Rag Doll', 'Soft hand-knitted rag doll with colourful yarn hair, perfect for cuddles.', 'Hand wash in cold water. Air dry.', 12.00, 25, 'girls', 1, 6, 'assets/images/products/girls-toys/knitted-rag-doll-1.jpg', 1, '2026-10-02 01:19:00', '2026-10-02 01:19:00', NULL),
+(144, 22, 'Fluffy Unicorn Plush', 'Super-soft unicorn plush with a golden horn and a rainbow mane.', 'Surface wash only. Air dry.', 14.50, 30, 'girls', 1, 8, 'assets/images/products/girls-toys/fluffy-unicorn-plush-1.jpg', 1, '2026-10-02 08:32:00', '2026-10-02 08:32:00', NULL),
+(145, 22, 'Sparkle Eyes Unicorn Plush', 'Pink unicorn plush with big sparkly eyes and glitter horn.', 'Surface wash only. Not for children under 12 months.', 11.00, 30, 'girls', 2, 8, 'assets/images/products/girls-toys/sparkle-eyes-unicorn-plush-1.jpg', 1, '2026-10-02 15:45:00', '2026-10-02 15:45:00', NULL),
+(146, 22, 'Soft Bunny Plush', 'Floppy-eared bunny plush made from extra-soft fabric, safe for little ones.', 'Machine wash on gentle cycle in a laundry bag.', 10.00, 35, 'girls', 1, 6, 'assets/images/products/girls-toys/soft-bunny-plush-1.jpg', 1, '2026-10-02 22:58:00', '2026-10-02 22:58:00', NULL),
+(147, 22, 'Love Teddy Bear Gift', 'Soft teddy bear holding a red heart, a sweet gift for birthdays and special days.', 'Surface wash only. Air dry.', 13.00, 25, 'girls', 1, 10, 'assets/images/products/girls-toys/love-teddy-bear-gift-1.jpg', 1, '2026-10-03 05:11:00', '2026-10-03 05:11:00', NULL),
+(150, 20, 'Bead Jewelry Making Kit', 'Over 500 colourful beads and letter beads to design bracelets and necklaces.', 'Small parts: not for children under 3. Sort beads in the case after play.', 9.50, 40, 'girls', 6, 12, 'assets/images/products/girls-toys/bead-jewelry-making-kit-1.jpg', 1, '2026-10-04 02:50:00', '2026-10-04 02:50:00', NULL),
+(151, 20, 'Friendship Bracelet Kit', 'Colourful threads and a step-by-step guide to weave friendship bracelets.', 'Follow the guide patterns from easy to hard.', 7.00, 40, 'girls', 6, 12, 'assets/images/products/girls-toys/friendship-bracelet-kit-1.jpg', 1, '2026-10-04 09:03:00', '2026-10-04 09:03:00', NULL),
+(153, 23, 'Teepee Play Tent', 'Cosy cotton teepee with wooden poles and a window for reading corners and sleepovers.', 'Adult assembly required. Spot clean only.', 39.00, 10, 'girls', 3, 9, 'assets/images/products/girls-toys/teepee-play-tent-1.jpg', 1, '2026-10-04 23:29:00', '2026-10-04 23:29:00', NULL),
+(157, 20, 'Rainbow Modeling Clay Kit', 'Soft, non-toxic modeling clay in rainbow colours with shaping tools.', 'Close the tubs tightly after play so the clay stays soft. Do not eat.', 7.50, 45, 'girls', 3, 8, 'assets/images/products/girls-toys/rainbow-modeling-clay-kit-1.jpg', 1, '2026-10-06 03:21:00', '2026-10-06 03:21:00', NULL),
+(158, 20, 'Mini Grand Piano', 'Elegant mini grand piano with real-sounding keys and a matching stool.', 'Requires 2 AA batteries. Keep the volume low for small ears.', 26.00, 12, 'girls', 3, 8, 'assets/images/products/girls-toys/mini-grand-piano-1.jpg', 1, '2026-10-06 10:34:00', '2026-10-06 10:34:00', NULL),
+(159, 20, 'Jumbo Crayons Coloring Set', 'Bright jumbo crayons that are easy to hold, for drawing and colouring adventures.', 'Use on paper only. Not for children under 3.', 5.00, 60, 'girls', 3, 8, 'assets/images/products/girls-toys/jumbo-crayons-coloring-set-1.jpg', 1, '2026-10-06 17:47:00', '2026-10-06 17:47:00', NULL),
+(160, 22, 'Cuddly Kitty Plush', 'Fluffy purple kitty plush with soft fur and embroidered face.', 'Surface wash only. Air dry.', 9.50, 30, 'girls', 1, 8, 'assets/images/products/girls-toys/cuddly-kitty-plush-1.jpg', 1, '2026-10-07 00:00:00', '2026-10-07 00:00:00', NULL),
+(161, 23, 'Kids Balance Bike', 'Lightweight pedal-free balance bike that helps toddlers learn steering and balance.', 'Adjust the seat so both feet touch the ground. Always wear a helmet.', 45.00, 15, 'unisex', 2, 5, 'assets/images/products/outdoor-sports/kids-balance-bike-1.jpg', 1, '2026-10-01 12:13:00', '2026-10-01 12:13:00', NULL),
+(162, 23, 'Pink Balance Bike', 'Pedal-free balance bike in a girls\' colour with soft grips and puncture-proof tyres.', 'Adjust the seat so both feet touch the ground. Always wear a helmet.', 45.00, 12, 'girls', 2, 5, 'assets/images/products/outdoor-sports/pink-balance-bike-1.jpg', 1, '2026-10-01 19:26:00', '2026-10-01 19:26:00', NULL),
+(163, 23, '16-inch Blue Kids Bicycle', 'Steel-frame kids bicycle with removable training wheels and front hand brake.', 'Check tyre pressure and brakes before every ride. Always wear a helmet.', 89.00, 10, 'boys', 4, 8, 'assets/images/products/outdoor-sports/16-inch-blue-kids-bicycle-1.jpg', 1, '2026-10-02 02:39:00', '2026-10-02 02:39:00', NULL),
+(164, 23, '16-inch Pink Kids Bicycle', 'Pretty kids bicycle with training wheels, chain guard and front basket.', 'Check tyre pressure and brakes before every ride. Always wear a helmet.', 89.00, 10, 'girls', 4, 8, 'assets/images/products/outdoor-sports/16-inch-pink-kids-bicycle-1.jpg', 1, '2026-10-02 09:52:00', '2026-10-02 09:52:00', NULL),
+(165, 23, 'Foldable Kick Scooter', 'Height-adjustable scooter with smooth wheels and rear foot brake.', 'Ride on flat, dry surfaces only. Wear a helmet and knee pads.', 35.00, 20, 'unisex', 4, 10, 'assets/images/products/outdoor-sports/foldable-kick-scooter-1.jpg', 1, '2026-10-02 16:05:00', '2026-10-02 16:05:00', NULL),
+(166, 23, 'Pink Kids Scooter', 'Pink scooter with light-up wheels and an easy-fold frame.', 'Ride on flat, dry surfaces only. Wear a helmet and knee pads.', 38.00, 15, 'girls', 5, 10, 'assets/images/products/outdoor-sports/pink-kids-scooter-1.jpg', 1, '2026-10-02 23:18:00', '2026-10-02 23:18:00', NULL),
+(167, 23, 'Kids Football Size 4', 'Soft-touch stitched football sized for young players.', 'Inflate to the pressure printed on the ball. Play on grass or turf.', 8.50, 60, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/kids-football-size-4-1.jpg', 1, '2026-10-03 06:31:00', '2026-10-03 06:31:00', NULL),
+(168, 23, 'Adjustable Basketball Hoop', 'Free-standing hoop that grows with your child, with net and ball included.', 'Fill the base with sand or water before use. Do not hang on the rim.', 27.50, 18, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/adjustable-basketball-hoop-1.jpg', 1, '2026-10-03 13:44:00', '2026-10-03 13:44:00', NULL),
+(169, 23, 'Garden Trampoline with Safety Net', 'Outdoor trampoline with padded frame and enclosure net for safe bouncing.', 'One child at a time. Adult supervision required.', 135.00, 5, 'unisex', 4, 12, 'assets/images/products/outdoor-sports/garden-trampoline-with-safety-net-1.jpg', 1, '2026-10-03 20:57:00', '2026-10-03 20:57:00', NULL),
+(170, 23, 'Toddler Swing Seat', 'Bucket swing seat with safety belt and adjustable ropes for trees or frames.', 'Check ropes before every use. Adult supervision required.', 24.00, 15, 'unisex', 1, 4, 'assets/images/products/outdoor-sports/toddler-swing-seat-1.jpg', 1, '2026-10-04 03:10:00', '2026-10-04 03:10:00', NULL),
+(171, 23, 'Kids Skateboard', 'Maple deck skateboard with grip tape and smooth wheels for beginners.', 'Always wear a helmet and pads. Ride away from traffic.', 29.00, 15, 'boys', 6, 12, 'assets/images/products/outdoor-sports/kids-skateboard-1.jpg', 1, '2026-10-04 10:23:00', '2026-10-04 10:23:00', NULL),
+(172, 23, 'Rainbow Roller Skates', 'Adjustable quad roller skates with comfy padding and rainbow details.', 'Wear a helmet, knee and wrist pads. Skate on smooth ground.', 32.00, 15, 'girls', 6, 12, 'assets/images/products/outdoor-sports/rainbow-roller-skates-1.jpg', 1, '2026-10-04 17:36:00', '2026-10-04 17:36:00', NULL),
+(173, 23, 'Rainbow Kite', 'Easy-to-fly kite with long colourful tails and 50 m string.', 'Fly in open spaces away from power lines.', 7.50, 40, 'unisex', 5, 12, 'assets/images/products/outdoor-sports/rainbow-kite-1.jpg', 1, '2026-10-05 00:49:00', '2026-10-05 00:49:00', NULL),
+(174, 23, 'Junior Badminton Set', 'Two lightweight rackets with shuttlecocks for backyard games.', 'Play in open areas. Replace damaged shuttlecocks.', 12.00, 30, 'unisex', 6, 12, 'assets/images/products/outdoor-sports/junior-badminton-set-1.jpg', 1, '2026-10-05 07:02:00', '2026-10-05 07:02:00', NULL),
+(175, 23, 'Kids Bike Helmet', 'Lightweight ventilated helmet with adjustable strap for bikes and scooters.', 'Fit snugly and fasten the strap before every ride.', 16.00, 40, 'unisex', 3, 10, 'assets/images/products/outdoor-sports/kids-bike-helmet-1.jpg', 1, '2026-10-05 14:15:00', '2026-10-05 14:15:00', NULL),
+(176, 23, 'Beach Sand Toys Set', 'Bucket, spade, rake and moulds for building sandcastles at the beach or sandbox.', 'Rinse with clean water after the beach.', 8.25, 40, 'unisex', 2, 6, 'assets/images/products/outdoor-sports/beach-sand-toys-set-1.jpg', 1, '2026-10-05 21:28:00', '2026-10-05 21:28:00', NULL),
+(177, 23, 'Water Blaster Pump Gun', 'Pump-action water blaster with long range and easy-fill tank.', 'Do not aim at faces. Use outdoors only.', 7.50, 50, 'boys', 5, 12, 'assets/images/products/outdoor-sports/water-blaster-pump-gun-1.jpg', 1, '2026-10-06 04:41:00', '2026-10-06 04:41:00', NULL),
+(178, 23, 'Junior Tennis Racket', 'Lightweight junior racket with a cover and two soft tennis balls.', 'Choose the right size for your child\'s height.', 14.00, 25, 'unisex', 6, 12, 'assets/images/products/outdoor-sports/junior-tennis-racket-1.jpg', 1, '2026-10-06 11:54:00', '2026-10-06 11:54:00', NULL),
+(179, 23, 'Rainbow Hula Hoop', 'Colourful adjustable hula hoop for fitness, dance and playground games.', 'Use in open spaces away from furniture.', 5.50, 40, 'girls', 4, 12, 'assets/images/products/outdoor-sports/rainbow-hula-hoop-1.jpg', 1, '2026-10-06 18:07:00', '2026-10-06 18:07:00', NULL),
+(180, 23, 'Giant Bubble Wand Set', 'Bubble wands with non-toxic solution for giant bubbles in the garden.', 'Use outdoors. Do not drink the solution.', 6.00, 50, 'unisex', 3, 8, 'assets/images/products/outdoor-sports/giant-bubble-wand-set-1.jpg', 1, '2026-10-07 01:20:00', '2026-10-07 01:20:00', NULL),
+(181, 23, 'RC Off-Road Rock Crawler', 'Rugged 4x4 remote control crawler with shock absorbers and rechargeable battery.', 'Charge fully before first use. Do not drive through water.', 42.00, 15, 'boys', 6, 12, 'assets/images/products/boys-toys/rc-off-road-rock-crawler-1.jpg', 1, '2026-10-01 13:33:00', '2026-10-01 13:33:00', NULL),
+(182, 23, 'RC Sports Racing Car', 'Fast remote control sports car with 2.4 GHz remote and LED lights.', 'Charge fully before first use. Drive on smooth surfaces.', 38.00, 14, 'boys', 6, 12, 'assets/images/products/boys-toys/rc-sports-racing-car-1.jpg', 1, '2026-10-01 20:46:00', '2026-10-31 23:34:09', NULL),
+(183, 23, 'Monster Truck', 'Big-wheel monster truck with friction motor and strong suspension.', 'Push and release to drive. Wipe clean, do not submerge.', 16.00, 25, 'boys', 4, 10, 'assets/images/products/boys-toys/monster-truck-1.jpg', 1, '2026-10-02 03:59:00', '2026-10-02 03:59:00', NULL),
+(184, 23, 'Toy Excavator', 'Construction excavator with moving arm and digging bucket.', 'Play in sand or on the floor. Do not pull the arm too far.', 14.50, 25, 'boys', 3, 8, 'assets/images/products/boys-toys/toy-excavator-1.jpg', 1, '2026-10-02 10:12:00', '2026-10-02 10:12:00', NULL),
+(185, 23, 'Construction Wheel Loader', 'Heavy-duty toy wheel loader with lifting front scoop.', 'Wipe clean after sand play.', 16.50, 20, 'boys', 3, 8, 'assets/images/products/boys-toys/construction-wheel-loader-1.jpg', 1, '2026-10-02 17:25:00', '2026-10-02 17:25:00', NULL),
+(186, 23, 'Yellow Dump Truck', 'Chunky dump truck with tipping bed for hauling sand and blocks.', 'Wipe clean after outdoor play.', 12.00, 30, 'boys', 3, 7, 'assets/images/products/boys-toys/yellow-dump-truck-1.jpg', 1, '2026-10-03 00:38:00', '2026-10-03 00:38:00', NULL),
+(187, 20, 'Dinosaur Figures Set (12 pcs)', 'Detailed dinosaur figures in bright colours with name cards.', 'Use the cards to match each dinosaur to its name.', 15.00, 30, 'boys', 3, 9, 'assets/images/products/boys-toys/dinosaur-figures-set-12-pcs-1.jpg', 1, '2026-10-03 07:51:00', '2026-10-03 07:51:00', NULL),
+(188, 20, 'T-Rex Dinosaur Figure', 'Realistic T-Rex figure with textured skin and posable jaw.', 'Wipe clean with a damp cloth.', 9.50, 35, 'boys', 3, 10, 'assets/images/products/boys-toys/t-rex-dinosaur-figure-1.jpg', 1, '2026-10-03 14:04:00', '2026-10-03 14:04:00', NULL),
+(189, 20, 'Classic Tin Robot', 'Retro wind-up tin robot that walks and swings its arms.', 'Wind the key gently. Do not overwind.', 18.00, 15, 'boys', 5, 12, 'assets/images/products/boys-toys/classic-tin-robot-1.jpg', 1, '2026-10-03 21:17:00', '2026-10-03 21:17:00', NULL),
+(190, 20, 'Retro Robot Friends Set', 'Set of retro-style robots in bright colours for display and play.', 'Keep away from water. Wipe with a dry cloth.', 22.00, 12, 'boys', 5, 12, 'assets/images/products/boys-toys/retro-robot-friends-set-1.jpg', 1, '2026-10-04 04:30:00', '2026-10-04 04:30:00', NULL),
+(191, 23, 'Steam Train Railway Set', 'Battery-powered steam locomotive with wagons, track and station.', 'Requires 2 AA batteries. Build the track on a flat floor.', 48.00, 10, 'boys', 4, 10, 'assets/images/products/boys-toys/steam-train-railway-set-1.jpg', 1, '2026-10-04 11:43:00', '2026-10-04 11:43:00', NULL),
+(192, 23, 'Rescue Fire Truck', 'Rescue vehicle with siren sounds, lights and rolling wheels.', 'Requires 3 AAA batteries (included). Switch off after play.', 13.50, 25, 'boys', 3, 8, 'assets/images/products/boys-toys/rescue-fire-truck-1.jpg', 1, '2026-10-04 18:56:00', '2026-10-04 18:56:00', NULL),
+(193, 23, 'Red Biplane Toy', 'Classic red biplane with spinning propeller for high-flying adventures.', 'Spin the propeller gently. Keep away from water.', 11.50, 25, 'boys', 3, 9, 'assets/images/products/boys-toys/red-biplane-toy-1.jpg', 1, '2026-10-05 01:09:00', '2026-10-05 01:09:00', NULL),
+(194, 20, 'Building Bricks Set (500 pcs)', 'Compatible building bricks in many colours with an ideas booklet.', 'Small parts: not for children under 3. Sort bricks by colour.', 26.00, 25, 'boys', 5, 12, 'assets/images/products/boys-toys/building-bricks-set-500-pcs-1.jpg', 1, '2026-10-05 08:22:00', '2026-10-05 08:22:00', NULL),
+(195, 23, 'Racing Car Track Set', 'Flexible race track with curves, start line and two racing cars.', 'Build the track on the floor. Keep small parts away from toddlers.', 28.00, 20, 'boys', 4, 10, 'assets/images/products/boys-toys/racing-car-track-set-1.jpg', 1, '2026-10-05 15:35:00', '2026-10-05 15:35:00', NULL),
+(196, 20, 'Mini Camera Drone', 'Easy-to-fly mini drone with altitude hold, one-key take-off and HD camera.', 'Fly outdoors in calm weather. Adult supervision required.', 79.00, 8, 'boys', 10, 12, 'assets/images/products/boys-toys/mini-camera-drone-1.jpg', 1, '2026-10-05 22:48:00', '2026-10-05 22:48:00', NULL),
+(197, 21, 'Pirate Ship Model', 'Detailed wooden pirate ship model with sails and cannons.', 'Display piece. Keep away from water and dust regularly.', 35.00, 10, 'boys', 6, 12, 'assets/images/products/boys-toys/pirate-ship-model-1.jpg', 1, '2026-10-06 05:01:00', '2026-10-06 05:01:00', NULL),
+(198, 23, 'Police Patrol Car', 'Friendly police car with rolling wheels and rounded edges for little hands.', 'Wipe clean with a damp cloth.', 9.00, 35, 'boys', 2, 6, 'assets/images/products/boys-toys/police-patrol-car-1.jpg', 1, '2026-10-06 12:14:00', '2026-10-06 12:14:00', NULL),
+(199, 23, 'Die-Cast Cars Collection', 'Metal toy cars with free-rolling wheels and classic designs.', 'Small parts may come loose: check cars regularly.', 12.00, 40, 'boys', 3, 10, 'assets/images/products/boys-toys/die-cast-cars-collection-1.jpg', 1, '2026-10-06 19:27:00', '2026-10-06 19:27:00', NULL);
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `reviews`
+--
 
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -702,11 +715,11 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_review_once` (`product_id`,`user_id`),
   KEY `idx_reviews_user` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `reviews`
+--
 
 INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_visible`, `created_at`) VALUES
 (20, 20, 1, 5, 'Great for my preschooler learning letters!', 0, '2026-10-29 10:31:18'),
@@ -729,13 +742,15 @@ INSERT INTO `reviews` (`id`, `product_id`, `user_id`, `rating`, `comment`, `is_v
 (37, 172, 1, 5, 'Comfortable and adjustable, perfect birthday gift.', 1, '2026-10-23 22:00:00'),
 (38, 121, 4, 5, 'Magnets connect easily and the wood feels premium.', 1, '2026-10-24 15:00:00'),
 (39, 153, 1, 5, 'Turned her corner into a reading nook. Very cute.', 1, '2026-10-25 08:00:00'),
-(40, 109, 4, 4, 'Turns smoothly, my son solved it after watching the beginner guide.', 1, '2026-10-26 01:00:00');
+(40, 109, 4, 4, 'Turns smoothly, my son solved it after watching the beginner guide.', 1, '2026-10-26 01:00:00'),
+(41, 109, 5, 4, 'omars', 1, '2026-11-01 10:27:20'),
+(42, 182, 5, 5, 'منتاز', 1, '2026-11-01 12:36:26');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `search_history`
+--
 
 CREATE TABLE IF NOT EXISTS `search_history` (
   `search_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -746,24 +761,25 @@ CREATE TABLE IF NOT EXISTS `search_history` (
   PRIMARY KEY (`search_id`),
   KEY `idx_search_user_date` (`user_id`,`searched_at`),
   KEY `idx_search_term` (`search_term`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `search_history`
+--
 
 INSERT INTO `search_history` (`search_id`, `user_id`, `search_term`, `results_count`, `searched_at`) VALUES
 (1, 2, 'puzzle', 1, '2026-10-29 10:31:18'),
 (2, 3, 'robot', 1, '2026-10-29 10:31:18'),
 (20, 1, 'puzzle', 1, '2026-10-29 10:31:18'),
 (21, 3, 'rattle', 1, '2026-10-29 10:31:18'),
-(53, 4, 'Junior Bowling Game Set', 1, '2026-10-30 20:28:07');
+(53, 4, 'Junior Bowling Game Set', 1, '2026-10-30 20:28:07'),
+(54, 5, 'Speed Cube 3x3', 1, '2026-11-01 10:26:56');
 
- 
+-- --------------------------------------------------------
 
- 
- 
- 
+--
+-- Table structure for table `users`
+--
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -783,75 +799,75 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `uq_users_google_id` (`google_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
- 
- 
- 
+--
+-- Dumping data for table `users`
+--
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password_hash`, `google_id`, `profile_image`, `birth_date`, `phone`, `role`, `is_active`, `created_at`) VALUES
 (1, 'Omar', 'Saleh', 'omar@kiddo.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, NULL, '+962791111111', 'customer', 1, '2026-10-29 10:31:18'),
 (2, 'Admin', 'User', 'admin123@mail.com', '$2y$10$4wlVeLBGCTb93ysR/2K.welDq/KTV5WE1XV1AXzeGGPz6eblhmGMO', NULL, NULL, NULL, NULL, 'admin', 1, '2026-10-29 13:02:00'),
 (3, 'Rema', 'Ahmad', 'rema@kiddo.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, NULL, '2020-08-22', '+962792222222', 'customer', 1, '2026-10-29 10:31:18'),
-(4, 'omars', 'qadarahs', 'omar@omar.com', '$2y$10$.I9kQSmS6TVAnBjtBxCVe.vXlxgEPu2fScopZdMam8P5eQphSAZjW', NULL, NULL, NULL, '0791234567', 'customer', 1, '2026-10-30 17:56:00'),
-(5, 'Omar', 'Qadarah', 'omarqadarah1@gmail.com', NULL, '114175494943700861038', NULL, '1997-08-13', '0792345678', 'customer', 1, '2026-10-30 22:24:47'),
+(4, 'omarssssss', 'qadarahssssss', 'omar@omar.com', '$2y$10$.I9kQSmS6TVAnBjtBxCVe.vXlxgEPu2fScopZdMam8P5eQphSAZjW', NULL, NULL, NULL, '0791234567', 'admin', 1, '2026-10-30 17:56:00'),
+(5, 'Omar', 'Qadarah', 'omarqadarah1@gmail.com', NULL, '114175494943700861038', 'user_5_ba06b1be66905407.jpg', '1997-08-13', '0792345678', 'customer', 1, '2026-10-30 22:24:47'),
 (6, 'omer', 'nael', 'qw@qw.com', '$2y$10$Sh73uvQ7PrJVF9nLV./.ueiEY7rpJ.7Ybt9dRz6nVc7l5BPZmg4qu', NULL, NULL, NULL, NULL, 'customer', 0, '2026-10-30 22:34:09'),
 (7, 'omar', 'qad', 'omarss@naelss.com', '$2y$10$bQvxQlVjRB7JEiLDHE9lku0ewYlp6DhrEXaL2xM4MCuSoOLtGtqIW', NULL, NULL, '2026-10-31', '0791234567', 'admin', 0, '2026-10-31 02:37:56');
 
- 
- 
- 
+--
+-- Constraints for dumped tables
+--
 
- 
- 
- 
+--
+-- Constraints for table `admin_action_usage`
+--
 ALTER TABLE `admin_action_usage`
   ADD CONSTRAINT `fk_admin_action_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `discounts`
+--
 ALTER TABLE `discounts`
   ADD CONSTRAINT `fk_discounts_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_discounts_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `images`
+--
 ALTER TABLE `images`
   ADD CONSTRAINT `fk_images_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `orders`
+--
 ALTER TABLE `orders`
   ADD CONSTRAINT `fk_orders_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `order_items`
+--
 ALTER TABLE `order_items`
   ADD CONSTRAINT `fk_items_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_items_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `products`
+--
 ALTER TABLE `products`
   ADD CONSTRAINT `fk_products_category` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `reviews`
+--
 ALTER TABLE `reviews`
   ADD CONSTRAINT `fk_reviews_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_reviews_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
- 
- 
- 
+--
+-- Constraints for table `search_history`
+--
 ALTER TABLE `search_history`
   ADD CONSTRAINT `fk_search_history_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 COMMIT;
 
- SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT  ;
- SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS  ;
- SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION  ;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
